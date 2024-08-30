@@ -23,11 +23,11 @@
   background-color: #eafaea;
   color: green;
   margin: 0;
-  border-bottom: 1px solid #ff4081;
+  border-bottom: 1px solid #bf212f;
 }
 .ack__header-container {
   padding: 1px 1rem;
-  border-bottom: 1px solid #ff4081;
+  border-bottom: 1px solid #bf212f;
   background-color: white !important;
   position: relative;
 }
@@ -40,7 +40,7 @@
   flex-wrap: wrap;
   width: 100%;
   padding: 10px 1rem;
-  border-bottom: 1px solid #ff4081;
+  border-bottom: 1px solid #bf212f;
   background-color: white !important;
   position: relative;
 }
@@ -60,11 +60,11 @@
   padding: 2px !important;
 }
 .endOfAck {
-  border-bottom: 1px solid #ff4081;
+  border-bottom: 1px solid #bf212f;
   page-break-after: always;
 }
 .lastAck {
-  border-bottom: 1px solid #ff4081;
+  border-bottom: 1px solid #bf212f;
   page-break-after: avoid;
 }
 .ack__guidelines li {
@@ -73,8 +73,8 @@
 
 .ack-book_later-btn {
   background-color: #fff;
-  border: 1px solid #ff4081;
-  color: #ff4081;
+  border: 1px solid #bf212f;
+  color: #bf212f;
   padding: 0px 2rem;
   text-align: center;
   text-decoration: none;
@@ -84,7 +84,7 @@
   border-radius: 0;
 }
 .ack-continue-btn {
-  background-color: #ff4081;
+  background-color: #bf212f;
   border: none;
   border-radius: 0;
   color: #fff;

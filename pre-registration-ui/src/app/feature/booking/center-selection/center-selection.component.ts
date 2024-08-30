@@ -182,7 +182,11 @@ export class CenterSelectionComponent
         obj.controlType !== null &&
         !(obj.controlType === "fileupload")
       ) {
-        if (obj.locationHierarchyLevel && this.recommendedCenterLocCode == obj.locationHierarchyLevel) {
+        if (obj.locationHierarchyLevel && this.recommendedCenterLocCode == obj.locationHierarchyLevel 
+          && obj.id == "applicantPlaceOfResidenceDistrict") { 
+            /* instead of actual name of the field. lets use a property called {"group":"placeOfResidence"} 
+              for the condition. to allow for extensibility
+            */
           uiFieldName = obj.id;
         }
       }
@@ -442,13 +446,22 @@ export class CenterSelectionComponent
     this.service.listOfCenters(coords);
   }
 
+  // routeNext() {
+  //   this.canDeactivateFlag = false;
+  //   this.router.navigate(["../pick-time"], {
+  //     relativeTo: this.route,
+  //     queryParams: { regCenter: this.selectedCentre.id },
+  //   });
+  // }
+
+
   routeNext() {
-    this.canDeactivateFlag = false;
-    this.router.navigate(["../pick-time"], {
-      relativeTo: this.route,
-      queryParams: { regCenter: this.selectedCentre.id },
-    });
+    let url = Utils.getURL(this.router.url, "summary", 3);
+    // url = url + `/${this.preRegId}/pick-center`;
+    url=url + `/${this.preRegId[0]}/acknowledgement`;
+    this.router.navigateByUrl(url);
   }
+  
 
   routeDashboard() {
     this.canDeactivateFlag = false;

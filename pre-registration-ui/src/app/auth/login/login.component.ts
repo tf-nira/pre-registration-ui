@@ -12,6 +12,7 @@ import Utils from "src/app/app.util";
 import moment from "moment";
 import stubConfig from "../../../assets/stub-config.json";
 
+
 @Component({
   selector: "app-login",
   templateUrl: "./login.component.html",
@@ -278,7 +279,10 @@ export class LoginComponent implements OnInit {
     this.siteKey = this.configService.getConfigByKey(
       "mosip.preregistration.captcha.sitekey"
     );
+
+    //this.siteKey = CAPTCHA_SITE_KEY;
   }
+ 
 
   loadValidationMessages() {
     this.dataService

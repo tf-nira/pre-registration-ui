@@ -14,7 +14,7 @@
           <span [dir]="userPrefLanguageDir">&nbsp;{{dataCaptureLang}}&nbsp;</span>
         </span>
         )
-      </span>
+      </span>&nbsp;&nbsp;-&nbsp;&nbsp;<span>Your Application ID is&nbsp;{{preRegId}}</span>
     </header>
     <p></p>
     <span class="readOnly" *ngIf="readOnlyMode">
@@ -56,10 +56,10 @@
                 </mat-form-field>
                 <mat-form-field class="file-upload__docrefid">
                   <mat-label>{{ documentLabels.text_docrefid }}</mat-label>
-                  <input matInput value="{{document.selectedRefNumber}}" (focusout)="handleDocRefInput($event, document.code)"
-                    (input)="changeRefNumber($event, i)" placeholder=""
-                    (change)="handleDocRefInput($event, document.code)" [disabled]="readOnlyMode || disableNavigation"
-                    #keyboardRef #input />
+                  <input matInput value="{{document.selectedRefNumber}}"
+                    (focusout)="handleDocRefInput($event, document.code)" (input)="changeRefNumber($event, i)"
+                    placeholder="" (change)="handleDocRefInput($event, document.code)"
+                    [disabled]="readOnlyMode || disableNavigation" #keyboardRef #input />
                 </mat-form-field>
                 <span class="file-upload__button">
                   <input #fileUpload type="file" id="file_{{ i }}" (click)="fileUpload.value = null" value=""

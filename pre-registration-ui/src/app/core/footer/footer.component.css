@@ -1,7 +1,8 @@
 .main-footer {
   display: flex;
   justify-content: center;
-  font-family: Roboto, sans-serif;
+  color: rgb(12, 14, 16);
+  font-family: Roboto;
   font-size: 12px;
   padding-top: 10px;
   padding-bottom: 0px;
@@ -10,12 +11,13 @@
   width: 100%;
   z-index: -1;
   margin-bottom: 2px;
-  background: white;
+  background-color: #f7f7f7;
 }
 
-.version-txt{
+.version-txt {
   font-size: 8px;
-  font-family: "Roboto", sans-serif;
+  font-family: "OpenSans", sans-serif;
   font-weight: 100;
   display: block;
+  justify-content: center;
 }

@@ -6,7 +6,7 @@ header {
   min-height: 40px;
   margin-top: 10px;
   font-weight: bold;
-  color: #fd518c;
+  color: #c02533;
 }
 .spinner {
   flex-direction: column;
@@ -47,9 +47,9 @@ header {
 .preview__header {
   margin: 0px 2rem 20px 2rem;
   padding: 20px 0rem;
-  border-bottom: 1px solid #ff4081;
+  border-bottom: 1px solid #c02533;
   font-weight: bold;
-  color: #ff4081;
+  color: #c02533;
 }
 /* 
 .preview__header {
@@ -67,17 +67,17 @@ header {
 .preview__header-container hr {
   left: 0;
   width: 100%;
-  border: 1px solid #ff4081;
+  border: 1px solid rgb(96, 2, 136);
   height: 1px;
-  color: #ff4081;
+  color: rgb(96, 2, 136);
 }
 
 .preview__header hr {
   left: 0;
   width: 100%;
-  border: 1px solid #ff4081;
+  border: 1px solid #c02533;
   height: 1px;
-  color: #ff4081;
+  color: #c02533;
 }
 
 .preview__body-content-container {
@@ -101,7 +101,7 @@ header {
 }
 
 .preview__footer {
-  color: #ff4081;
+  color: #c02533;
   padding: 0 2rem;
 }
 
@@ -110,7 +110,7 @@ header {
   padding: 20px 0rem;
   border-bottom: 2px dotted #e6e6e6;
   font-weight: 600;
-  color: #ff4081;
+  color: #c02533;
 }
 
 .preview__footer-container {
@@ -136,7 +136,6 @@ header {
   font-weight: 600;
   color: #838383;
 }
-
 
 .preview__modify-div-span img {
   transform: translateY(0.3rem);
@@ -182,12 +181,12 @@ header {
   }
 }
 
-td > div{
-  padding-top:8px;
-  padding-bottom:8px;
+td > div {
+  padding-top: 8px;
+  padding-bottom: 8px;
   display: inline;
 }
-.emptydiv{
+.emptydiv {
   visibility: hidden;
   height: 35px;
 }

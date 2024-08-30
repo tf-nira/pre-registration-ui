@@ -313,18 +313,21 @@ export class DataStorageService {
    * @return an `Observable` of the body as an `Object`
    * @memberof DataStorageService
    */
-  getLocationImmediateHierearchy(lang: string, location: string) {
+  getLocationImmediateHierearchy(lang: string, location: string, fieldName: string) {
     const url =
-      this.BASE_URL +
-      this.PRE_REG_URL +
-      "proxy" +
-      appConstants.APPEND_URL.master_data +
-      appConstants.APPEND_URL.location_immediate_children +
-      location +
-      appConstants.APPENDER +
-      lang;
+    this.BASE_URL +
+    this.PRE_REG_URL +
+    "proxy" +
+    appConstants.APPEND_URL.master_data +
+    appConstants.APPEND_URL.location_immediate_children +
+    location +
+    appConstants.APPENDER +
+    fieldName +
+    appConstants.APPENDER +
+    lang;
     return this.httpClient.get(url);
-  }
+    }
+    
 
   deleteFile(documentId, preRegId) {
     return this.httpClient.delete(
@@ -622,7 +625,8 @@ export class DataStorageService {
   getIdentityJson() {
     //const url = this.BASE_URL + this.PRE_REG_URL+ 'applications/config';
     let url = this.BASE_URL + this.PRE_REG_URL + `uispec/latest`;
-    return this.httpClient.get(url);
+        return this.httpClient.get(url);
+    // return this.httpClient.get("../../../assets/identity-spec.json");
   }
 
   getRegistrationCentersById(regCenterId, langCode: string) {

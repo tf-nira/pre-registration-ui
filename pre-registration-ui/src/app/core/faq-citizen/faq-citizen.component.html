@@ -1,0 +1,173 @@
+<mat-card>
+  <div class="header-container">
+    <span class="breadcrumb">{{'faq-citizen.breadcrumb.home' |
+      translate}}/<strong>{{'faq-citizen.breadcrumb.getting_started' |
+        translate}}</strong></span>
+    <span class="spacer"></span>
+    <span class="header-text">{{'faq-citizen.breadcrumb.getting_started' | translate}}</span>
+    <span class="spacer"></span>
+  </div>
+</mat-card>
+
+<div [ngClass]="langCode === 'ara' ? 'body-container text-direction': 'body-container'">
+  <mat-card>
+    <div class="heading-container">
+      <p>{{'quick_guideFaq.headerText.line1' | translate}}
+        <br /><br />{{'quick_guideFaq.headerText.line2' | translate}}
+      </p>
+    </div>
+    <mat-accordion>
+      <mat-expansion-panel (opened)="panelOpenState = 0" (closed)="panelOpenState = -1">
+        <mat-expansion-panel-header [ngStyle]="{
+            'background-color': panelOpenState === 0 ? '#c02533' : 'white',
+            'margin-bottom': panelOpenState === 0 ? '8px' : '0'
+          }">
+          <mat-panel-title [ngClass]="panelOpenState === 0 ? 'white-text' : 'pink-text'">
+            {{'quick_guideFaq.select_language.name' | translate}}
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <ol>
+          <li>{{'quick_guideFaq.select_language.list.line1' | translate}}</li>
+          <li>{{'quick_guideFaq.select_language.list.line2' | translate}}</li>
+          <li>{{'quick_guideFaq.select_language.list.line3' | translate}}</li>
+        </ol>
+        <span class="note-placer">{{'quick_guide.select_language.note' | translate}}</span>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel (opened)="panelOpenState = 1" (closed)="panelOpenState = -1">
+        <mat-expansion-panel-header [ngStyle]="{
+                  'background-color': panelOpenState === 1 ? '#c02533' : 'white',
+                  'margin-bottom': panelOpenState === 1 ? '8px' : '0'
+                }">
+          <mat-panel-title [ngClass]="panelOpenState === 1 ? 'white-text' : 'pink-text'">
+            {{'quick_guideFaq.login.name' | translate}}
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <span class="note-placer">{{'quick_guideFaq.login.note' | translate}}</span>
+        <ol>
+          <li>{{'quick_guideFaq.login.list.line1' | translate}}</li>
+          <li>{{'quick_guideFaq.login.list.line2' | translate}}</li>
+        </ol>
+      </mat-expansion-panel>
+
+
+      <mat-expansion-panel (opened)="panelOpenState = 2" (closed)="panelOpenState = -1">
+        <mat-expansion-panel-header [ngStyle]="{
+                  'background-color': panelOpenState === 2 ? '#c02533' : 'white',
+                  'margin-bottom': panelOpenState === 2 ? '8px' : '0'
+                }">
+          <mat-panel-title [ngClass]="panelOpenState === 2 ? 'white-text' : 'pink-text'">
+            {{'quick_guideFaq.login.name' | translate}}
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <span class="note-placer">{{'quick_guideFaq.login.note' | translate}}</span>
+        <ol>
+          <li>{{'quick_guideFaq.login.list.line1' | translate}}</li>
+          <li>{{'quick_guideFaq.login.list.line2' | translate}}</li>
+        </ol>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel (opened)="panelOpenState = 3" (closed)="panelOpenState = -1">
+        <mat-expansion-panel-header [ngStyle]="{
+                              'background-color': panelOpenState === 3 ? '#c02533' : 'white',
+                              'margin-bottom': panelOpenState === 3 ? '8px' : '0'
+                            }">
+          <mat-panel-title [ngClass]="panelOpenState === 3 ? 'white-text' : 'pink-text'">
+            {{'quick_guideFaq.login2.name' | translate}}
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <span class="note-placer">{{'quick_guideFaq.login2.note' | translate}}</span>
+        <ol>
+          <li>{{'quick_guideFaq.login2.list.line1' | translate}}</li>
+          <li>{{'quick_guideFaq.login2.list.line2' | translate}}</li>
+        </ol>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel (opened)="panelOpenState = 4" (closed)="panelOpenState = -1">
+        <mat-expansion-panel-header [ngStyle]="{
+                                'background-color': panelOpenState === 4 ? '#c02533' : 'white',
+                                'margin-bottom': panelOpenState === 4 ? '8px' : '0'
+                              }">
+          <mat-panel-title [ngClass]="panelOpenState === 4 ? 'white-text' : 'pink-text'">
+            {{'quick_guideFaq.login3.name' | translate}}
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <span class="note-placer">{{'quick_guideFaq.login3.note' | translate}}</span>
+        <ol>
+          <li>{{'quick_guideFaq.login3.list.line1' | translate}}</li>
+          <li>{{'quick_guideFaq.login3.list.line2' | translate}}</li>
+          <li>{{'quick_guideFaq.login3.list.line3' | translate}}</li>
+        </ol>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel (opened)="panelOpenState = 5" (closed)="panelOpenState = -1">
+        <mat-expansion-panel-header [ngStyle]="{
+                                      'background-color': panelOpenState === 5 ? '#c02533' : 'white',
+                                      'margin-bottom': panelOpenState === 5 ? '8px' : '0'
+                                    }">
+          <mat-panel-title [ngClass]="panelOpenState === 5 ? 'white-text' : 'pink-text'">
+            {{'quick_guideFaq.login4.name' | translate}}
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+
+        <ol>
+          <li>{{'quick_guideFaq.login4.list.line1' | translate}}</li>
+          <li>{{'quick_guideFaq.login4.list.line2' | translate}}</li>
+          <li>{{'quick_guideFaq.login4.list.line3' | translate}}</li>
+          <li>{{'quick_guideFaq.login4.list.line4' | translate}}</li>
+        </ol>
+        <span class="note-placer">{{'quick_guideFaq.login4.note' | translate}}</span>
+      </mat-expansion-panel>
+
+<mat-expansion-panel (opened)="panelOpenState = 6" (closed)="panelOpenState = -1">
+        <mat-expansion-panel-header [ngStyle]="{
+                  'background-color': panelOpenState === 6 ? '#c02533' : 'white',
+                  'margin-bottom': panelOpenState === 6 ? '8px' : '0'
+                }">
+          <mat-panel-title [ngClass]="panelOpenState === 6 ? 'white-text' : 'pink-text'">
+            {{'quick_guideFaq.login5.name' | translate}}
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <span class="note-placer">{{'quick_guideFaq.login5.note' | translate}}</span>
+        <ol>
+          <li>{{'quick_guideFaq.login5.list.line1' | translate}}</li>
+          <li>{{'quick_guideFaq.login5.list.line2' | translate}}</li>
+          <li>{{'quick_guideFaq.login5.list.line3' | translate}}</li>
+        </ol>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel (opened)="panelOpenState = 7" (closed)="panelOpenState = -1">
+        <mat-expansion-panel-header [ngStyle]="{
+                  'background-color': panelOpenState === 7 ? '#c02533' : 'white',
+                  'margin-bottom': panelOpenState === 7 ? '8px' : '0'
+                }">
+          <mat-panel-title [ngClass]="panelOpenState === 7 ? 'white-text' : 'pink-text'">
+            {{'quick_guideFaq.login6.name' | translate}}
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <span class="note-placer">{{'quick_guideFaq.login6.note' | translate}}</span>
+        <ol>
+          <li>{{'quick_guideFaq.login6.list.line1' | translate}}</li>
+          <li>{{'quick_guideFaq.login6.list.line2' | translate}}</li>
+        </ol>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel (opened)="panelOpenState = 8" (closed)="panelOpenState = -1">
+        <mat-expansion-panel-header [ngStyle]="{
+                  'background-color': panelOpenState === 8 ? '#c02533' : 'white',
+                  'margin-bottom': panelOpenState === 8 ? '8px' : '0'
+                }">
+          <mat-panel-title [ngClass]="panelOpenState === 8 ? 'white-text' : 'pink-text'">
+            {{'quick_guideFaq.login7.name' | translate}}
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <span class="note-placer">{{'quick_guideFaq.login7.note' | translate}}</span>
+        <ol>
+          <li>{{'quick_guideFaq.login7.list.line1' | translate}}</li>
+       
+        </ol>
+      </mat-expansion-panel>
+
+    </mat-accordion>
+  </mat-card>
+</div>

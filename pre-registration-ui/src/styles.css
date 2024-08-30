@@ -1,22 +1,29 @@
 /* You can add global styles to this file, and also import other style files */
 
 @font-face {
-  font-family: 'Material Icons';
+  font-family: "Material Icons";
   font-style: normal;
   font-weight: 400;
   src: url(./assets/icons/iconfont/MaterialIcons-Regular.eot); /* For IE6-8 */
-  src: local('Material Icons'), local('MaterialIcons-Regular'),
-    url(./assets/icons/iconfont/MaterialIcons-Regular.woff2) format('woff2'),
-    url(./assets/icons/iconfont/MaterialIcons-Regular.woff) format('woff'),
-    url(./assets/icons/iconfont/MaterialIcons-Regular.ttf) format('truetype');
+  src: local("Material Icons"), local("MaterialIcons-Regular"),
+    url(./assets/icons/iconfont/MaterialIcons-Regular.woff2) format("woff2"),
+    url(./assets/icons/iconfont/MaterialIcons-Regular.woff) format("woff"),
+    url(./assets/icons/iconfont/MaterialIcons-Regular.ttf) format("truetype");
 }
 
 @font-face {
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto"; 
   /* src: url(./assets/fonts/Roboto-Regular.eot); */
   /* src: url(./assets/fonts/Roboto-Regular.eot?#iefix) format('embedded-opentype'), */
   /* url(./assets/fonts/Roboto-Regular.woff2) format('woff2'), url(./assets/fonts/Roboto-Regular.woff) format('woff'), */
-  src: url(./assets/fonts/Roboto-Regular.ttf) format('truetype');
+  src: url(./assets/fonts/Roboto-Regular.ttf) format("truetype");
+  font-weight: 400;
+  font-style: normal;
+} 
+
+@font-face {
+  font-family: "OpenSans";
+  src: url(./assets/fonts/OpenSans-Regular.ttf) format("truetype");
   font-weight: 400;
   font-style: normal;
 }
@@ -30,7 +37,7 @@ button {
 }
 
 .material-icons {
-  font-family: 'Material Icons';
+  font-family: "Material Icons";
   font-weight: normal;
   font-style: normal;
   font-size: 24px; /* Preferred icon size */
@@ -51,7 +58,7 @@ button {
   -moz-osx-font-smoothing: grayscale;
 
   /* Support for IE. */
-  font-feature-settings: 'liga';
+  font-feature-settings: "liga";
 }
 
 * {
@@ -62,7 +69,7 @@ html,
 body {
   height: 100%;
   margin: 0;
-  font-family: 'Roboto', 'Helvetica Neue', sans-serif;
+  font-family: "Roboto", sans-serif;
   -ms-overflow-style: -ms-autohiding-scrollbar;
   -ms-overflow-style: none;
 }
@@ -71,13 +78,13 @@ body {
   min-height: 50px;
   padding: 0px 50px;
   font-size: 10px;
-  font-family: Roboto, sans-serif;
+  font-family:'Roboto', sans-serif;
   font-weight: 500;
   color: rgba(255, 255, 255, 1);
   border: none;
   border-radius: 2px;
   cursor: pointer;
-  background: rgba(255, 64, 129, 1);
+  background: rgb(192, 37, 51);
 }
 
 .btn_axn-sec {
@@ -85,11 +92,11 @@ body {
   min-height: 50px;
   padding: 0px 50px;
   font-size: 10px;
-  font-family: Roboto, sans-serif;
+  font-family:'Roboto', sans-serif;
   font-weight: 500;
   cursor: pointer;
-  color: rgba(255, 64, 129, 1);
-  border: 1px solid rgba(255, 64, 129, 1);
+  color: #c02533;
+  border: 1px solid #c02533;
   border-radius: 2px;
   background: rgba(255, 255, 255, 1);
 }
@@ -98,7 +105,7 @@ body {
 .btn_axn-sec:hover,
 .btn_axn-pri.page_btn:hover,
 .btn_axn-sec.page_btn:hover {
-  background: rgba(230, 58, 116, 1);
+  background: rgb(192, 37, 51);
   color: rgba(255, 255, 255, 1);
   border: none;
 }
@@ -133,7 +140,13 @@ body {
 }
 
 .wrapper {
-  background: rgba(255, 255, 255, 1) !important;
+  background-image: url(../src/assets/background_login.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position:center center;
+  height:84vh;
+  width:100%;
+  align-items:flex-end;
 }
 
 :host ::ng-deep .ng2-pdf-viewer-container {
@@ -195,7 +208,11 @@ body {
   background-color: #f19f8c;
 }
 
-.user__gender mat-button-toggle-group .mat-button-toggle .mat-button-toggle-button .mat-button-toggle-label-content {
+.user__gender
+  mat-button-toggle-group
+  .mat-button-toggle
+  .mat-button-toggle-button
+  .mat-button-toggle-label-content {
   padding: 0;
   line-height: 30px;
 }
@@ -254,7 +271,7 @@ mat-keyboard-container mat-keyboard-key .mat-keyboard-key {
   cursor: default;
 }
 .user__btn {
-  background-color: #ff4081;
+  background-color: #e57680;
   border: none;
   color: white;
   padding: 0.8rem 2rem;
@@ -266,14 +283,30 @@ mat-keyboard-container mat-keyboard-key .mat-keyboard-key {
   cursor: pointer;
   border-radius: 2px;
   text-transform: uppercase;
+  font-family:'Roboto', sans-serif;
 }
 .user__btn-back {
   background-color: #ffffff;
-  border: 1px solid #ff4081;
-  color: #ff4081;
+  border: 1px solid #c02533;
+  color: #c02533;
 }
 .user__btn-action {
   background-color: #ffffff;
-  border: 1px solid #ff4081;
-  color: #ff4081;
+  border: 1px solid #c02533;
+  color: #c02533;
+}
+
+
+.mat-checkbox-checked.mat-accent .mat-checkbox-ripple .mat-ripple-element {
+  opacity: 0.03 !important;
+  background-color: #c02533 !important;
+}
+
+.mat-checkbox-checked.mat-accent .mat-checkbox-background,
+.mat-checkbox-indeterminate.mat-accent .mat-checkbox-background {
+  background-color: #c02533 !important;
+}
+.mat-checkbox-ripple .mat-ripple-element,
+.mat-checkbox-checked.mat-accent .mat-checkbox-background {
+  background-color: #c02533 !important;
 }

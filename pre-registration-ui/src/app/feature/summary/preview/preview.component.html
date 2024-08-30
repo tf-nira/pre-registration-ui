@@ -4,7 +4,7 @@
 <div *ngIf="previewData !== undefined && dataLoaded" class="preview__container">
   <mat-card class="preview__header-container card-padding">
     <!-- <mat-card-header class="preview__header-container"> -->
-      <!-- <div class="preview__header">
+    <!-- <div class="preview__header">
         <header>{{ previewLabels.title_preview }}
           (<span *ngFor="let dataCaptureLang of dataCaptureLanguagesLabels;index as labelsIndex">
             <span [dir]="userPrefLanguageDir">&nbsp;{{dataCaptureLang}}&nbsp;</span>
@@ -17,16 +17,17 @@
             previewLabels.action_modify }}</span>
         </div>
       </div> -->
-      <div class="preview__header">
-        <span>{{ previewLabels.title_preview }}&nbsp;(<span *ngFor="let dataCaptureLang of dataCaptureLanguagesLabels;index as labelsIndex">
+    <div class="preview__header">
+      <span>{{ previewLabels.title_preview }}&nbsp;(<span
+          *ngFor="let dataCaptureLang of dataCaptureLanguagesLabels;index as labelsIndex">
           <span [dir]="userPrefLanguageDir">&nbsp;{{dataCaptureLang}}&nbsp;</span>
-        </span>)</span>
-        <span [ngStyle]="userPrefLanguageDir == 'ltr'? {'float': 'right'} : {'float': 'left'}">
-          <span *ngIf="!readOnlyMode" (click)="modifyDemographic()" class="preview__modify-file"
-            matTooltip="{{ helpText.modify_at_DemoPreview }}"><img src="assets/edit.png" alt="Edit"/> {{
-            previewLabels.action_modify }}</span>
-        </span>
-      </div>
+        </span>)</span> &nbsp;&nbsp;-&nbsp;&nbsp;<span>Your Application ID is&nbsp;{{preRegId}}</span>
+      <span [ngStyle]="userPrefLanguageDir == 'ltr'? {'float': 'right'} : {'float': 'left'}">
+        <span *ngIf="!readOnlyMode" (click)="modifyDemographic()" class="preview__modify-file"
+          matTooltip="{{ helpText.modify_at_DemoPreview }}"><img src="assets/edit.png" /> {{
+          previewLabels.action_modify }}</span>
+      </span>
+    </div>
     <!-- </mat-card-header> -->
     <mat-card-content [dir]="dataCaptureLangsDir[0]">
       <div class="preview__body-content-container">
@@ -34,29 +35,30 @@
           <table width="100%">
             <tr *ngFor="let controlId of controlIds" class="row">
               <td width="30%">
-                <span *ngFor="let dataCaptureLanguage of dataCaptureLanguages; let i = index; let first = first; let last = last;">
+                <span
+                  *ngFor="let dataCaptureLanguage of dataCaptureLanguages; let i = index; let first = first; let last = last;">
                   <b>{{ControlIdLabelObjects[controlId][dataCaptureLanguages[i]]}}</b>
                   <i *ngIf="!last"> / </i>
                   <i *ngIf="last"> : </i>
                 </span>
-              </td>  
+              </td>
               <span
                 *ngFor="let dataCaptureLanguage of dataCaptureLanguages; let i = index; let first = first; let last = last;">
                 <!-- <table width="100%">
                   <tr> -->
-                    <span *ngIf="checkArray(previewData[controlId], controlId);then content else other_content"></span>
-                    <ng-template #content>
-                      <td>
-                        <span *ngIf="previewData[controlId][i].label;then displayLabel else displayValue"></span>
-                        <ng-template #displayLabel>{{previewData[controlId][i].label}}</ng-template>
-                        <ng-template #displayValue>{{previewData[controlId][i].value}}</ng-template>
-                      </td>
-                      <i *ngIf="!last"> / </i>
-                    </ng-template>
-                    <ng-template #other_content>
-                      <td *ngIf="i == 0">{{previewData[controlId]}}</td>
-                    </ng-template>
-                  <!-- </tr>
+                <span *ngIf="checkArray(previewData[controlId], controlId);then content else other_content"></span>
+                <ng-template #content>
+                  <td>
+                    <span *ngIf="previewData[controlId][i].label;then displayLabel else displayValue"></span>
+                    <ng-template #displayLabel>{{previewData[controlId][i].label}}</ng-template>
+                    <ng-template #displayValue>{{previewData[controlId][i].value}}</ng-template>
+                  </td>
+                  <i *ngIf="!last"> / </i>
+                </ng-template>
+                <ng-template #other_content>
+                  <td *ngIf="i == 0">{{previewData[controlId]}}</td>
+                </ng-template>
+                <!-- </tr>
                 </table>                 -->
               </span>
             </tr>
@@ -82,7 +84,8 @@
             <tr class="preview__file__table__data">
               <td *ngFor="let object of documentMapObject">
                 <p *ngIf="object.fileName !== undefined">{{ object.fileName }}</p>
-                <p class="{{object.class}}" *ngIf="object.fileName === undefined">{{ previewLabels.text_not_uploaded }}</p>
+                <p class="{{object.class}}" *ngIf="object.fileName === undefined">{{ previewLabels.text_not_uploaded }}
+                </p>
               </td>
             </tr>
           </table>
