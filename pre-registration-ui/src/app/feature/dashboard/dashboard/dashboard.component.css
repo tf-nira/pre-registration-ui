@@ -22,7 +22,7 @@
 .heading {
   font-family: 'Roboto', sans-serif;
   font-size: 20px;
-  color: #fd518c;
+  color: #c02533;
   opacity: 100%;
   line-height: 20px;
   white-space: nowrap;
@@ -35,8 +35,8 @@ img {
   padding-right: 2px;
 }
 .modify-info-btn {
-  color: #fd518c;
-  border: 1px solid #fd518c;
+  color: #c02533;
+  border: 1px solid #c02533;
   border-radius: 0px;
   margin-left: 15px !important;
   margin-top: 30px;
@@ -44,8 +44,8 @@ img {
   font-size: 11px !important;
 }
 .modify-app-btn {
-  color: #fd518c;
-  border: 1px solid #fd518c;
+  color: #c02533;;
+  border: 1px solid #c02533;;
   border-radius: 0px;
   margin-left: 12px;
   margin-top: 30px;
@@ -54,8 +54,8 @@ img {
 }
 .create-app-btn {
   color: #ffffff;
-  font-family: 'Roboto', sans-serif;
-  background-color: #ff4081;
+  font-family: 'Roboto';
+  background-color: #c02533;
   opacity: 90%;
   margin-left: 12px;
   font-size: 0.75rem;
@@ -74,11 +74,12 @@ img {
   padding-right: 45px;
 }
 .card-header {
-  font-family: 'Roboto', sans-serif;
-  font-size: 0.75rem;
+  font-family: 'Roboto';
+  font-size: 0.90rem;
   opacity: 100%;
   display: flex;
-  background-color: #d8f7ff;
+  color:#000;
+  background-color: #fbe9eb;
   align-items: center;
   min-height: 40px;
 }
@@ -95,7 +96,7 @@ img {
 }
 .card-content {
   font-family: 'Roboto';
-  color: #838383;
+  color: #0e0e0e;
   opacity: 90%;
   font-size: 0.75rem;
   /* white-space: nowrap; */
@@ -131,7 +132,8 @@ img {
   height: 14px;
 }
 .application-value {
-  color: black;
+  color: rgb(11, 11, 11);
+  font-weight: bold;
   word-wrap: break-word;
 }
 .column1 {

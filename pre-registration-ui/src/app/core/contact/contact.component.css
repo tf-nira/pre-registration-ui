@@ -1,0 +1,108 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+/* Header Styles */
+.header {
+  background-color: #c02533;; /* Adjust header background color as needed */
+  color: #fff;
+  padding: 20px;
+  text-align: center;
+}
+
+.header h2 {
+  margin: 0;
+  font-size: 2rem; /* Adjust heading size as needed */
+  font-weight: bold; /* Add boldness to heading */
+}
+
+/* Content Styles */
+.content {
+  background-color: #fff;
+  padding: 20px;
+  display: flex; /* Maintain flexbox for row arrangement */
+  flex-wrap: wrap; /* Allow content to wrap if needed */
+  /* Consider adding a margin or border to separate content sections */
+}
+
+.contact-info,
+.contact-form,
+.empty {
+  flex: 1 0 33.33%; /* Make sections equally sized and take up 33.33% of space */
+  padding: 15px; /* Adjust padding as needed */
+}
+
+.contact-info h3,
+.contact-form h3,
+.empty h3 {
+  margin-top: 0; /* Remove top margin for headings */
+  margin-bottom: 10px; /* Add bottom margin for headings */
+}
+
+.contact-info p,
+.contact-form p,
+.empty p {
+  margin-bottom: 5px; /* Add spacing between paragraphs */
+}
+
+/* Contact Form Styles */
+.contact-form form {
+  display: flex; /* Wrap form elements for better layout */
+  flex-direction: column; /* Stack form elements vertically */
+}
+
+.contact-form label {
+  margin-bottom: 5px; /* Spacing for labels */
+}
+
+.contact-form input,
+.contact-form textarea {
+  padding: 10px; /* Adjust padding for form controls */
+  border: 1px solid #504a4a;
+  border-radius: 4px;
+  box-sizing: border-box;
+  margin-bottom: 10px; /* Spacing between form controls */
+  width: 100%; /* Ensure form controls take up full width */
+}
+
+.contact-form textarea {
+  height: 100px; /* Adjust textarea height as needed */
+}
+
+.contact-form button {
+  background-color: #adadaf;
+  color: #c02533;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.contact-form button:hover {
+  background-color: #c02533;
+  color: #fcfbfb;
+}
+
+/* Footer Styles */
+.main-footer {
+  background-color: #c02533; /* Adjust footer background color */
+  padding: 10px;
+  color: #fff;
+  text-align: center; /* Assuming you want centered content */
+}
+
+.main-footer img {
+  margin-right: 5px; /* Add spacing between logo and text */
+}
+
+.main-footer p {
+  margin: 0; /* Remove default margin for better spacing */
+}
+
+.version-txt {
+  font-size: 0.8rem; /* Adjust version text size */
+  color: #fefefe; /* Adjust version text color */
+}

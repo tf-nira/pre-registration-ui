@@ -481,15 +481,58 @@ export class PreviewComponent implements OnInit {
   }
 
   modifyDemographic() {
-    const url = Utils.getURL(this.router.url, "demographic", 3);
+    /*const url = Utils.getURL(this.router.url, "demographic", 3);
     localStorage.setItem(appConstants.MODIFY_USER_FROM_PREVIEW, "true");
     localStorage.setItem(appConstants.MODIFY_USER, "true");
-    this.router.navigateByUrl(url + `/${this.preRegId}`);
+    this.router.navigateByUrl(url + `/${this.preRegId}`);*/
+       // open dialog for confirming modify
+       const message = "Are you sure you want to modify your Bio data";
+       const ok_text = "YES, MODIFY";
+       const no_text = "CANCEL";
+       const body = {
+         case: "CONFIRMATION",
+         textDir: this.userPrefLanguageDir,
+         message: message,
+         yesButtonText: ok_text,
+         noButtonText: no_text,
+       };
+       this.dialog
+         .open(DialougComponent, { width: "400px", data: body })
+         .beforeClosed()
+         .subscribe((res) => {
+           if (res === true) {
+             const url = Utils.getURL(this.router.url, "demographic", 3);
+             localStorage.setItem(appConstants.MODIFY_USER_FROM_PREVIEW, "true");
+             localStorage.setItem(appConstants.MODIFY_USER, "true");
+             this.router.navigateByUrl(url + `/${this.preRegId}`);
+           }
+         });
   }
 
   modifyDocument() {
-    localStorage.setItem("modifyDocument", "true");
-    this.navigateBack();
+    /*localStorage.setItem("modifyDocument", "true");
+    this.navigateBack();*/
+    const message = "Are you sure you want to modify your uploaded documents";
+    const ok_text = "YES, MODIFY";
+    const no_text = "CANCEL";
+    const body = {
+      case: "CONFIRMATION",
+      textDir: this.userPrefLanguageDir,
+      message: message,
+      yesButtonText: ok_text,
+      noButtonText: no_text,
+    };
+    this.dialog
+      .open(DialougComponent, { width: "400px", data: body })
+      .beforeClosed()
+      .subscribe((res) => {
+        if (res === true) {
+          const url = Utils.getURL(this.router.url, "file-upload", 3);
+          localStorage.setItem(appConstants.MODIFY_USER_FROM_PREVIEW, "true");
+          localStorage.setItem(appConstants.MODIFY_USER, "true");
+          this.router.navigateByUrl(url + `/${this.preRegId}`);
+        }
+      });
   }
 
   private getGenderDetails() {
@@ -675,4 +718,10 @@ export class PreviewComponent implements OnInit {
     url = url + `/${this.preRegId}/pick-center`;
     this.router.navigateByUrl(url);
   }
+  // navigateNext() {
+  //   let url = Utils.getURL(this.router.url, "summary", 3);
+  //   // url = url + `/${this.preRegId}/pick-center`;
+  //   url=url + `/${this.preRegId[0]}/acknowledgement`;
+  //   this.router.navigateByUrl(url);
+  // }
 }

@@ -7,6 +7,7 @@
 }
 ::ng-deep .mat-form-field .mat-form-field-label {
   padding-top: 3px;
+  font-family: 'Roboto';
 }
 ::ng-deep .mat-form-field.mat-focused .mat-form-field-label {
   /* margin-bottom: 3px; */
@@ -22,7 +23,7 @@
 
 .wrapper {
   box-shadow: 1px 1px 10px 4px #eeeeee;
-  background-color: #f4f4f4;
+  background-color: #ffffff;
   overflow-x: hidden;
   /* margin: 0px 2vw; */
   margin: 5px 2vw;
@@ -32,7 +33,7 @@
 }
 
 .user {
-  background-color:  #ffffff;
+  background-color: #ffffff;
   margin: auto;
   padding: 1rem 2rem 0 2rem;
   padding-top: 1rem;
@@ -44,7 +45,7 @@
 .user header {
   margin: 0;
   font-weight: bold;
-  color: #fd518c;
+  color: #c02533;
 }
 
 .readOnly {
@@ -52,14 +53,36 @@
   color: #fd518c;
 }
 
-.user hr {
-  border-top: 1.5px solid #fd518c;
+/* .user hr {
+  border-top: 3px solid #fd518c;
+  position: relative;
+  /* left: -31.8px; */
+  /* margin-top: 0.5rem;
+  width: calc(100% + 64px);
+} */ 
+.hrBlack{
+  border-top: 5px solid rgb(4, 3, 0);
   position: relative;
   /* left: -31.8px; */
   margin-top: 0.5rem;
+  margin-bottom: 0px;
   width: calc(100% + 64px);
 }
-
+.hrYellow{
+  border-top: 5px solid rgb(253, 204, 81);
+  position: relative;
+  /* left: -31.8px; */
+  margin-top: 0rem;
+  width: calc(100% + 64px);
+  margin-bottom: 0px;
+}
+.hrRed{
+  border-top: 5px solid rgb(238, 45, 45);
+  position: relative;
+  /* left: -31.8px; */
+  margin-top: 0px;
+  width: calc(100% + 64px);
+}
 .user__container {
   font-size: 0.8rem;
   /* box-shadow: 3px 3px 5px 3px rgba(0, 0, 0, 0.3); */
@@ -87,7 +110,7 @@
 }
 .user__container h6 {
   font-weight: bold;
-  color: #2f3033;
+  color: #b3b9cb;
 }
 
 .user__form[_ngcontent-c17] {
@@ -224,7 +247,7 @@ mat-icon {
 }
 
 .user__genderAndForeigner mat-button-toggle {
-  font-family: Helvetica, Regular;
+  font-family: "Roboto", Regular;
   font-size: 0.8rem;
   margin: 10px 0px 10px 0px;
   color: #fd518c;
@@ -267,7 +290,7 @@ mat-icon {
 .user__buttons {
   width: 100%;
   position: fixed;
-  bottom: -1px;
+  bottom: 3px;
   left: -2px;
   display: flex;
   justify-content: space-between;
@@ -276,6 +299,17 @@ mat-icon {
   border-top: 5px solid #f4f4f4;
   padding: 0 2vw;
   justify-content: flex-end;
+ 
+
+}
+.displayError{
+  
+  color:red;
+  align-items: center;
+  justify-content: flex-start;
+  display:flex;
+ padding-right: 600px;
+  
 }
 
 .user__btn_change_lang {
@@ -296,10 +330,11 @@ mat-icon {
   .mat-form-field-outline-thick {
   color: lightgrey;
   border-bottom: 2px solid #22a8c9;
-} 
+}
 
 .required-annotation {
-  color: white;
+  color: #c02533;
+  font-weight: bold;
   margin-left: 3px;
 }
 
@@ -355,12 +390,17 @@ mat-icon {
 
 .btn_grp mat-button-toggle {
   font-weight: inherit;
-  font-size: 0.7rem;
+  font-size: 1rem;
   margin-right: 10px;
   height: fit-content;
-  color: rgb(128, 125, 125);
-  border: 1px solid rgb(128, 125, 125);
-  border-radius: 0%;
+  color: rgb(255, 255, 255);
+  border: 2px solid rgb(123, 20, 20);
+  /* border-radius: 20%; */
+  width: 200px;
+  background-color: #e57680;
+  
+  
+  margin-left: 50px;
 }
 
 .btn_grp .mat-button-toggle-checked {
@@ -382,18 +422,26 @@ mat-icon {
   flex: 1;
   margin-right: 10px;
   margin-bottom: 3%; /* (100-32*3)/2 */
+  font-family: 'Roboto';
 }
 .fieldHeader {
   width: 400px;
-  color: white;
+  color: rgb(8, 8, 8);
   min-height: 40px;
   padding: 10px;
-  background-color:rgb(11, 106, 130) ;
+  font-size: 14px;
+  background-color: #fbe9eb;
+  font-family: 'Roboto';
 }
+/*  #e35a6d
+} */
+
 .fieldContent {
+  font-family: 'Roboto';
   padding: 10px;
+  font-size: 13px;
   width: 400px;
-  box-shadow: 1px 1px 1px 1px #ccc;  /*Opera 10.5, IE 9, Firefox 4+, Chrome 6+, iOS 5*/
+  box-shadow: 1px 1px 1px 1px #ccc; /*Opera 10.5, IE 9, Firefox 4+, Chrome 6+, iOS 5*/
 }
 .selectedOption {
   margin: 10px;
@@ -407,4 +455,44 @@ mat-icon {
 }
 /* ::ng-deep.mat-input-element {
   height: 20px;
+} */
+
+.example-headers-align .mat-expansion-panel-header-description {
+  display: flex;
+  justify-content: flex-end;
+}
+
+mat-expansion-panel-header{
+  font-family: 'Roboto';
+}
+
+.example-headers-align .mat-mdc-form-field + .mat-mdc-form-field {
+  margin-left: 8px;
+}
+/* Line with black color */
+.line-black {
+  width: 100%;
+  height: 15px;
+  background-color: #000;
+}
+
+/* Line with yellow color */
+.line-yellow {
+  width: 100%;
+  height: 15px;
+  background-color: #ff0; /* Yellow color code */
+}
+
+/* Line with red color */
+.line-red {
+  width: 100%;
+  height: 15px;
+  background-color: #f00; /* Red color code */
+}
+
+mat-action-row button{
+  font-family: 'Roboto';
+}
+/* .displayError{
+
 } */

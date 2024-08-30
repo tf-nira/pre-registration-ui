@@ -110,6 +110,9 @@ export class FileUploadComponent implements OnInit, OnDestroy {
   fullNameField: "";
   readOnlyMode = false;
   dataLoaded = false;
+  canDeactivateFlag: boolean;
+  checked: true;
+  dataUploadComplete: true;
   constructor(
     private registration: RegistrationService,
     private dataStorageService: DataStorageService,
@@ -592,6 +595,7 @@ export class FileUploadComponent implements OnInit, OnDestroy {
                         );
                       }
                       this.userForm.controls[uiField.id].setValue("");
+                      // debugger;
                       this.LOD.push(documentCategory);
                     }
                   }
@@ -1569,6 +1573,46 @@ export class FileUploadComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscriptions.forEach((subscription) => subscription.unsubscribe());
+  }
+   /**
+   * @description After sumission of the form, the user is route to preview page.
+   *
+   * @memberof FileUploadComponent
+   */
+  redirectUser() {
+    this.canDeactivateFlag = false;
+    this.checked = true;
+    this.dataUploadComplete = true;
+    let url = "";
+    if (localStorage.getItem(appConstants.MODIFY_USER_FROM_PREVIEW) === "true" && this.preRegId) {
+     /* url = Utils.getURL(this.router.url, "summary");
+      localStorage.setItem(appConstants.MODIFY_USER_FROM_PREVIEW, "false");
+      this.router.navigateByUrl(url + `/${this.preRegId}/preview`);*/
+     // modify open dialog
+     const message = "You have successfuly modified your document uploads";
+     const body = {
+       case: "MESSAGE",
+       textDir: this.userPrefLanguageDir,
+       message: message
+     };
+     
+     this.dialog
+       .open(DialougComponent, { width: "400px", data: body, disableClose: true })
+       .beforeClosed()
+       .subscribe((res) => {
+         if (res === true) {
+           url = Utils.getURL(this.router.url, "summary");
+           localStorage.setItem(appConstants.MODIFY_USER_FROM_PREVIEW, "false");
+           this.router.navigateByUrl(url + `/${this.preRegId}/preview`);
+         }
+       });
+
+     
+   }else {
+      url = Utils.getURL(this.router.url, "preview");
+      localStorage.removeItem(appConstants.NEW_APPLICANT_FROM_PREVIEW);
+      this.router.navigate([url, this.preRegId]);
+    }
   }
 }
 

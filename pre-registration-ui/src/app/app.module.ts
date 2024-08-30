@@ -13,6 +13,7 @@ import { CoreModule } from './core/core.module';
 import { AuthModule } from './auth/auth.module';
 import { SharedModule } from './shared/shared.module';
 import { ConfigService } from 'src/app/core/services/config.service';
+import {MatExpansionModule} from '@angular/material/expansion';
 
 const appInitialization = (appConfig: AppConfigService) => {
   return () => {
@@ -30,7 +31,10 @@ const appInitialization = (appConfig: AppConfigService) => {
     CoreModule,
     AuthModule,
     SharedModule,
-    NgxPrintModule
+    NgxPrintModule,
+    MatExpansionModule,
+    
+    
   ],
   providers: [
     BookingService,

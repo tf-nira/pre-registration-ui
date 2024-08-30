@@ -77,8 +77,9 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
     );
     await this.getUserInfo(this.preRegIds);
     //console.log(this.usersInfoArr);
-    for (let i = 0; i < this.usersInfoArr.length; i++) {
-      await this.getRegCenterDetails(this.usersInfoArr[i].langCode, i);
+    for (let i = 0; i < this.usersInfoArr.length; i++) { 
+       await this.getRegCenterDetails(this.usersInfoArr[i].langCode, i); 
+      
       await this.getLabelDetails(this.usersInfoArr[i].langCode, i);
       await this.getUserLangLabelDetails(this.langCode, i);
     }
@@ -106,9 +107,9 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
         await this.getUserDetails(prid).then(async (user) => {
           let regDto;
           //console.log(user);
-          await this.getAppointmentDetails(prid).then((appointmentDetails) => {
-            regDto = appointmentDetails;
-          });
+          // await this.getAppointmentDetails(prid).then((appointmentDetails) => {
+          //   regDto = appointmentDetails;
+          // });  
           const demographicData = user["request"].demographicDetails.identity;
           let applicationLanguages = Utils.getApplicationLangs(user["request"]);
           applicationLanguages = Utils.reorderLangsForUserPreferredLang(applicationLanguages, this.langCode);
@@ -182,7 +183,7 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
       this.dataStorageService
         .getAppointmentDetails(preRegId)
         .subscribe((response) => {
-          //console.log(response);
+          console.log(response);
           if (response[appConstants.RESPONSE]) {
             this.regCenterId =
             response[appConstants.RESPONSE].registration_center_id;
@@ -260,7 +261,12 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
       
       this.ackDataItem["contactPhone"] =
         this.usersInfoArr[0].registrationCenter.contactPhone;
-      
+        this.ackDataItem["Suname"] =
+        this.usersInfoArr[0].fullName;
+
+
+
+
       this.usersInfoArr.forEach(userInfo => {
         if (userInfo.preRegId == prid) {
           this.ackDataItem["qrCodeBlob"] = userInfo.qrCodeBlob;
@@ -271,7 +277,10 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
           labelNames.push(labels.label_name);
           labelRegCntrs.push(labels.label_reg_cntr);
           nameValues.push(userInfo.fullName);
-          //console.log(userInfo.registrationCenter.name);
+          let name =userInfo.fullName
+           console.log(name);
+          
+        console.log(userInfo.registrationCenter.name);
           if (userInfo.registrationCenter.name) {
             regCntrNames.push(userInfo.registrationCenter.name);
           }
@@ -407,28 +416,28 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
     const ltrLangs = this.configService
     .getConfigByKey(appConstants.CONFIG_KEYS.mosip_left_to_right_orientation)
     .split(",");
-    this.usersInfoArr.forEach(userInfo => {
-      if (!userInfo.bookingData) {
-        userInfo.bookingDataPrimary = Utils.getBookingDateTime(
-          userInfo.regDto.appointment_date,
-          userInfo.regDto.time_slot_from,
-          userInfo.langCode,
-          ltrLangs
-        );
-        userInfo.bookingTimePrimary = Utils.formatTime(
-          userInfo.regDto.time_slot_from
-        );
-      } else {
-        const date = userInfo.bookingData.split(",");
-        userInfo.bookingDataPrimary = Utils.getBookingDateTime(
-          date[0],
-          date[1],
-          userInfo.langCode,
-          ltrLangs
-        );
-        userInfo.bookingTimePrimary = Utils.formatTime(date[1]);
-      }    
-    });  
+    // this.usersInfoArr.forEach(userInfo => {
+    //   if (!userInfo.bookingData) {
+    //     userInfo.bookingDataPrimary = Utils.getBookingDateTime(
+    //       userInfo.regDto.appointment_date,
+    //       userInfo.regDto.time_slot_from,
+    //       userInfo.langCode,
+    //       ltrLangs
+    //     );
+    //     userInfo.bookingTimePrimary = Utils.formatTime(
+    //       userInfo.regDto.time_slot_from
+    //     );
+    //   } else {
+    //     const date = userInfo.bookingData.split(",");
+    //     userInfo.bookingDataPrimary = Utils.getBookingDateTime(
+    //       date[0],
+    //       date[1],
+    //       userInfo.langCode,
+    //       ltrLangs
+    //     );
+    //     userInfo.bookingTimePrimary = Utils.formatTime(date[1]);
+    //   }    
+    // });  
   }
 
   automaticNotification() {

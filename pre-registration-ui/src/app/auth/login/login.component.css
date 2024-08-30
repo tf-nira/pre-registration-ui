@@ -14,7 +14,7 @@
 
 .error {
   font-size: 13px;
-  color: red;
+  color: #c02533;
   font-weight: bolder;
   margin-top: -10px;
 }
@@ -26,9 +26,32 @@
 }
 
 .form_wrapper {
-  margin: 4% 0%;
-  line-height: 2rem;
-  height: 64vh;
+  background-color: rgba(242, 242, 242, 0.8);
+  /* font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif; */
+  color: rgb(14, 12, 12);
+  padding: 40px 40px 40px 40px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  line-height: 1.6;
+  height: 150;
+  position: fixed;
+  bottom: 120px;
+  right: 50px;
+  max-width: 500px;
+align-items: center;
+
+}
+
+
+
+.loginlogo img {
+  max-width: 50%; /* Ensure the image does not exceed the container width */
+  height: auto; /* Maintain the aspect ratio */
+  display: block; /* Remove any potential extra space beneath the image */
+  margin: 0 auto; /* Center the image within the container */
+  border-radius: 50%; /* Apply a border-radius for a circular shape (adjust as needed) */
+  /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);  Add a subtle box shadow */
+  margin: 0 auto;
 }
 
 .form_fields_padding {
@@ -40,8 +63,7 @@
 .heading {
   font-size: 1.5rem;
   text-align: center;
-  font-weight: 600;
-  
+  font-weight: 6;
 }
 
 .subHeading {
@@ -57,7 +79,7 @@ mat-form-field {
 }
 
 .pinkBg {
-  background-color: #fe528d;
+  background-color: #c02533;
 }
 .whiteText {
   color: white;
@@ -68,7 +90,7 @@ mat-form-field {
 }
 
 .pinkText {
-  color: #fe528d;
+  color: #c02533;
 }
 
 button {
@@ -84,7 +106,9 @@ button {
   color: lightgrey;
 }
 
-::ng-deep .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
+::ng-deep
+  .mat-form-field-appearance-outline.mat-focused
+  .mat-form-field-outline-thick {
   color: lightgrey;
   border-bottom: 2px solid #22a8c9;
   border-bottom-left-radius: 1px;
@@ -102,9 +126,9 @@ button {
     margin-left: 16%;
   }
 }
-.captcha{
+.captcha {
   padding-bottom: 10px !important;
-  transform: scale(0.8);
+  transform: scale(1.8);
 }
 ::ng-deep.mat-input-element {
   padding-top: 5px !important;
