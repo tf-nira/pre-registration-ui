@@ -44,15 +44,7 @@ const appRoutes: Routes = [
       {
         path: "summary/:appId",
         loadChildren: "./feature/summary/summary.module#SummaryModule",
-      },
-      {
-        path: "booking/:appId",
-        loadChildren: "./feature/booking/booking.module#BookingModule",
-      },
-      {
-        path: "booking/multiappointment",
-        loadChildren: "./feature/booking/booking.module#BookingModule",
-      },
+      }
     ],
   },
 ];

@@ -53,6 +53,10 @@ import {
 import identityStubJson from "../../../../assets/identity-spec1.json";
 import { RouterExtService } from "src/app/shared/router/router-ext.service";
 
+//malay
+interface DependentField {
+  fieldId: string;
+}
 
 /**
  * @description This component takes care of the demographic page.
@@ -163,6 +167,11 @@ export class DemographicComponent extends FormDeactivateGuardService
   changeActions = [];
   changeActionsNamesArr = [];
   identitySchemaVersion = "";
+  initializationFlag: boolean; //malay
+  identityObj: any = {};    //malay
+  newIdentityObj: any = {}; //malay
+  showPRNField = false; //malay
+  generatedPRN = '';    //malay
   readOnlyMode = false;
   showChangeDataCaptureLangBtn = false;
   localeDtFormat = "";
@@ -170,6 +179,115 @@ export class DemographicComponent extends FormDeactivateGuardService
   @ViewChild("singleSelect") singleSelect: MatSelect;
   /* Subject that emits when the component has been destroyed. */
   protected _onDestroy = new Subject<void>();
+  /**lines 177 to 284 malay*/
+  /* Overloaded the  createIdentityJSONDynamic one 
+  during normal onChangeHandler calls and other for onSubmit*/
+  private createIdentityJSONDynamic(includingBlankFields: boolean): any;
+  private createIdentityJSONDynamic(includingBlankFields: boolean, selectedFieldId: string): any;
+
+  /**
+  * @description This is to create the identity modal
+  *
+  * @private
+  * @returns
+  * @memberof DemographicComponent
+  */
+  private createIdentityJSONDynamic(includingBlankFields: boolean, selectedFieldId?: string): any {
+    /** Checking if createIdentityJSONDynamic is called for the first time.
+     *  It should create identityObj form identity data during initial ui screen load.
+    */
+    if (this.initializationFlag === true) {
+      this.identityData.forEach((field) => {
+        if (
+          field.inputRequired === true &&
+          !(field.controlType === "fileupload")
+        ) {
+          if (!field.inputRequired) {
+            this.identityObj[field.id] = "";
+            this.newIdentityObj[field.id] = "";
+          } else {
+            if (field.type === "simpleType") {
+              this.identityObj[field.id] = [];
+            } else if (field.type === "string") {
+              this.identityObj[field.id] = "";
+            }
+          }
+        } else {
+          if (field.id == appConstants.IDSchemaVersionLabel) {
+            if (field.type === "string") {
+              this.identityObj[field.id] = String(this.identitySchemaVersion);
+            } else if (field.type === "number") {
+              this.identityObj[field.id] = Number(this.identitySchemaVersion);
+            }
+          }
+        }
+      });
+    }
+    // console.log("identityObj:: " + JSON.stringify(this.identityObj))
+
+    let keyArr: any[] = Object.keys(this.identityObj);
+    /** check if first load. Then no data entered by user. Hence, no data to upload in the field value.
+     *  Filter the createAttributeArray method call.
+     */
+    if (this.initializationFlag === false) {
+      //Populate the data ONLY for the selected field.
+      if (selectedFieldId) {
+        if (selectedFieldId != appConstants.IDSchemaVersionLabel) {
+          this.createAttributeArray(selectedFieldId, this.identityObj);
+        }
+      }
+      else {
+        //onSubmit is called. Populate the data in all fields.
+        for (let index = 0; index < keyArr.length; index++) {
+          const element = keyArr[index];
+          if (element != appConstants.IDSchemaVersionLabel) {
+            this.createAttributeArray(element, this.identityObj);
+          }
+        }
+      }
+    }
+    let identityRequest = { identity: this.identityObj };
+    if (!includingBlankFields) {
+      //now remove the blank fields from the identityObj
+      for (let index = 0; index < keyArr.length; index++) {
+        const element = keyArr[index];
+        if (element == appConstants.IDSchemaVersionLabel) {
+          this.newIdentityObj[element] = this.identityObj[element];
+        } else if (typeof this.identityObj[element] === "object") {
+          let elementValue = this.identityObj[element];
+          if (elementValue && elementValue.length > 0) {
+            if (
+              elementValue[0].value !== "" &&
+              elementValue[0].value !== null &&
+              elementValue[0].value !== undefined
+            ) {
+              this.newIdentityObj[element] = elementValue;
+            }
+          }
+        } else if (typeof this.identityObj[element] === "string") {
+          let elementValue = this.identityObj[element];
+          if (
+            elementValue !== "" &&
+            elementValue !== null &&
+            elementValue !== undefined
+          ) {
+            this.newIdentityObj[element] = elementValue;
+          }
+        } else if (typeof this.identityObj[element] === "boolean") {
+          let elementValue = this.identityObj[element];
+          if (elementValue == true) {
+            this.newIdentityObj[element] = true;
+          }
+          if (elementValue == false) {
+            this.newIdentityObj[element] = false;
+          }
+        }
+      }
+      identityRequest = { identity: this.newIdentityObj };
+    }
+    //console.log(identityRequest);
+    return identityRequest;
+  }
 
   /**
    * @description Creates an instance of DemographicComponent.
@@ -226,6 +344,9 @@ export class DemographicComponent extends FormDeactivateGuardService
     if (!this.dataModification) {
       if (this.isConsentMessage) this.consentDeclaration();
     }
+    /*setting the initialization flag. To control method calls that are required only for the first time 
+    when screen is loading*/
+    this.initializationFlag = true;//malay
     this.onChangeHandler("");
     if (this.readOnlyMode) {
       this.userForm.disable();
@@ -249,7 +370,12 @@ export class DemographicComponent extends FormDeactivateGuardService
     this.checkToShowLangChangeBtn();
     //console.log("exiting");
     this.primaryuserForm = true;
-   
+
+    /** After the initialization reset the flag to false.
+     * Otherwise processShowHideFields will be called even if the respective field does not 
+     * have dependent attribute.
+     */
+    this.initializationFlag = false; //malay
   }
 
   ngAfterViewInit() {
@@ -475,11 +601,12 @@ export class DemographicComponent extends FormDeactivateGuardService
       this.dataStorageService.getUser(preRegId).subscribe(
         (response) => {
           this.user.request = response[appConstants.RESPONSE];
+          console.log("demographic page status code::  " + this.user.request["statusCode"]);
           if (
             this.user.request["statusCode"] !==
-              appConstants.APPLICATION_STATUS_CODES.incomplete &&
+            appConstants.APPLICATION_STATUS_CODES.incomplete &&
             this.user.request["statusCode"] !==
-              appConstants.APPLICATION_STATUS_CODES.pending
+            appConstants.APPLICATION_STATUS_CODES.pending
           ) {
             this.readOnlyMode = true;
           } else {
@@ -576,13 +703,13 @@ export class DemographicComponent extends FormDeactivateGuardService
             auditObj.actionUserId = localStorage.getItem("loginId");
             auditObj.eventName = "CONSENT";
             auditObj.description = JSON.stringify(description);
-            this.dataStorageService.logAudit(auditObj).subscribe((res) => {});
+            this.dataStorageService.logAudit(auditObj).subscribe((res) => { });
           }
         });
     }
   }
 
- 
+
   /**
    * @description This method will get the Identity Schema Json
    */
@@ -595,13 +722,22 @@ export class DemographicComponent extends FormDeactivateGuardService
           let identityJsonSpec =
             response[appConstants.RESPONSE]["jsonSpec"]["identity"];
           this.identityData = identityJsonSpec["identity"];
+          //this.identityData = [];    //malay
           let locationHeirarchiesFromJson = [
-            ...identityJsonSpec["locationHierarchy"],
+            ...identityJsonSpec["locationHierarchy"], //malay
           ];
           this.identitySchemaVersion =
             response[appConstants.RESPONSE]["idSchemaVersion"];
           //console.log(`identitySchemaVersion: ${this.identitySchemaVersion}`);
           //console.log(this.identityData);
+
+          //malay
+          // const fieldDefinitions = await this.loadFieldDefinitions();
+          // this.identityData.push(...fieldDefinitions["identity"]);
+          // let locationHeirarchiesFromJson = [
+          //   ...fieldDefinitions["locationHierarchy"],//malay
+          // ];
+
           if (Array.isArray(locationHeirarchiesFromJson[0])) {
             this.locationHeirarchies = locationHeirarchiesFromJson;
           } else {
@@ -648,6 +784,12 @@ export class DemographicComponent extends FormDeactivateGuardService
         }
       );
     });
+  }
+
+  //malay
+  async loadFieldDefinitions() {
+    const response = await fetch('assets/data/niraUiSpecPreReg.json');
+    return response.json();
   }
 
   setAlignmentGroups() {
@@ -836,58 +978,58 @@ export class DemographicComponent extends FormDeactivateGuardService
    * @param controlObject is Identity Type Object
    *  ex: { id : 'region',controlType: 'dropdown' ...}
    */
- /**
-*
-* @description this method is to make dropdown api calls
-*
-* @param controlObject is Identity Type Object
-* ex: { id : 'region',controlType: 'dropdown' ...}
-*/
-async dropdownApiCall(controlId: string) {
-  let _this = this;
-  if (this.isThisFieldInLocationHeirarchies(controlId)) {
-    //console.log("dropdownApiCall : " + controlId);
-    if (this.getIndexInLocationHeirarchy(controlId) !== 0) {
-    this.selectOptionsDataArray[controlId] = [];
-    this.filteredSelectOptions[controlId] = new ReplaySubject<CodeValueModal[]>(1);
-    let filtered = this.uiFields.find(uiField => uiField.id == controlId);
-    const possibleParentLocations = this.getLocationNameFromFieldId(
-    controlId
-    );
-    for(let parentLocation of possibleParentLocations) {
-      let locationCode = this.userForm.controls[`${parentLocation.id}`].value;
-      if (!locationCode) {
-      _this.identityData.forEach((obj) => {
-      if (obj.id == controlId) {
-      locationCode = obj.parentLocCode;
+  /**
+ *
+ * @description this method is to make dropdown api calls
+ *
+ * @param controlObject is Identity Type Object
+ * ex: { id : 'region',controlType: 'dropdown' ...}
+ */
+  async dropdownApiCall(controlId: string) {
+    let _this = this;
+    if (this.isThisFieldInLocationHeirarchies(controlId)) {
+      //console.log("dropdownApiCall : " + controlId);
+      if (this.getIndexInLocationHeirarchy(controlId) !== 0) {
+        this.selectOptionsDataArray[controlId] = [];
+        this.filteredSelectOptions[controlId] = new ReplaySubject<CodeValueModal[]>(1);
+        let filtered = this.uiFields.find(uiField => uiField.id == controlId);
+        const possibleParentLocations = this.getLocationNameFromFieldId(
+          controlId
+        );
+        for (let parentLocation of possibleParentLocations) {
+          let locationCode = this.userForm.controls[`${parentLocation.id}`].value;
+          if (!locationCode) {
+            _this.identityData.forEach((obj) => {
+              if (obj.id == controlId) {
+                locationCode = obj.parentLocCode;
+              }
+            });
+          }
+          //console.log(`${parentLocationName} : ${locationCode}`);
+          let promisesArr = await this.loadLocationData(locationCode, controlId,
+            filtered.locationHierarchyName);
+          Promise.all(promisesArr).then((values) => {
+            //this.userForm.controls[`${controlId}_search`].setValue("");
+            const newDataArr = _this.selectOptionsDataArray[controlId];
+            if (newDataArr && (newDataArr.length / _this.dataCaptureLanguages.length) == 1) {
+              const firstValue = newDataArr[0].valueCode;
+              if (firstValue) {
+                _this.userForm.controls[`${controlId}`].setValue(firstValue);
+              }
+              _this.searchInDropdown(controlId);
+              _this.resetLocationFields(controlId);
+              return;
+            }
+            this.searchInDropdown(controlId);
+            this.resetLocationFields(controlId);
+            //console.log(`done`);
+            return;
+          });
+        }
       }
-      });
-      }
-      //console.log(`${parentLocationName} : ${locationCode}`);
-      let promisesArr = await this.loadLocationData(locationCode, controlId,
-      filtered.locationHierarchyName);
-      Promise.all(promisesArr).then((values) => {
-      //this.userForm.controls[`${controlId}_search`].setValue("");
-      const newDataArr = _this.selectOptionsDataArray[controlId];
-      if (newDataArr && (newDataArr.length / _this.dataCaptureLanguages.length) == 1) {
-      const firstValue = newDataArr[0].valueCode;
-      if (firstValue) {
-      _this.userForm.controls[`${controlId}`].setValue(firstValue);
-      }
-      _this.searchInDropdown(controlId);
-      _this.resetLocationFields(controlId);
-      return;
-      }
-      this.searchInDropdown(controlId);
-      this.resetLocationFields(controlId);
-//console.log(`done`);
-return;
-});
-}
-}
-}
-}
-    
+    }
+  }
+
   toFormControl(point: AbstractControl): FormControl {
     return point as FormControl;
   }
@@ -953,7 +1095,7 @@ return;
     //console.log("onChangeHandler " + selectedFieldId);
     //if (!this.dataModification || (this.dataModification && this.userForm.valid) ) {
     //populate form data in json for json-rules-engine to evalatute the conditions
-    const identityFormData = this.createIdentityJSONDynamic(true);
+    const identityFormData = this.createIdentityJSONDynamic(true, selectedFieldId);
     let isChild = false;
     let currentAge = null;
     if (
@@ -983,31 +1125,151 @@ return;
         age: currentAge,
       },
     };
-    await this.processShowHideFields(formIdentityData);
-    await this.processConditionalRequiredValidations(formIdentityData);
-    await this.processChangeActions(selectedFieldId);
+    //following code added malay
+
+    /** Execute processShowHideFields on first run to make all fields visible. */
+    if (this.initializationFlag === true) {
+      await this.processShowHideFields(formIdentityData);
+    }
+    let field;
+    let subField;
+    /**Following methods (processConditionalRequiredValidations && processChangeActions)
+     * to be called only when some data entered by user.
+     * Thus not to execute on first run.
+     * using initializationFlag did not solved the purpose bcz async call, even before 
+     * completing the processShowHideFields it returned to ngoninit and set flag to false.
+     */
+    /**Execute processShowHideFields processConditionalRequiredValidations 
+     * only if any field has dependentFields.
+     */
+    //Fetching the field using the value of selectedFieldId(string)
+    if (selectedFieldId && selectedFieldId.trim() !== "") {
+      field = this.identityData.find(
+        (field) => field.id === selectedFieldId);
+    }
+
+
+    //Checking if the field has any "dependentFields".
+    if (field && field.hasOwnProperty("dependentFields")) {
+      const dependentFields: DependentField[] = field.dependentFields;
+      /** Access the dependent fields from the dependentFields array:-
+       * 1.getting the fieldId (just the fieldId)
+       * 2.getting the subfield using the fieldId (entire field)
+       */
+      for (const dependentField of dependentFields) {
+        const fieldId = dependentField.fieldId;
+        subField = this.identityData.find(
+          (subfield) => subfield.id === fieldId);
+        //check if the subfield has "visibleCondition" or "requiredCondition"
+        if (subField) {
+          console.log(subField)
+          if (subField.hasOwnProperty("visibleCondition")) {
+            await this.processShowHideFields(formIdentityData, subField);
+          }
+          if (subField.hasOwnProperty("requiredCondition")) {
+            await this.processConditionalRequiredValidations(formIdentityData, subField);
+          }
+        } else {
+          // Optional: Handle the case where the subField isn't found
+          console.warn(`Dependent field with ID '${fieldId}' not found.`);
+        }
+      }
+    }
+
+    //earlier getting field and checking dependent for initial run also
+    // if (this.initializationFlag === true || field.hasOwnProperty("dependentFields")) {
+    //   await this.processShowHideFields(formIdentityData);
+    // }
+    if (selectedFieldId && selectedFieldId.trim() !== "") {
+      await this.processChangeActions(selectedFieldId);
+    }
+
+    //following three lines commented malay.
+    // await this.processShowHideFields(formIdentityData);
+    // await this.processConditionalRequiredValidations(formIdentityData);
+    // await this.processChangeActions(selectedFieldId);
     //}
   }
 
-  processShowHideFields = async (formIdentityData) => {
-    //for each uiField in UI specs, check of any "visibleCondition" is given
-    //if yes, then evaluate it with json-rules-engine
-    this.uiFields.forEach((uiField) => {
-      //if no "visibleCondition" is given, then show the field
-      if (!uiField.visibleCondition || uiField.visibleCondition == "") {
-        uiField.isVisible = true;
-      } else {
+  //malay--comment processShowHideFields
+  // processShowHideFields = async (formIdentityData) => {
+  //   //for each uiField in UI specs, check of any "visibleCondition" is given
+  //   //if yes, then evaluate it with json-rules-engine
+  //   this.uiFields.forEach((uiField) => {
+  //     //if no "visibleCondition" is given, then show the field
+  //     if (!uiField.visibleCondition || uiField.visibleCondition == "") {
+  //       uiField.isVisible = true;
+  //     } else {
+  //       const resetHiddenFieldFunc = this.resetHiddenField;
+  //       let visibilityRule = new Rule({
+  //         conditions: uiField.visibleCondition,
+  //         onSuccess() {
+  //           //in "visibleCondition" is statisfied then show the field
+  //           uiField.isVisible = true;
+  //         },
+  //         onFailure() {
+  //           //in "visibleCondition" is not statisfied then hide the field
+  //           uiField.isVisible = false;
+  //           resetHiddenFieldFunc(uiField);
+  //         },
+  //         event: {
+  //           type: "message",
+  //           params: {
+  //             data: "",
+  //           },
+  //         },
+  //       });
+  //       this.jsonRulesEngine.addRule(visibilityRule);
+  //       //evaluate the visibleCondition
+  //       this.jsonRulesEngine
+  //         .run(formIdentityData)
+  //         .then((results) => {
+  //           results.events.map((event) =>
+  //             console.log(
+  //               "jsonRulesEngine for visibleConditions run successfully",
+  //               event.params.data
+  //             )
+  //           );
+  //           this.jsonRulesEngine.removeRule(visibilityRule);
+  //         })
+  //         .catch((error) => {
+  //           console.log("err is", error);
+  //           this.jsonRulesEngine.removeRule(visibilityRule);
+  //         });
+  //     }
+  //   }, this.resetHiddenField);
+  // };
+
+  //malay
+  processShowHideFields = async (formIdentityData: any, subField?: any) => {
+    return new Promise<void>((resolve, reject) => {
+      if (subField) {
+        //let facts = {};
+        /** Construct a fact to be consumed by the json-rule-engine based on 
+         * parent field value.
+         */
+        if (subField.parentField) {
+          for (const field of subField.parentField) {
+            const parentFieldValue = formIdentityData.identity[field.fieldId];
+            //facts = { [field.fieldId]: parentFieldValue };
+            //facts[field.fieldId] = parentFieldValue;
+          }
+        }
+        console.log("for parent field:: " + JSON.stringify(subField.parentField))
+        console.log(formIdentityData)
         const resetHiddenFieldFunc = this.resetHiddenField;
         let visibilityRule = new Rule({
-          conditions: uiField.visibleCondition,
+          conditions: subField.visibleCondition,
           onSuccess() {
             //in "visibleCondition" is statisfied then show the field
-            uiField.isVisible = true;
+            subField.isVisible = true;
+            console.log(subField.id + " visible")
           },
           onFailure() {
             //in "visibleCondition" is not statisfied then hide the field
-            uiField.isVisible = false;
-            resetHiddenFieldFunc(uiField);
+            subField.isVisible = false;
+            resetHiddenFieldFunc(subField);
+            console.log(subField.id + " not visible")
           },
           event: {
             type: "message",
@@ -1017,6 +1279,7 @@ return;
           },
         });
         this.jsonRulesEngine.addRule(visibilityRule);
+        console.log(visibilityRule)
         //evaluate the visibleCondition
         this.jsonRulesEngine
           .run(formIdentityData)
@@ -1028,14 +1291,31 @@ return;
               )
             );
             this.jsonRulesEngine.removeRule(visibilityRule);
+            resolve(); // Resolve the promise on success
           })
           .catch((error) => {
             console.log("err is", error);
             this.jsonRulesEngine.removeRule(visibilityRule);
+            reject(error);
           });
+
       }
-    }, this.resetHiddenField);
+      else {
+        console.log("called without subField");
+        this.uiFields.forEach((uiField) => {
+          let facts = {};
+          /** If no "visibleCondition" is given, then show the field.
+           *  First run make all fields visible except with visibleCondition
+          */
+          if (!uiField.visibleCondition || uiField.visibleCondition == "") {
+            uiField.isVisible = true;
+          }
+        }, this.resetHiddenField);
+        resolve();
+      }
+    });
   };
+
   processChangeActions = async (selectedFieldId) => {
     this.uiFields.forEach(async (uiField) => {
       if (
@@ -1132,12 +1412,81 @@ return;
    * Using "json-rules-engine", these conditions are evaluated
    * and fields are conditionally validated as required or not in the UI form.
    */
-  processConditionalRequiredValidations(identityFormData) {
-    //for each uiField in UI specs, check of any "requiredCondition" is given
-    //if yes, then evaluate it with json-rules-engine
-    this.uiFields.forEach((uiField) => {
-      //if no "requiredCondition" is given, then nothing is to be done
-      if (uiField.requiredCondition && uiField.requiredCondition != "") {
+  //malay--> comment processConditionalRequiredValidations
+  // processConditionalRequiredValidations(identityFormData) {
+  //   //for each uiField in UI specs, check of any "requiredCondition" is given
+  //   //if yes, then evaluate it with json-rules-engine
+  //   this.uiFields.forEach((uiField) => {
+  //     //if no "requiredCondition" is given, then nothing is to be done
+  //     if (uiField.requiredCondition && uiField.requiredCondition != "") {
+  //       const addValidatorsFunc = this.addRequiredValidator;
+  //       const removeValidatorFunc = this.removeValidators;
+  //       const isControlInMultiLangFunc = this.isControlInMultiLang;
+  //       const dataCaptureLanguages = this.dataCaptureLanguages;
+  //       let requiredRule = new Rule({
+  //         conditions: uiField.requiredCondition,
+  //         onSuccess() {
+  //           //in "requiredCondition" is statisfied then validate the field as required
+  //           uiField.required = true;
+  //           dataCaptureLanguages.forEach((language, i) => {
+  //             let controlId = "";
+  //             if (isControlInMultiLangFunc(uiField)) {
+  //               controlId = uiField.id + "_" + language;
+  //               addValidatorsFunc(uiField, controlId, language);
+  //             } else if (i == 0) {
+  //               controlId = uiField.id;
+  //               addValidatorsFunc(uiField, controlId, language);
+  //             }
+  //           });
+  //         },
+  //         onFailure() {
+  //           //in "requiredCondition" is not statisfied then validate the field as not required
+  //           uiField.required = false;
+  //           removeValidatorFunc(uiField);
+  //         },
+  //         event: {
+  //           type: "message",
+  //           params: {
+  //             data: "",
+  //           },
+  //         },
+  //       });
+  //       this.jsonRulesEngine.addRule(requiredRule);
+  //       //evaluate the visibleCondition
+  //       this.jsonRulesEngine
+  //         .run(identityFormData)
+  //         .then((results) => {
+  //           results.events.map((event) =>
+  //             console.log(
+  //               "jsonRulesEngine for requiredConditions run successfully",
+  //               event.params.data
+  //             )
+  //           );
+  //           this.jsonRulesEngine.removeRule(requiredRule);
+  //         })
+  //         .catch((error) => {
+  //           console.log("err is", error);
+  //           this.jsonRulesEngine.removeRule(requiredRule);
+  //         });
+  //     }
+  //   }, this);
+  // }
+
+  //malay
+  processConditionalRequiredValidations(identityFormData, uiField) {
+    return new Promise<void>((resolve, reject) => {
+      let facts = {};
+      if (uiField && uiField.requiredCondition && uiField.requiredCondition != "") {
+        /** Construct a fact to be consumed by the json-rule-engine based on 
+         * parent field value.
+         */
+        if (uiField.parentField) {
+          for (const field of uiField.parentField) {
+            const parentFieldValue = identityFormData.identity[field.fieldId];
+            //facts = { [field.fieldId]: parentFieldValue };
+            //facts[field.fieldId] = parentFieldValue;
+          }
+        }
         const addValidatorsFunc = this.addRequiredValidator;
         const removeValidatorFunc = this.removeValidators;
         const isControlInMultiLangFunc = this.isControlInMultiLang;
@@ -1171,7 +1520,6 @@ return;
           },
         });
         this.jsonRulesEngine.addRule(requiredRule);
-        //evaluate the visibleCondition
         this.jsonRulesEngine
           .run(identityFormData)
           .then((results) => {
@@ -1182,13 +1530,15 @@ return;
               )
             );
             this.jsonRulesEngine.removeRule(requiredRule);
+            resolve(); // Resolve the promise on success
           })
           .catch((error) => {
             console.log("err is", error);
             this.jsonRulesEngine.removeRule(requiredRule);
+            reject(error);
           });
       }
-    }, this);
+    });
   }
 
   /**
@@ -1200,97 +1550,98 @@ return;
    */
   private async setLocations() {
     this.locationHeirarchies.forEach(async (locationHeirarchyArr) => {
-    locationHeirarchyArr.forEach(async (locationHeirarchy, index) => {
-    let parentLocCode = null;
-    let locationHierarchyName = null;
-    this.identityData.forEach((obj) => {
-    if (
-    obj.inputRequired === true &&
-    obj.controlType !== null &&
-    !(obj.controlType === "fileupload")
-    ) {if (obj.id == locationHeirarchy) {
-      parentLocCode = obj.parentLocCode;
-      locationHierarchyName = obj.locationHierarchyName;
-      }
-      }
-      });
-      if (!parentLocCode && index == 0) {
-      parentLocCode = this.dataStorageService.getLocationMetadataHirearchy();
-      }
-      if (parentLocCode)debugger;
-      await this.loadLocationData(
-      parentLocCode,
-      locationHeirarchy,
-      locationHierarchyName
-      );
+      locationHeirarchyArr.forEach(async (locationHeirarchy, index) => {
+        let parentLocCode = null;
+        let locationHierarchyName = null;
+        this.identityData.forEach((obj) => {
+          if (
+            obj.inputRequired === true &&
+            obj.controlType !== null &&
+            !(obj.controlType === "fileupload")
+          ) {
+            if (obj.id == locationHeirarchy) {
+              parentLocCode = obj.parentLocCode;
+              locationHierarchyName = obj.locationHierarchyName;
+            }
+          }
+        });
+        if (!parentLocCode && index == 0) {
+          parentLocCode = this.dataStorageService.getLocationMetadataHirearchy();
+        }
+        if (parentLocCode) debugger;
+        await this.loadLocationData(
+          parentLocCode,
+          locationHeirarchy,
+          locationHierarchyName
+        );
       }, this);
-      }, this);
-      }
-      
- /**
-* @description This is to reset the input values
-* when the parent input value is changed
-*
-* @param fieldName location dropdown control Name
-*/
-resetLocationFields(fieldName: string) {
-  //console.log("resetLocationFields " + fieldName);
-  if (this.isThisFieldInLocationHeirarchies(fieldName)) {
-  const locationFields = this.getLocationHierarchy(fieldName);
-  const index = locationFields.indexOf(fieldName);
-  for (let i = index + 1; i < locationFields.length; i++) {
-  let currentSelection = this.uiFields.find(uiField => uiField.id == fieldName);
-  let childSelection = this.uiFields.find(uiField => uiField.id == locationFields[i]);
-  if(childSelection.locationHierarchyLevel > currentSelection.locationHierarchyLevel) {
-  this.userForm.controls[locationFields[i]].setValue("");
-  this.userForm.controls[locationFields[i]].markAsUntouched();
-  }
-  }
-  }
+    }, this);
   }
 
- /**
-* @description This is get the location the input values
-*
-* @param fieldName location dropdown control Name
-* @param locationCode location code of parent location
-*/
-async loadLocationData(locationCode: string, fieldName: string, locationHierarchyName: string) {
-  let promisesArr = [];
-  if (fieldName && fieldName.length > 0) {
-  this.dataCaptureLanguages.forEach(async (dataCaptureLanguage) => {
-  promisesArr.push(new Promise((resolve) => {
-    this.subscriptions.push(
-      this.dataStorageService
-      .getLocationImmediateHierearchy(dataCaptureLanguage, locationCode, locationHierarchyName)
-      .subscribe(
-      (response) => {
-      //console.log("fetched locations for: " + fieldName + ": " + dataCaptureLanguage);
-      if (response[appConstants.RESPONSE]) {
-      response[appConstants.RESPONSE][
-      appConstants.DEMOGRAPHIC_RESPONSE_KEYS.locations
-      ].forEach((element) => {
-      let codeValueModal: CodeValueModal = {
-      valueCode: element.code,
-      valueName: element.name,
-      languageCode: element.langCode,
-      };
-      this.selectOptionsDataArray[`${fieldName}`].push(codeValueModal);
+  /**
+ * @description This is to reset the input values
+ * when the parent input value is changed
+ *
+ * @param fieldName location dropdown control Name
+ */
+  resetLocationFields(fieldName: string) {
+    //console.log("resetLocationFields " + fieldName);
+    if (this.isThisFieldInLocationHeirarchies(fieldName)) {
+      const locationFields = this.getLocationHierarchy(fieldName);
+      const index = locationFields.indexOf(fieldName);
+      for (let i = index + 1; i < locationFields.length; i++) {
+        let currentSelection = this.uiFields.find(uiField => uiField.id == fieldName);
+        let childSelection = this.uiFields.find(uiField => uiField.id == locationFields[i]);
+        if (childSelection.locationHierarchyLevel > currentSelection.locationHierarchyLevel) {
+          this.userForm.controls[locationFields[i]].setValue("");
+          this.userForm.controls[locationFields[i]].markAsUntouched();
+        }
+      }
+    }
+  }
+
+  /**
+ * @description This is get the location the input values
+ *
+ * @param fieldName location dropdown control Name
+ * @param locationCode location code of parent location
+ */
+  async loadLocationData(locationCode: string, fieldName: string, locationHierarchyName: string) {
+    let promisesArr = [];
+    if (fieldName && fieldName.length > 0) {
+      this.dataCaptureLanguages.forEach(async (dataCaptureLanguage) => {
+        promisesArr.push(new Promise((resolve) => {
+          this.subscriptions.push(
+            this.dataStorageService
+              .getLocationImmediateHierearchy(dataCaptureLanguage, locationCode, locationHierarchyName)
+              .subscribe(
+                (response) => {
+                  //console.log("fetched locations for: " + fieldName + ": " + dataCaptureLanguage);
+                  if (response[appConstants.RESPONSE]) {
+                    response[appConstants.RESPONSE][
+                      appConstants.DEMOGRAPHIC_RESPONSE_KEYS.locations
+                    ].forEach((element) => {
+                      let codeValueModal: CodeValueModal = {
+                        valueCode: element.code,
+                        valueName: element.name,
+                        languageCode: element.langCode,
+                      };
+                      this.selectOptionsDataArray[`${fieldName}`].push(codeValueModal);
+                    });
+                  }
+                  resolve(true);
+                },
+                (error) => {
+                  //loading locations can be fail proof, no need to display err promt to user
+                  //this.showErrorMessage(error);
+                }
+              )
+          );
+        }));
       });
-      }
-      resolve(true);
-      },
-      (error) => {
-      //loading locations can be fail proof, no need to display err promt to user
-      //this.showErrorMessage(error);
-      }
-      )
-      );
-      }));
-      });
-      }
-      return promisesArr;
-      }
+    }
+    return promisesArr;
+  }
 
   /**
    * @description This is to get the list of gender available in the master data.
@@ -1367,101 +1718,101 @@ async loadLocationData(locationCode: string, fieldName: string, locationHierarch
     );
   }
 
- /**
-  * @description This set the initial values for the form attributes.
-  *
-  * @memberof DemographicComponent
-  */
- async setFormControlValues() {
-  return new Promise(async (resolve) => {
-    if (!this.dataModification) {
-      this.uiFields.forEach((control, index) => {
-        this.dataCaptureLanguages.forEach((language, i) => {
-          if (this.isControlInMultiLang(control)) {
-            const controlId = control.id + "_" + language;
-            this.userForm.controls[`${controlId}`].setValue("");
-          } else if (i == 0) {
-            const controlId = control.id;
-            this.userForm.controls[`${controlId}`].setValue("");
-          }
-        });
-      });
-      resolve(true);
-    } else {
-      this.loggerService.info("user", this.user);
-      if (this.user.request === undefined) {
-        await this.getUserInfo(this.preRegId);
-      }
-      let promisesResolved = [];
-      this.uiFields.forEach(async (control, index) => {
-        if (this.user.request.demographicDetails.identity[control.id]) {
-          if (this.isControlInMultiLang(control)) {
-            this.dataCaptureLanguages.forEach((language, i) => {
+  /**
+   * @description This set the initial values for the form attributes.
+   *
+   * @memberof DemographicComponent
+   */
+  async setFormControlValues() {
+    return new Promise(async (resolve) => {
+      if (!this.dataModification) {
+        this.uiFields.forEach((control, index) => {
+          this.dataCaptureLanguages.forEach((language, i) => {
+            if (this.isControlInMultiLang(control)) {
               const controlId = control.id + "_" + language;
-              let dataArr = this.user.request.demographicDetails.identity[
-                control.id
-              ];
-              if (Array.isArray(dataArr)) {
-                dataArr.forEach((dataArrElement) => {
-                  if (dataArrElement.language == language) {
-                    this.userForm.controls[`${controlId}`].setValue(
-                      dataArrElement.value
-                    );
-                  }
-                });
-              }
-            });
-          } else {
-            if (control.controlType === "ageDate") {
-              this.setDateOfBirth(control.id);
+              this.userForm.controls[`${controlId}`].setValue("");
+            } else if (i == 0) {
+              const controlId = control.id;
+              this.userForm.controls[`${controlId}`].setValue("");
             }
-            if (control.controlType === "date") {
-              this.setDate(control.id);
-            }
-            else if (control.type === "string") {
-              this.userForm.controls[`${control.id}`].setValue(
-                this.user.request.demographicDetails.identity[`${control.id}`]
-              );
-            }
-            else if (control.type === "simpleType") {
-              this.userForm.controls[`${control.id}`].setValue(
-                this.user.request.demographicDetails.identity[control.id][0]
-                  .value
-              );
-            }
-            if (
-              control.controlType === "dropdown" ||
-              control.controlType === "button"
-            ) {
-              if (this.isThisFieldInLocationHeirarchies(control.id)) {
-                const locationIndex = this.getIndexInLocationHeirarchy(
+          });
+        });
+        resolve(true);
+      } else {
+        this.loggerService.info("user", this.user);
+        if (this.user.request === undefined) {
+          await this.getUserInfo(this.preRegId);
+        }
+        let promisesResolved = [];
+        this.uiFields.forEach(async (control, index) => {
+          if (this.user.request.demographicDetails.identity[control.id]) {
+            if (this.isControlInMultiLang(control)) {
+              this.dataCaptureLanguages.forEach((language, i) => {
+                const controlId = control.id + "_" + language;
+                let dataArr = this.user.request.demographicDetails.identity[
                   control.id
+                ];
+                if (Array.isArray(dataArr)) {
+                  dataArr.forEach((dataArrElement) => {
+                    if (dataArrElement.language == language) {
+                      this.userForm.controls[`${controlId}`].setValue(
+                        dataArrElement.value
+                      );
+                    }
+                  });
+                }
+              });
+            } else {
+              if (control.controlType === "ageDate") {
+                this.setDateOfBirth(control.id);
+              }
+              if (control.controlType === "date") {
+                this.setDate(control.id);
+              }
+              else if (control.type === "string") {
+                this.userForm.controls[`${control.id}`].setValue(
+                  this.user.request.demographicDetails.identity[`${control.id}`]
                 );
-                const parentLocationName = this.getLocationNameFromIndex(
-                  control.id,
-                  locationIndex - 1
+              }
+              else if (control.type === "simpleType") {
+                this.userForm.controls[`${control.id}`].setValue(
+                  this.user.request.demographicDetails.identity[control.id][0]
+                    .value
                 );
-                if (parentLocationName) {
-                  let locationCode = this.userForm.controls[parentLocationName].value;
-                  if (locationCode) {
-                    // console.log(`fetching locations for: ${control.id}`);
-                    // console.log(`with parent: ${parentLocationName} having value: ${locationCode}`);
-                    promisesResolved.push(await this.loadLocationData(locationCode, control.id, control.locationHierarchyName));
-                    //console.log(this.selectOptionsDataArray[control.id]);
+              }
+              if (
+                control.controlType === "dropdown" ||
+                control.controlType === "button"
+              ) {
+                if (this.isThisFieldInLocationHeirarchies(control.id)) {
+                  const locationIndex = this.getIndexInLocationHeirarchy(
+                    control.id
+                  );
+                  const parentLocationName = this.getLocationNameFromIndex(
+                    control.id,
+                    locationIndex - 1
+                  );
+                  if (parentLocationName) {
+                    let locationCode = this.userForm.controls[parentLocationName].value;
+                    if (locationCode) {
+                      // console.log(`fetching locations for: ${control.id}`);
+                      // console.log(`with parent: ${parentLocationName} having value: ${locationCode}`);
+                      promisesResolved.push(await this.loadLocationData(locationCode, control.id, control.locationHierarchyName));
+                      //console.log(this.selectOptionsDataArray[control.id]);
+                    }
                   }
                 }
               }
             }
           }
-        }
-      });
-      Promise.all(promisesResolved).then((values) => {
-        //console.log(`done fetching locations`);
-        resolve(true);
-      });
-    }
-  });  
-}
+        });
+        Promise.all(promisesResolved).then((values) => {
+          //console.log(`done fetching locations`);
+          resolve(true);
+        });
+      }
+    });
+  }
 
 
   /**
@@ -1479,7 +1830,7 @@ async loadLocationData(locationCode: string, fieldName: string, locationHierarch
             if (response[appConstants.RESPONSE]) {
               this.genders =
                 response[appConstants.RESPONSE][
-                  appConstants.DEMOGRAPHIC_RESPONSE_KEYS.genderTypes
+                appConstants.DEMOGRAPHIC_RESPONSE_KEYS.genderTypes
                 ];
               resolve(true);
             } else {
@@ -1511,7 +1862,7 @@ async loadLocationData(locationCode: string, fieldName: string, locationHierarch
             if (response[appConstants.RESPONSE]) {
               this.residenceStatus =
                 response[appConstants.RESPONSE][
-                  appConstants.DEMOGRAPHIC_RESPONSE_KEYS.residentTypes
+                appConstants.DEMOGRAPHIC_RESPONSE_KEYS.residentTypes
                 ];
               resolve(true);
             } else {
@@ -1846,7 +2197,7 @@ async loadLocationData(locationCode: string, fieldName: string, locationHierarch
    * @memberof DemographicComponent
    */
   onSubmit() {
-    //console.log(this.stateCtrl.value);
+    console.log("this.stateCtrl.value");
     if (this.readOnlyMode) {
       this.redirectUser();
     } else {
@@ -1862,51 +2213,119 @@ async loadLocationData(locationCode: string, fieldName: string, locationHierarch
           }
         });
       });
-      
+      console.log(this.userForm.valid)
+
       if (this.userForm.valid) {
-        const identity = this.createIdentityJSONDynamic(false);
-        const request = this.createRequestJSON(identity);
-        //console.log(request);
-        const responseJSON = this.createResponseJSON(identity);
-        //console.log(responseJSON);
-        this.dataUploadComplete = false;
-        if (this.dataModification) {
-          this.subscriptions.push(
-            this.dataStorageService
-              .updateUser(request, this.preRegId)
-              .subscribe(
-                (response) => {
-                  this.redirectUser();
-                },
-                (error) => {
-                  this.loggerService.error(JSON.stringify(error));
-                  const errCode = Utils.getErrorCode(error);
-                  if (errCode === appConstants.ERROR_CODES.invalidPin) {
-                    this.formValidation(error);
-                  }
-                  this.showErrorMessage(error);
-                }
-              )
-          );
-        } else {
-          this.subscriptions.push(
-            this.dataStorageService.addUser(request).subscribe(
-              (response) => {
-                this.preRegId =
-                  response[appConstants.RESPONSE].preRegistrationId;
-                this.redirectUser();
-              },
-              (error) => {
-                this.loggerService.error(JSON.stringify(error));
-                const errCode = Utils.getErrorCode(error);
-                if (errCode === appConstants.ERROR_CODES.invalidPin) {
-                  this.formValidation(error);
-                }
-                this.showErrorMessage(error);
+        //malay-popup
+        // open dialog for confirming 
+        const message = "This is a confirmation message to proceed with the entered user data.";
+        const ok_text = "OK";
+        const cancel_text = "CANCEL";
+        const body = {
+          case: "CONFIRMATION",
+          textDir: this.userPrefLanguageDir,
+          message: message,
+          yesButtonText: ok_text,
+          noButtonText: cancel_text,
+        };
+        this.dialog
+          .open(DialougComponent, { width: "400px", data: body })
+          .beforeClosed()
+          .subscribe((res) => {
+            if (res === true) {
+              const identity = this.createIdentityJSONDynamic(false);
+              const request = this.createRequestJSON(identity);
+              console.log(request);
+              const responseJSON = this.createResponseJSON(identity);
+              console.log("this.dataModification:: " + this.dataModification);
+              this.dataUploadComplete = false;
+              if (this.dataModification) {
+                this.subscriptions.push(
+                  this.dataStorageService
+                    .updateUser(request, this.preRegId)
+                    .subscribe(
+                      (response) => {
+                        this.redirectUser();
+                      },
+                      (error) => {
+                        this.loggerService.error(JSON.stringify(error));
+                        const errCode = Utils.getErrorCode(error);
+                        if (errCode === appConstants.ERROR_CODES.invalidPin) {
+                          this.formValidation(error);
+                        }
+                        this.showErrorMessage(error);
+                      }
+                    )
+                );
+              } else {
+                this.subscriptions.push(
+                  this.dataStorageService.addUser(request).subscribe(
+                    (response) => {
+                      this.preRegId =
+                        response[appConstants.RESPONSE].preRegistrationId;
+                      this.redirectUser();
+                    },
+                    (error) => {
+                      this.loggerService.error(JSON.stringify(error));
+                      const errCode = Utils.getErrorCode(error);
+                      if (errCode === appConstants.ERROR_CODES.invalidPin) {
+                        this.formValidation(error);
+                      }
+                      this.showErrorMessage(error);
+                    }
+                  )
+                );
               }
-            )
-          );
-        }
+
+            }
+            else {
+              //else cancel is clicked can explicitly re-route to the same page or leave 
+              //as it is. it will show the same page.
+            }
+          });
+        //   const identity = this.createIdentityJSONDynamic(false);
+        //   const request = this.createRequestJSON(identity);
+        //   console.log(request);
+        //   const responseJSON = this.createResponseJSON(identity);
+        //   console.log("this.dataModification:: " + this.dataModification);
+        //   this.dataUploadComplete = false;
+        //   if (this.dataModification) {
+        //     this.subscriptions.push(
+        //       this.dataStorageService
+        //         .updateUser(request, this.preRegId)
+        //         .subscribe(
+        //           (response) => {
+        //             this.redirectUser();
+        //           },
+        //           (error) => {
+        //             this.loggerService.error(JSON.stringify(error));
+        //             const errCode = Utils.getErrorCode(error);
+        //             if (errCode === appConstants.ERROR_CODES.invalidPin) {
+        //               this.formValidation(error);
+        //             }
+        //             this.showErrorMessage(error);
+        //           }
+        //         )
+        //     );
+        //   } else {
+        //     this.subscriptions.push(
+        //       this.dataStorageService.addUser(request).subscribe(
+        //         (response) => {
+        //           this.preRegId =
+        //             response[appConstants.RESPONSE].preRegistrationId;
+        //           this.redirectUser();
+        //         },
+        //         (error) => {
+        //           this.loggerService.error(JSON.stringify(error));
+        //           const errCode = Utils.getErrorCode(error);
+        //           if (errCode === appConstants.ERROR_CODES.invalidPin) {
+        //             this.formValidation(error);
+        //           }
+        //           this.showErrorMessage(error);
+        //         }
+        //       )
+        //     );
+        //   }
       }
     }
   }
@@ -2043,84 +2462,84 @@ async loadLocationData(locationCode: string, fieldName: string, locationHierarch
    * @returns
    * @memberof DemographicComponent
    */
-  private createIdentityJSONDynamic(includingBlankFields: boolean) {
-    const identityObj = {};
-    const newIdentityObj = {};
-    this.identityData.forEach((field) => {
-      if (
-        field.inputRequired === true &&
-        !(field.controlType === "fileupload")
-      ) {
-        if (!field.inputRequired) {
-          identityObj[field.id] = "";
-          newIdentityObj[field.id] = "";
-        } else {
-          if (field.type === "simpleType") {
-            identityObj[field.id] = [];
-          } else if (field.type === "string") {
-            identityObj[field.id] = "";
-          }
-        }
-      } else {
-        if (field.id == appConstants.IDSchemaVersionLabel) {
-          if (field.type === "string") {
-            identityObj[field.id] = String(this.identitySchemaVersion);
-          } else if (field.type === "number") {
-            identityObj[field.id] = Number(this.identitySchemaVersion);
-          }
-        }
-      }
-    });
+  // private createIdentityJSONDynamic(includingBlankFields: boolean) {
+  //   const identityObj = {};
+  //   const newIdentityObj = {};
+  //   this.identityData.forEach((field) => {
+  //     if (
+  //       field.inputRequired === true &&
+  //       !(field.controlType === "fileupload")
+  //     ) {
+  //       if (!field.inputRequired) {
+  //         identityObj[field.id] = "";
+  //         newIdentityObj[field.id] = "";
+  //       } else {
+  //         if (field.type === "simpleType") {
+  //           identityObj[field.id] = [];
+  //         } else if (field.type === "string") {
+  //           identityObj[field.id] = "";
+  //         }
+  //       }
+  //     } else {
+  //       if (field.id == appConstants.IDSchemaVersionLabel) {
+  //         if (field.type === "string") {
+  //           identityObj[field.id] = String(this.identitySchemaVersion);
+  //         } else if (field.type === "number") {
+  //           identityObj[field.id] = Number(this.identitySchemaVersion);
+  //         }
+  //       }
+  //     }
+  //   });
 
-    let keyArr: any[] = Object.keys(identityObj);
-    for (let index = 0; index < keyArr.length; index++) {
-      const element = keyArr[index];
-      if (element != appConstants.IDSchemaVersionLabel) {
-        this.createAttributeArray(element, identityObj);
-      }
-    }
-    let identityRequest = { identity: identityObj };
-    if (!includingBlankFields) {
-      //now remove the blank fields from the identityObj
-      for (let index = 0; index < keyArr.length; index++) {
-        const element = keyArr[index];
-        if (element == appConstants.IDSchemaVersionLabel) {
-          newIdentityObj[element] = identityObj[element];
-        } else if (typeof identityObj[element] === "object") {
-          let elementValue = identityObj[element];
-          if (elementValue && elementValue.length > 0) {
-            if (
-              elementValue[0].value !== "" &&
-              elementValue[0].value !== null &&
-              elementValue[0].value !== undefined
-            ) {
-              newIdentityObj[element] = elementValue;
-            }
-          }
-        } else if (typeof identityObj[element] === "string") {
-          let elementValue = identityObj[element];
-          if (
-            elementValue !== "" &&
-            elementValue !== null &&
-            elementValue !== undefined
-          ) {
-            newIdentityObj[element] = elementValue;
-          }
-        } else if (typeof identityObj[element] === "boolean") {
-          let elementValue = identityObj[element];
-          if (elementValue == true) {
-            newIdentityObj[element] = true;
-          }
-          if (elementValue == false) {
-            newIdentityObj[element] = false;
-          }
-        }
-      }
-      identityRequest = { identity: newIdentityObj };
-    }
-    //console.log(identityRequest);
-    return identityRequest;
-  }
+  //   let keyArr: any[] = Object.keys(identityObj);
+  //   for (let index = 0; index < keyArr.length; index++) {
+  //     const element = keyArr[index];
+  //     if (element != appConstants.IDSchemaVersionLabel) {
+  //       this.createAttributeArray(element, identityObj);
+  //     }
+  //   }
+  //   let identityRequest = { identity: identityObj };
+  //   if (!includingBlankFields) {
+  //     //now remove the blank fields from the identityObj
+  //     for (let index = 0; index < keyArr.length; index++) {
+  //       const element = keyArr[index];
+  //       if (element == appConstants.IDSchemaVersionLabel) {
+  //         newIdentityObj[element] = identityObj[element];
+  //       } else if (typeof identityObj[element] === "object") {
+  //         let elementValue = identityObj[element];
+  //         if (elementValue && elementValue.length > 0) {
+  //           if (
+  //             elementValue[0].value !== "" &&
+  //             elementValue[0].value !== null &&
+  //             elementValue[0].value !== undefined
+  //           ) {
+  //             newIdentityObj[element] = elementValue;
+  //           }
+  //         }
+  //       } else if (typeof identityObj[element] === "string") {
+  //         let elementValue = identityObj[element];
+  //         if (
+  //           elementValue !== "" &&
+  //           elementValue !== null &&
+  //           elementValue !== undefined
+  //         ) {
+  //           newIdentityObj[element] = elementValue;
+  //         }
+  //       } else if (typeof identityObj[element] === "boolean") {
+  //         let elementValue = identityObj[element];
+  //         if (elementValue == true) {
+  //           newIdentityObj[element] = true;
+  //         }
+  //         if (elementValue == false) {
+  //           newIdentityObj[element] = false;
+  //         }
+  //       }
+  //     }
+  //     identityRequest = { identity: newIdentityObj };
+  //   }
+  //   //console.log(identityRequest);
+  //   return identityRequest;
+  // }
 
   /**
    * @description This is to create the request modal.
@@ -2319,7 +2738,7 @@ async loadLocationData(locationCode: string, fieldName: string, locationHierarch
       });
     });
   }
-  modifyopenDialog() {}
+  modifyopenDialog() { }
   openDialog(data, width, height?, panelClass?) {
     const dialogRef = this.dialog.open(DialougComponent, {
       width: width,
@@ -2431,40 +2850,40 @@ async loadLocationData(locationCode: string, fieldName: string, locationHierarch
   }
 
   getValidationErrorMessages() {
-      const error:any = this.getFormValidationErrors(this.userForm.controls).shift();
-      if (error) {
-        let text;
-        switch (error.error_name) {
-          case 'required': text = `${error.control_name} is required!`; break;
-          case 'pattern': text = `${error.control_name} has wrong pattern!`; break;
-          case 'email': text = `${error.control_name} has wrong email format!`; break;
-          case 'minlength': text = `${error.control_name} has wrong length! Required length: ${error.error_value.requiredLength}`; break;
-          case 'areEqual': text = `${error.control_name} must be equal!`; break;
-          default: text = `${error.control_name}: ${error.error_name}: ${error.error_value}`;
-        }
-        return text;
+    const error: any = this.getFormValidationErrors(this.userForm.controls).shift();
+    if (error) {
+      let text;
+      switch (error.error_name) {
+        case 'required': text = `${error.control_name} is required!`; break;
+        case 'pattern': text = `${error.control_name} has wrong pattern!`; break;
+        case 'email': text = `${error.control_name} has wrong email format!`; break;
+        case 'minlength': text = `${error.control_name} has wrong length! Required length: ${error.error_value.requiredLength}`; break;
+        case 'areEqual': text = `${error.control_name} must be equal!`; break;
+        default: text = `${error.control_name}: ${error.error_name}: ${error.error_value}`;
       }
-      return "";
+      return text;
+    }
+    return "";
   }
 
   getFormValidationErrors(controls: any): [] {
     let _this = this;
     let errors: any = [];
     Object.keys(controls).forEach(key => {
-      const control = controls[ key ];
+      const control = controls[key];
       if (control instanceof FormGroup) {
         errors = errors.concat(this.getFormValidationErrors(control.controls));
       }
-      const controlErrors: any = controls[ key ].errors;
+      const controlErrors: any = controls[key].errors;
       if (controlErrors !== null) {
         Object.keys(controlErrors).forEach(keyError => {
-          let label= _this.uiFields.find(f => f.id == key)
-          if(label != null) {
-             errors.push({
-            control_name:  label.labelName instanceof String ? label.labelName : label.labelName [_this.userPrefLanguage],
-            error_name: keyError,
-            error_value: controlErrors[ keyError ]
-          });
+          let label = _this.uiFields.find(f => f.id == key)
+          if (label != null) {
+            errors.push({
+              control_name: label.labelName instanceof String ? label.labelName : label.labelName[_this.userPrefLanguage],
+              error_name: keyError,
+              error_value: controlErrors[keyError]
+            });
           }
         });
       }
@@ -2474,7 +2893,18 @@ async loadLocationData(locationCode: string, fieldName: string, locationHierarch
   getLocationNameFromFieldId = (fieldId) => {
     let filtered = this.uiFields.find(uiField => uiField.id == fieldId);
     let parentField = this.uiFields.filter(uiField => uiField.locationHierarchyLevel ==
-    filtered.locationHierarchyLevel - 1 && this.getLocationHierarchy(fieldId).indexOf(uiField.id) > -1);
+      filtered.locationHierarchyLevel - 1 && this.getLocationHierarchy(fieldId).indexOf(uiField.id) > -1);
     return (!Array.isArray(parentField) || !parentField.length) ? null : parentField;
-    };
+  };
+  generatePRN() {
+    this.dataStorageService.getPRN().subscribe(
+      (prn: string) => { 
+        this.generatedPRN = prn;
+        this.showPRNField = true;
+      },
+      (error) => {
+        console.error('Error fetching PRN:', error);
+      }
+    );
+  }
 }

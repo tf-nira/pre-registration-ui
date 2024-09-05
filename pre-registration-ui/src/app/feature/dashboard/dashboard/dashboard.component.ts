@@ -544,14 +544,15 @@ export class DashBoardComponent implements OnInit, OnDestroy {
   async deletePreregistration(element: any) {
     let appointmentDate;
     let appointmentTime;
-    if (element.regDto && element.status.toLowerCase() === "booked") {
-      appointmentDate = element.regDto['appointment_date'];
-      appointmentTime = element.regDto['time_slot_from'];
-    }
-    if (element.regDto && element.status.toLowerCase() === "booked") {
-      await this.sendNotification(element.applicationID, appointmentDate, appointmentTime);
-    }
-    
+    //malay-to-make-delete-application-functional
+    // if (element.regDto && element.status.toLowerCase() === "booked") {
+    //   appointmentDate = element.regDto['appointment_date'];
+    //   appointmentTime = element.regDto['time_slot_from'];
+    // }
+    // if (element.regDto && element.status.toLowerCase() === "booked") {
+    //   await this.sendNotification(element.applicationID, appointmentDate, appointmentTime);
+    // }
+    debugger
     const subs = this.dataStorageService
       .deleteRegistration(element.applicationID)
       .subscribe(
@@ -873,6 +874,7 @@ export class DashBoardComponent implements OnInit, OnDestroy {
             const notificationDto = new NotificationDtoModel(
               userDetails[this.name][0].value,
               prid,
+              //malay
               appDate,
               appDateTime,
               userDetails.phone,

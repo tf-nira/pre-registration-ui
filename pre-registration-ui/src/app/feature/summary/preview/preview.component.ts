@@ -11,7 +11,11 @@ import * as appConstants from "../../../app.constants";
 import { ConfigService } from "src/app/core/services/config.service";
 import { CodeValueModal } from "src/app/shared/models/demographic-model/code.value.modal";
 import { DialougComponent } from "src/app/shared/dialoug/dialoug.component";
+//malay
+import { RequestModel } from "src/app/shared/models/request-model/RequestModel";
+import { BookingModel } from "src/app/feature/booking/center-selection/booking.model";
 import identityStubJson from "../../../../assets/identity-spec.json";
+import { BookingService } from "../../booking/booking.service";
 
 @Component({
   selector: "app-preview",
@@ -34,6 +38,10 @@ export class PreviewComponent implements OnInit {
   apiErrorCodes: any;
   errorlabels: any;
   previewLabels: any;
+  //malay
+  registrationCenter: String;
+  languagelabels: any;
+  bookingDataList = [];
   helpText: any;
   appPrefetched = false;
   identityData = [];
@@ -50,19 +58,23 @@ export class PreviewComponent implements OnInit {
     .split(",");
   controlIds = [];
   ControlIdLabelObjects = {};
-  readOnlyMode=false;
+  readOnlyMode = false;
   userPrefLanguage = localStorage.getItem("userPrefLanguage");
   userPrefLanguageDir = "";
   isNavigateToDemographic = false;
   dataLoaded = false;
+  isBookingRequiredFlag = true;
   constructor(
+    private bookingService: BookingService,
     public dialog: MatDialog,
     private dataStorageService: DataStorageService,
     private router: Router,
     private registrationService: RegistrationService,
     private translate: TranslateService,
     private activatedRoute: ActivatedRoute,
-    private configService: ConfigService
+    private configService: ConfigService,
+    //malay
+    private dataService: DataStorageService
   ) {
     this.translate.use(this.userPrefLanguage);
     localStorage.setItem("modifyDocument", "false");
@@ -130,7 +142,7 @@ export class PreviewComponent implements OnInit {
             });
           }
           if (control.type === appConstants.FIELD_TYPE_STRING) {
-            const ele = this.previewData[controlId];  
+            const ele = this.previewData[controlId];
             this.dropDownFields[controlId].forEach((codeValue) => {
               if (ele === codeValue.valueCode && this.dataCaptureLanguages[0] === codeValue.languageCode) {
                 this.previewData[controlId] = codeValue.valueName;
@@ -228,7 +240,7 @@ export class PreviewComponent implements OnInit {
           this.locationHeirarchies = hierarchiesArray;
         }
         this.locationHeirarchy = this.locationHeirarchies[0];
-        
+
         console.log(...this.locationHeirarchies);
         this.identityData.forEach((obj) => {
           if (
@@ -246,9 +258,9 @@ export class PreviewComponent implements OnInit {
         this.getIntialDropDownArrays();
         resolve(true);
       },
-      (error) => {
-        this.showErrorMessage(error);
-      });
+        (error) => {
+          this.showErrorMessage(error);
+        });
     });
   }
 
@@ -275,7 +287,7 @@ export class PreviewComponent implements OnInit {
     });
   }
 
-  private filterOnLangCode( 
+  private filterOnLangCode(
     field: string,
     entityArray: any,
     langCode: string) {
@@ -332,9 +344,9 @@ export class PreviewComponent implements OnInit {
           }
           resolve(true);
         },
-        (error) => {
-          this.showErrorMessage(error);
-        });
+          (error) => {
+            this.showErrorMessage(error);
+          });
     });
   }
 
@@ -346,12 +358,12 @@ export class PreviewComponent implements OnInit {
           this.setUserFiles(response);
           resolve(true);
         },
-        (error) => {
-          resolve(true);
-          //user files can be uploaded or not
-          //so we dont have to show error message
-          //this.showErrorMessage(error);
-        });
+          (error) => {
+            resolve(true);
+            //user files can be uploaded or not
+            //so we dont have to show error message
+            //this.showErrorMessage(error);
+          });
     });
   }
 
@@ -371,17 +383,17 @@ export class PreviewComponent implements OnInit {
             response[appConstants.RESPONSE].documentCategories;
           resolve(true);
         },
-        (error) => {
-          this.showErrorMessage(error);
-        });
+          (error) => {
+            this.showErrorMessage(error);
+          });
     });
   }
 
   formatDob(dob: string) {
     dob = dob.replace(/\//g, "-");
     const ltrLangs = this.configService
-    .getConfigByKey(appConstants.CONFIG_KEYS.mosip_left_to_right_orientation)
-    .split(",");
+      .getConfigByKey(appConstants.CONFIG_KEYS.mosip_left_to_right_orientation)
+      .split(",");
     this.previewData.dateOfBirth = Utils.getBookingDateTime(
       dob,
       "",
@@ -425,36 +437,36 @@ export class PreviewComponent implements OnInit {
     return new Promise((resolve) => {
       this.subscriptions.push(
         this.dataStorageService
-        .getDynamicFieldsandValuesForAllLang(pageNumber)
-        .subscribe(async (response) => {
-          let dynamicField = response[appConstants.RESPONSE]["data"];
-          this.dynamicFields.forEach((field) => {
-            dynamicField.forEach((res) => {
-              if (field.subType === res.name || field.id === res.name) {
-                this.filterOnLangCode(
-                  field.id,
-                  res["fieldVal"],
-                  res["langCode"]
-                );
-              }
+          .getDynamicFieldsandValuesForAllLang(pageNumber)
+          .subscribe(async (response) => {
+            let dynamicField = response[appConstants.RESPONSE]["data"];
+            this.dynamicFields.forEach((field) => {
+              dynamicField.forEach((res) => {
+                if (field.subType === res.name || field.id === res.name) {
+                  this.filterOnLangCode(
+                    field.id,
+                    res["fieldVal"],
+                    res["langCode"]
+                  );
+                }
+              });
             });
-          });
-          let totalPages = response[appConstants.RESPONSE]["totalPages"];
-          if (totalPages) {
-            totalPages = Number(totalPages);
-          }
-          pageNumber = pageNumber + 1;
-          if (totalPages > pageNumber) {
-            await this.getDynamicFieldValues(pageNumber);
-            resolve(true);
-          } else {
-            resolve(true);
-          }
-        },
-        (error) => {
-          this.showErrorMessage(error);
-        })
-      );  
+            let totalPages = response[appConstants.RESPONSE]["totalPages"];
+            if (totalPages) {
+              totalPages = Number(totalPages);
+            }
+            pageNumber = pageNumber + 1;
+            if (totalPages > pageNumber) {
+              await this.getDynamicFieldValues(pageNumber);
+              resolve(true);
+            } else {
+              resolve(true);
+            }
+          },
+            (error) => {
+              this.showErrorMessage(error);
+            })
+      );
     });
   }
 
@@ -485,28 +497,28 @@ export class PreviewComponent implements OnInit {
     localStorage.setItem(appConstants.MODIFY_USER_FROM_PREVIEW, "true");
     localStorage.setItem(appConstants.MODIFY_USER, "true");
     this.router.navigateByUrl(url + `/${this.preRegId}`);*/
-       // open dialog for confirming modify
-       const message = "Are you sure you want to modify your Bio data";
-       const ok_text = "YES, MODIFY";
-       const no_text = "CANCEL";
-       const body = {
-         case: "CONFIRMATION",
-         textDir: this.userPrefLanguageDir,
-         message: message,
-         yesButtonText: ok_text,
-         noButtonText: no_text,
-       };
-       this.dialog
-         .open(DialougComponent, { width: "400px", data: body })
-         .beforeClosed()
-         .subscribe((res) => {
-           if (res === true) {
-             const url = Utils.getURL(this.router.url, "demographic", 3);
-             localStorage.setItem(appConstants.MODIFY_USER_FROM_PREVIEW, "true");
-             localStorage.setItem(appConstants.MODIFY_USER, "true");
-             this.router.navigateByUrl(url + `/${this.preRegId}`);
-           }
-         });
+    // open dialog for confirming modify
+    const message = "Are you sure you want to modify your Bio data";
+    const ok_text = "YES, MODIFY";
+    const no_text = "CANCEL";
+    const body = {
+      case: "CONFIRMATION",
+      textDir: this.userPrefLanguageDir,
+      message: message,
+      yesButtonText: ok_text,
+      noButtonText: no_text,
+    };
+    this.dialog
+      .open(DialougComponent, { width: "400px", data: body })
+      .beforeClosed()
+      .subscribe((res) => {
+        if (res === true) {
+          const url = Utils.getURL(this.router.url, "demographic", 3);
+          localStorage.setItem(appConstants.MODIFY_USER_FROM_PREVIEW, "true");
+          localStorage.setItem(appConstants.MODIFY_USER, "true");
+          this.router.navigateByUrl(url + `/${this.preRegId}`);
+        }
+      });
   }
 
   modifyDocument() {
@@ -541,7 +553,7 @@ export class PreviewComponent implements OnInit {
         if (response[appConstants.RESPONSE]) {
           this.genders =
             response[appConstants.RESPONSE][
-              appConstants.DEMOGRAPHIC_RESPONSE_KEYS.genderTypes
+            appConstants.DEMOGRAPHIC_RESPONSE_KEYS.genderTypes
             ];
           resolve(true);
         }
@@ -563,7 +575,7 @@ export class PreviewComponent implements OnInit {
         if (response[appConstants.RESPONSE]) {
           this.residenceStatus =
             response[appConstants.RESPONSE][
-              appConstants.DEMOGRAPHIC_RESPONSE_KEYS.residentTypes
+            appConstants.DEMOGRAPHIC_RESPONSE_KEYS.residentTypes
             ];
           resolve(true);
         }
@@ -604,19 +616,19 @@ export class PreviewComponent implements OnInit {
           }
           resolve(true);
         },
-        (error) => {
-          //fetching location names can be a fail safe operation
-          //in case there is some error, we can still proceed 
-          resolve(true);
-          //this.showErrorMessage(error);
-        });
+          (error) => {
+            //fetching location names can be a fail safe operation
+            //in case there is some error, we can still proceed 
+            resolve(true);
+            //this.showErrorMessage(error);
+          });
     });
   }
 
   /**
    * This method navigate the user to demographic page if user clicks on Add New applicant.
    */
-   async onNewApplication() {
+  async onNewApplication() {
     //first check if data capture languages are in session or not
     const dataCaptureLangsFromSession = localStorage.getItem(appConstants.DATA_CAPTURE_LANGUAGES);
     console.log(`dataCaptureLangsFromSession: ${dataCaptureLangsFromSession}`);
@@ -644,17 +656,17 @@ export class PreviewComponent implements OnInit {
         this.isNavigateToDemographic = true;
       }
       if (this.isNavigateToDemographic) {
-        let dataCaptureLanguagesLabels = Utils.getLanguageLabels(localStorage.getItem(appConstants.DATA_CAPTURE_LANGUAGES), 
+        let dataCaptureLanguagesLabels = Utils.getLanguageLabels(localStorage.getItem(appConstants.DATA_CAPTURE_LANGUAGES),
           localStorage.getItem(appConstants.LANGUAGE_CODE_VALUES));
         localStorage.setItem(appConstants.DATA_CAPTURE_LANGUAGE_LABELS, JSON.stringify(dataCaptureLanguagesLabels));
         this.navigateToDemographic();
       }
     }
   }
-  
+
   openLangSelectionPopup(mandatoryLanguages: string[], minLanguage: Number, maxLanguage: Number) {
     return new Promise((resolve) => {
-      const popupAttributes = Utils.getLangSelectionPopupAttributes(this.dataCaptureLangsDir[0], this.dataCaptureLabels, 
+      const popupAttributes = Utils.getLangSelectionPopupAttributes(this.dataCaptureLangsDir[0], this.dataCaptureLabels,
         mandatoryLanguages, minLanguage, maxLanguage, this.userPrefLanguage);
       const dialogRef = this.openDialog(popupAttributes, "550px", "350px");
       dialogRef.afterClosed().subscribe((res) => {
@@ -677,9 +689,9 @@ export class PreviewComponent implements OnInit {
    * @private
    * @memberof PreviewComponent
    */
-   private showErrorMessage(error: any) {
+  private showErrorMessage(error: any) {
     const titleOnError = this.errorlabels.errorLabel;
-    const message = Utils.createErrorMessage(error, this.errorlabels, this.apiErrorCodes, this.configService); 
+    const message = Utils.createErrorMessage(error, this.errorlabels, this.apiErrorCodes, this.configService);
     const body = {
       case: "ERROR",
       title: titleOnError,
@@ -714,14 +726,54 @@ export class PreviewComponent implements OnInit {
   }
 
   navigateNext() {
-    let url = Utils.getURL(this.router.url, "booking", 3);
-    url = url + `/${this.preRegId}/pick-center`;
+    if (this.isBookingRequiredFlag) {
+      this.makeBooking();
+      //this.bookingService.setSendNotification(true);
+      this.bookingService.setSendNotification(true);
+    }
+    let url = Utils.getURL(this.router.url, "summary", 3);
+    // url = url + `/${this.preRegId}/pick-center`;
+    url = url + `/${this.preRegId}/acknowledgement`;
     this.router.navigateByUrl(url);
+
+    // this.bookingService.setSendNotification(true);
+    // let url = Utils.getURL(this.router.url, "summary", 3);
+    // // url = url + `/${this.preRegId}/pick-center`;
+    // url = url + `/${this.preRegId}/acknowledgement`;
+    // this.router.navigateByUrl(url);
   }
-  // navigateNext() {
-  //   let url = Utils.getURL(this.router.url, "summary", 3);
-  //   // url = url + `/${this.preRegId}/pick-center`;
-  //   url=url + `/${this.preRegId[0]}/acknowledgement`;
-  //   this.router.navigateByUrl(url);
-  // }
+
+  //malay
+  makeBooking() {
+    console.log("in make booking :: ")
+    this.bookingDataList = [];
+    const bookingData = new BookingModel(
+      this.preRegId,
+      appConstants.BOOKING_DETAIL.registration_center_id,
+      appConstants.BOOKING_DETAIL.appointment_date,
+      appConstants.BOOKING_DETAIL.time_slot_from,
+      appConstants.BOOKING_DETAIL.time_slot_to
+    );
+    this.bookingDataList.push(bookingData);
+    this.bookingOperationRequest();
+  }
+  bookingOperationRequest() {
+    const obj = {
+      bookingRequest: this.bookingDataList,
+    };
+    const request = new RequestModel(appConstants.IDS.booking, obj);
+
+    this.bookingOperation(request);
+
+  }
+
+  bookingOperation(request) {
+    console.log("in booking operations::  ")
+    const subs = this.dataService.makeBooking(request).subscribe(
+      (response) => {
+      });
+    this.subscriptions.push(subs);
+  }
+
+
 }

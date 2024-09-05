@@ -75,11 +75,11 @@
 <div *ngIf="input.case === 'CONFIRMATION'" [dir]="input.textDir? input.textDir: textDir">
   <h2 mat-dialog-title *ngIf="input.title">{{ input.title }}</h2>
   <mat-dialog-content style="white-space: pre-line;">{{ input.message }}</mat-dialog-content>
-  <mat-dialog-actions>
+  <mat-dialog-actions align="center">
     <button mat-button (click)="onNoClick(input.noButtonText)" class="btn-cancel">
       {{ input.noButtonText }}
     </button>
-    <span class="spacer"></span>
+    <!--<span class="spacer"></span>-->
     <button mat-button [mat-dialog-close]="confirm" cdkFocusInitial class="btn-submit">
       {{ input.yesButtonText }}
     </button>

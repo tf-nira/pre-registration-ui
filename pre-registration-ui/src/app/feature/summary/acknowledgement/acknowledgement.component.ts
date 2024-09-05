@@ -40,7 +40,7 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
   ltrLangs = this.configService
     .getConfigByKey(appConstants.CONFIG_KEYS.mosip_left_to_right_orientation)
     .split(",");
-  regCenterId;
+  regCenterId="10045";
   langCode;
   textDir = localStorage.getItem("dir");
   name = "";
@@ -79,9 +79,11 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
     //console.log(this.usersInfoArr);
     for (let i = 0; i < this.usersInfoArr.length; i++) { 
        await this.getRegCenterDetails(this.usersInfoArr[i].langCode, i); 
-      
+      console.log("after get reg centre details")
       await this.getLabelDetails(this.usersInfoArr[i].langCode, i);
+      console.log("after get reg centre details2")
       await this.getUserLangLabelDetails(this.langCode, i);
+      console.log("after get reg centre details3")
     }
 
     let notificationTypes = this.configService
@@ -93,6 +95,7 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
     
 
     await this.apiCalls();
+    console.log("in ackw.component.ts in ngOnInit()")
     if (this.bookingService.getSendNotification()) {
       this.bookingService.resetSendNotification();
       await this.automaticNotification();
@@ -102,14 +105,15 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
   }
 
   getUserInfo(preRegIds: string[]) {
+    debugger
     return new Promise((resolve) => {
       preRegIds.forEach(async (prid: any, index) => {
         await this.getUserDetails(prid).then(async (user) => {
           let regDto;
-          //console.log(user);
-          // await this.getAppointmentDetails(prid).then((appointmentDetails) => {
-          //   regDto = appointmentDetails;
-          // });  
+          console.log(user);
+          await this.getAppointmentDetails(prid).then((appointmentDetails) => {
+            regDto = appointmentDetails;
+          });  
           const demographicData = user["request"].demographicDetails.identity;
           let applicationLanguages = Utils.getApplicationLangs(user["request"]);
           applicationLanguages = Utils.reorderLangsForUserPreferredLang(applicationLanguages, this.langCode);
@@ -187,6 +191,7 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
           if (response[appConstants.RESPONSE]) {
             this.regCenterId =
             response[appConstants.RESPONSE].registration_center_id;
+            console.log("regCentreId"+this.regCenterId)
           }
           resolve(response[appConstants.RESPONSE]);
         },
@@ -197,10 +202,13 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
   }
 
   getRegCenterDetails(langCode, index) {
+    console.log("in getRegCenterDetails")
+    console.log(this.regCenterId)
     return new Promise((resolve) => {
       this.dataStorageService
         .getRegistrationCentersById(this.regCenterId, langCode)
         .subscribe((response) => {
+          console.log("after fetching registration centre:: "+ response)
           if (response[appConstants.RESPONSE]) {
             this.usersInfoArr[index].registrationCenter =
               response[appConstants.RESPONSE].registrationCenters[0];
@@ -416,31 +424,32 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
     const ltrLangs = this.configService
     .getConfigByKey(appConstants.CONFIG_KEYS.mosip_left_to_right_orientation)
     .split(",");
-    // this.usersInfoArr.forEach(userInfo => {
-    //   if (!userInfo.bookingData) {
-    //     userInfo.bookingDataPrimary = Utils.getBookingDateTime(
-    //       userInfo.regDto.appointment_date,
-    //       userInfo.regDto.time_slot_from,
-    //       userInfo.langCode,
-    //       ltrLangs
-    //     );
-    //     userInfo.bookingTimePrimary = Utils.formatTime(
-    //       userInfo.regDto.time_slot_from
-    //     );
-    //   } else {
-    //     const date = userInfo.bookingData.split(",");
-    //     userInfo.bookingDataPrimary = Utils.getBookingDateTime(
-    //       date[0],
-    //       date[1],
-    //       userInfo.langCode,
-    //       ltrLangs
-    //     );
-    //     userInfo.bookingTimePrimary = Utils.formatTime(date[1]);
-    //   }    
-    // });  
+    this.usersInfoArr.forEach(userInfo => {
+      if (!userInfo.bookingData) {
+        userInfo.bookingDataPrimary = Utils.getBookingDateTime(
+          userInfo.regDto.appointment_date,
+          userInfo.regDto.time_slot_from,
+          userInfo.langCode,
+          ltrLangs
+        );
+        userInfo.bookingTimePrimary = Utils.formatTime(
+          userInfo.regDto.time_slot_from
+        );
+      } else {
+        const date = userInfo.bookingData.split(",");
+        userInfo.bookingDataPrimary = Utils.getBookingDateTime(
+          date[0],
+          date[1],
+          userInfo.langCode,
+          ltrLangs
+        );
+        userInfo.bookingTimePrimary = Utils.formatTime(date[1]);
+      }    
+    });  
   }
 
   automaticNotification() {
+    console.log("inside automaticNotification")
     setTimeout(() => {
       this.sendNotification(this.applicantContactDetails, false);
     }, 500);
@@ -506,6 +515,7 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
   // }
 
   sendAcknowledgement() {
+    console.log("in sendAcknowledgement")
     const data = {
       case: "SEND_ACKNOWLEDGEMENT",
       notificationTypes: this.notificationTypes,
@@ -553,8 +563,11 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
 
   async sendNotification(contactInfoArr, additionalRecipient: boolean) {
     //this.fileBlob = await this.createBlob();
+    debugger
     this.preRegIds.forEach(async preRegId => {
       let notificationObject = {};
+      console.log("contactInfoArr"+contactInfoArr)
+      console.log("usersInfoArr"+this.usersInfoArr)
       this.usersInfoArr.forEach(async (user) => {
         if (preRegId == user.preRegId) {
           let contactInfo = {};
@@ -572,6 +585,7 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
             Number(user.bookingTimePrimary.split(":")[0]) < 10
               ? "0" + user.bookingTimePrimary
               : user.bookingTimePrimary,
+            //malay
               contactInfo["phone"] === undefined ? null : contactInfo["phone"],
               contactInfo["email"] === undefined ? null : contactInfo["email"],
             additionalRecipient,
@@ -597,11 +611,13 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
       //   this.fileBlob,
       //   `${preRegId}.pdf`
       // );
+      console.log("in sendNotification")
       await this.sendNotificationForPreRegId(notificationRequest);
     }); 
   }
 
   private sendNotificationForPreRegId(notificationRequest) {
+    console.log("in sendNotificationForPreRegId"+JSON.stringify(notificationRequest))
     return new Promise((resolve, reject) => {
       this.subscriptions.push(
         this.dataStorageService
