@@ -17,7 +17,7 @@ on:
 
 jobs:
   build-pre-registration-ui:
-    uses: mosip/kattu/.github/workflows/npm-build.yml@master
+    uses: tf-nira/pre-registration-ui/.github/workflows/npm-build.yml@nira-dev-optimized
     with:
       SERVICE_LOCATION: pre-registration-ui
       BUILD_ARTIFACT: pre-registration-ui
