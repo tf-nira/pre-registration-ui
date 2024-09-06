@@ -12,7 +12,6 @@ on:
       - master
       - 1.*
       - develop
-      - nira-dev-optimized
       - MOSIP*
 
 jobs:
