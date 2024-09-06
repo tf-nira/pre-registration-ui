@@ -1,0 +1,71 @@
+name: NPM Build
+
+on:
+  workflow_call:
+    inputs:
+      BUILD_ARTIFACT:
+        required: true
+        type: string
+      SERVICE_LOCATION:
+        required: true
+        type: string
+      NPM_BUILD_TYPE:
+        required: false
+        type: string
+        default: 'NG'
+    secrets:
+      SLACK_WEBHOOK_URL:
+        required: true
+
+env:
+  ZIP_DIR: 'dist'
+
+jobs:
+  npm-build:
+    runs-on: ubuntu-latest
+    steps:
+    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+    - uses: actions/checkout@v3
+    - uses: actions/setup-node@v3.7.0
+      with:
+        node-version: '16'
+
+    - name: Cache npm dependencies
+      uses: actions/cache@v2
+      with:
+        path: '~/.npm'
+        key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-npm-
+
+    - name: NPM Install
+      run: cd ${{ inputs.SERVICE_LOCATION }} && npm install --legacy-peer-deps
+
+    - name: NPM Build for NG
+      if: ${{ inputs.NPM_BUILD_TYPE == 'NG' }}
+      run: cd ${{ inputs.SERVICE_LOCATION }} && npm run-script build -- --prod --base-href . --output-path=dist
+
+    - name: NPM Build for BOB
+      if: ${{ inputs.NPM_BUILD_TYPE == 'BOB' }}
+      run: |
+        echo "ZIP_DIR=lib" >> $GITHUB_ENV
+        cd ${{ inputs.SERVICE_LOCATION }} && npm run build
+
+    - name: Zip Build Application
+      if: ${{ !contains(github.ref, 'master') || !contains(github.ref, 'main') }}
+      run: cd ${{ inputs.SERVICE_LOCATION }} && zip -r ${{ inputs.BUILD_ARTIFACT }}.zip ${{ env.ZIP_DIR }}
+
+    - name: Upload the npm zip file
+      if: ${{ !contains(github.ref, 'master') || !contains(github.ref, 'main') }}
+      uses: actions/upload-artifact@v3
+      with:
+        name: ${{ inputs.BUILD_ARTIFACT }}
+        path: ${{ inputs.SERVICE_LOCATION }}/${{ inputs.BUILD_ARTIFACT }}.zip
+
+    - uses: 8398a7/action-slack@v3
+      with:
+        status: ${{ job.status }}
+        fields: repo,message,author,commit,workflow,job # selectable (default: repo,message)
+      env:
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} # required
+      if: "${{ github.event_name != 'pull_request' && failure() }}" # Pick up events even if the job fails or is canceled.
