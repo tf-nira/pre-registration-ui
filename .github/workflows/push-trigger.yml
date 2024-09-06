@@ -17,7 +17,7 @@ on:
 
 jobs:
   build-pre-registration-ui:
-    uses: tf-nira/pre-registration-ui/.github/workflows/npm-build.yml@nira-dev-optimized
+    uses: tf-nira/pre-registration-ui/.github/workflows/npm-build.yml@tf_nira_dev
     with:
       SERVICE_LOCATION: pre-registration-ui
       BUILD_ARTIFACT: pre-registration-ui
