@@ -725,9 +725,9 @@ export class PreviewComponent implements OnInit {
     this.router.navigateByUrl(url + `/${this.preRegId}`);
   }
 
-  navigateNext() {
+  async navigateNext() {
     if (this.isBookingRequiredFlag) {
-      this.makeBooking();
+      await this.makeBooking();
       //this.bookingService.setSendNotification(true);
       this.bookingService.setSendNotification(true);
     }
@@ -744,7 +744,7 @@ export class PreviewComponent implements OnInit {
   }
 
   //malay
-  makeBooking() {
+  async makeBooking() {
     console.log("in make booking :: ")
     this.bookingDataList = [];
     const bookingData = new BookingModel(
@@ -755,21 +755,21 @@ export class PreviewComponent implements OnInit {
       appConstants.BOOKING_DETAIL.time_slot_to
     );
     this.bookingDataList.push(bookingData);
-    this.bookingOperationRequest();
+    await this.bookingOperationRequest();
   }
-  bookingOperationRequest() {
+  async bookingOperationRequest() {
     const obj = {
       bookingRequest: this.bookingDataList,
     };
     const request = new RequestModel(appConstants.IDS.booking, obj);
 
-    this.bookingOperation(request);
+    await this.bookingOperation(request);
 
   }
 
-  bookingOperation(request) {
+  async bookingOperation(request) {
     console.log("in booking operations::  ")
-    const subs = this.dataService.makeBooking(request).subscribe(
+    const subs = await this.dataService.makeBooking(request).subscribe(
       (response) => {
       });
     this.subscriptions.push(subs);

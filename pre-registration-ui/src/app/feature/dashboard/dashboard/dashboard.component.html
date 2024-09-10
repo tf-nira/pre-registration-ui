@@ -99,10 +99,10 @@
                     "
                   >{{ user.name }}</td>
                 </tr>
-                <tr>
+                <!--<tr>
                   <td class="column1">{{ "dashboard.card.text_appoinment_date" | translate }}</td>
                   <td class="application-value">{{ user.appointmentTime }} {{ user.appointmentDate }}</td>
-                </tr>
+                </tr>-->
                 <tr>
                   <td class="column1">{{ "dashboard.card.text_status" | translate }}</td>
                   <td class="application-value" [ngStyle]="{ color: getColor(user.status) }">

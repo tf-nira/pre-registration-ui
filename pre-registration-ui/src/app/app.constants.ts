@@ -199,8 +199,8 @@ export const FIELD_TYPE_STRING = "string";
 export const FIELD_TYPE_SIMPLE_TYPE = "simpleType";
 
 export const BOOKING_DETAIL = {
-  registration_center_id: '10040',
-  appointment_date: '2024-09-10',
-  time_slot_from: '09:15:00',
-  time_slot_to: '09:30:00'
+  registration_center_id: '10045',
+  appointment_date: '2024-10-01',
+  time_slot_from: '09:30:00',
+  time_slot_to: '09:45:00'
 };
