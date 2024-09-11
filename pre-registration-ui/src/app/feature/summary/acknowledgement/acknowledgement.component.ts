@@ -45,10 +45,10 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
   langCode;
   textDir = localStorage.getItem("dir");
   name = "";
-  givenName = "";
-  createdDateTimeString;
-  createdDateTime;
-  createdDate;
+  // givenName = "";
+  // createdDateTimeString;
+  // createdDateTime;
+  // createdDate;
   createdTime;
   applicantContactDetails = [];
   constructor(
@@ -143,20 +143,20 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
             nameListObj.status = user["request"].statusCode;
 
             //malay-->for pdf data change
-            if (user["request"].demographicDetails.identity.givenName[0].value) {
-              this.givenName = user["request"].demographicDetails.identity.givenName[0].value;
-              console.log("user data malay " + user["request"].demographicDetails.identity.givenName[0].value)
-            }
-            if (user["request"].createdDateTime) {
-              this.createdDateTimeString = user["request"].createdDateTime;
+            // if (user["request"].demographicDetails.identity.givenName[0].value) {
+            //   this.givenName = user["request"].demographicDetails.identity.givenName[0].value;
+            //   console.log("user data malay " + user["request"].demographicDetails.identity.givenName[0].value)
+            // }
+            // if (user["request"].createdDateTime) {
+            //   this.createdDateTimeString = user["request"].createdDateTime;
 
-              this.createdDateTime = new Date(this.createdDateTimeString);
-              this.createdDate = this.createdDateTime.toLocaleDateString(); // Format date based on locale
-              this.createdTime = this.createdDateTime.toLocaleTimeString();
-              console.log("user data malay1 " + user["request"].createdDateTime)
-              console.log("user data malay1 " + this.createdDate)
-              console.log("user data malay1 " + this.createdTime)
-            }
+            //   this.createdDateTime = new Date(this.createdDateTimeString);
+            //   this.createdDate = this.createdDateTime.toLocaleDateString(); // Format date based on locale
+            //   this.createdTime = this.createdDateTime.toLocaleTimeString();
+            //   console.log("user data malay1 " + user["request"].createdDateTime)
+            //   console.log("user data malay1 " + this.createdDate)
+            //   console.log("user data malay1 " + this.createdTime)
+            // }
 
             //for pdf -->data change end malay.
 
@@ -302,15 +302,15 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
       //   this.usersInfoArr[0].registrationCenter.contactPhone;
       this.ackDataItem["Suname"] =
         this.usersInfoArr[0].fullName;
-      if(this.givenName){
-        this.ackDataItem["Name"] = this.givenName;
-      }
-      if(this.createdDate){
-        this.ackDataItem["Date"] = this.createdDate;
-      }
-      if(this.createdTime){
-        this.ackDataItem["Time"] = this.createdTime;
-      }
+      // if(this.givenName){
+      //   this.ackDataItem["Name"] = this.givenName;
+      // }
+      // if(this.createdDate){
+      //   this.ackDataItem["Date"] = this.createdDate;
+      // }
+      // if(this.createdTime){
+      //   this.ackDataItem["Time"] = this.createdTime;
+      // }
       
       this.usersInfoArr.forEach(userInfo => {
         if (userInfo.preRegId == prid) {

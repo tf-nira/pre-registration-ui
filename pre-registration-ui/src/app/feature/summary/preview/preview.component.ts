@@ -728,6 +728,7 @@ export class PreviewComponent implements OnInit {
   async navigateNext() {
     if (this.isBookingRequiredFlag) {
       await this.makeBooking();
+
       //this.bookingService.setSendNotification(true);
       this.bookingService.setSendNotification(true);
     }
@@ -762,18 +763,20 @@ export class PreviewComponent implements OnInit {
       bookingRequest: this.bookingDataList,
     };
     const request = new RequestModel(appConstants.IDS.booking, obj);
+    try {
 
-    await this.bookingOperation(request);
-
-  }
-
-  async bookingOperation(request) {
-    console.log("in booking operations::  ")
-    const subs = await this.dataService.makeBooking(request).subscribe(
-      (response) => {
+      const bookingObservable = this.dataService.makeBooking(request)
+      const subs = bookingObservable.subscribe((response) => {
       });
-    this.subscriptions.push(subs);
+      this.subscriptions.push(subs);
+      await bookingObservable.toPromise();
+
+    } catch(error){
+      console.error('Error during booking:', error);
+    }
   }
+
+
 
 
 }
