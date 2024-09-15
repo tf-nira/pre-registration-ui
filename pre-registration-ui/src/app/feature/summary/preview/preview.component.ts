@@ -100,7 +100,9 @@ export class PreviewComponent implements OnInit {
     this.previewData = this.user.request.demographicDetails.identity;
     this.initializeDataCaptureLanguages();
     this.calculateAge();
-    this.formatDob(this.previewData.dateOfBirth);
+    if(this.previewData.dateOfBirth){
+      this.formatDob(this.previewData.dateOfBirth);
+    }
     this.files = this.user.files ? this.user.files : [];
     this.documentsMapping();
     this.docReqCheck();
