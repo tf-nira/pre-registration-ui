@@ -2435,6 +2435,11 @@ export class DemographicComponent extends FormDeactivateGuardService
       } else {
         attr = this.userForm.controls[`${element}`].value;
       }
+    } else if (
+      typeof identity[element] === "boolean" &&
+      this.userForm.controls[`${element}`]
+    ) {
+      attr = this.userForm.controls[`${element}`].value;
     }
     identity[element] = attr;
   }
