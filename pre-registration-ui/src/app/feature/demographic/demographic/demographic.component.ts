@@ -2882,7 +2882,8 @@ export class DemographicComponent extends FormDeactivateGuardService
       const controlErrors: any = controls[key].errors;
       if (controlErrors !== null) {
         Object.keys(controlErrors).forEach(keyError => {
-          let label = _this.uiFields.find(f => f.id == key)
+          let label = _this.uiFields.find(f => f.id == key);
+          if (!label) label = _this.uiFields.find(f => f.id == key.replace(/_[a-zA-Z]+$/, ''));
           if (label != null) {
             errors.push({
               control_name: label.labelName instanceof String ? label.labelName : label.labelName[_this.userPrefLanguage],

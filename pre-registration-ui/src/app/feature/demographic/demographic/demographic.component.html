@@ -5456,10 +5456,12 @@
                     <div class="fieldContainer" *ngIf="field.isVisible == true && field.renderID === 'frm_700a_a3_declarationCheckBox'"> 
                       <div class="fieldHeader" [ngStyle]="field.headerStyle">
                         <mat-checkbox [formControlName]="field.id" (change)="onChangeHandler(field.id)">
-                          {{field.labelName[userPrefLanguage]}} 
+                          
                         </mat-checkbox>
                         <span *ngIf="field.required" class="required-annotation"></span>
-                        <span> I declare that the above particulars are true to the best of my knowledge and belief. </span> 
+                        <div>
+                          <span> I declare that the above particulars are true to the best of my knowledge and belief. </span>
+                        </div>
                         <span *ngIf="field.required" class="required-annotation">*</span>
                       </div>
                       <div class="fieldContent" [ngStyle]="field.containerStyle">
