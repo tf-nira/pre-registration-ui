@@ -105,6 +105,7 @@ export class DemographicComponent extends FormDeactivateGuardService
     this.expStep--;
   }
 
+  userService: string = "";
   agePattern: string;
   defaultDay: string;
   defaultMonth: string;
@@ -341,9 +342,9 @@ export class DemographicComponent extends FormDeactivateGuardService
     // this.validationMessage = appConstants.errorMessages;
     this.initForm();
     await this.setFormControlValues();
-    if (!this.dataModification) {
-      if (this.isConsentMessage) this.consentDeclaration();
-    }
+    // if (!this.dataModification) {
+    //   if (this.isConsentMessage) this.consentDeclaration();
+    // }
     /*setting the initialization flag. To control method calls that are required only for the first time 
     when screen is loading*/
     this.initializationFlag = true;//malay
@@ -1096,6 +1097,18 @@ export class DemographicComponent extends FormDeactivateGuardService
     //if (!this.dataModification || (this.dataModification && this.userForm.valid) ) {
     //populate form data in json for json-rules-engine to evalatute the conditions
     const identityFormData = this.createIdentityJSONDynamic(true, selectedFieldId);
+
+    // Consent Declaration
+    if (selectedFieldId && selectedFieldId.trim() !== "") {
+      if (selectedFieldId == "userService" && this.userForm.controls[selectedFieldId].value !== this.userService) {
+        console.log(`Prev : ${this.userService}, New: ${this.userForm.controls[selectedFieldId].value}`);
+        if (!this.dataModification) {
+          if (this.isConsentMessage) this.consentDeclaration();
+        }
+        this.userService = this.userForm.controls[selectedFieldId].value;
+      }
+    }
+
     let isChild = false;
     let currentAge = null;
     if (
