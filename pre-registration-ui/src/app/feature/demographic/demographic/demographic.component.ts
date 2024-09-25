@@ -1524,6 +1524,18 @@ export class DemographicComponent extends FormDeactivateGuardService
             //in "requiredCondition" is not statisfied then validate the field as not required
             uiField.required = false;
             removeValidatorFunc(uiField);
+
+            dataCaptureLanguages.forEach((language, i) => {
+              let controlId = "";
+              if (isControlInMultiLangFunc(uiField)) {
+                controlId = uiField.id + "_" + language;
+                addValidatorsFunc(uiField, controlId, language);
+              } else if (i == 0) {
+                controlId = uiField.id;
+                addValidatorsFunc(uiField, controlId, language);
+              }
+            });
+
           },
           event: {
             type: "message",
