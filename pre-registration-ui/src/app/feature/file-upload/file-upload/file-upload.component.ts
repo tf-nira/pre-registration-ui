@@ -19,6 +19,7 @@ import { LogService } from "src/app/shared/logger/log.service";
 import Utils from "src/app/app.util";
 import { Subscription } from "rxjs";
 import identityStubJson from "../../../../assets/identity-spec.json";
+import { myFlag, setMyFlag } from "src/app/shared/global-vars";
 
 @Component({
   selector: "app-file-upload",
@@ -1423,6 +1424,7 @@ export class FileUploadComponent implements OnInit, OnDestroy {
    * @memberof FileUploadComponent
    */
   onBack() {
+    setMyFlag(true);
     localStorage.setItem(appConstants.MODIFY_USER, "true");
     let url = Utils.getURL(this.router.url, "demographic");
     this.router.navigateByUrl(url + `/${this.preRegId}`);
