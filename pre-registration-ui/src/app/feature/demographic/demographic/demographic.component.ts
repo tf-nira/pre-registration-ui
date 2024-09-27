@@ -52,6 +52,7 @@ import {
 } from "@angular/material/core";
 import identityStubJson from "../../../../assets/identity-spec1.json";
 import { RouterExtService } from "src/app/shared/router/router-ext.service";
+import { myFlag, setMyFlag } from "src/app/shared/global-vars";
 
 //malay
 interface DependentField {
@@ -377,6 +378,18 @@ export class DemographicComponent extends FormDeactivateGuardService
      * have dependent attribute.
      */
     this.initializationFlag = false; //malay
+
+    if(myFlag){
+      await  this.getFieldAndData();
+      setMyFlag(false);
+    }
+  }
+
+  async getFieldAndData() {
+    for (const control of this.uiFields) {
+      console.log(control.id);
+      await this.onChangeHandler(control.id);
+    }
   }
 
   ngAfterViewInit() {
@@ -1075,11 +1088,11 @@ export class DemographicComponent extends FormDeactivateGuardService
   resetHiddenField = (uiField) => {
     this.dataCaptureLanguages.forEach((language, i) => {
       let controlId = "";
-      if (this.isControlInMultiLang(uiField)) {
+      if (this.isControlInMultiLang(uiField) && myFlag == false) {
         controlId = uiField.id + "_" + language;
         this.userForm.controls[controlId].reset();
         this.userForm.controls[controlId].setValue("");
-      } else if (i == 0) {
+      } else if (i == 0 && myFlag == false) {
         controlId = uiField.id;
         this.userForm.controls[controlId].reset();
         this.userForm.controls[controlId].setValue("");
