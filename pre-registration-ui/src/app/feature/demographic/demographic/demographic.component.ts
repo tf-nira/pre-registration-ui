@@ -349,7 +349,9 @@ export class DemographicComponent extends FormDeactivateGuardService
     /*setting the initialization flag. To control method calls that are required only for the first time 
     when screen is loading*/
     this.initializationFlag = true;//malay
-    this.onChangeHandler("");
+    
+    await this.onChangeHandler("");
+    
     if (this.readOnlyMode) {
       this.userForm.disable();
     }
@@ -388,7 +390,13 @@ export class DemographicComponent extends FormDeactivateGuardService
   async getFieldAndData() {
     for (const control of this.uiFields) {
       console.log(control.id);
-      await this.onChangeHandler(control.id);
+        const onChangePromise = () => new Promise<void>((resolve) => {
+        this.onChangeHandler(control.id);
+        resolve(); 
+      });
+
+      await onChangePromise();
+
     }
   }
 
@@ -1094,8 +1102,12 @@ export class DemographicComponent extends FormDeactivateGuardService
         this.userForm.controls[controlId].setValue("");
       } else if (i == 0 && myFlag == false) {
         controlId = uiField.id;
+        if(controlId=="dateOfBirth"){
+          controlId = controlId + "_dateCtrl"
+          this.currentAge = null;
+        }
         this.userForm.controls[controlId].reset();
-        this.userForm.controls[controlId].setValue("");
+        this.userForm.controls[controlId].setValue("");   
       }
     });
   };
@@ -1109,6 +1121,20 @@ export class DemographicComponent extends FormDeactivateGuardService
     //console.log("onChangeHandler " + selectedFieldId);
     //if (!this.dataModification || (this.dataModification && this.userForm.valid) ) {
     //populate form data in json for json-rules-engine to evalatute the conditions
+
+    if (this.initializationFlag == false && selectedFieldId == "userServiceType") {
+      for (const control of this.uiFields) {
+        if (!(control.id == "userService" || control.id == "userServiceType")) {
+          const resetHiddenFieldPromise = () => new Promise<void>((resolve) => {
+            this.resetHiddenField(control);
+            resolve(); 
+          });
+          await resetHiddenFieldPromise();
+          await this.onChangeHandler(control.id);
+        }
+      }
+    }
+
     const identityFormData = this.createIdentityJSONDynamic(true, selectedFieldId);
 
     // Consent Declaration
