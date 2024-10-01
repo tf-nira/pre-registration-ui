@@ -19,6 +19,8 @@ import { LogService } from "src/app/shared/logger/log.service";
 import Utils from "src/app/app.util";
 import { Subscription } from "rxjs";
 import identityStubJson from "../../../../assets/identity-spec.json";
+import { myFlag, setMyFlag } from  'src/app/shared/global-vars';
+import { Engine, Rule } from "json-rules-engine";
 
 @Component({
   selector: "app-file-upload",
@@ -113,6 +115,10 @@ export class FileUploadComponent implements OnInit, OnDestroy {
   canDeactivateFlag: boolean;
   checked: true;
   dataUploadComplete: true;
+  //malay
+  validationErrorCodes: any;
+  jsonRulesEngine = new Engine();
+  identityObjCopy:any;
   constructor(
     private registration: RegistrationService,
     private dataStorageService: DataStorageService,
@@ -158,11 +164,14 @@ export class FileUploadComponent implements OnInit, OnDestroy {
 
   async getIdentityJsonFormat() {
     return new Promise((resolve) => {
-      this.dataStorageService.getIdentityJson().subscribe((response) => {
+      this.dataStorageService.getIdentityJson().subscribe(async (response) => {
         //response = identityStubJson;
         let identityJsonSpec =
           response[appConstants.RESPONSE]["jsonSpec"]["identity"];
         this.identityData = identityJsonSpec["identity"];
+        this.identityData = [];    //malay
+        const fieldDefinitions = await this.loadFieldDefinitions();
+        this.identityData.push(...fieldDefinitions);
         this.identityData.forEach((obj) => {
           if (obj.controlType === "fileupload") {
             this.uiFields.push(obj);
@@ -174,6 +183,11 @@ export class FileUploadComponent implements OnInit, OnDestroy {
           this.showErrorMessage(error);
         });
     });
+  }
+  //malay
+  async loadFieldDefinitions() {
+    const response = await fetch('assets/data/niraUiSpec.json');
+    return response.json();
   }
 
   private getPrimaryLabels(lang) {
@@ -213,6 +227,11 @@ export class FileUploadComponent implements OnInit, OnDestroy {
       this.initializeDataCaptureLanguages();
       this.translate.use(this.dataCaptureLanguages[0]);
       await this.getApplicantTypeID();
+      let identityRequest = { identity: this.identityObjCopy };
+      this.uiFields.forEach(async (uiField) => {
+      if (uiField.hasOwnProperty("requiredCondition")) {
+        await this.processConditionalRequiredValidations(identityRequest, uiField);
+      }});
       //on page load, update application status from "Application_Incomplete"
       //to "Pending_Appointment", if all required documents are uploaded
       await this.changeStatusToPending();
@@ -500,6 +519,8 @@ export class FileUploadComponent implements OnInit, OnDestroy {
     //console.log("getApplicantTypeID");
     let attributesArr = [];
     const identityObj = this.users[0].request.demographicDetails.identity;
+    this.identityObjCopy=identityObj;
+    console.log(identityObj)
     if (identityObj) {
       let keyArr: any[] = Object.keys(identityObj);
       for (let index = 0; index < keyArr.length; index++) {
@@ -1136,7 +1157,185 @@ export class FileUploadComponent implements OnInit, OnDestroy {
     this.documentCategory = null;
     this.documentType = null;
   }
+  //malay
+  isControlInMultiLang(uiField: any) {
+    if (
+      uiField.controlType !== "ageDate" &&
+      uiField.controlType !== "date" &&
+      uiField.controlType !== "dropdown" &&
+      uiField.controlType !== "button" &&
+      uiField.controlType !== "checkbox" &&
+      uiField.controlType === "textbox" &&
+      uiField.type !== "string"
+    ) {
+      return true;
+    }
+    return false;
+  }
+  removeValidators = (uiField) => {
+    this.dataCaptureLanguages.forEach((language, i) => {
+      let controlId = "";
+      if (this.isControlInMultiLang(uiField)) {
+        controlId = uiField.id + "_" + language;
+        this.userForm.controls[controlId].clearValidators();
+        this.userForm.controls[controlId].updateValueAndValidity();
+      } else if (i == 0) {
+        controlId = uiField.id;
+        this.userForm.controls[controlId].clearValidators();
+        this.userForm.controls[controlId].updateValueAndValidity();
+      }
+    });
+  };
+  customValidator(
+    control: FormControl,
+    uiFieldId: string,
+    controlLangCode: string
+  ) {
+    let val = control.value;
+    let filtered = this.uiFields.filter((uiField) => uiField.id == uiFieldId);
+    if (val && filtered.length > 0) {
+      let uiField = filtered[0];
+      let msg = "";
+      let isInvalid = false;
+      if (uiField.validators !== null && uiField.validators.length > 0) {
+        uiField.validators.forEach((validatorItem) => {
+          if (!isInvalid) {
+            let validatorLang = validatorItem.langCode;
+            if (
+              (validatorLang && validatorLang == controlLangCode) ||
+              !validatorLang ||
+              validatorLang == ""
+            ) {
+              let regex = new RegExp(validatorItem.validator);
+              if (regex.test(val) == false) {
+                isInvalid = true;
+                if (this.validationErrorCodes[validatorItem.errorMessageCode]) {
+                  msg = this.validationErrorCodes[
+                    validatorItem.errorMessageCode
+                  ];
+                }
+              }
+            }
+          }
+        });
+        //console.log(`uiFieldId:${uiFieldId} langCode:${controlLangCode} isInvalid:${isInvalid}`);
+        if (isInvalid) {
+          return {
+            customPattern: {
+              value: val,
+              msg: msg,
+            },
+          };
+        }
+      }
+    }
+    return null;
+  }
+  addValidators = (uiField: any, controlId: string, languageCode: string) => {
+    if (uiField.required) {
+      this.userForm.controls[`${controlId}`].setValidators(Validators.required);
+    }
+    if (uiField.validators !== null && uiField.validators.length > 0) {
+      if (uiField.required) {
+        this.userForm.controls[`${controlId}`].setValidators([
+          Validators.required,
+          (c: FormControl) => this.customValidator(c, uiField.id, languageCode),
+        ]);
+      } else {
+        this.userForm.controls[`${controlId}`].setValidators([
+          (c: FormControl) => this.customValidator(c, uiField.id, languageCode),
+        ]);
+      }
+    }
+  };
+  addRequiredValidator = (uiField, controlId, language) => {
+    this.addValidators(uiField, controlId, language);
+    //This required to force validations to apply
+    this.userForm.controls[controlId].setValue(
+      this.userForm.controls[controlId].value
+    );
+  };
+  processConditionalRequiredValidations(identityFormData, uiField) {
+    return new Promise<void>((resolve, reject) => {
+      let facts = {};
+      if (uiField && uiField.requiredCondition && uiField.requiredCondition != "") {
+        /** Construct a fact to be consumed by the json-rule-engine based on 
+         * parent field value.
+         */
+        if (uiField.parentField) {
+          for (const field of uiField.parentField) {
+            const parentFieldValue = identityFormData.identity[field.fieldId];
+            //facts = { [field.fieldId]: parentFieldValue };
+            //facts[field.fieldId] = parentFieldValue;
+          }
+        }
+        const addValidatorsFunc = this.addRequiredValidator;
+        const removeValidatorFunc = this.removeValidators;
+        const isControlInMultiLangFunc = this.isControlInMultiLang;
+        const dataCaptureLanguages = this.dataCaptureLanguages;
+        let requiredRule = new Rule({
+          conditions: uiField.requiredCondition,
+          onSuccess() {
+            //in "requiredCondition" is statisfied then validate the field as required
+            uiField.required = true;
+            dataCaptureLanguages.forEach((language, i) => {
+              let controlId = "";
+              if (isControlInMultiLangFunc(uiField)) {
+                controlId = uiField.id + "_" + language;
+                addValidatorsFunc(uiField, controlId, language);
+              } else if (i == 0) {
+                controlId = uiField.id;
+                addValidatorsFunc(uiField, controlId, language);
+              }
+            });
+          },
+          onFailure() {
+            //in "requiredCondition" is not statisfied then validate the field as not required
+            uiField.required = false;
+            removeValidatorFunc(uiField);
 
+            dataCaptureLanguages.forEach((language, i) => {
+              let controlId = "";
+              if (isControlInMultiLangFunc(uiField)) {
+                controlId = uiField.id + "_" + language;
+                addValidatorsFunc(uiField, controlId, language);
+              } else if (i == 0) {
+                controlId = uiField.id;
+                addValidatorsFunc(uiField, controlId, language);
+              }
+            });
+
+          },
+          event: {
+            type: "message",
+            params: {
+              data: "",
+            },
+          },
+        });
+        this.jsonRulesEngine.addRule(requiredRule);
+        console.log(requiredRule);
+        console.log(identityFormData);
+        this.jsonRulesEngine
+          .run(identityFormData)
+          .then((results) => {
+            results.events.map((event) =>
+              console.log(
+                "jsonRulesEngine for requiredConditions run successfully",
+                event.params.data
+              )
+            );
+            this.jsonRulesEngine.removeRule(requiredRule);
+            resolve(); // Resolve the promise on success
+          })
+          .catch((error) => {
+            console.log("err is", error);
+            this.jsonRulesEngine.removeRule(requiredRule);
+            reject(error);
+          });
+      }
+    });
+  }
   /**
    *@description method to send the file to the server.
    *
@@ -1423,6 +1622,7 @@ export class FileUploadComponent implements OnInit, OnDestroy {
    * @memberof FileUploadComponent
    */
   onBack() {
+    setMyFlag(true);
     localStorage.setItem(appConstants.MODIFY_USER, "true");
     let url = Utils.getURL(this.router.url, "demographic");
     this.router.navigateByUrl(url + `/${this.preRegId}`);
