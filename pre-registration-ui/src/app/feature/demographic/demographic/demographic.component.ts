@@ -52,7 +52,9 @@ import {
 } from "@angular/material/core";
 import identityStubJson from "../../../../assets/identity-spec1.json";
 import { RouterExtService } from "src/app/shared/router/router-ext.service";
-import { myFlag, setMyFlag } from 'src/app/shared/global-vars';
+
+import { myFlag, setMyFlag } from "src/app/shared/global-vars";
+
 //malay
 interface DependentField {
   fieldId: string;
@@ -350,6 +352,7 @@ export class DemographicComponent extends FormDeactivateGuardService
     /*setting the initialization flag. To control method calls that are required only for the first time 
     when screen is loading*/
     this.initializationFlag = true;//malay
+
     console.log("log1 :: before await this.onChangeHandler ")
     // await this.onChangeHandler("");
     const ongetFieldAndDataPromise = () => new Promise<void>(async (resolve) => {
@@ -358,6 +361,7 @@ export class DemographicComponent extends FormDeactivateGuardService
       });
       await ongetFieldAndDataPromise();
       console.log("log2 :: after await this.onChangeHandler ")
+
     if (this.readOnlyMode) {
       this.userForm.disable();
     }
@@ -386,6 +390,7 @@ export class DemographicComponent extends FormDeactivateGuardService
      * have dependent attribute.
      */
     this.initializationFlag = false; //malay
+
     if (myFlag) {
       // await this.getFieldAndData();
       // const ongetFieldAndDataPromise = () => new Promise<void>((resolve) => {
@@ -1137,12 +1142,15 @@ export class DemographicComponent extends FormDeactivateGuardService
         this.userForm.controls[controlId].setValue("");
       } else if (i == 0 && myFlag == false) {
         controlId = uiField.id;
+
         if (controlId == "dateOfBirth") {
           controlId = controlId + "_dateCtrl"
           this.currentAge = null;
         }
         this.userForm.controls[controlId].reset();
-        this.userForm.controls[controlId].setValue("");
+
+
+        this.userForm.controls[controlId].setValue("");   
 
       }
     });
@@ -1158,18 +1166,24 @@ export class DemographicComponent extends FormDeactivateGuardService
     //console.log("onChangeHandler " + selectedFieldId);
     //if (!this.dataModification || (this.dataModification && this.userForm.valid) ) {
     //populate form data in json for json-rules-engine to evalatute the conditions
+
     if (this.initializationFlag == false && selectedFieldId == "userServiceType" && myFlag == false) {
+
       for (const control of this.uiFields) {
         if (!(control.id == "userService" || control.id == "userServiceType")) {
           const resetHiddenFieldPromise = () => new Promise<void>((resolve) => {
             this.resetHiddenField(control);
+
             resolve();
+
+
           });
           await resetHiddenFieldPromise();
           await this.onChangeHandler(control.id);
         }
       }
     }
+
     const identityFormData = this.createIdentityJSONDynamic(true, selectedFieldId);
 
     // Consent Declaration
