@@ -21,7 +21,8 @@ import { LogService } from "src/app/shared/logger/log.service";
 import { Subscription } from "rxjs";
 import { NotificationDtoModel } from "src/app/shared/models/notification-model/notification-dto.model";
 import { utf8Encode } from "@angular/compiler/src/util";
-import { myFlag, setMyFlag } from "src/app/shared/global-vars";
+
+import { myFlag, setMyFlag } from  'src/app/shared/global-vars';
 
 /**
  * @description This is the dashbaord component which displays all the users linked to the login id
