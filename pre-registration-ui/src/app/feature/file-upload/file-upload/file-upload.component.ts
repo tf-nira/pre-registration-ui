@@ -169,9 +169,9 @@ export class FileUploadComponent implements OnInit, OnDestroy {
         let identityJsonSpec =
           response[appConstants.RESPONSE]["jsonSpec"]["identity"];
         this.identityData = identityJsonSpec["identity"];
-        this.identityData = [];    //malay
-        const fieldDefinitions = await this.loadFieldDefinitions();
-        this.identityData.push(...fieldDefinitions);
+        // this.identityData = [];    //malay
+        // const fieldDefinitions = await this.loadFieldDefinitions();
+        // this.identityData.push(...fieldDefinitions);
         this.identityData.forEach((obj) => {
           if (obj.controlType === "fileupload") {
             this.uiFields.push(obj);
