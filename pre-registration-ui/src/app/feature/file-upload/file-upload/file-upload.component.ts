@@ -58,6 +58,7 @@ export class FileUploadComponent implements OnInit, OnDestroy {
     docCatCode: "",
     docTypeCode: "",
   };
+  
   selectedDocuments: SelectedDocuments[] = [];
   dataCaptureLanguages = [];
   dataCaptureLanguagesLabels = [];
@@ -169,9 +170,9 @@ export class FileUploadComponent implements OnInit, OnDestroy {
         let identityJsonSpec =
           response[appConstants.RESPONSE]["jsonSpec"]["identity"];
         this.identityData = identityJsonSpec["identity"];
-        this.identityData = [];    //malay
-        const fieldDefinitions = await this.loadFieldDefinitions();
-        this.identityData.push(...fieldDefinitions);
+        //this.identityData = [];    //malay
+        //const fieldDefinitions = await this.loadFieldDefinitions();
+        //this.identityData.push(...fieldDefinitions);
         this.identityData.forEach((obj) => {
           if (obj.controlType === "fileupload") {
             this.uiFields.push(obj);
@@ -185,10 +186,10 @@ export class FileUploadComponent implements OnInit, OnDestroy {
     });
   }
   //malay
-  async loadFieldDefinitions() {
-    const response = await fetch('assets/data/niraUiSpec.json');
-    return response.json();
-  }
+  // async loadFieldDefinitions() {
+  //   const response = await fetch('assets/data/niraUiSpec.json');
+  //   return response.json();
+  // }
 
   private getPrimaryLabels(lang) {
     this.dataStorageService
@@ -212,7 +213,6 @@ export class FileUploadComponent implements OnInit, OnDestroy {
    * @memberof FileUploadComponent
    */
   private async initiateComponent() {
-
     await this.getIdentityJsonFormat();
     this.isModify = localStorage.getItem("modifyDocument");
     this.activatedRoute.params.subscribe((param) => {
@@ -232,6 +232,7 @@ export class FileUploadComponent implements OnInit, OnDestroy {
       if (uiField.hasOwnProperty("requiredCondition")) {
         await this.processConditionalRequiredValidations(identityRequest, uiField);
       }});
+    // await Promise.all(validationPromises);
       //on page load, update application status from "Application_Incomplete"
       //to "Pending_Appointment", if all required documents are uploaded
       await this.changeStatusToPending();
@@ -1158,34 +1159,8 @@ export class FileUploadComponent implements OnInit, OnDestroy {
     this.documentType = null;
   }
   //malay
-  isControlInMultiLang(uiField: any) {
-    if (
-      uiField.controlType !== "ageDate" &&
-      uiField.controlType !== "date" &&
-      uiField.controlType !== "dropdown" &&
-      uiField.controlType !== "button" &&
-      uiField.controlType !== "checkbox" &&
-      uiField.controlType === "textbox" &&
-      uiField.type !== "string"
-    ) {
-      return true;
-    }
-    return false;
-  }
-  removeValidators = (uiField) => {
-    this.dataCaptureLanguages.forEach((language, i) => {
-      let controlId = "";
-      if (this.isControlInMultiLang(uiField)) {
-        controlId = uiField.id + "_" + language;
-        this.userForm.controls[controlId].clearValidators();
-        this.userForm.controls[controlId].updateValueAndValidity();
-      } else if (i == 0) {
-        controlId = uiField.id;
-        this.userForm.controls[controlId].clearValidators();
-        this.userForm.controls[controlId].updateValueAndValidity();
-      }
-    });
-  };
+  
+  
   customValidator(
     control: FormControl,
     uiFieldId: string,
@@ -1248,63 +1223,20 @@ export class FileUploadComponent implements OnInit, OnDestroy {
       }
     }
   };
-  addRequiredValidator = (uiField, controlId, language) => {
-    this.addValidators(uiField, controlId, language);
-    //This required to force validations to apply
-    this.userForm.controls[controlId].setValue(
-      this.userForm.controls[controlId].value
-    );
-  };
-  processConditionalRequiredValidations(identityFormData, uiField) {
+  
+  async processConditionalRequiredValidations(identityFormData, uiField) {
     return new Promise<void>((resolve, reject) => {
       let facts = {};
       if (uiField && uiField.requiredCondition && uiField.requiredCondition != "") {
-        /** Construct a fact to be consumed by the json-rule-engine based on 
-         * parent field value.
-         */
-        if (uiField.parentField) {
-          for (const field of uiField.parentField) {
-            const parentFieldValue = identityFormData.identity[field.fieldId];
-            //facts = { [field.fieldId]: parentFieldValue };
-            //facts[field.fieldId] = parentFieldValue;
-          }
-        }
-        const addValidatorsFunc = this.addRequiredValidator;
-        const removeValidatorFunc = this.removeValidators;
-        const isControlInMultiLangFunc = this.isControlInMultiLang;
-        const dataCaptureLanguages = this.dataCaptureLanguages;
         let requiredRule = new Rule({
           conditions: uiField.requiredCondition,
           onSuccess() {
             //in "requiredCondition" is statisfied then validate the field as required
-            uiField.required = true;
-            dataCaptureLanguages.forEach((language, i) => {
-              let controlId = "";
-              if (isControlInMultiLangFunc(uiField)) {
-                controlId = uiField.id + "_" + language;
-                addValidatorsFunc(uiField, controlId, language);
-              } else if (i == 0) {
-                controlId = uiField.id;
-                addValidatorsFunc(uiField, controlId, language);
-              }
-            });
+            if (!uiField.labelName.eng.includes(" (Mandatory)")) {
+              uiField.labelName.eng += " (Mandatory)";
+            } 
           },
           onFailure() {
-            //in "requiredCondition" is not statisfied then validate the field as not required
-            uiField.required = false;
-            removeValidatorFunc(uiField);
-
-            dataCaptureLanguages.forEach((language, i) => {
-              let controlId = "";
-              if (isControlInMultiLangFunc(uiField)) {
-                controlId = uiField.id + "_" + language;
-                addValidatorsFunc(uiField, controlId, language);
-              } else if (i == 0) {
-                controlId = uiField.id;
-                addValidatorsFunc(uiField, controlId, language);
-              }
-            });
-
           },
           event: {
             type: "message",
