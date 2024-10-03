@@ -784,7 +784,9 @@ export class DemographicComponent extends FormDeactivateGuardService
           let identityJsonSpec =
             response[appConstants.RESPONSE]["jsonSpec"]["identity"];
           this.identityData = identityJsonSpec["identity"];
-          // this.identityData = [];    //malay
+
+          //this.identityData = [];    //malay
+
           let locationHeirarchiesFromJson = [
             ...identityJsonSpec["locationHierarchy"], //malay
           ];
@@ -849,10 +851,10 @@ export class DemographicComponent extends FormDeactivateGuardService
   }
 
   //malay
-  async loadFieldDefinitions() {
-    const response = await fetch('assets/data/niraUiSpec.json');
-    return response.json();
-  }
+  // async loadFieldDefinitions() {
+  //   const response = await fetch('assets/data/niraUiSpec.json');
+  //   return response.json();
+  // }
 
   setAlignmentGroups() {
     let rowIndex = 0;
@@ -1378,6 +1380,7 @@ export class DemographicComponent extends FormDeactivateGuardService
             //in "visibleCondition" is not statisfied then hide the field
             subField.isVisible = false;
             if(!myFlag){
+              
             resetHiddenFieldFunc(subField);
             }
 
@@ -1508,11 +1511,11 @@ export class DemographicComponent extends FormDeactivateGuardService
   removeValidators = (uiField) => {
     this.dataCaptureLanguages.forEach((language, i) => {
       let controlId = "";
-      if (this.isControlInMultiLang(uiField)) {
+      if (this.isControlInMultiLang(uiField) && !myFlag) {
         controlId = uiField.id + "_" + language;
         this.userForm.controls[controlId].clearValidators();
         this.userForm.controls[controlId].updateValueAndValidity();
-      } else if (i == 0) {
+      } else if (i == 0 && !myFlag) {
         controlId = uiField.id;
         this.userForm.controls[controlId].clearValidators();
         this.userForm.controls[controlId].updateValueAndValidity();
@@ -1623,7 +1626,10 @@ export class DemographicComponent extends FormDeactivateGuardService
           onFailure() {
             //in "requiredCondition" is not statisfied then validate the field as not required
             uiField.required = false;
+            if(!myFlag){
+              
             removeValidatorFunc(uiField);
+            }
 
             dataCaptureLanguages.forEach((language, i) => {
               let controlId = "";
