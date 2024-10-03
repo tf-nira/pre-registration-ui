@@ -784,7 +784,9 @@ export class DemographicComponent extends FormDeactivateGuardService
           let identityJsonSpec =
             response[appConstants.RESPONSE]["jsonSpec"]["identity"];
           this.identityData = identityJsonSpec["identity"];
+
           //this.identityData = [];    //malay
+
           let locationHeirarchiesFromJson = [
             ...identityJsonSpec["locationHierarchy"], //malay
           ];
