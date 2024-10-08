@@ -233,9 +233,9 @@ export class DemographicComponent extends FormDeactivateGuardService
     /** check if first load. Then no data entered by user. Hence, no data to upload in the field value.
      *  Filter the createAttributeArray method call.
      */
-    if (this.initializationFlag === false) {
+    if (this.initializationFlag === false || this.dataModification) {
       //Populate the data ONLY for the selected field.
-      if (selectedFieldId) {
+      if (selectedFieldId && selectedFieldId!="") {
         if (selectedFieldId != appConstants.IDSchemaVersionLabel) {
           this.createAttributeArray(selectedFieldId, this.identityObj);
         }
@@ -391,18 +391,8 @@ export class DemographicComponent extends FormDeactivateGuardService
      */
     this.initializationFlag = false; //malay
 
-    if (myFlag) {
-      // await this.getFieldAndData();
-      // const ongetFieldAndDataPromise = () => new Promise<void>((resolve) => {
-      //   this.getFieldAndData();
-      //   resolve(); // Resolve the promise once resetHiddenField is done
-      // });
-      // await ongetFieldAndDataPromise();
-      // setMyFlag(false);
-      console.log("log3 :: before await this.getFieldAndData() ")
+    if (this.dataModification) {
       await this.getFieldAndData();
-      console.log("log7 :: after await this.getFieldAndData() ")
-      setMyFlag(false);
     }
 
   }
@@ -433,12 +423,9 @@ export class DemographicComponent extends FormDeactivateGuardService
 
   async getFieldAndData() {
     for (const control of this.uiFields) {
-      //console.log(control.id);
-      // Await each onChangeHandler call
-
-      await this.onChangeHandler(control.id);
+      await this.onChangeHandler(control.id).then(async () => {
+      });
     }
-    console.log("log6 :: after async getFieldAndData() ")
   }
   ngAfterViewInit() {
     this.setInitialValue();
@@ -1021,6 +1008,9 @@ export class DemographicComponent extends FormDeactivateGuardService
 
   getLocationNameFromIndex = (fieldId, fieldIndex) => {
     let items = this.getLocationHierarchy(fieldId);
+    if (fieldId.toLowerCase().includes("pollingstation")){
+      fieldIndex=fieldIndex-1;
+    }
     return items[fieldIndex];
   };
 
@@ -1169,7 +1159,7 @@ export class DemographicComponent extends FormDeactivateGuardService
     //if (!this.dataModification || (this.dataModification && this.userForm.valid) ) {
     //populate form data in json for json-rules-engine to evalatute the conditions
 
-    if (this.initializationFlag == false && selectedFieldId == "userServiceType" && myFlag == false) {
+    if (this.initializationFlag == false && selectedFieldId == "userServiceType" ) {
 
       for (const control of this.uiFields) {
         if (!(control.id == "userService" || control.id == "userServiceType")) {
@@ -1284,7 +1274,7 @@ export class DemographicComponent extends FormDeactivateGuardService
     // if (this.initializationFlag === true || field.hasOwnProperty("dependentFields")) {
     //   await this.processShowHideFields(formIdentityData);
     // }
-    if (selectedFieldId && selectedFieldId.trim() !== "") {
+    if (selectedFieldId && selectedFieldId.trim() !== "" && myFlag == false) {
       await this.processChangeActions(selectedFieldId);
       // const ongetFieldAndDataPromise = () => new Promise<void>(async (resolve) => {
       //   this.processChangeActions(selectedFieldId);
@@ -1359,13 +1349,13 @@ export class DemographicComponent extends FormDeactivateGuardService
         /** Construct a fact to be consumed by the json-rule-engine based on 
          * parent field value.
          */
-        if (subField.parentField) {
-          for (const field of subField.parentField) {
-            const parentFieldValue = formIdentityData.identity[field.fieldId];
-            //facts = { [field.fieldId]: parentFieldValue };
-            //facts[field.fieldId] = parentFieldValue;
-          }
-        }
+        // if (subField.parentField) {
+        //   for (const field of subField.parentField) {
+        //     const parentFieldValue = formIdentityData.identity[field.fieldId];
+        //     //facts = { [field.fieldId]: parentFieldValue };
+        //     //facts[field.fieldId] = parentFieldValue;
+        //   }
+        // }
         //console.log("for parent field:: " + JSON.stringify(subField.parentField))
         //console.log(formIdentityData)
         const resetHiddenFieldFunc = this.resetHiddenField;
@@ -1511,11 +1501,11 @@ export class DemographicComponent extends FormDeactivateGuardService
   removeValidators = (uiField) => {
     this.dataCaptureLanguages.forEach((language, i) => {
       let controlId = "";
-      if (this.isControlInMultiLang(uiField) && !myFlag) {
+      if (this.isControlInMultiLang(uiField) && myFlag === false) {
         controlId = uiField.id + "_" + language;
         this.userForm.controls[controlId].clearValidators();
         this.userForm.controls[controlId].updateValueAndValidity();
-      } else if (i == 0 && !myFlag) {
+      } else if (i == 0 && myFlag === false) {
         controlId = uiField.id;
         this.userForm.controls[controlId].clearValidators();
         this.userForm.controls[controlId].updateValueAndValidity();
@@ -1699,7 +1689,7 @@ export class DemographicComponent extends FormDeactivateGuardService
         if (!parentLocCode && index == 0) {
           parentLocCode = this.dataStorageService.getLocationMetadataHirearchy();
         }
-        //if (parentLocCode) debugger;
+        if (parentLocCode) debugger;
         await this.loadLocationData(
           parentLocCode,
           locationHeirarchy,
@@ -2576,9 +2566,6 @@ export class DemographicComponent extends FormDeactivateGuardService
       attr = this.userForm.controls[`${element}`].value;
     }
     identity[element] = attr;
-    if(element=="pollingStationNameResidence"){
-      console.log("Got it"+JSON.stringify(attr))
-    }
     
   }
 
