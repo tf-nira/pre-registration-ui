@@ -280,10 +280,10 @@ export class DemographicComponent extends FormDeactivateGuardService
         } else if (typeof this.identityObj[element] === "boolean") {
           let elementValue = this.identityObj[element];
           if (elementValue == true) {
-            this.newIdentityObj[element] = true;
+            this.newIdentityObj[element] = "Y";
           }
           if (elementValue == false) {
-            this.newIdentityObj[element] = false;
+            this.newIdentityObj[element] = "N";
           }
         }
       }
@@ -1275,7 +1275,8 @@ export class DemographicComponent extends FormDeactivateGuardService
     //   await this.processShowHideFields(formIdentityData);
     // }
     if (selectedFieldId && selectedFieldId.trim() !== "" && myFlag == false) {
-      await this.processChangeActions(selectedFieldId);
+      await this.processChangeActions(selectedFieldId).then(async () => {
+      });
       // const ongetFieldAndDataPromise = () => new Promise<void>(async (resolve) => {
       //   this.processChangeActions(selectedFieldId);
       //   resolve(); // Resolve the promise once resetHiddenField is done
