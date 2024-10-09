@@ -1274,7 +1274,7 @@ export class DemographicComponent extends FormDeactivateGuardService
     // if (this.initializationFlag === true || field.hasOwnProperty("dependentFields")) {
     //   await this.processShowHideFields(formIdentityData);
     // }
-    if (selectedFieldId && selectedFieldId.trim() !== "" ) {
+    if (selectedFieldId && selectedFieldId.trim() !== "" && myFlag == false) {
       await this.processChangeActions(selectedFieldId).then(async () => {
       });
       // const ongetFieldAndDataPromise = () => new Promise<void>(async (resolve) => {
