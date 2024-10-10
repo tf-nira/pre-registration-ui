@@ -7,6 +7,10 @@ import { Applicant } from "../../shared/models/dashboard-model/dashboard.modal";
 import { ConfigService } from "./config.service";
 import { RequestModel } from "src/app/shared/models/request-model/RequestModel";
 import { AuditModel } from "src/app/shared/models/demographic-model/audit.model";
+import { PRNResponse } from "src/app/shared/models/request-model/prnresponse";
+import { Observable } from "rxjs";
+import { PRNRequest } from "src/app/shared/models/request-model/prnrequest";
+import moment from "moment";
 
 /**
  * @description This class is responsible for sending or receiving data to the service.
@@ -27,6 +31,8 @@ export class DataStorageService {
    * @param {ConfigService} configService
    * @memberof DataStorageService
    */
+  
+  serverDtFormat = "YYYY/MM/DD";
   constructor(
     private httpClient: HttpClient,
     private appConfigService: AppConfigService,
@@ -713,11 +719,29 @@ export class DataStorageService {
       this.BASE_URL + this.PRE_REG_URL + `applications/prereg/status/${prid}`;
     return this.httpClient.get(requesturl);
   }
-  //malay-prn
-  getPRN() {
-    const requesturl =
-      this.BASE_URL + this.PRE_REG_URL + `getprn`;
-    console.log("generate prn url:: "+requesturl);
-    return this.httpClient.get(requesturl);
-  }
+  generatePRN(request:PRNRequest):Observable<PRNResponse>{
+    const localUrl=appConstants.generatePRNURL;
+    console.log(localUrl);
+    //const headers = new HttpHeaders({ Authorization: `Bearer ${token}`, 'Content-Type': 'application/json',});
+    /*let url =
+      this.BASE_URL +
+      appConstants.APPEND_URL.prn*/
+      return this.httpClient.post<PRNResponse>(localUrl,request);
+    }
+
+    calculateAge(dateStr: string) {
+      if (moment(dateStr, this.serverDtFormat, true).isValid()) {
+        const now = new Date();
+        const born = new Date(dateStr);
+        const years = Math.floor(
+          (now.getTime() - born.getTime()) / (365.25 * 24 * 60 * 60 * 1000)
+        );
+        if (years > 150 || years < 0) {
+        
+        } else {
+          return years;
+        }
+      }
+      
+    }
 }
