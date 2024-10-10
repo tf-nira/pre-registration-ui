@@ -94,6 +94,8 @@ export class DemographicComponent extends FormDeactivateGuardService
     .split(",");
 
   expStep = 0;
+  filledFieldCount: number;
+  filledFields: Number;
 
   setStep(index: number) {
     this.expStep = index;
@@ -2339,6 +2341,17 @@ export class DemographicComponent extends FormDeactivateGuardService
         });
       });
       console.log(this.userForm.valid)
+
+      console.log(this.filledFields);
+      const filledFields = Object.keys(this.userForm.controls).filter(key => {
+        return this.userForm.controls[key].value !== null && this.userForm.controls[key].value !== '';
+      }).length;
+
+      console.log(`Number of filled fields: ${filledFields}`);
+      this.filledFieldCount = filledFields;
+      
+      // Log the filled count separately
+      console.log('Number of filled fields:', this.filledFieldCount);
 
       if (this.userForm.valid) {
         //malay-popup
