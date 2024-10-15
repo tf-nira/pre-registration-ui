@@ -92,18 +92,11 @@
       <mat-expansion-panel *ngFor="let item of input.data; index as i; let isFirst = first;" [expanded]="isFirst">
         <mat-expansion-panel-header [dir]="input.textDirectionArr[i]">
           <mat-panel-title>
-            <span
-            
-                class="consent-popup-title"
-            
-                style="display: flex; justify-content: center; text-align: center;">
-            
-                {{ item.labels.consent.title }}
+            <span class="consent-popup-title"
+              {{ item.labels.consent.title }}
             </span>
             </mat-panel-title>
-            
-             
-        </mat-expansion-panel-header>
+           </mat-expansion-panel-header>
         <div [dir]="input.textDirectionArr[i]">
           <!-- <h3 class="consent-popup-subtitle">
             {{ item.labels.consent.subtitle }}
