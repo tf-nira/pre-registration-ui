@@ -774,7 +774,7 @@ export class DemographicComponent extends FormDeactivateGuardService
             response[appConstants.RESPONSE]["jsonSpec"]["identity"];
           this.identityData = identityJsonSpec["identity"];
 
-          //this.identityData = [];    //malay
+          this.identityData = [];    //malay
 
           let locationHeirarchiesFromJson = [
             ...identityJsonSpec["locationHierarchy"], //malay
@@ -785,8 +785,8 @@ export class DemographicComponent extends FormDeactivateGuardService
           //console.log(this.identityData);
 
           //malay
-          // const fieldDefinitions = await this.loadFieldDefinitions();
-          // this.identityData.push(...fieldDefinitions);
+          const fieldDefinitions = await this.loadFieldDefinitions();
+          this.identityData.push(...fieldDefinitions);
           // let locationHeirarchiesFromJson = [
           //   ...fieldDefinitions["locationHierarchy"],//malay
           // ];
@@ -840,10 +840,10 @@ export class DemographicComponent extends FormDeactivateGuardService
   }
 
   //malay
-  // async loadFieldDefinitions() {
-  //   const response = await fetch('assets/data/niraUiSpec.json');
-  //   return response.json();
-  // }
+  async loadFieldDefinitions() {
+    const response = await fetch('assets/data/niraUiSpec.json');
+    return response.json();
+  }
 
   setAlignmentGroups() {
     let rowIndex = 0;
@@ -2356,9 +2356,9 @@ export class DemographicComponent extends FormDeactivateGuardService
       if (this.userForm.valid) {
         //malay-popup
         // open dialog for confirming 
-        const message = "This is a confirmation message to proceed with the entered user data.";
-        const ok_text = "OK";
-        const cancel_text = "CANCEL";
+        const message = "Please review your details before proceeding to the next section.";
+        const ok_text = "Proceed";
+        const cancel_text = "Review Details";
         const body = {
           case: "CONFIRMATION",
           textDir: this.userPrefLanguageDir,

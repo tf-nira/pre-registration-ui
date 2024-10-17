@@ -1583,9 +1583,9 @@ export class FileUploadComponent implements OnInit, OnDestroy {
       if (this.userForm.valid) {
         //malay-popup
         // open dialog for confirming 
-        const message = "This is a confirmation message to proceed with the files uploaded";
-        const ok_text = "OK";
-        const cancel_text = "CANCEL";
+        const message = "Please review your details before proceeding to the next section.";
+        const ok_text = "Proceed";
+        const cancel_text = "Review Details";
         const body = {
           case: "CONFIRMATION",
           textDir: this.userPrefLanguageDir,
