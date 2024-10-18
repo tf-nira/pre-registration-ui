@@ -1,9 +1,8 @@
-<div class="captcha">
-  <re-captcha
-    id="grecaptcha"
-    class="g-recaptcha"
-    (resolved)="recaptcha($event)"
-    siteKey="{{ captchaSiteKey }}"
-    data-error-callback="recaptchaError($event)"
-  ></re-captcha>
-</div>
+<form>
+  <altcha-widget
+  #altchaWidget
+  style="--altcha-max-width:100%"
+  debug
+  test
+></altcha-widget>
+</form>
