@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, CUSTOM_ELEMENTS_SCHEMA, NgModule, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { TranslateService } from "@ngx-translate/core";
 import { DialougComponent } from "src/app/shared/dialoug/dialoug.component";
@@ -11,6 +11,9 @@ import * as appConstants from "../../app.constants";
 import Utils from "src/app/app.util";
 import moment from "moment";
 import stubConfig from "../../../assets/stub-config.json";
+import { CaptchaComponent } from "../captcha/captcha.component";
+import { CommonModule } from "@angular/common";
+
 
 
 @Component({
@@ -262,6 +265,8 @@ export class LoginComponent implements OnInit {
       ) === undefined
     ) {
       this.enableCaptcha = false;
+      // this.enableCaptcha = true;
+      // this.loadRecaptchaSiteKey();
     } else if (
       this.configService.getConfigByKey(
         "mosip.preregistration.captcha.enable"
