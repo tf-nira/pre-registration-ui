@@ -264,9 +264,9 @@ export class LoginComponent implements OnInit {
         "mosip.preregistration.captcha.enable"
       ) === undefined
     ) {
-      this.enableCaptcha = false;
-      // this.enableCaptcha = true;
-      // this.loadRecaptchaSiteKey();
+      // this.enableCaptcha = false;
+      this.enableCaptcha = true;
+      this.loadRecaptchaSiteKey();
     } else if (
       this.configService.getConfigByKey(
         "mosip.preregistration.captcha.enable"
@@ -554,6 +554,19 @@ export class LoginComponent implements OnInit {
     } else if (modes === "mobile") {
       if (!phoneRegex.test(this.inputContactDetails)) {
         this.errorMessage = this.validationMessages["invalidMobile"];
+      }
+    }
+  }handleAltchaState(event: CustomEvent) {
+    const { detail } = event;
+    if (detail) {
+      const { state, payload } = detail;  // Altcha emits 'state' and 'payload'
+      if (state === 'verified' && payload) {
+        console.log('Captcha verified', payload);
+        this.captchaToken = payload;  // Capture the token
+        this.enableSendOtp = true;    // Enable OTP sending
+      } else if (state === 'unverified' || state === 'error') {
+        console.log('Captcha failed or unverified');
+        this.enableSendOtp = false;   // Disable OTP sending on failure or expiry
       }
     }
   }
