@@ -1156,28 +1156,30 @@ export class DemographicComponent extends FormDeactivateGuardService
    * and fields are shown/hidden in the UI form.
    */
   async onChangeHandler(selectedFieldId: string) {
-    //console.log("log 4:: inside top sync onChangeHandler(selectedFieldId: string)")
-    //console.log("onChangeHandler " + selectedFieldId);
-    //if (!this.dataModification || (this.dataModification && this.userForm.valid) ) {
-    //populate form data in json for json-rules-engine to evalatute the conditions
-
     if (this.initializationFlag == false && selectedFieldId == "userServiceType" ) {
-
       for (const control of this.uiFields) {
         if (!(control.id == "userService" || control.id == "userServiceType")) {
           const resetHiddenFieldPromise = () => new Promise<void>((resolve) => {
             this.resetHiddenField(control);
-
             resolve();
-
-
           });
           await resetHiddenFieldPromise();
           await this.onChangeHandler(control.id);
         }
       }
     }
-
+    if (this.initializationFlag == false && selectedFieldId == "userService" ) {
+      for (const control of this.uiFields) {
+        if (!(control.id == "userService")) {
+          const resetHiddenFieldPromise = () => new Promise<void>((resolve) => {
+            this.resetHiddenField(control);
+            resolve();
+          });
+          await resetHiddenFieldPromise();
+          await this.onChangeHandler(control.id);
+        }
+      }
+    }
     const identityFormData = this.createIdentityJSONDynamic(true, selectedFieldId);
 
     // Consent Declaration
