@@ -53,7 +53,7 @@ import {
 import identityStubJson from "../../../../assets/identity-spec1.json";
 import { RouterExtService } from "src/app/shared/router/router-ext.service";
 
-import { myFlag, setMyFlag } from "src/app/shared/global-vars";
+import { myFlag, setMyFlag} from "src/app/shared/global-vars";
 
 //malay
 interface DependentField {
@@ -774,7 +774,7 @@ export class DemographicComponent extends FormDeactivateGuardService
             response[appConstants.RESPONSE]["jsonSpec"]["identity"];
           this.identityData = identityJsonSpec["identity"];
 
-          //this.identityData = [];    //malay
+          // this.identityData = [];    //malay
 
           let locationHeirarchiesFromJson = [
             ...identityJsonSpec["locationHierarchy"], //malay
@@ -3005,7 +3005,7 @@ export class DemographicComponent extends FormDeactivateGuardService
         case 'email': text = `${error.control_name} has wrong email format!`; break;
         case 'minlength': text = `${error.control_name} has wrong length! Required length: ${error.error_value.requiredLength}`; break;
         case 'areEqual': text = `${error.control_name} must be equal!`; break;
-        default: text = `${error.control_name}: ${error.error_name}: ${error.error_value}`;
+        default: text = `${error.control_name} is invalid`;
       }
       return text;
     }
