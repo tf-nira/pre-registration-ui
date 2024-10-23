@@ -954,13 +954,24 @@ export class DemographicComponent extends FormDeactivateGuardService
               !validatorLang ||
               validatorLang == ""
             ) {
-              let regex = new RegExp(validatorItem.validator);
-              if (regex.test(val) == false) {
-                isInvalid = true;
-                if (this.validationErrorCodes[validatorItem.errorMessageCode]) {
-                  msg = this.validationErrorCodes[
-                    validatorItem.errorMessageCode
-                  ];
+              if (validatorItem.type === "nonFutureDate") {
+                let inputDate = new Date(val);
+                let currentDate = new Date();
+                currentDate.setHours(0, 0, 0, 0); // Clear time for accurate comparison
+                if (inputDate > currentDate) {
+                  isInvalid = true;
+                  msg = "The date must not be in the future.";
+                }
+              }
+              else if (validatorItem.type === "regex") {
+                let regex = new RegExp(validatorItem.validator);
+                if (regex.test(val) == false) {
+                  isInvalid = true;
+                  if (this.validationErrorCodes[validatorItem.errorMessageCode]) {
+                    msg = this.validationErrorCodes[
+                      validatorItem.errorMessageCode
+                    ];
+                  }
                 }
               }
             }
