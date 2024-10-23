@@ -53,7 +53,7 @@ import {
 import identityStubJson from "../../../../assets/identity-spec1.json";
 import { RouterExtService } from "src/app/shared/router/router-ext.service";
 
-import { myFlag, setMyFlag} from "src/app/shared/global-vars";
+import { myFlag, setMyFlag, disabledUiFields} from "src/app/shared/global-vars";
 
 //malay
 interface DependentField {
@@ -1711,16 +1711,20 @@ export class DemographicComponent extends FormDeactivateGuardService
  * @param fieldName location dropdown control Name
  */
   resetLocationFields(fieldName: string) {
-    //console.log("resetLocationFields " + fieldName);
-    if (this.isThisFieldInLocationHeirarchies(fieldName)) {
-      const locationFields = this.getLocationHierarchy(fieldName);
-      const index = locationFields.indexOf(fieldName);
-      for (let i = index + 1; i < locationFields.length; i++) {
-        let currentSelection = this.uiFields.find(uiField => uiField.id == fieldName);
-        let childSelection = this.uiFields.find(uiField => uiField.id == locationFields[i]);
-        if (childSelection.locationHierarchyLevel > currentSelection.locationHierarchyLevel) {
-          this.userForm.controls[locationFields[i]].setValue("");
-          this.userForm.controls[locationFields[i]].markAsUntouched();
+    // Check if the fieldName is present in the disabledUiFields array
+    const isFieldDisabled = disabledUiFields.some(uiField => uiField.id === fieldName);
+    // Proceed only if the field is not present in the disabled fields array
+    if (!isFieldDisabled) {
+      if (this.isThisFieldInLocationHeirarchies(fieldName)) {
+        const locationFields = this.getLocationHierarchy(fieldName);
+        const index = locationFields.indexOf(fieldName);
+        for (let i = index + 1; i < locationFields.length; i++) {
+          let currentSelection = this.uiFields.find(uiField => uiField.id == fieldName);
+          let childSelection = this.uiFields.find(uiField => uiField.id == locationFields[i]);
+          if (childSelection.locationHierarchyLevel > currentSelection.locationHierarchyLevel) {
+            this.userForm.controls[locationFields[i]].setValue("");
+            this.userForm.controls[locationFields[i]].markAsUntouched();
+          }
         }
       }
     }
