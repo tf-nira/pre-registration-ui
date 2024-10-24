@@ -28,7 +28,7 @@ jobs:
     - uses: actions/checkout@v3
     - uses: actions/setup-node@v3.7.0
       with:
-        node-version: '16'
+        node-version: '16'   
 
     - name: Cache npm dependencies
       uses: actions/cache@v2
@@ -37,7 +37,7 @@ jobs:
         key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
         restore-keys: |
           ${{ runner.os }}-npm-
-
+          
     - name: NPM Install
       run: cd ${{ inputs.SERVICE_LOCATION }} && npm install --legacy-peer-deps
 
