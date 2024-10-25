@@ -21,11 +21,24 @@
               <td><b>{{ ackData.preRegId}}</b></td>
             </tr>
             <tr>
-              <td>Surname : </td>
-              
-
-                <td>{{ ackData.Suname }}</td>
+              <td>{{'acknowledgement.surnamelabel'  | translate  }} : </td>
+     
+                <td><b>{{ ackData.Suname }}</b></td>
+                </tr>
+                <tr *ngIf="PRN">
+                  <td>{{'acknowledgement.prnLabel'| translate}}: </td>
+                     <td><b>{{ PRN }}</b></td>
+                     
+                </tr>
                 <tr>
+                  <td>{{'acknowledgement.feeLabel' | translate }}: </td>
+                     <td><b style="color: brown">{{ amount }}</b></td>
+                </tr>
+                <tr *ngIf="PRNerrorMessage">
+                  <td>{{'acknowledgement.prnErrorMessage1'| translate}}:
+                    <br>{{'acknowledgement.prnErrorMessageCont'| translate}} </td>
+                  </tr>
+              <tr>
                 <td *ngIf="ackData.bookingTimePrimary && ackData.bookingTimePrimary.length > 0 && ackData.bookingTimePrimary[0].langAvailable">
                   <span *ngFor="let bookingTime of ackData.bookingTimePrimary; index as i;">
                     
@@ -35,9 +48,7 @@
                       </span>
                     </b>
                   </span> 
-                
-                
-                
+            
               </td> 
                <td
                 *ngIf="ackData.bookingTimePrimary && ackData.bookingTimePrimary.length > 0 && !ackData.bookingTimePrimary[0].langAvailable">

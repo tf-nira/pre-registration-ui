@@ -7,6 +7,10 @@ import { Applicant } from "../../shared/models/dashboard-model/dashboard.modal";
 import { ConfigService } from "./config.service";
 import { RequestModel } from "src/app/shared/models/request-model/RequestModel";
 import { AuditModel } from "src/app/shared/models/demographic-model/audit.model";
+import { PRNResponseModel } from "src/app/shared/models/request-model/prnresponseModel";
+import { Observable } from "rxjs";
+import { PRNRequestModel } from "src/app/shared/models/request-model/prnrequestModel";
+import moment from "moment";
 
 /**
  * @description This class is responsible for sending or receiving data to the service.
@@ -27,6 +31,8 @@ export class DataStorageService {
    * @param {ConfigService} configService
    * @memberof DataStorageService
    */
+  
+  serverDtFormat = "YYYY/MM/DD";
   constructor(
     private httpClient: HttpClient,
     private appConfigService: AppConfigService,
@@ -35,6 +41,7 @@ export class DataStorageService {
 
   BASE_URL = this.appConfigService.getConfig()["BASE_URL"];
   PRE_REG_URL = this.appConfigService.getConfig()["PRE_REG_URL"];
+ 
 
   getI18NLanguageFiles(langCode: string) {
     return this.httpClient.get(`./assets/i18n/${langCode}.json`);
@@ -713,11 +720,31 @@ export class DataStorageService {
       this.BASE_URL + this.PRE_REG_URL + `applications/prereg/status/${prid}`;
     return this.httpClient.get(requesturl);
   }
-  //malay-prn
-  getPRN() {
-    const requesturl =
-      this.BASE_URL + this.PRE_REG_URL + `getprn`;
-    console.log("generate prn url:: "+requesturl);
-    return this.httpClient.get(requesturl);
-  }
+
+  /**
+    * @description This methods returns the PRN(payment Reference Number)
+    * @param request 
+    * @returns an `Observable` of the PRNResponse
+    * @memberof DataStorageService
+   */
+  generatePRN(request:PRNRequestModel):Observable<PRNResponseModel>{
+    const localUrl=this.configService.getConfigByKey("nira.payment.gateway.generate-prn");
+     return this.httpClient.post<PRNResponseModel>(localUrl,request);
+    }
+
+    calculateAge(dateStr: string) {
+      if (moment(dateStr, this.serverDtFormat, true).isValid()) {
+        const now = new Date();
+        const born = new Date(dateStr);
+        const years = Math.floor(
+          (now.getTime() - born.getTime()) / (365.25 * 24 * 60 * 60 * 1000)
+        );
+        if (years > 150 || years < 0) {
+        
+        } else {
+          return years;
+        }
+      }
+      
+    }
 }

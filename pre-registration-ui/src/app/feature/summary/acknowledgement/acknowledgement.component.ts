@@ -14,6 +14,8 @@ import { ConfigService } from "src/app/core/services/config.service";
 import { ActivatedRoute, Router } from "@angular/router";
 import { NameList } from "src/app/shared/models/demographic-model/name-list.modal";
 import { UserModel } from "src/app/shared/models/demographic-model/user.modal";
+import { PRNRequestModel } from "src/app/shared/models/request-model/prnrequestModel";
+import { PRNResponseModel } from "src/app/shared/models/request-model/prnresponseModel";
 
 
 @Component({
@@ -32,6 +34,9 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
   errorlabels: any;
   apiErrorCodes: any;
   showSpinner: boolean = true;
+  PRN:string="";
+  PRNerrorMessage="";
+  amount:string="";
   //notificationRequest = new FormData();
   bookingDataPrimary = "";
   bookingDataSecondary = "";
@@ -197,6 +202,7 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
               "email": demographicData["email"]
             });
           });
+          this.generatePaymentRefNum(demographicData)
         });
         if (index === preRegIds.length - 1) {
           resolve(true);
@@ -714,6 +720,124 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
       width: "400px",
       data: body,
     });
+  }
+
+/**
+   * @description This method checks if the selected desiredService is a payable service 
+   * and checks if age is morethan 16 then calls the generate prn endpoint
+   *it updates the PRN property that is finally rendered on the acknowledgement slip
+   * @private
+   * @memberof AcknowledgementComponent
+   */
+  generatePaymentRefNum(demographicData: any) {
+    const surname = demographicData.surname[0].value;
+    const nin = demographicData.NIN;
+    const desiredService = demographicData.userService; 
+    const payablesServices = ["LOST", "UPDATE"];
+    const age:number =this.dataStorageService.calculateAge(demographicData.dateOfBirth);
+    //console.log(age);
+    
+    const hasAnyCoreCardData = surname || 
+                            demographicData.givenName[0].value || 
+                            demographicData.otherNames[0].value || 
+                            demographicData.gender[0].value || 
+                            demographicData.dateOfBirth || 
+                            demographicData.applicantCitizenshipType[0].value;
+    const requestBody: PRNRequestModel = {
+      service: desiredService,
+      NIN: nin,
+      fullName: surname
+    };
+
+    if (requestBody.fullName &&  requestBody.NIN &&  requestBody.service && payablesServices.includes(requestBody.service)) {
+        // Check if service is "UPDATE"
+      if (requestBody.service === "UPDATE") {
+        // Only call the API if core card data exists for UPDATE and age is above 16 years
+        if (hasAnyCoreCardData && age > 16) { 
+          this.dataStorageService.generatePRN(requestBody).subscribe((response: PRNResponseModel) => {
+            if (response.response != null) {
+              this.PRN = response.response.data.prn;
+              this.amount = response.response.data.amount;
+            } else if (response.errors && Array.isArray(response.errors)) {
+              const body = {
+                case: "PRN-ERRORS",
+                title: "PRN Error",
+                message: response.errors[0].message,
+              };
+              this.dialog.open(DialougComponent, {
+                width: "500px",
+                data: body
+              });
+              console.error('Error:', response.errors[0].message);
+            }
+          }, (error) => {
+            this.PRNerrorMessage = error.message || JSON.stringify(error);  
+            const body = {
+              case: "PRN-CONNECT-ERRORS",
+              title: "PRN Connection Error",
+              message: "Unable to connect to the server: " + this.PRNerrorMessage + "\n\nMake sure to pay in any Bank before proceeding to NIRA office"
+            };
+           // console.log(body);
+            this.dialog.open(DialougComponent, {
+              width: "500px",
+              data: body
+            });
+          });
+        } else {
+          // Show dialog if no core card data is present for UPDATE
+          const body = {
+            title: "COP NO Payment",
+            case: "NO-CORE-CARD-DATA",
+            message: "No payement since you have not changed any core card data.\n\n OR You are below 16 to be charged for the changes "
+          };
+          this.dialog.open(DialougComponent, {
+            width: "350px",
+            data: body
+          });
+        }
+      } else {
+        // Call the API for services that are not "UPDATE"
+        this.dataStorageService.generatePRN(requestBody).subscribe((response: PRNResponseModel) => {
+          if (response.response != null) {
+            this.PRN = response.response.data.prn;
+            this.amount = response.response.data.amount;
+          } else if (response.errors && Array.isArray(response.errors)) {
+            const body = {
+              case: "PRN-ERRORS",
+              title: "PRN Error",
+              message: response.errors[0].message,
+            };
+            this.dialog.open(DialougComponent, {
+              width: "500px",
+              data: body
+            });
+            console.error('Error:', response.errors[0].message);
+          }
+        }, (error) => {
+          this.PRNerrorMessage = error.message || JSON.stringify(error);  
+          const body = {
+            case: "PRN-CONNECT-ERRORS",
+            title: "PRN Connection Error",
+            message: "Unable to connect to the server: " + this.PRNerrorMessage + "\n\nMake sure to pay in any Bank before proceeding to NIRA office"
+          };
+          console.log(body);
+          this.dialog.open(DialougComponent, {
+            width: "500px",
+            data: body
+          });
+        });
+      }
+    } else {
+      const body = {
+        title: "No Required Payment",
+        case: "NO-PAYMENT",
+        message: "Your selected service doesn't require any payment."
+      };
+      this.dialog.open(DialougComponent, {
+        width: "350px",
+        data: body
+      });
+    }
   }
 
   ngOnDestroy() {
