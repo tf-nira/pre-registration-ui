@@ -13,15 +13,18 @@ import moment from "moment";
 import stubConfig from "../../../assets/stub-config.json";
 import { CaptchaComponent } from "../captcha/captcha.component";
 import { CommonModule } from "@angular/common";
+import { HttpClient, HttpParams, HttpHeaders } from "@angular/common/http";
 
-
-
+interface ICaptchaSubmit{
+  success:boolean
+}
 @Component({
   selector: "app-login",
   templateUrl: "./login.component.html",
   styleUrls: ["./login.component.css"],
 })
 export class LoginComponent implements OnInit {
+  captchaErrorMessage: string | null = null; 
   appVersion;
   disableBtn = false;
   timer: any;
@@ -61,6 +64,7 @@ export class LoginComponent implements OnInit {
   captchaToken = null;
   resetCaptcha: boolean;
   constructor(
+    private httpClient: HttpClient,
     private authService: AuthService,
     private router: Router,
     private translate: TranslateService,
@@ -560,16 +564,36 @@ export class LoginComponent implements OnInit {
     const { detail } = event;
     if (detail) {
       const { state, payload } = detail;  // Altcha emits 'state' and 'payload'
-      if (state === 'verified' && payload) {
-        console.log('Captcha verified', payload);
+      if (state === 'verified') {
         this.captchaToken = payload;  // Capture the token
-        this.enableSendOtp = true;    // Enable OTP sending
+        this.onSubmit();
       } else if (state === 'unverified' || state === 'error') {
         console.log('Captcha failed or unverified');
         this.enableSendOtp = false;   // Disable OTP sending on failure or expiry
       }
     }
   }
+  onSubmit(): void {
+    const formData = new HttpParams()
+    .set('altcha', this.captchaToken); 
+    this.httpClient.post('http://localhost:9090/preregistration/v1/submit', formData.toString(), {
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+    }).subscribe(
+      (response: ICaptchaSubmit)  => { 
+        console.log('Form submitted successfully', response);
+           if(response.success){
+            this.enableSendOtp =true
+           }
+           else{
+            this.enableSendOtp = false;
+           }
+      },
+      error => {
+        console.log('Form submission failed', error);
+      }
+    );
+  }
+  
 
   getCaptchaToken(event: Event) {
     if (event !== undefined && event != null) {
@@ -625,4 +649,5 @@ export class LoginComponent implements OnInit {
       data: body,
     });
   }
+  
 }
