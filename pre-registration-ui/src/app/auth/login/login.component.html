@@ -46,15 +46,12 @@
           </div>
         </div>
         <div *ngIf="enableCaptcha && showCaptcha">
-          <form (ngSubmit)="onSubmit()" #formRef="ngForm">
-          <altcha-widget
-            challengeurl="http://localhost:9090/preregistration/v1/altcha" 
-            (statechange)="handleAltchaState($event)"></altcha-widget>
-
+          <form >
+            <altcha-widget [challengeurl]="challengeUrl" (statechange)="handleAltchaState($event)"></altcha-widget>
             <div *ngIf="errorMessage" class="error-message">
               {{ captchaErrorMessage }}
             </div>
-
+        
           </form>
         </div>
         <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>

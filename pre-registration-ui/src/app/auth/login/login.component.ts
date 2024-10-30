@@ -14,6 +14,7 @@ import stubConfig from "../../../assets/stub-config.json";
 import { CaptchaComponent } from "../captcha/captcha.component";
 import { CommonModule } from "@angular/common";
 import { HttpClient, HttpParams, HttpHeaders } from "@angular/common/http";
+import { AppConfigService } from "../../app-config.service";
 
 interface ICaptchaSubmit{
   success:boolean
@@ -63,8 +64,13 @@ export class LoginComponent implements OnInit {
   languageCodeValue: any = [];
   captchaToken = null;
   resetCaptcha: boolean;
+  BASE_URL = this.appConfigService.getConfig()["BASE_URL"];
+  PRE_REG_URL = this.appConfigService.getConfig()["PRE_REG_URL"];
+  challengeUrl=this.BASE_URL + this.PRE_REG_URL + appConstants.APPEND_URL.captcha_controller + 
+                appConstants.APPEND_URL.generate;
   constructor(
     private httpClient: HttpClient,
+    private appConfigService: AppConfigService,
     private authService: AuthService,
     private router: Router,
     private translate: TranslateService,
@@ -576,9 +582,9 @@ export class LoginComponent implements OnInit {
   onSubmit(): void {
     const formData = new HttpParams()
     .set('altcha', this.captchaToken); 
-    this.httpClient.post('http://localhost:9090/preregistration/v1/submit', formData.toString(), {
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-    }).subscribe(
+    this.dataService
+        .altchaChallengeVerification(formData.toString())
+        .subscribe(
       (response: ICaptchaSubmit)  => { 
         console.log('Form submitted successfully', response);
            if(response.success){

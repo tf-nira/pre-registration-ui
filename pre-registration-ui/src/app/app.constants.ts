@@ -55,6 +55,8 @@ export const APPEND_URL = {
   notification: 'notification',
   send_notification: 'notification/notify',
   master_data: '/masterdata/',
+  captcha_controller: 'altcha/challenge/',
+  generate: 'generate',
   auth: 'login/',
   cancelAppointment: 'applications/appointment/',
   captcha:'captcha/validatecaptcha'
