@@ -46,17 +46,17 @@
           </div>
         </div>
         <div *ngIf="enableCaptcha && showCaptcha">
-          <form>
-          <altcha-widget
-            challengeurl="https://eu.altcha.org/api/v1/challenge?apiKey=ckey_010d285fbd4e9f36dc490251f200" 
-            (statechange)="handleAltchaState($event)"></altcha-widget>
+          <form >
+            <altcha-widget [challengeurl]="challengeUrl" (statechange)="handleAltchaState($event)"></altcha-widget>
+            <div *ngIf="errorMessage" class="error-message">
+              {{ captchaErrorMessage }}
+            </div>
+        
           </form>
         </div>
         <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
         <p class="loading" *ngIf="loadingMessage != ''">{{ loadingMessage }}</p>
-        <div *ngIf="captchaError && !showOTP" class="error" style="margin-left: 55px">
-          {{ "recaptcha.errorMessage" | translate }}
-        </div>
+        
         <div [dir]="dir" *ngIf="showOTP">
           <mat-form-field appearance="standard">
             <input autofocus="autofocus" matInput [(ngModel)]="inputOTP"

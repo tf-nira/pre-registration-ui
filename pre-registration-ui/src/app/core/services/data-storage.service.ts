@@ -580,6 +580,17 @@ export class DataStorageService {
     return this.httpClient.post(url, obj);
   }
 
+  altchaChallengeVerification(formData: string) {
+    const url =
+      this.BASE_URL +
+      this.PRE_REG_URL +
+      appConstants.APPEND_URL.captcha_controller +
+      "verify";
+    return this.httpClient.post(url, formData,{
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+    });
+  }
+
   verifyOtp(userId: string, otp: string) {
     const request = {
       otp: otp,
