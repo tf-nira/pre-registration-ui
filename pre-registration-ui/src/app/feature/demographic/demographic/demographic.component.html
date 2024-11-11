@@ -920,7 +920,7 @@
               </mat-action-row>
             </mat-expansion-panel>
           
-            <mat-expansion-panel [expanded]="expStep === 2" (opened)="setStep(2)" hideToggle>
+            <mat-expansion-panel *ngIf="!isRenewalService()" [expanded]="expStep === 2" (opened)="setStep(2)" hideToggle>
               <mat-expansion-panel-header>
                 <mat-panel-title>
                <b>Place Of Birth:</b>
@@ -1221,7 +1221,7 @@
               </mat-action-row>
             </mat-expansion-panel>
 
-            <mat-expansion-panel [expanded]="expStep === 3" (opened)="setStep(3)" hideToggle>
+            <mat-expansion-panel *ngIf="!isRenewalService()" [expanded]="expStep === 3" (opened)="setStep(3)" hideToggle>
               <mat-expansion-panel-header>
                 <mat-panel-title>
                <b>Passport Information:</b>
@@ -1522,7 +1522,7 @@
               </mat-action-row>
             </mat-expansion-panel>
 
-            <mat-expansion-panel [expanded]="expStep === 4" (opened)="setStep(4)" hideToggle>
+            <mat-expansion-panel *ngIf="!isRenewalService()" [expanded]="expStep === 4" (opened)="setStep(4)" hideToggle>
               <mat-expansion-panel-header>
                 <mat-panel-title>
                <b>Place Of Origin:</b>
@@ -1824,7 +1824,7 @@
             </mat-expansion-panel>
 
 
-            <mat-expansion-panel [expanded]="expStep === 5" (opened)="setStep(5)" hideToggle>
+            <mat-expansion-panel *ngIf="!isRenewalService()" [expanded]="expStep === 5" (opened)="setStep(5)" hideToggle>
               <mat-expansion-panel-header>
                 <mat-panel-title>
                <b>Voters Information:</b>
@@ -2129,7 +2129,7 @@
               </mat-action-row>
             </mat-expansion-panel>
 
-            <mat-expansion-panel [expanded]="expStep === 6" (opened)="setStep(6)" hideToggle>
+            <mat-expansion-panel *ngIf="!isRenewalService()" [expanded]="expStep === 6" (opened)="setStep(6)" hideToggle>
               <mat-expansion-panel-header>
                 <mat-panel-title>
                <b>Marital Status:</b>
@@ -2432,7 +2432,7 @@
 
 
 
-            <mat-expansion-panel [expanded]="expStep === 7" (opened)="setStep(7)" hideToggle>
+            <mat-expansion-panel *ngIf="!isRenewalService()" [expanded]="expStep === 7" (opened)="setStep(7)" hideToggle>
               <mat-expansion-panel-header>
                 <mat-panel-title>
                <b>Spouse Details:</b>
@@ -2733,7 +2733,7 @@
               </mat-action-row>
             </mat-expansion-panel>
 
-            <mat-expansion-panel [expanded]="expStep === 8" (opened)="setStep(8)" hideToggle>
+            <mat-expansion-panel *ngIf="!isRenewalService()" [expanded]="expStep === 8" (opened)="setStep(8)" hideToggle>
               <mat-expansion-panel-header>
                 <mat-panel-title>
                   <b>Foundling Check:</b> 
@@ -2778,7 +2778,7 @@
             </mat-expansion-panel>
 
 
-            <mat-expansion-panel [expanded]="expStep === 9" (opened)="setStep(9)" hideToggle>
+            <mat-expansion-panel *ngIf="!isRenewalService()" [expanded]="expStep === 9" (opened)="setStep(9)" hideToggle>
               <mat-expansion-panel-header>
                 <mat-panel-title>
                <b>Father's Details:</b>
@@ -3078,7 +3078,7 @@
               </mat-action-row>
             </mat-expansion-panel>
 
-            <mat-expansion-panel [expanded]="expStep === 10" (opened)="setStep(10)" hideToggle>
+            <mat-expansion-panel *ngIf="!isRenewalService()" [expanded]="expStep === 10" (opened)="setStep(10)" hideToggle>
               <mat-expansion-panel-header>
                 <mat-panel-title>
                <b>Mother's Details</b>
@@ -3378,7 +3378,7 @@
               </mat-action-row>
             </mat-expansion-panel>
 
-            <mat-expansion-panel [expanded]="expStep === 11" (opened)="setStep(11)" hideToggle>
+            <mat-expansion-panel *ngIf="!isRenewalService()" [expanded]="expStep === 11" (opened)="setStep(11)" hideToggle>
               <mat-expansion-panel-header>
                 <mat-panel-title>
                <b>Blood Relative's/Introducer Details:</b>
@@ -3681,7 +3681,7 @@
               </mat-action-row>
             </mat-expansion-panel>
 
-            <mat-expansion-panel [expanded]="expStep === 12" (opened)="setStep(12)" hideToggle>
+            <mat-expansion-panel *ngIf="!isRenewalService()" [expanded]="expStep === 12" (opened)="setStep(12)" hideToggle>
               <mat-expansion-panel-header>
                 <mat-panel-title>
                <b>Particulars of Applicant’s Children :</b>
@@ -3982,7 +3982,7 @@
               </mat-action-row>
             </mat-expansion-panel>
 
-            <mat-expansion-panel [expanded]="expStep === 13" (opened)="setStep(13)" hideToggle>
+            <mat-expansion-panel *ngIf="!isRenewalService()" [expanded]="expStep === 13" (opened)="setStep(13)" hideToggle>
               <mat-expansion-panel-header>
                 <mat-panel-title>
                <b>Declarant's Details:</b>

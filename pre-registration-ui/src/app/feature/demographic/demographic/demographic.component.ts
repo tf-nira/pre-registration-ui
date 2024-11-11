@@ -3059,4 +3059,12 @@ export class DemographicComponent extends FormDeactivateGuardService
     return (!Array.isArray(parentField) || !parentField.length) ? null : parentField;
   };
 
+  isRenewalService(): boolean {
+    if (this.userService === "RENEWAL") {
+      return true;
+    }
+    return false;
+  }
+  
+
 }
