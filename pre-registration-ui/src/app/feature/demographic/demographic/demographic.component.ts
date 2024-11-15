@@ -963,6 +963,17 @@ export class DemographicComponent extends FormDeactivateGuardService
                   msg = "The date must not be in the future.";
                 }
               }
+              else if (validatorItem.type === "beforeApplicantDOB") {
+                let inputDate = new Date(val);
+                let currentDate = new Date();
+                const dateOfBirthValue = this.userForm.controls["dateOfBirth"].value; 
+                const applicantDOB = new Date(dateOfBirthValue);
+                currentDate.setHours(0, 0, 0, 0); // Clear time for accurate comparison
+                if (inputDate > currentDate || applicantDOB <= inputDate) {
+                  isInvalid = true;
+                  msg = "The date must not be after the Applicant's Date of Birth or in the future.";
+                }
+              }
               else if (validatorItem.type === "regex") {
                 let regex = new RegExp(validatorItem.validator);
                 if (regex.test(val) == false) {
