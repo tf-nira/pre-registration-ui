@@ -971,7 +971,7 @@ export class DemographicComponent extends FormDeactivateGuardService
                 currentDate.setHours(0, 0, 0, 0); // Clear time for accurate comparison
                 if (inputDate > currentDate || applicantDOB <= inputDate) {
                   isInvalid = true;
-                  msg = "The date must not be after the Applicant's Date of Birth or in the future.";
+                  msg = "The date must not be later than the Applicant's Date of Birth or a future date.";
                 }
               }
               else if (validatorItem.type === "regex") {
