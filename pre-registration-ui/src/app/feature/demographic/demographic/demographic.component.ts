@@ -3031,7 +3031,7 @@ export class DemographicComponent extends FormDeactivateGuardService
         case 'email': text = `${error.control_name} has wrong email format!`; break;
         case 'minlength': text = `${error.control_name} has wrong length! Required length: ${error.error_value.requiredLength}`; break;
         case 'areEqual': text = `${error.control_name} must be equal!`; break;
-        default: text = `${error.control_name} is invalid`;
+        default: text = `Invalid ${error.control_name} `;
       }
       return text;
     }
