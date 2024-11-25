@@ -30,7 +30,7 @@
                      <td><b>{{ PRN }}</b></td>
                      
                 </tr>
-                <tr>
+                <tr *ngIf="PRN">
                   <td>{{'acknowledgement.feeLabel' | translate }}: </td>
                      <td><b style="color: brown">{{ amount }}</b></td>
                 </tr>
