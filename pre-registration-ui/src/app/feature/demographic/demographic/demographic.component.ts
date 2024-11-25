@@ -54,6 +54,7 @@ import identityStubJson from "../../../../assets/identity-spec1.json";
 import { RouterExtService } from "src/app/shared/router/router-ext.service";
 
 import { myFlag, setMyFlag, disabledUiFields} from "src/app/shared/global-vars";
+import { and } from "@angular/router/src/utils/collection";
 
 //malay
 interface DependentField {
@@ -111,6 +112,12 @@ export class DemographicComponent extends FormDeactivateGuardService
 
   userService: string = "";
   userServiceType: string = "";
+  userServiceTypeCop: string = "";
+  notificationOfChangeServiceType = [];
+  notificationOfChangeNameFields = [];
+  cardRequiredCopServiceType = [];
+  cardOptionalCopServiceType = [];
+  ageCop: number;
   agePattern: string;
   defaultDay: string;
   defaultMonth: string;
@@ -229,7 +236,6 @@ export class DemographicComponent extends FormDeactivateGuardService
         }
       });
     }
-    // console.log("identityObj:: " + JSON.stringify(this.identityObj))
 
     let keyArr: any[] = Object.keys(this.identityObj);
     /** check if first load. Then no data entered by user. Hence, no data to upload in the field value.
@@ -345,12 +351,8 @@ export class DemographicComponent extends FormDeactivateGuardService
     await this.getIdentityJsonFormat();
     this.config = this.configService.getConfig();
     await this.getConsentMessage();
-    // this.validationMessage = appConstants.errorMessages;
     this.initForm();
     await this.setFormControlValues();
-    // if (!this.dataModification) {
-    //   if (this.isConsentMessage) this.consentDeclaration();
-    // }
     /*setting the initialization flag. To control method calls that are required only for the first time 
     when screen is loading*/
     this.initializationFlag = true;//malay
@@ -384,7 +386,6 @@ export class DemographicComponent extends FormDeactivateGuardService
       }
     });
     this.checkToShowLangChangeBtn();
-    //console.log("exiting");
     this.primaryuserForm = true;
 
     /** After the initialization reset the flag to false.
@@ -398,30 +399,6 @@ export class DemographicComponent extends FormDeactivateGuardService
     }
 
   }
-  // async onChangeHandlerCall(){
-  //   const varr = await this.onChangeHandler("");
-  //   await Promise.all(varr);
-
-  // }
-  // async getFieldAndData(){
-  //   const onChangePromises=this.uiFields.map((control, index) => {
-  //     console.log(control.id)
-  //   return this.onChangeHandler(control.id);
-  //   });
-  //   await Promise.all(onChangePromises);
-
-  // }
-
-  // async getFieldAndData() {
-  //   for (const control of this.uiFields) {
-  //     console.log(control.id);
-  //     const onChangePromise = () => new Promise<void>((resolve) => {
-  //       this.onChangeHandler(control.id);
-  //       resolve(); 
-  //     });
-  //     await onChangePromise();
-  //   }
-  // }
 
   async getFieldAndData() {
     for (const control of this.uiFields) {
@@ -488,7 +465,6 @@ export class DemographicComponent extends FormDeactivateGuardService
     );
     this.dateAdapter.setLocale(localeId);
     let localeDtFormat = moment.localeData(localeId).longDateFormat("L");
-    //console.log(`locale for datePicker: ${localeId} : ${localeDtFormat}`);
     this.translate.get("demographic.date_yyyy").subscribe((year: string) => {
       const yearLabel = year;
       this.translate.get("demographic.date_mm").subscribe((month: string) => {
@@ -511,7 +487,6 @@ export class DemographicComponent extends FormDeactivateGuardService
             localeDtFormat = localeDtFormat.replace(/D/g, dayLabel);
           }
           this.localeDtFormat = localeDtFormat;
-          //console.log(`locale for datePicker: ${localeId} : ${this.localeDtFormat}`);
         });
       });
     });
@@ -552,7 +527,6 @@ export class DemographicComponent extends FormDeactivateGuardService
             this.dataCaptureLanguagesLabels.push(element.value);
           }
         });
-        //set the language direction as well
         if (this.ltrLangs.includes(langCode)) {
           this.dataCaptureLangsDir.push("ltr");
         } else {
@@ -560,7 +534,6 @@ export class DemographicComponent extends FormDeactivateGuardService
         }
       });
     }
-    //console.log(this.dataCaptureLanguages);
   };
 
   private getPrimaryLabels() {
@@ -582,11 +555,7 @@ export class DemographicComponent extends FormDeactivateGuardService
         this.dataStorageService.getGuidelineTemplate("consent").subscribe(
           (response) => {
             this.isConsentMessage = true;
-            /*this.consentMessage = response["response"][
-              "templates"
-            ][0].fileText.split("\n");*/
             this.consentMessage = response[appConstants.RESPONSE]["templates"];
-            //console.log(this.consentMessage);
             resolve(true);
           },
           (error) => {
@@ -623,7 +592,6 @@ export class DemographicComponent extends FormDeactivateGuardService
       this.isNewApplicant = true;
     }
     if (localStorage.getItem(appConstants.MODIFY_USER) === "true") {
-      //console.log(localStorage.getItem(appConstants.MODIFY_USER));
       this.dataModification = true;
       await this.getPreRegId();
       await this.getUserInfo(this.preRegId);
@@ -641,7 +609,6 @@ export class DemographicComponent extends FormDeactivateGuardService
     return new Promise((resolve) => {
       this.activatedRoute.params.subscribe((param) => {
         this.preRegId = param["appId"];
-        //console.log(this.preRegId);
         resolve(true);
       });
     });
@@ -768,28 +735,17 @@ export class DemographicComponent extends FormDeactivateGuardService
     return new Promise((resolve, reject) => {
       this.dataStorageService.getIdentityJson().subscribe(
         async (response) => {
-          //response = identityStubJson;
-          //console.log(identityStubJson);
           let identityJsonSpec =
             response[appConstants.RESPONSE]["jsonSpec"]["identity"];
           this.identityData = identityJsonSpec["identity"];
 
-          // this.identityData = [];    //malay
+          //this.identityData = [];    //malay
 
           let locationHeirarchiesFromJson = [
             ...identityJsonSpec["locationHierarchy"], //malay
           ];
           this.identitySchemaVersion =
             response[appConstants.RESPONSE]["idSchemaVersion"];
-          //console.log(`identitySchemaVersion: ${this.identitySchemaVersion}`);
-          //console.log(this.identityData);
-
-          //malay
-          // const fieldDefinitions = await this.loadFieldDefinitions();
-          // this.identityData.push(...fieldDefinitions);
-          // let locationHeirarchiesFromJson = [
-          //   ...fieldDefinitions["locationHierarchy"],//malay
-          // ];
 
           if (Array.isArray(locationHeirarchiesFromJson[0])) {
             this.locationHeirarchies = locationHeirarchiesFromJson;
@@ -966,7 +922,7 @@ export class DemographicComponent extends FormDeactivateGuardService
               else if (validatorItem.type === "beforeApplicantDOB") {
                 let inputDate = new Date(val);
                 let currentDate = new Date();
-                const dateOfBirthValue = this.userForm.controls["dateOfBirth"].value; 
+                const dateOfBirthValue = this.userForm.controls["dateOfBirth"].value;
                 const applicantDOB = new Date(dateOfBirthValue);
                 currentDate.setHours(0, 0, 0, 0); // Clear time for accurate comparison
                 if (inputDate > currentDate || applicantDOB <= inputDate) {
@@ -1178,9 +1134,9 @@ export class DemographicComponent extends FormDeactivateGuardService
    * and fields are shown/hidden in the UI form.
    */
   async onChangeHandler(selectedFieldId: string) {
-    if (this.initializationFlag == false && selectedFieldId == "userServiceType" ) {
+    if (this.initializationFlag == false && selectedFieldId == appConstants.userServiceType ) {
       for (const control of this.uiFields) {
-        if (!(control.id == "userService" || control.id == "userServiceType")) {
+        if (!(control.id == appConstants.userService || control.id == appConstants.userServiceType)) {
           const resetHiddenFieldPromise = () => new Promise<void>((resolve) => {
             this.resetHiddenField(control);
             resolve();
@@ -1190,9 +1146,9 @@ export class DemographicComponent extends FormDeactivateGuardService
         }
       }
     }
-    if (this.initializationFlag == false && selectedFieldId == "userService" ) {
+    if (this.initializationFlag == false && selectedFieldId == appConstants.userService ) {
       for (const control of this.uiFields) {
-        if (!(control.id == "userService")) {
+        if (!(control.id == appConstants.userService)) {
           const resetHiddenFieldPromise = () => new Promise<void>((resolve) => {
             this.resetHiddenField(control);
             resolve();
@@ -1203,10 +1159,12 @@ export class DemographicComponent extends FormDeactivateGuardService
       }
     }
     const identityFormData = this.createIdentityJSONDynamic(true, selectedFieldId);
-
+    if(selectedFieldId==appConstants.userServiceTypeCop){
+      this.userServiceTypeCop=this.userForm.controls[selectedFieldId].value;
+    }
     // Consent Declaration
     if (selectedFieldId && selectedFieldId.trim() !== "") {
-      if (selectedFieldId == "userService" && this.userForm.controls[selectedFieldId].value !== this.userService) {
+      if (selectedFieldId == appConstants.userService && this.userForm.controls[selectedFieldId].value !== this.userService) {
         console.log(`Prev : ${this.userService}, New: ${this.userForm.controls[selectedFieldId].value}`);
         if (!this.dataModification) {
           if (this.isConsentMessage) this.consentDeclaration();
@@ -1296,77 +1254,13 @@ export class DemographicComponent extends FormDeactivateGuardService
       }
     }
 
-    //earlier getting field and checking dependent for initial run also
-    // if (this.initializationFlag === true || field.hasOwnProperty("dependentFields")) {
-    //   await this.processShowHideFields(formIdentityData);
-    // }
     if (selectedFieldId && selectedFieldId.trim() !== "" && myFlag == false) {
       await this.processChangeActions(selectedFieldId).then(async () => {
       });
-      // const ongetFieldAndDataPromise = () => new Promise<void>(async (resolve) => {
-      //   this.processChangeActions(selectedFieldId);
-      //   resolve(); // Resolve the promise once resetHiddenField is done
-      // });
-      //await ongetFieldAndDataPromise();
     }
-
-    //following three lines commented malay.
-    // await this.processShowHideFields(formIdentityData);
-    // await this.processConditionalRequiredValidations(formIdentityData);
-    // await this.processChangeActions(selectedFieldId);
-    //}
-    //console.log("log 5:: inside end sync onChangeHandler(selectedFieldId: string)")
 
   }
 
-  //malay--comment processShowHideFields
-  // processShowHideFields = async (formIdentityData) => {
-  //   //for each uiField in UI specs, check of any "visibleCondition" is given
-  //   //if yes, then evaluate it with json-rules-engine
-  //   this.uiFields.forEach((uiField) => {
-  //     //if no "visibleCondition" is given, then show the field
-  //     if (!uiField.visibleCondition || uiField.visibleCondition == "") {
-  //       uiField.isVisible = true;
-  //     } else {
-  //       const resetHiddenFieldFunc = this.resetHiddenField;
-  //       let visibilityRule = new Rule({
-  //         conditions: uiField.visibleCondition,
-  //         onSuccess() {
-  //           //in "visibleCondition" is statisfied then show the field
-  //           uiField.isVisible = true;
-  //         },
-  //         onFailure() {
-  //           //in "visibleCondition" is not statisfied then hide the field
-  //           uiField.isVisible = false;
-  //           resetHiddenFieldFunc(uiField);
-  //         },
-  //         event: {
-  //           type: "message",
-  //           params: {
-  //             data: "",
-  //           },
-  //         },
-  //       });
-  //       this.jsonRulesEngine.addRule(visibilityRule);
-  //       //evaluate the visibleCondition
-  //       this.jsonRulesEngine
-  //         .run(formIdentityData)
-  //         .then((results) => {
-  //           results.events.map((event) =>
-  //             console.log(
-  //               "jsonRulesEngine for visibleConditions run successfully",
-  //               event.params.data
-  //             )
-  //           );
-  //           this.jsonRulesEngine.removeRule(visibilityRule);
-  //         })
-  //         .catch((error) => {
-  //           console.log("err is", error);
-  //           this.jsonRulesEngine.removeRule(visibilityRule);
-  //         });
-  //     }
-  //   }, this.resetHiddenField);
-  // };
 
   //malay
   processShowHideFields = async (formIdentityData: any, subField?: any) => {
@@ -1376,15 +1270,6 @@ export class DemographicComponent extends FormDeactivateGuardService
         /** Construct a fact to be consumed by the json-rule-engine based on 
          * parent field value.
          */
-        // if (subField.parentField) {
-        //   for (const field of subField.parentField) {
-        //     const parentFieldValue = formIdentityData.identity[field.fieldId];
-        //     //facts = { [field.fieldId]: parentFieldValue };
-        //     //facts[field.fieldId] = parentFieldValue;
-        //   }
-        // }
-        //console.log("for parent field:: " + JSON.stringify(subField.parentField))
-        //console.log(formIdentityData)
         const resetHiddenFieldFunc = this.resetHiddenField;
         let visibilityRule = new Rule({
           conditions: subField.visibleCondition,
@@ -1539,71 +1424,6 @@ export class DemographicComponent extends FormDeactivateGuardService
       }
     });
   };
-
-  /**
-   * This function looks for "requiredCondition" attribute for each field in UI Specs.
-   * Using "json-rules-engine", these conditions are evaluated
-   * and fields are conditionally validated as required or not in the UI form.
-   */
-  //malay--> comment processConditionalRequiredValidations
-  // processConditionalRequiredValidations(identityFormData) {
-  //   //for each uiField in UI specs, check of any "requiredCondition" is given
-  //   //if yes, then evaluate it with json-rules-engine
-  //   this.uiFields.forEach((uiField) => {
-  //     //if no "requiredCondition" is given, then nothing is to be done
-  //     if (uiField.requiredCondition && uiField.requiredCondition != "") {
-  //       const addValidatorsFunc = this.addRequiredValidator;
-  //       const removeValidatorFunc = this.removeValidators;
-  //       const isControlInMultiLangFunc = this.isControlInMultiLang;
-  //       const dataCaptureLanguages = this.dataCaptureLanguages;
-  //       let requiredRule = new Rule({
-  //         conditions: uiField.requiredCondition,
-  //         onSuccess() {
-  //           //in "requiredCondition" is statisfied then validate the field as required
-  //           uiField.required = true;
-  //           dataCaptureLanguages.forEach((language, i) => {
-  //             let controlId = "";
-  //             if (isControlInMultiLangFunc(uiField)) {
-  //               controlId = uiField.id + "_" + language;
-  //               addValidatorsFunc(uiField, controlId, language);
-  //             } else if (i == 0) {
-  //               controlId = uiField.id;
-  //               addValidatorsFunc(uiField, controlId, language);
-  //             }
-  //           });
-  //         },
-  //         onFailure() {
-  //           //in "requiredCondition" is not statisfied then validate the field as not required
-  //           uiField.required = false;
-  //           removeValidatorFunc(uiField);
-  //         },
-  //         event: {
-  //           type: "message",
-  //           params: {
-  //             data: "",
-  //           },
-  //         },
-  //       });
-  //       this.jsonRulesEngine.addRule(requiredRule);
-  //       //evaluate the visibleCondition
-  //       this.jsonRulesEngine
-  //         .run(identityFormData)
-  //         .then((results) => {
-  //           results.events.map((event) =>
-  //             console.log(
-  //               "jsonRulesEngine for requiredConditions run successfully",
-  //               event.params.data
-  //             )
-  //           );
-  //           this.jsonRulesEngine.removeRule(requiredRule);
-  //         })
-  //         .catch((error) => {
-  //           console.log("err is", error);
-  //           this.jsonRulesEngine.removeRule(requiredRule);
-  //         });
-  //     }
-  //   }, this);
-  // }
 
   //malay
   processConditionalRequiredValidations(identityFormData, uiField) {
@@ -1835,6 +1655,26 @@ export class DemographicComponent extends FormDeactivateGuardService
                       res["langCode"]
                     );
                   }
+                  else if(res.name==appConstants.NOTIFICATION_OF_CHANGE.userServiceTypeCop){
+                    const fieldValArray1 = res["fieldVal"];
+                    const notificationOfChangeServiceType = fieldValArray1.map(item => item.code);
+                    this.notificationOfChangeServiceType = notificationOfChangeServiceType;
+                  }
+                  else if(res.name==appConstants.NOTIFICATION_OF_CHANGE.nameFields){
+                    const fieldValArray = res["fieldVal"];
+                    const notificationOfChangeNameFields = fieldValArray.map(item => item.value);
+                    this.notificationOfChangeNameFields = notificationOfChangeNameFields;
+                  }
+                  else if(res.name==appConstants.NOTIFICATION_OF_CHANGE.isCardRequiredCop){
+                    const fieldValArray1 = res["fieldVal"];
+                    const cardRequiredCopServiceType = fieldValArray1.map(item => item.code);
+                    this.cardRequiredCopServiceType = cardRequiredCopServiceType;
+                  }
+                  else if(res.name==appConstants.NOTIFICATION_OF_CHANGE.cardOptionalCopServiceType){
+                    const fieldValArray1 = res["fieldVal"];
+                    const cardOptionalCopServiceType = fieldValArray1.map(item => item.code);
+                    this.cardOptionalCopServiceType = cardOptionalCopServiceType;
+                  }
                 });
               });
               let totalPages = response[appConstants.RESPONSE]["totalPages"];
@@ -1994,7 +1834,6 @@ export class DemographicComponent extends FormDeactivateGuardService
           },
           (error) => {
             this.loggerService.error("Unable to fetch gender");
-            //this.onError(this.errorlabels.error, error);
           }
         )
       );
@@ -2026,7 +1865,6 @@ export class DemographicComponent extends FormDeactivateGuardService
           },
           (error) => {
             this.loggerService.error("Unable to fetch Resident types");
-            //this.onError(this.errorlabels.error, error);
           }
         )
       );
@@ -2121,7 +1959,6 @@ export class DemographicComponent extends FormDeactivateGuardService
         if (this.dataModification) {
           this.hasDobChangedFromChildToAdult(controlId);
         }
-        //this.userForm.controls[controlId].markAsTouched();
       } else {
         this.userForm.controls[controlId].setValue("");
         this.userForm.controls[controlId].markAsTouched();
@@ -2276,7 +2113,6 @@ export class DemographicComponent extends FormDeactivateGuardService
     return new Promise((resolve) => {
       const uppermostLocationHierarchy = this.dataStorageService.getLocationMetadataHirearchy();
       this.uppermostLocationHierarchy = uppermostLocationHierarchy;
-      //this.locationHeirarchies
       resolve(this.uppermostLocationHierarchy);
     });
   }
@@ -2323,9 +2159,6 @@ export class DemographicComponent extends FormDeactivateGuardService
             }
           },
           (error) => {
-            //this.userForm.controls[toFieldName].patchValue(fromVal);
-            //no error handling required for failed transliteration
-            //this.loggerService.error(error);
           }
         )
       );
@@ -2368,6 +2201,9 @@ export class DemographicComponent extends FormDeactivateGuardService
           }
         });
       });
+      if(this.userService==appConstants.USER_SERVICE.UPDATE){
+        this.nameFieldsCopValidation();
+      }
       console.log(this.userForm.valid)
 
       console.log(this.filledFields);
@@ -2449,49 +2285,6 @@ export class DemographicComponent extends FormDeactivateGuardService
               //as it is. it will show the same page.
             }
           });
-        //   const identity = this.createIdentityJSONDynamic(false);
-        //   const request = this.createRequestJSON(identity);
-        //   console.log(request);
-        //   const responseJSON = this.createResponseJSON(identity);
-        //   console.log("this.dataModification:: " + this.dataModification);
-        //   this.dataUploadComplete = false;
-        //   if (this.dataModification) {
-        //     this.subscriptions.push(
-        //       this.dataStorageService
-        //         .updateUser(request, this.preRegId)
-        //         .subscribe(
-        //           (response) => {
-        //             this.redirectUser();
-        //           },
-        //           (error) => {
-        //             this.loggerService.error(JSON.stringify(error));
-        //             const errCode = Utils.getErrorCode(error);
-        //             if (errCode === appConstants.ERROR_CODES.invalidPin) {
-        //               this.formValidation(error);
-        //             }
-        //             this.showErrorMessage(error);
-        //           }
-        //         )
-        //     );
-        //   } else {
-        //     this.subscriptions.push(
-        //       this.dataStorageService.addUser(request).subscribe(
-        //         (response) => {
-        //           this.preRegId =
-        //             response[appConstants.RESPONSE].preRegistrationId;
-        //           this.redirectUser();
-        //         },
-        //         (error) => {
-        //           this.loggerService.error(JSON.stringify(error));
-        //           const errCode = Utils.getErrorCode(error);
-        //           if (errCode === appConstants.ERROR_CODES.invalidPin) {
-        //             this.formValidation(error);
-        //           }
-        //           this.showErrorMessage(error);
-        //         }
-        //       )
-        //     );
-        //   }
       }
     }
   }
@@ -2521,9 +2314,6 @@ export class DemographicComponent extends FormDeactivateGuardService
       localStorage.getItem(appConstants.MODIFY_USER_FROM_PREVIEW) === "true" &&
       this.preRegId
     ) {
-      /* url = Utils.getURL(this.router.url, "summary");
-      localStorage.setItem(appConstants.MODIFY_USER_FROM_PREVIEW, "false");
-      this.router.navigateByUrl(url + `/${this.preRegId}/preview`);*/
       // modify open dialog
       const message = "You have successfuly modified registration details";
       const body = {
@@ -2627,91 +2417,6 @@ export class DemographicComponent extends FormDeactivateGuardService
     });
   }
 
-  /**
-   * @description This is to create the identity modal
-   *
-   * @private
-   * @returns
-   * @memberof DemographicComponent
-   */
-  // private createIdentityJSONDynamic(includingBlankFields: boolean) {
-  //   const identityObj = {};
-  //   const newIdentityObj = {};
-  //   this.identityData.forEach((field) => {
-  //     if (
-  //       field.inputRequired === true &&
-  //       !(field.controlType === "fileupload")
-  //     ) {
-  //       if (!field.inputRequired) {
-  //         identityObj[field.id] = "";
-  //         newIdentityObj[field.id] = "";
-  //       } else {
-  //         if (field.type === "simpleType") {
-  //           identityObj[field.id] = [];
-  //         } else if (field.type === "string") {
-  //           identityObj[field.id] = "";
-  //         }
-  //       }
-  //     } else {
-  //       if (field.id == appConstants.IDSchemaVersionLabel) {
-  //         if (field.type === "string") {
-  //           identityObj[field.id] = String(this.identitySchemaVersion);
-  //         } else if (field.type === "number") {
-  //           identityObj[field.id] = Number(this.identitySchemaVersion);
-  //         }
-  //       }
-  //     }
-  //   });
-
-  //   let keyArr: any[] = Object.keys(identityObj);
-  //   for (let index = 0; index < keyArr.length; index++) {
-  //     const element = keyArr[index];
-  //     if (element != appConstants.IDSchemaVersionLabel) {
-  //       this.createAttributeArray(element, identityObj);
-  //     }
-  //   }
-  //   let identityRequest = { identity: identityObj };
-  //   if (!includingBlankFields) {
-  //     //now remove the blank fields from the identityObj
-  //     for (let index = 0; index < keyArr.length; index++) {
-  //       const element = keyArr[index];
-  //       if (element == appConstants.IDSchemaVersionLabel) {
-  //         newIdentityObj[element] = identityObj[element];
-  //       } else if (typeof identityObj[element] === "object") {
-  //         let elementValue = identityObj[element];
-  //         if (elementValue && elementValue.length > 0) {
-  //           if (
-  //             elementValue[0].value !== "" &&
-  //             elementValue[0].value !== null &&
-  //             elementValue[0].value !== undefined
-  //           ) {
-  //             newIdentityObj[element] = elementValue;
-  //           }
-  //         }
-  //       } else if (typeof identityObj[element] === "string") {
-  //         let elementValue = identityObj[element];
-  //         if (
-  //           elementValue !== "" &&
-  //           elementValue !== null &&
-  //           elementValue !== undefined
-  //         ) {
-  //           newIdentityObj[element] = elementValue;
-  //         }
-  //       } else if (typeof identityObj[element] === "boolean") {
-  //         let elementValue = identityObj[element];
-  //         if (elementValue == true) {
-  //           newIdentityObj[element] = true;
-  //         }
-  //         if (elementValue == false) {
-  //           newIdentityObj[element] = false;
-  //         }
-  //       }
-  //     }
-  //     identityRequest = { identity: newIdentityObj };
-  //   }
-  //   //console.log(identityRequest);
-  //   return identityRequest;
-  // }
 
   /**
    * @description This is to create the request modal.
@@ -2773,7 +2478,6 @@ export class DemographicComponent extends FormDeactivateGuardService
   }
 
   hasDobChangedFromChildToAdult(controlId: string) {
-    //console.log("hasDobChangedFromChildToAdult");
     const currentDob = this.user.request.demographicDetails.identity[controlId];
     const changedDob = this.userForm.controls[controlId].value;
     if (
@@ -2891,7 +2595,6 @@ export class DemographicComponent extends FormDeactivateGuardService
       );
       const dialogRef = this.openDialog(popupAttributes, "550px", "350px");
       dialogRef.afterClosed().subscribe((res) => {
-        //console.log(res);
         if (res == undefined) {
           this.isNavigateToDemographic = false;
         } else {
@@ -2903,7 +2606,6 @@ export class DemographicComponent extends FormDeactivateGuardService
             appConstants.DATA_CAPTURE_LANGUAGES,
             JSON.stringify(reorderedArr)
           );
-          //console.log("done");
           this.isNavigateToDemographic = true;
         }
         resolve(true);
@@ -3022,16 +2724,21 @@ export class DemographicComponent extends FormDeactivateGuardService
   }
 
   getValidationErrorMessages() {
-    const error: any = this.getFormValidationErrors(this.userForm.controls).shift();
+    debugger
+    let error: any = this.getFormValidationErrors(this.userForm.controls).shift();
+    if(error==null && this.userService==appConstants.USER_SERVICE.UPDATE){
+      error=this.nameFieldsCopValidationError();
+    }
     if (error) {
       let text;
       switch (error.error_name) {
+        case 'nameCopRequired': text = `Any one of the field in notification of chage is required!`; break;
         case 'required': text = `${error.control_name} is required!`; break;
         case 'pattern': text = `${error.control_name} has wrong pattern!`; break;
         case 'email': text = `${error.control_name} has wrong email format!`; break;
         case 'minlength': text = `${error.control_name} has wrong length! Required length: ${error.error_value.requiredLength}`; break;
         case 'areEqual': text = `${error.control_name} must be equal!`; break;
-        default: text = `Invalid ${error.control_name} `;
+        default: text = `${error.control_name} is invalid`;
       }
       return text;
     }
@@ -3071,11 +2778,39 @@ export class DemographicComponent extends FormDeactivateGuardService
   };
 
   isRenewalService(): boolean {
-    if (this.userService === "RENEWAL") {
+    if (this.userService === appConstants.USER_SERVICE.RENEWAL) {
       return true;
     }
     return false;
   }
-  
 
+  isCopService(): boolean {
+    if (this.userService === appConstants.USER_SERVICE.UPDATE) {
+      return true;
+    }
+    return false;
+  }
+
+  nameFieldsCopValidation() {
+    const nameFieldsUserServiceCopArr = this.notificationOfChangeServiceType;
+    const nameFields = this.notificationOfChangeNameFields;
+    if (nameFieldsUserServiceCopArr.includes(this.userServiceTypeCop)) {
+      const hasValue = nameFields.some((field) => {
+        const namefieldCop = this.userForm.controls[field];
+        return namefieldCop && namefieldCop.value && namefieldCop.value.trim() !== "";
+      });
+
+      if (!hasValue) {
+        this.userForm.setErrors({ invalidForm: true });
+      }
+    }
+  }
+
+  nameFieldsCopValidationError(): { control_name: string; error_name: string; error_value: boolean } | null {
+        return {
+          control_name: "nameFields",
+          error_name: "nameCopRequired",
+          error_value: true
+        };
+  }
 }

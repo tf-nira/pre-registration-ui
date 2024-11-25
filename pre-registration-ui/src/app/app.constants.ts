@@ -207,3 +207,23 @@ export const BOOKING_DETAIL = {
   time_slot_from: '09:30:00',
   time_slot_to: '09:45:00'
 };
+
+export const PRE_REGISTRATION_IDENTITY_NAME_COP = "surnameCop";
+
+export const userService = "userService";
+
+export const userServiceType = "userServiceType";
+
+export const userServiceTypeCop = "userServiceTypeCop";
+
+export const USER_SERVICE = {
+  RENEWAL : "RENEWAL",
+  UPDATE : "UPDATE"
+};
+
+export const NOTIFICATION_OF_CHANGE = {
+  userServiceTypeCop : "notificationOfChange",
+  nameFields : "nocNameFields",
+  isCardRequiredCop : "cardRequiredCop",
+  cardOptionalCopServiceType : "cardOptionalCop"
+}

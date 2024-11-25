@@ -38,7 +38,6 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
   PRN:string="";
   PRNerrorMessage="";
   amount:string="";
-  //notificationRequest = new FormData();
   bookingDataPrimary = "";
   bookingDataSecondary = "";
   subscriptions: Subscription[] = [];
@@ -52,10 +51,6 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
   langCode;
   textDir = localStorage.getItem("dir");
   name = "";
-  // givenName = "";
-  // createdDateTimeString;
-  // createdDateTime;
-  // createdDate;
   createdTime;
   applicantContactDetails = [];
   constructor(
@@ -85,12 +80,11 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
         this.errorlabels = response[appConstants.ERROR];
         this.apiErrorCodes = response[appConstants.API_ERROR_CODES];
       });
-    this.name = this.configService.getConfigByKey(
-      appConstants.CONFIG_KEYS.preregistration_identity_name
-    );
+        this.name = this.configService.getConfigByKey(
+          appConstants.CONFIG_KEYS.preregistration_identity_name
+        );
     await this.updateApplicationStatus();
     await this.getUserInfo(this.preRegIds);
-    //console.log(this.usersInfoArr);
     for (let i = 0; i < this.usersInfoArr.length; i++) {
       await this.getRegCenterDetails(this.usersInfoArr[i].langCode, i);
       console.log("after get reg centre details")
@@ -164,23 +158,12 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
             nameListObj.preRegId = user["request"].preRegistrationId;
             nameListObj.status = user["request"].statusCode;
 
-            //malay-->for pdf data change
-            // if (user["request"].demographicDetails.identity.givenName[0].value) {
-            //   this.givenName = user["request"].demographicDetails.identity.givenName[0].value;
-            //   console.log("user data malay " + user["request"].demographicDetails.identity.givenName[0].value)
-            // }
-            // if (user["request"].createdDateTime) {
-            //   this.createdDateTimeString = user["request"].createdDateTime;
-
-            //   this.createdDateTime = new Date(this.createdDateTimeString);
-            //   this.createdDate = this.createdDateTime.toLocaleDateString(); // Format date based on locale
-            //   this.createdTime = this.createdDateTime.toLocaleTimeString();
-            //   console.log("user data malay1 " + user["request"].createdDateTime)
-            //   console.log("user data malay1 " + this.createdDate)
-            //   console.log("user data malay1 " + this.createdTime)
-            // }
-
-            //for pdf -->data change end malay.
+            if (!this.userService) {
+              this.userService = demographicData["userService"];
+            }
+            if(this.userService==appConstants.USER_SERVICE.UPDATE){
+              this.name = appConstants.PRE_REGISTRATION_IDENTITY_NAME_COP;
+            }
 
             if (demographicData[this.name]) {
               let nameValues = demographicData[this.name];
@@ -197,15 +180,12 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
             nameListObj.langCode = applicationLang;
             nameListObj.regDto = regDto;
             this.usersInfoArr.push(nameListObj);
-            if (!this.userService) {
-              this.userService = demographicData["userService"];
-            }
-            //console.log(this.usersInfoArr);
             this.applicantContactDetails.push({
               "preRegId": user["request"].preRegistrationId,
               "phone": demographicData["phone"],
               "email": demographicData["email"]
             });
+            
           });
           this.generatePaymentRefNum(demographicData)
         });
@@ -272,8 +252,6 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
           (error) => {
             this.usersInfoArr[index].registrationCenter = "";
             resolve(true);
-            //suppress the err popup, as reg center maybe added only in one lang
-            //this.showErrorMessage(error);
           });
     });
   }
@@ -284,7 +262,6 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
         .getI18NLanguageFiles(langCode)
         .subscribe((response) => {
           this.usersInfoArr[index].labelDetails.push(response["acknowledgement"]);
-          //console.log(this.usersInfoArr[index].labelDetails);
           resolve(true);
         });
     });
@@ -296,7 +273,6 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
         .getI18NLanguageFiles(langCode)
         .subscribe((response) => {
           this.usersInfoArr[index].userLangLabelDetails.push(response["acknowledgement"]);
-          //console.log(this.usersInfoArr[index].labelDetails);
           resolve(true);
         });
     });
@@ -309,34 +285,17 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
       };
       let preRegIdLabels = [],
         appDateLabels = [],
-        //contactPhoneLabels = [],
         messages = [],
         labelNames = [],
         nameValues = [],
         givenNames = [],
         createdDate = [],
         createdTime = [],
-        //labelRegCntrs = [],
-        //regCntrNames = [],
         appLangCode = [];
-      //bookingDataPrimary = [],
-      //bookingTimePrimary = [];
 
       this.ackDataItem["preRegId"] = prid;
-
-      // this.ackDataItem["contactPhone"] =
-      //   this.usersInfoArr[0].registrationCenter.contactPhone;
       this.ackDataItem["Suname"] =
         this.usersInfoArr[0].fullName;
-      // if(this.givenName){
-      //   this.ackDataItem["Name"] = this.givenName;
-      // }
-      // if(this.createdDate){
-      //   this.ackDataItem["Date"] = this.createdDate;
-      // }
-      // if(this.createdTime){
-      //   this.ackDataItem["Time"] = this.createdTime;
-      // }
 
       this.usersInfoArr.forEach(userInfo => {
         if (userInfo.preRegId == prid) {
@@ -344,41 +303,14 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
           const labels = userInfo.labelDetails[0];
           preRegIdLabels.push(labels.label_pre_id);
           appDateLabels.push(labels.label_appointment_date_time);
-          //contactPhoneLabels.push(labels.label_cntr_contact_number);
           labelNames.push(labels.label_name);
-          //labelRegCntrs.push(labels.label_reg_cntr);
           nameValues.push(userInfo.fullName);
           let name = userInfo.fullName
           console.log(name);
-
-          // console.log(userInfo.registrationCenter.name);
-          // if (userInfo.registrationCenter.name) {
-          //   // regCntrNames.push(userInfo.registrationCenter.name);
-          // }
-          // if (this.givenName) {
-          //   givenNames.push(this.givenName);
-          // }
-          // if (this.createdDate) {
-          //   createdDate.push(this.createdDate);
-          // }
-          // if (this.createdTime) {
-          //   createdTime.push(this.createdTime);
-          // }
           appLangCode.push(userInfo.langCode);
           //set the message in user login lang if available
           let fltrLangs = this.usersInfoArr.filter(userInfoItm => userInfoItm.preRegId == userInfo.preRegId && userInfoItm.langCode == this.langCode);
           if (fltrLangs.length == 1) {
-            //matching lang found
-            // bookingTimePrimary.push({
-            //   langCode: userInfo.langCode,
-            //   time:userInfo.bookingTimePrimary,
-            //   langAvailable: true
-            // });
-            // bookingDataPrimary.push({
-            //   langCode: userInfo.langCode,
-            //   date:userInfo.bookingDataPrimary,
-            //   langAvailable: true
-            // });  
             let fltr = messages.filter(msg => msg.preRegId == fltrLangs[0].preRegId);
             if (fltr.length == 0) {
               messages.push({
@@ -388,17 +320,6 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
               });
             }
           } else {
-            //matching lang found
-            // bookingTimePrimary.push({
-            //   langCode: userInfo.langCode,
-            //   time:userInfo.bookingTimePrimary,
-            //   langAvailable: false
-            // });
-            // bookingDataPrimary.push({
-            //   langCode: userInfo.langCode,
-            //   date:userInfo.bookingDataPrimary,
-            //   langAvailable: false
-            // });  
             let fltr = messages.filter(msg => msg.preRegId == userInfo.preRegId);
             if (fltr.length == 0) {
               messages.push({
@@ -409,15 +330,12 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
           }
         }
       });
-      //console.log(appLangCode);
       if (this.ltrLangs.includes(appLangCode[0])) {
         this.ackDataItem["appLangCodeDir"] = "ltr";
       } else {
         this.ackDataItem["appLangCodeDir"] = "rtl";
       }
       this.ackDataItem["appLangCode"] = appLangCode;
-      //this.ackDataItem["bookingTimePrimary"] = bookingTimePrimary;
-      //this.ackDataItem["bookingDataPrimary"] = bookingDataPrimary;
       this.ackDataItem["preRegIdLabels"] = JSON.stringify(
         preRegIdLabels
       )
@@ -430,13 +348,6 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
         .replace(/,/g, " / ")
         .replace(/"/g, " ")
         .replace(/]/g, "");
-      // this.ackDataItem["contactPhoneLabels"] = JSON.stringify(
-      //   contactPhoneLabels
-      // )
-      //   .replace(/\[/g, "")
-      //   .replace(/,/g, " / ")
-      //   .replace(/"/g, " ")
-      //   .replace(/]/g, "");
       this.ackDataItem["messages"] = messages;
       this.ackDataItem["labelNames"] = JSON.stringify(labelNames)
         .replace(/\[/g, "")
@@ -448,16 +359,6 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
         .replace(/,/g, " / ")
         .replace(/"/g, " ")
         .replace(/]/g, "");
-      // this.ackDataItem["labelRegCntrs"] = JSON.stringify(labelRegCntrs)
-      //   .replace(/\[/g, "")
-      //   .replace(/,/g, " / ")
-      //   .replace(/"/g, " ")
-      //   .replace(/]/g, "");
-      // this.ackDataItem["regCntrNames"] = JSON.stringify(regCntrNames)
-      //   .replace(/\[/g, "")
-      //   .replace(/,/g, " / ")
-      //   .replace(/"/g, " ")
-      //   .replace(/]/g, "");
       for (let j = 0; j < this.guidelines.length; j++) {
         if (appLangCode.includes(this.guidelines[j].langCode)) {
           this.ackDataItem[
@@ -484,7 +385,6 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
   async qrCodeForUser() {
     return new Promise((resolve) => {
       this.usersInfoArr.forEach(async (user) => {
-        //console.log(user);
         await this.generateQRCode(user);
         if (this.usersInfoArr.indexOf(user) === this.usersInfoArr.length - 1) {
           resolve(true);
@@ -534,7 +434,6 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
         .getGuidelineTemplate("Onscreen-Acknowledgement")
         .subscribe((response) => {
           this.guidelines = response["response"]["templates"];
-          //console.log(this.guidelines);
           resolve(true);
         });
       this.subscriptions.push(subs);
@@ -559,34 +458,6 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
     });
   }
 
-  // async generateBlob() {
-  //   const element = document.getElementById("print-section");
-  //   return await html2pdf()
-  //     .set(this.pdfOptions)
-  //     .from(element)
-  //     .outputPdf("dataurlstring");
-  // }
-
-  // async createBlob() {
-  //   const dataUrl = await this.generateBlob();
-  //   // convert base64 to raw binary data held in a string
-  //   const byteString = atob(dataUrl.split(",")[1]);
-
-  //   // separate out the mime component
-  //   const mimeString = dataUrl.split(",")[0].split(":")[1].split(";")[0];
-
-  //   // write the bytes of the string to an ArrayBuffer
-  //   const arrayBuffer = new ArrayBuffer(byteString.length);
-
-  //   var _ia = new Uint8Array(arrayBuffer);
-  //   for (let i = 0; i < byteString.length; i++) {
-  //     _ia[i] = byteString.charCodeAt(i);
-  //   }
-
-  //   const dataView = new DataView(arrayBuffer);
-  //   return await new Blob([dataView], { type: mimeString });
-  // }
-
   sendAcknowledgement() {
     console.log("in sendAcknowledgement")
     const data = {
@@ -600,7 +471,6 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
       })
       .afterClosed()
       .subscribe((applicantNumber) => {
-        //console.log(applicantNumber);
         if (applicantNumber !== undefined) {
           this.preRegIds.forEach(preRegId => {
             this.applicantContactDetails.push({
@@ -634,7 +504,6 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
     }
   }
 
-  //this.fileBlob = await this.createBlob();
   async sendNotification(contactInfoArr, additionalRecipient: boolean) {
     debugger
     this.preRegIds.forEach(async preRegId => {
@@ -680,11 +549,6 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
         appConstants.notificationDtoKeys.langCode,
         Object.keys(notificationObject).join(",")
       );
-      // notificationRequest.append(
-      //   appConstants.notificationDtoKeys.file,
-      //   this.fileBlob,
-      //   `${preRegId}.pdf`
-      // );
       console.log("in sendNotification")
       await this.sendNotificationForPreRegId(notificationRequest);
     });
@@ -736,7 +600,7 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
    * @memberof AcknowledgementComponent
    */
   generatePaymentRefNum(demographicData: any) {
-    const surname = demographicData.surname[0].value;
+    const surname = demographicData.surnameCop[0].value;
     const nin = demographicData.NIN;
     const desiredService = demographicData.userService; 
     const payablesServices = ["LOST", "UPDATE"];
