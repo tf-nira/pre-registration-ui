@@ -630,7 +630,7 @@
               <span *ngFor="let alignmentGroup of alignmentGroups">
                 <div class="rowContainer">
                   <span *ngFor="let field of uiFieldsForAlignmentGroups[alignmentGroup]; index as uiFieldIndex">
-                    <div class="fieldContainer" *ngIf="field.isVisible == true && (field.renderID.startsWith('frm_3a_a9') || field.renderID.startsWith('frm_3a_a1_RewewNINI') || field.renderID.startsWith('frm_3a_a1_countryCode') || field.renderID.startsWith('frm_3a_a1_contact') || field.renderID.startsWith('frm_3a_a1email'))">
+                    <div class="fieldContainer" *ngIf="field.isVisible == true && (field.renderID.startsWith('frm_3a_a9') || field.renderID.startsWith('frm_3a_a1_RewewNINI') || field.renderID.startsWith('frm_3a_a1_countryCode') || field.renderID.startsWith('frm_3a_a1_contact') ||  field.renderID.startsWith('frm_3a_a1_homePhoneNo')  || field.renderID.startsWith('frm_3a_a1email'))">
                       <div class="fieldHeader" [ngStyle]="field.headerStyle">
                         <!-- Create container header with label in user's login lang -->
                         <mat-label>{{field.labelName[userPrefLanguage]}} : </mat-label>
