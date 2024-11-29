@@ -157,6 +157,7 @@ export class DemographicComponent extends FormDeactivateGuardService
   consentMessage = [];
   titleOnError = "";
   dateOfBirthFieldId = "";
+  dateOfBirthFieldIdCop = "";
   isNavigateToDemographic = false;
   isSubmitted = false;
   _moment = moment;
@@ -739,6 +740,7 @@ export class DemographicComponent extends FormDeactivateGuardService
             response[appConstants.RESPONSE]["jsonSpec"]["identity"];
           this.identityData = identityJsonSpec["identity"];
 
+          //LOCAL
           //this.identityData = [];    //malay
 
           let locationHeirarchiesFromJson = [
@@ -746,6 +748,10 @@ export class DemographicComponent extends FormDeactivateGuardService
           ];
           this.identitySchemaVersion =
             response[appConstants.RESPONSE]["idSchemaVersion"];
+
+            //LOCAL
+          //const fieldDefinitions = await this.loadFieldDefinitions();
+          // this.identityData.push(...fieldDefinitions);
 
           if (Array.isArray(locationHeirarchiesFromJson[0])) {
             this.locationHeirarchies = locationHeirarchiesFromJson;
@@ -852,6 +858,11 @@ export class DemographicComponent extends FormDeactivateGuardService
             const dtCtrlId = controlId + "_dateCtrl";
             this.userForm.addControl(dtCtrlId, new FormControl(""));
           }
+          if (uiField.controlType === "ageDateCop") {
+            this.dateOfBirthFieldIdCop = controlId;
+            const dtCtrlId = controlId + "_dateCtrl";
+            this.userForm.addControl(dtCtrlId, new FormControl(""));
+          }
         }
       });
     });
@@ -860,6 +871,7 @@ export class DemographicComponent extends FormDeactivateGuardService
   isControlInMultiLang(uiField: any) {
     if (
       uiField.controlType !== "ageDate" &&
+      uiField.controlType !== "ageDateCop" &&
       uiField.controlType !== "date" &&
       uiField.controlType !== "dropdown" &&
       uiField.controlType !== "button" &&
@@ -1193,6 +1205,26 @@ export class DemographicComponent extends FormDeactivateGuardService
       ) {
         isChild = true;
       }
+    }
+    else if(
+      this.dateOfBirthFieldIdCop != "" &&
+      identityFormData.identity[this.dateOfBirthFieldIdCop]
+    ){
+      const dateOfBirthDt = identityFormData.identity[this.dateOfBirthFieldIdCop];
+      let calcAge = this.calculateAge(dateOfBirthDt);
+      if (calcAge !== "" && Number(calcAge) > -1) {
+        currentAge = Number(calcAge);
+      }
+      const ageToBeAdult = this.config[
+        appConstants.CONFIG_KEYS.mosip_adult_age
+      ];
+      if (
+        Number(this.currentAge) > -1 &&
+        Number(this.currentAge) <= Number(ageToBeAdult)
+      ) {
+        isChild = true;
+      }
+  
     }
     //console.log(`isChild: ${isChild}`);
     let formIdentityData = {
@@ -1758,6 +1790,9 @@ export class DemographicComponent extends FormDeactivateGuardService
               });
             } else {
               if (control.controlType === "ageDate") {
+                this.setDateOfBirth(control.id);
+              }
+              if (control.controlType === "ageDateCop") {
                 this.setDateOfBirth(control.id);
               }
               if (control.controlType === "date") {
