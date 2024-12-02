@@ -788,7 +788,7 @@
                             </span>
                           </ng-container>
                           <!-- Add Age Date fields-->
-                          <ng-container *ngIf="field.controlType === 'ageDate'">
+                          <ng-container *ngIf="field.controlType === 'ageDate' || field.controlType === 'ageDateCop'">
                             <span *ngIf="i == 0">
                               <div class="user__age-or-date" [dir]="dataCaptureLangsDir[i]">
                                 <div class="user__date">
@@ -4342,12 +4342,14 @@
                           </ng-container>
                           <!-- Add CheckBox only once, but show Labels in all dataCaptureLanguages -->
                           <ng-container *ngIf="field.controlType === 'checkbox'">
-                            <div class="fieldContainer">
-                              <mat-checkbox formControlName="hardcodedCheckboxId" (change)="onChangeHandler('hardcodedCheckboxId')">
-                                Tick here
-                              </mat-checkbox>
-                              <span *ngIf="isRequired" class="required-annotation">*</span>
-                            </div>
+                            <span *ngIf="i == 0" [dir]="dataCaptureLangsDir[i]">
+                              <mat-checkbox class="form_checkBox" [formControlName]="field.id"
+                                (change)="onChangeHandler(field.id);">
+                              </mat-checkbox>&nbsp;&nbsp;
+                              <span *ngFor="let lang of dataCaptureLanguages;index as langIndex">
+                                <span *ngIf="langIndex !== 0"> / </span>{{field.labelName[lang]}}
+                              </span>
+                            </span>
                           </ng-container>
                           <!-- Add Button Options in  only one language on mouse over other lang are shown -->
                           <ng-container *ngIf="field.controlType === 'button'">

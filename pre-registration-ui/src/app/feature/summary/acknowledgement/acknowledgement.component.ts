@@ -600,11 +600,17 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
    * @memberof AcknowledgementComponent
    */
   generatePaymentRefNum(demographicData: any) {
-    const surname = demographicData.surname[0].value;
+    let surname;
+    if(this.userService==appConstants.USER_SERVICE.UPDATE){
+      surname = demographicData.surnameCop[0].value;
+    }
+    else{
+      surname = demographicData.surname[0].value;
+    }
     const nin = demographicData.NIN;
     const desiredService = demographicData.userService; 
     const payablesServices = ["LOST", "UPDATE"];
-    const age:number =this.dataStorageService.calculateAge(demographicData.dateOfBirth);
+    const age:number =this.dataStorageService.calculateAge(demographicData.dateOfBirthCop);
     //console.log(age);
     
     const hasAnyCoreCardData = surname || 
