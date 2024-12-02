@@ -115,8 +115,6 @@ export class DemographicComponent extends FormDeactivateGuardService
   userServiceTypeCop: string = "";
   notificationOfChangeServiceType = [];
   notificationOfChangeNameFields = [];
-  cardRequiredCopServiceType = [];
-  cardOptionalCopServiceType = [];
   ageCop: number;
   agePattern: string;
   defaultDay: string;
@@ -751,7 +749,7 @@ export class DemographicComponent extends FormDeactivateGuardService
 
             //LOCAL
           //const fieldDefinitions = await this.loadFieldDefinitions();
-          // this.identityData.push(...fieldDefinitions);
+          //this.identityData.push(...fieldDefinitions);
 
           if (Array.isArray(locationHeirarchiesFromJson[0])) {
             this.locationHeirarchies = locationHeirarchiesFromJson;
@@ -1286,6 +1284,36 @@ export class DemographicComponent extends FormDeactivateGuardService
       }
     }
 
+    //custom validation for defaultvalue decision
+    if(selectedFieldId!=""){
+      let valueToSet;
+      let result;
+      const fieldId = selectedFieldId;
+        subField = this.identityData.find(
+          (subfield) => subfield.id === fieldId);
+          if(subField){
+            if (subField.hasOwnProperty("setDefaultValueCondition")) {
+              result = await this.processConditionalDefaultValue(formIdentityData, subField);
+            }
+            if (subField.hasOwnProperty("setDefaultValueto")) {
+              let field = subField.setDefaultValueto;
+              if(result === "true"){
+                valueToSet = "Y";
+                this.userForm.controls[field].setValue(valueToSet);
+                this.userForm.controls[field].disable();
+              }
+              else{
+                valueToSet = "N";
+                this.userForm.controls[field].setValue(valueToSet);
+                this.userForm.controls[field].enable();
+              }
+            }
+          }
+          else{
+            console.warn(`field with ID '${fieldId}' not found.`);
+          }
+    }
+     
     if (selectedFieldId && selectedFieldId.trim() !== "" && myFlag == false) {
       await this.processChangeActions(selectedFieldId).then(async () => {
       });
@@ -1542,6 +1570,45 @@ export class DemographicComponent extends FormDeactivateGuardService
   }
 
   /**
+   * @description This sets the default value,
+   * imp for decision.
+   *
+   * @private
+   * @memberof DemographicComponent
+   */
+  async processConditionalDefaultValue(identityFormData, uiField) {
+    console.log("set default called");
+    if (uiField && uiField.setDefaultValueCondition && uiField.setDefaultValueCondition !== "") {
+      const defaultValueRule = new Rule({
+        conditions: uiField.setDefaultValueCondition,
+        event: {
+          type: "defaultValueCheck",
+          params: {
+            message: "Default value condition validated",
+          },
+        },
+      });
+  
+      this.jsonRulesEngine.addRule(defaultValueRule);
+  
+      try {
+        const results = await this.jsonRulesEngine.run(identityFormData); // Await the result of the engine
+        const isConditionSatisfied = results.events.some(
+          (event) => event.type === "defaultValueCheck"
+        );
+        this.jsonRulesEngine.removeRule(defaultValueRule); // Cleanup rule
+        return isConditionSatisfied ? "true" : "false";
+      } catch (error) {
+        console.error("Error in setDefaultValueCondition:", error);
+        this.jsonRulesEngine.removeRule(defaultValueRule); // Cleanup rule
+        return "false";
+      }
+    } else {
+      return "false"; // Default to false if condition is missing
+    }
+  }
+  
+  /**
    * @description This sets the top location hierachy,
    * if update set the regions also.
    *
@@ -1696,16 +1763,6 @@ export class DemographicComponent extends FormDeactivateGuardService
                     const fieldValArray = res["fieldVal"];
                     const notificationOfChangeNameFields = fieldValArray.map(item => item.value);
                     this.notificationOfChangeNameFields = notificationOfChangeNameFields;
-                  }
-                  else if(res.name==appConstants.NOTIFICATION_OF_CHANGE.isCardRequiredCop){
-                    const fieldValArray1 = res["fieldVal"];
-                    const cardRequiredCopServiceType = fieldValArray1.map(item => item.code);
-                    this.cardRequiredCopServiceType = cardRequiredCopServiceType;
-                  }
-                  else if(res.name==appConstants.NOTIFICATION_OF_CHANGE.cardOptionalCopServiceType){
-                    const fieldValArray1 = res["fieldVal"];
-                    const cardOptionalCopServiceType = fieldValArray1.map(item => item.code);
-                    this.cardOptionalCopServiceType = cardOptionalCopServiceType;
                   }
                 });
               });
