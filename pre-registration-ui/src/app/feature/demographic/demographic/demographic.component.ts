@@ -1144,7 +1144,7 @@ export class DemographicComponent extends FormDeactivateGuardService
    * and fields are shown/hidden in the UI form.
    */
   async onChangeHandler(selectedFieldId: string) {
-    if (this.initializationFlag == false && selectedFieldId == appConstants.userServiceType ) {
+    if (this.initializationFlag == false && selectedFieldId == appConstants.userServiceType && this.dataModification != true) {
       for (const control of this.uiFields) {
         if (!(control.id == appConstants.userService || control.id == appConstants.userServiceType)) {
           const resetHiddenFieldPromise = () => new Promise<void>((resolve) => {
@@ -1156,7 +1156,7 @@ export class DemographicComponent extends FormDeactivateGuardService
         }
       }
     }
-    if (this.initializationFlag == false && selectedFieldId == appConstants.userService ) {
+    if (this.initializationFlag == false && selectedFieldId == appConstants.userService && this.dataModification != true) {
       for (const control of this.uiFields) {
         if (!(control.id == appConstants.userService)) {
           const resetHiddenFieldPromise = () => new Promise<void>((resolve) => {
