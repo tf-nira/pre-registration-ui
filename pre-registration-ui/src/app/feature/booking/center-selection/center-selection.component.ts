@@ -107,7 +107,6 @@ export class CenterSelectionComponent
           (locType) =>
             locType.hierarchyLevel <= this.recommendedCenterLocCode
         );
-        //console.log(this.locationTypes);
         //sort the filtered array in ascending order of hierarchyLevel
         this.locationTypes.sort(function (a, b) {
           return a.hierarchyLevel - b.hierarchylevel;
@@ -157,8 +156,6 @@ export class CenterSelectionComponent
   return new Promise((resolve, reject) => {
     this.dataService.getIdentityJson().subscribe(
       async (response) => {
-        //response = identityStubJson;
-        //console.log(identityStubJson);
         let identityJsonSpec =
           response[appConstants.RESPONSE]["jsonSpec"]["identity"];
         this.identityData = identityJsonSpec["identity"];
@@ -172,7 +169,6 @@ export class CenterSelectionComponent
 }
 
   async getRecommendedCenters() {
-    //console.log("getRecommendedCenters");
     this.totalItems = 0;
     this.nearbyClicked = false;
     let uiFieldName = null;
@@ -196,12 +192,10 @@ export class CenterSelectionComponent
     } else {
       console.log(`uiFieldName: ${uiFieldName}`);
       this.users.forEach((user) => {
-        //console.log(typeof user.request.demographicDetails.identity[uiFieldName]);
         if (
           typeof user.request.demographicDetails.identity[uiFieldName] ===
           "object"
         ) {
-          //console.log(user.request.demographicDetails.identity[uiFieldName][0].value);
           this.locationCodes.push(
             user.request.demographicDetails.identity[uiFieldName][0].value
           );
@@ -209,13 +203,11 @@ export class CenterSelectionComponent
           typeof user.request.demographicDetails.identity[uiFieldName] ===
           "string"
         ) {
-          //console.log(user.request.demographicDetails.identity[uiFieldName]);
           this.locationCodes.push(
             user.request.demographicDetails.identity[uiFieldName]
           );
         }
       });
-      //console.log(this.locationCodes);
       await this.getLocationNamesByCodes();
       this.getRecommendedCentersApiCall();
     }
@@ -224,7 +216,6 @@ export class CenterSelectionComponent
   getLocationNamesByCodes() {
     return new Promise((resolve) => {
       this.locationCodes.forEach(async (pins,index) => {
-        //console.log(pins);
         await this.getLocationNames(pins);
         if(index===this.locationCodes.length-1){
           resolve(true);
@@ -308,7 +299,6 @@ export class CenterSelectionComponent
         this.pageSize = pageEvent.pageSize;
         this.pageIndex = pageEvent.pageIndex;
       }
-      //console.log(this.locationType);
       const subs = this.dataService
         .getRegistrationCentersByNamePageWise(
           this.locationType.hierarchyLevel,
@@ -332,7 +322,6 @@ export class CenterSelectionComponent
             this.showMessage = true;
             this.totalItems = 0;
             this.selectedCentre = null;
-            //this.showErrorMessage(error);
           });
       this.subscriptions.push(subs);
     } else {
@@ -343,11 +332,9 @@ export class CenterSelectionComponent
   }
 
   onChangeLocationType() {
-    //console.log('onChangeLocationType');
     this.showMessage = false;
     this.totalItems = 0;
     this.searchText = "";
-    //this.REGISTRATION_CENTRES = [];
     this.selectedCentre = null;
   }
 
@@ -371,24 +358,19 @@ export class CenterSelectionComponent
   getLocation() {
     this.REGISTRATION_CENTRES = [];
     this.nearbyClicked = true;
-    //console.log(navigator.geolocation);
     if (navigator.geolocation) {
       this.showMap = false;
       navigator.geolocation.getCurrentPosition((position) => {
         console.log(position.coords);
-        //this.searchClick = true;
         const subs = this.dataService
           .getNearbyRegistrationCenters(position.coords)
           .subscribe(
             (response) => {
-              //console.log(response[appConstants.RESPONSE]["registrationCenters"].length);
               if (
                 response[appConstants.RESPONSE]["registrationCenters"].length !== 0
               ) {
-                //this.searchClick = false;
                 this.displayResults(response[appConstants.RESPONSE]);
               } else {
-                //this.searchClick = false;
                 this.showMessage = true;
                 this.selectedCentre = null;
               }
@@ -396,7 +378,6 @@ export class CenterSelectionComponent
             (error) => {
               this.showMessage = true;
               this.selectedCentre = null;
-              //this.showErrorMessage(error);
             });
         this.subscriptions.push(subs);
       });
@@ -446,18 +427,10 @@ export class CenterSelectionComponent
     this.service.listOfCenters(coords);
   }
 
-  // routeNext() {
-  //   this.canDeactivateFlag = false;
-  //   this.router.navigate(["../pick-time"], {
-  //     relativeTo: this.route,
-  //     queryParams: { regCenter: this.selectedCentre.id },
-  //   });
-  // }
 
 
   routeNext() {
     let url = Utils.getURL(this.router.url, "summary", 3);
-    // url = url + `/${this.preRegId}/pick-center`;
     url=url + `/${this.preRegId[0]}/acknowledgement`;
     this.router.navigateByUrl(url);
   }

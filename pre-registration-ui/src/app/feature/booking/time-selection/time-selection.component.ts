@@ -242,8 +242,6 @@ export class TimeSelectionComponent
 
   dateSelected(index: number) {
     this.selectedTile = index;
-    // this.placeNamesInSlots();
-    // this.cardSelected(0);
   }
 
   cardSelected(index: number): void {
@@ -374,7 +372,6 @@ export class TimeSelectionComponent
     });
     this.enableBucketTabs();
     this.deletedNames = [...this.names];
-    // this.placeNamesInSlots();
   }
 
   placeNamesInSlots() {
@@ -407,9 +404,7 @@ export class TimeSelectionComponent
     const subs = this.dataService.getAvailabilityData(id).subscribe(
       (response) => {
         this.spinner = false;
-        //console.log(response[appConstants.RESPONSE]);
         if (response[appConstants.RESPONSE]) {
-          //console.log(response[appConstants.RESPONSE]);
           if (response[appConstants.RESPONSE].centerDetails.length > 0) {
             this.formatJson(response[appConstants.RESPONSE].centerDetails);
           } else {
@@ -418,8 +413,6 @@ export class TimeSelectionComponent
         }
       },
       (error) => {
-        //console.log(error);
-        //this.showErrorMessage(error);
         this.showErrorMessage(null, this.errorlabels.centerDetailsNotAvailable);
       }
     );
@@ -474,7 +467,6 @@ export class TimeSelectionComponent
               slot.fromTime,
               slot.toTime
             );
-            //console.log(bookingData);
             this.bookingDataList.push(bookingData);
           });
         }
@@ -507,7 +499,6 @@ export class TimeSelectionComponent
         })
         .afterClosed()
         .subscribe((response) => {
-          //console.log(response);
           if (response === true) {
             this.bookingOperationRequest();
           } else {
@@ -696,67 +687,6 @@ export class TimeSelectionComponent
     this.subscriptions.push(subs);
   }
 
-  // displayMessage(title: string, message: string, error: any) {
-  //   this.spinner = false;
-  //   this.disableContinueButton = false;
-  //   if (
-  //     error &&
-  //     error[appConstants.ERROR] &&
-  //     error[appConstants.ERROR][appConstants.NESTED_ERROR] &&
-  //     error[appConstants.ERROR][appConstants.NESTED_ERROR][0].errorCode ===
-  //       appConstants.ERROR_CODES.tokenExpired
-  //   ) {
-  //     message = this.errorlabels.tokenExpiredLogout;
-  //     title = "";
-  //   } else if (
-  //     error &&
-  //     error[appConstants.ERROR] &&
-  //     error[appConstants.ERROR][appConstants.NESTED_ERROR] &&
-  //     error[appConstants.ERROR][appConstants.NESTED_ERROR][0].errorCode ===
-  //       appConstants.ERROR_CODES.slotNotAvailable
-  //   ) {
-  //     message = this.errorlabels.slotNotAvailable;
-  //   }
-  //   const messageObj = {
-  //     case: "MESSAGE",
-  //     title: title,
-  //     message: message,
-  //   };
-  //   const dialogRef = this.openDialog(messageObj, "400px");
-  //   const subs = dialogRef.afterClosed().subscribe(() => {
-  //     if (
-  //       error &&
-  //       error[appConstants.ERROR] &&
-  //       error[appConstants.ERROR][appConstants.NESTED_ERROR] &&
-  //       error[appConstants.ERROR][appConstants.NESTED_ERROR][0].errorCode ===
-  //         appConstants.ERROR_CODES.slotNotAvailable
-  //     ) {
-  //       this.canDeactivateFlag = false;
-  //       if (this.router.url.includes("multiappointment")) {
-  //         this.router.navigateByUrl(
-  //           `${this.userPreferredLangCode}/pre-registration/booking/multiappointment/pick-center`
-  //         );
-  //       } else {
-  //         this.router.navigateByUrl(
-  //           `${this.userPreferredLangCode}/pre-registration/booking/${this.preRegId[0]}/pick-center`
-  //         );
-  //       }
-  //     }
-  //     if (this.errorlabels.centerDetailsNotAvailable === messageObj.message) {
-  //       this.canDeactivateFlag = false;
-  //       if (this.router.url.includes("multiappointment")) {
-  //         this.router.navigateByUrl(
-  //           `${this.userPreferredLangCode}/pre-registration/booking/multiappointment/pick-center`
-  //         );
-  //       } else {
-  //         this.router.navigateByUrl(
-  //           `${this.userPreferredLangCode}/pre-registration/booking/${this.preRegId[0]}/pick-center`
-  //         );
-  //       }
-  //     }
-  //   });
-  //   this.subscriptions.push(subs);
-  // }
 
   openDialog(data, width) {
     const dialogRef = this.dialog.open(DialougComponent, {

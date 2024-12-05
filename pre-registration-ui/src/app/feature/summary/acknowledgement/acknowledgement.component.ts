@@ -611,7 +611,6 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
     const desiredService = demographicData.userService; 
     const payablesServices = ["LOST", "UPDATE"];
     const age:number =this.dataStorageService.calculateAge(demographicData.dateOfBirthCop);
-    //console.log(age);
     
     const hasAnyCoreCardData = surname || 
                             demographicData.givenName[0].value || 
@@ -653,7 +652,6 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
               title: "PRN Connection Error",
               message: "Unable to connect to the server: " + this.PRNerrorMessage + "\n\nMake sure to pay in any Bank before proceeding to NIRA office"
             };
-           // console.log(body);
             this.dialog.open(DialougComponent, {
               width: "500px",
               data: body

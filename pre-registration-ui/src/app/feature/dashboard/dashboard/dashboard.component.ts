@@ -188,7 +188,6 @@ export class DashBoardComponent implements OnInit, OnDestroy {
     const sub = this.dataStorageService.getUsers(this.loginId).subscribe(
       (applicants: any) => {
         this.loggerService.info("applicants in dashboard", applicants);
-        //console.log(applicants);
         if (
           applicants[appConstants.RESPONSE] &&
           applicants[appConstants.RESPONSE] !== null
@@ -478,7 +477,6 @@ export class DashBoardComponent implements OnInit, OnDestroy {
   openDialog(data, width, height?) {
     const dialogRef = this.dialog.open(DialougComponent, {
       width: width,
-      // height: height,
       data: data,
       restoreFocus: false
     });
@@ -546,15 +544,6 @@ export class DashBoardComponent implements OnInit, OnDestroy {
   async deletePreregistration(element: any) {
     let appointmentDate;
     let appointmentTime;
-    //malay-to-make-delete-application-functional
-    // if (element.regDto && element.status.toLowerCase() === "booked") {
-    //   appointmentDate = element.regDto['appointment_date'];
-    //   appointmentTime = element.regDto['time_slot_from'];
-    // }
-    // if (element.regDto && element.status.toLowerCase() === "booked") {
-    //   await this.sendNotification(element.applicationID, appointmentDate, appointmentTime);
-    // }
-    debugger
     const subs = this.dataStorageService
       .deleteRegistration(element.applicationID)
       .subscribe(
@@ -592,7 +581,6 @@ export class DashBoardComponent implements OnInit, OnDestroy {
       appointmentDate = element.regDto['appointment_date'];
       appointmentTime = element.regDto['time_slot_from'];
     }
-    //console.log(element.regDto);
     const subs = this.dataStorageService
       .cancelAppointment(
         new RequestModel(appConstants.IDS.booking, element.regDto),
@@ -827,44 +815,6 @@ export class DashBoardComponent implements OnInit, OnDestroy {
       data: body,
     });
   }
-  
-  // async sendNotification(prid, appDate, appDateTime) {
-  //   let userDetails;
-  //   this.dataStorageService.getUser(prid).subscribe((response) => {
-  //     if (response[appConstants.RESPONSE]) {
-  //       userDetails =
-  //         response[appConstants.RESPONSE].demographicDetails.identity;
-  //       console.log(userDetails);
-  //       const notificationDto = new NotificationDtoModel(
-  //         userDetails[this.name][0].value,
-  //         prid,
-  //         appDate,
-  //         appDateTime,
-  //         userDetails.phone,
-  //         userDetails.email,
-  //         null,
-  //         true
-  //       );
-  //       console.log(notificationDto);
-  //       const model = new RequestModel(
-  //         appConstants.IDS.notification,
-  //         notificationDto
-  //       );
-  //       let notificationRequest = new FormData();
-  //       notificationRequest.append(
-  //         appConstants.notificationDtoKeys.notificationDto,
-  //         JSON.stringify(model).trim()
-  //       );
-  //       notificationRequest.append(
-  //         appConstants.notificationDtoKeys.langCode,
-  //         localStorage.getItem("langCode")
-  //       );
-  //     }
-  //   },
-  //   (error) => {
-  //     this.showErrorMessage(error);
-  //   });
-  // }
 
   private sendNotification(prid, appDate, appDateTime)  {
     let userDetails;    

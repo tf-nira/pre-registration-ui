@@ -158,36 +158,6 @@
                               </span>
                             </div>
                           </span>
-                          <!-- <mat-form-field [ngClass]="'dropdown-field'">
-                            <mat-label>
-                              {{field.labelName[dataCaptureLanguage]}}
-                            </mat-label>
-                            <mat-select formControlName="{{ field.id }}"
-                              (focus)="!readOnlyMode ? dropdownApiCall(field.id): ''" #dropdown>
-                              <mat-option *ngIf="!(
-                                selectOptionsDataArray[field.id]?.length > 0 &&
-                                selectOptionsDataArray[field.id] !== null)">
-                                <mat-spinner [diameter]="20" style="margin-left: 43%"></mat-spinner>
-                              </mat-option>
-                              <ng-container *ngFor="let dropdown of selectOptionsDataArray[field.id]">
-                                <mat-option *ngIf="dropdown.languageCode === dataCaptureLanguage"
-                                  [value]="dropdown.valueCode"
-                                  (click)="resetLocationFields(field.id);onChangeHandler(field.id);"
-                                  title="{{getTitleForOptionInOtherLangs(field.id, dropdown.valueCode, dataCaptureLanguage)}}">
-                                  {{ dropdown.valueName }}
-                                </mat-option>
-                              </ng-container>
-                            </mat-select>
-                          </mat-form-field>
-                          <p></p>
-                          <span *ngIf="field.type !== 'string' && dataCaptureLanguages.length > 1">
-                            <span *ngFor="let option of selectOptionsDataArray[field.id];">
-                              <span
-                                *ngIf="option.languageCode !== dataCaptureLanguage && option.valueCode == userForm.get(field.id).value && dataCaptureLanguages.includes(option.languageCode)">
-                                <span class="selectedOption">{{option.valueName}}</span>
-                              </span>
-                            </span>
-                          </span> -->
                         </span>
                       </ng-container>
                       <!-- Add Age Date fields-->
@@ -195,21 +165,6 @@
                         <span *ngIf="i == 0">
                           <div class="user__age-or-date" [dir]="dataCaptureLangsDir[i]">
                             <div class="user__date">
-                              <!-- <mat-form-field appearance="legacy">
-                                <input matInput placeholder="{{ 'demographic.date_dd' | translate }}" #dd [value]="date"
-                                  (change)="onChangeHandler(field.id)"
-                                  (focusout)="onDOBChange();onChangeHandler(field.id);" [disabled]="readOnlyMode" />
-                              </mat-form-field>
-                              <mat-form-field appearance="legacy">
-                                <input matInput placeholder="{{ 'demographic.date_mm' | translate }}" [value]="month"
-                                  #mm (focusout)="onDOBChange();onChangeHandler(field.id);"
-                                  (change)="onChangeHandler(field.id)" [disabled]="readOnlyMode" />
-                              </mat-form-field>
-                              <mat-form-field appearance="legacy">
-                                <input matInput placeholder="{{ 'demographic.date_yyyy' | translate }}" [value]="year"
-                                  #yyyy (focusout)="onDOBChange();onChangeHandler(field.id);"
-                                  (change)="onChangeHandler(field.id)" [disabled]="readOnlyMode" />
-                              </mat-form-field> -->
                               <mat-form-field appearance="legacy">
                                 <mat-label>{{localeDtFormat}}</mat-label>
                                 <input matInput [formControlName]="field.id + '_dateCtrl'"
@@ -455,36 +410,6 @@
                                   </span>
                                 </div>
                               </span>
-                              <!-- <mat-form-field [ngClass]="'dropdown-field'">
-                                <mat-label>
-                                  {{field.labelName[dataCaptureLanguage]}}
-                                </mat-label>
-                                <mat-select formControlName="{{ field.id }}"
-                                  (focus)="!readOnlyMode ? dropdownApiCall(field.id): ''" #dropdown>
-                                  <mat-option *ngIf="!(
-                                    selectOptionsDataArray[field.id]?.length > 0 &&
-                                    selectOptionsDataArray[field.id] !== null)">
-                                    <mat-spinner [diameter]="20" style="margin-left: 43%"></mat-spinner>
-                                  </mat-option>
-                                  <ng-container *ngFor="let dropdown of selectOptionsDataArray[field.id]">
-                                    <mat-option *ngIf="dropdown.languageCode === dataCaptureLanguage"
-                                      [value]="dropdown.valueCode"
-                                      (click)="resetLocationFields(field.id);onChangeHandler(field.id);"
-                                      title="{{getTitleForOptionInOtherLangs(field.id, dropdown.valueCode, dataCaptureLanguage)}}">
-                                      {{ dropdown.valueName }}
-                                    </mat-option>
-                                  </ng-container>
-                                </mat-select>
-                              </mat-form-field>
-                              <p></p>
-                              <span *ngIf="field.type !== 'string' && dataCaptureLanguages.length > 1">
-                                <span *ngFor="let option of selectOptionsDataArray[field.id];">
-                                  <span
-                                    *ngIf="option.languageCode !== dataCaptureLanguage && option.valueCode == userForm.get(field.id).value && dataCaptureLanguages.includes(option.languageCode)">
-                                    <span class="selectedOption">{{option.valueName}}</span>
-                                  </span>
-                                </span>
-                              </span> -->
                             </span>
                           </ng-container>
                           <!-- Add Age Date fields-->
@@ -492,21 +417,6 @@
                             <span *ngIf="i == 0">
                               <div class="user__age-or-date" [dir]="dataCaptureLangsDir[i]">
                                 <div class="user__date">
-                                  <!-- <mat-form-field appearance="legacy">
-                                    <input matInput placeholder="{{ 'demographic.date_dd' | translate }}" #dd [value]="date"
-                                      (change)="onChangeHandler(field.id)"
-                                      (focusout)="onDOBChange();onChangeHandler(field.id);" [disabled]="readOnlyMode" />
-                                  </mat-form-field>
-                                  <mat-form-field appearance="legacy">
-                                    <input matInput placeholder="{{ 'demographic.date_mm' | translate }}" [value]="month"
-                                      #mm (focusout)="onDOBChange();onChangeHandler(field.id);"
-                                      (change)="onChangeHandler(field.id)" [disabled]="readOnlyMode" />
-                                  </mat-form-field>
-                                  <mat-form-field appearance="legacy">
-                                    <input matInput placeholder="{{ 'demographic.date_yyyy' | translate }}" [value]="year"
-                                      #yyyy (focusout)="onDOBChange();onChangeHandler(field.id);"
-                                      (change)="onChangeHandler(field.id)" [disabled]="readOnlyMode" />
-                                  </mat-form-field> -->
                                   <mat-form-field appearance="legacy">
                                     <mat-label>{{localeDtFormat}}</mat-label>
                                     <input matInput [formControlName]="field.id + '_dateCtrl'"
@@ -755,36 +665,6 @@
                                   </span>
                                 </div>
                               </span>
-                              <!-- <mat-form-field [ngClass]="'dropdown-field'">
-                                <mat-label>
-                                  {{field.labelName[dataCaptureLanguage]}}
-                                </mat-label>
-                                <mat-select formControlName="{{ field.id }}"
-                                  (focus)="!readOnlyMode ? dropdownApiCall(field.id): ''" #dropdown>
-                                  <mat-option *ngIf="!(
-                                    selectOptionsDataArray[field.id]?.length > 0 &&
-                                    selectOptionsDataArray[field.id] !== null)">
-                                    <mat-spinner [diameter]="20" style="margin-left: 43%"></mat-spinner>
-                                  </mat-option>
-                                  <ng-container *ngFor="let dropdown of selectOptionsDataArray[field.id]">
-                                    <mat-option *ngIf="dropdown.languageCode === dataCaptureLanguage"
-                                      [value]="dropdown.valueCode"
-                                      (click)="resetLocationFields(field.id);onChangeHandler(field.id);"
-                                      title="{{getTitleForOptionInOtherLangs(field.id, dropdown.valueCode, dataCaptureLanguage)}}">
-                                      {{ dropdown.valueName }}
-                                    </mat-option>
-                                  </ng-container>
-                                </mat-select>
-                              </mat-form-field>
-                              <p></p>
-                              <span *ngIf="field.type !== 'string' && dataCaptureLanguages.length > 1">
-                                <span *ngFor="let option of selectOptionsDataArray[field.id];">
-                                  <span
-                                    *ngIf="option.languageCode !== dataCaptureLanguage && option.valueCode == userForm.get(field.id).value && dataCaptureLanguages.includes(option.languageCode)">
-                                    <span class="selectedOption">{{option.valueName}}</span>
-                                  </span>
-                                </span>
-                              </span> -->
                             </span>
                           </ng-container>
                           <!-- Add Age Date fields-->
@@ -792,21 +672,6 @@
                             <span *ngIf="i == 0">
                               <div class="user__age-or-date" [dir]="dataCaptureLangsDir[i]">
                                 <div class="user__date">
-                                  <!-- <mat-form-field appearance="legacy">
-                                    <input matInput placeholder="{{ 'demographic.date_dd' | translate }}" #dd [value]="date"
-                                      (change)="onChangeHandler(field.id)"
-                                      (focusout)="onDOBChange();onChangeHandler(field.id);" [disabled]="readOnlyMode" />
-                                  </mat-form-field>
-                                  <mat-form-field appearance="legacy">
-                                    <input matInput placeholder="{{ 'demographic.date_mm' | translate }}" [value]="month"
-                                      #mm (focusout)="onDOBChange();onChangeHandler(field.id);"
-                                      (change)="onChangeHandler(field.id)" [disabled]="readOnlyMode" />
-                                  </mat-form-field>
-                                  <mat-form-field appearance="legacy">
-                                    <input matInput placeholder="{{ 'demographic.date_yyyy' | translate }}" [value]="year"
-                                      #yyyy (focusout)="onDOBChange();onChangeHandler(field.id);"
-                                      (change)="onChangeHandler(field.id)" [disabled]="readOnlyMode" />
-                                  </mat-form-field> -->
                                   <mat-form-field appearance="legacy">
                                     <mat-label>{{localeDtFormat}}</mat-label>
                                     <input matInput [formControlName]="field.id + '_dateCtrl'"
@@ -1053,59 +918,14 @@
                                     </span>
                                   </span>
                                 </div>
-                              </span>
-                              <!-- <mat-form-field [ngClass]="'dropdown-field'">
-                                <mat-label>
-                                  {{field.labelName[dataCaptureLanguage]}}
-                                </mat-label>
-                                <mat-select formControlName="{{ field.id }}"
-                                  (focus)="!readOnlyMode ? dropdownApiCall(field.id): ''" #dropdown>
-                                  <mat-option *ngIf="!(
-                                    selectOptionsDataArray[field.id]?.length > 0 &&
-                                    selectOptionsDataArray[field.id] !== null)">
-                                    <mat-spinner [diameter]="20" style="margin-left: 43%"></mat-spinner>
-                                  </mat-option>
-                                  <ng-container *ngFor="let dropdown of selectOptionsDataArray[field.id]">
-                                    <mat-option *ngIf="dropdown.languageCode === dataCaptureLanguage"
-                                      [value]="dropdown.valueCode"
-                                      (click)="resetLocationFields(field.id);onChangeHandler(field.id);"
-                                      title="{{getTitleForOptionInOtherLangs(field.id, dropdown.valueCode, dataCaptureLanguage)}}">
-                                      {{ dropdown.valueName }}
-                                    </mat-option>
-                                  </ng-container>
-                                </mat-select>
-                              </mat-form-field>
-                              <p></p>
-                              <span *ngIf="field.type !== 'string' && dataCaptureLanguages.length > 1">
-                                <span *ngFor="let option of selectOptionsDataArray[field.id];">
-                                  <span
-                                    *ngIf="option.languageCode !== dataCaptureLanguage && option.valueCode == userForm.get(field.id).value && dataCaptureLanguages.includes(option.languageCode)">
-                                    <span class="selectedOption">{{option.valueName}}</span>
-                                  </span>
-                                </span>
-                              </span> -->
+                              </span>                              
                             </span>
                           </ng-container>
                           <!-- Add Age Date fields-->
                           <ng-container *ngIf="field.controlType === 'ageDate'">
                             <span *ngIf="i == 0">
                               <div class="user__age-or-date" [dir]="dataCaptureLangsDir[i]">
-                                <div class="user__date">
-                                  <!-- <mat-form-field appearance="legacy">
-                                    <input matInput placeholder="{{ 'demographic.date_dd' | translate }}" #dd [value]="date"
-                                      (change)="onChangeHandler(field.id)"
-                                      (focusout)="onDOBChange();onChangeHandler(field.id);" [disabled]="readOnlyMode" />
-                                  </mat-form-field>
-                                  <mat-form-field appearance="legacy">
-                                    <input matInput placeholder="{{ 'demographic.date_mm' | translate }}" [value]="month"
-                                      #mm (focusout)="onDOBChange();onChangeHandler(field.id);"
-                                      (change)="onChangeHandler(field.id)" [disabled]="readOnlyMode" />
-                                  </mat-form-field>
-                                  <mat-form-field appearance="legacy">
-                                    <input matInput placeholder="{{ 'demographic.date_yyyy' | translate }}" [value]="year"
-                                      #yyyy (focusout)="onDOBChange();onChangeHandler(field.id);"
-                                      (change)="onChangeHandler(field.id)" [disabled]="readOnlyMode" />
-                                  </mat-form-field> -->
+                                <div class="user__date">                                  
                                   <mat-form-field appearance="legacy">
                                     <mat-label>{{localeDtFormat}}</mat-label>
                                     <input matInput [formControlName]="field.id + '_dateCtrl'"
@@ -1355,59 +1175,14 @@
                                     </span>
                                   </span>
                                 </div>
-                              </span>
-                              <!-- <mat-form-field [ngClass]="'dropdown-field'">
-                                <mat-label>
-                                  {{field.labelName[dataCaptureLanguage]}}
-                                </mat-label>
-                                <mat-select formControlName="{{ field.id }}"
-                                  (focus)="!readOnlyMode ? dropdownApiCall(field.id): ''" #dropdown>
-                                  <mat-option *ngIf="!(
-                                    selectOptionsDataArray[field.id]?.length > 0 &&
-                                    selectOptionsDataArray[field.id] !== null)">
-                                    <mat-spinner [diameter]="20" style="margin-left: 43%"></mat-spinner>
-                                  </mat-option>
-                                  <ng-container *ngFor="let dropdown of selectOptionsDataArray[field.id]">
-                                    <mat-option *ngIf="dropdown.languageCode === dataCaptureLanguage"
-                                      [value]="dropdown.valueCode"
-                                      (click)="resetLocationFields(field.id);onChangeHandler(field.id);"
-                                      title="{{getTitleForOptionInOtherLangs(field.id, dropdown.valueCode, dataCaptureLanguage)}}">
-                                      {{ dropdown.valueName }}
-                                    </mat-option>
-                                  </ng-container>
-                                </mat-select>
-                              </mat-form-field>
-                              <p></p>
-                              <span *ngIf="field.type !== 'string' && dataCaptureLanguages.length > 1">
-                                <span *ngFor="let option of selectOptionsDataArray[field.id];">
-                                  <span
-                                    *ngIf="option.languageCode !== dataCaptureLanguage && option.valueCode == userForm.get(field.id).value && dataCaptureLanguages.includes(option.languageCode)">
-                                    <span class="selectedOption">{{option.valueName}}</span>
-                                  </span>
-                                </span>
-                              </span> -->
+                              </span>                              
                             </span>
                           </ng-container>
                           <!-- Add Age Date fields-->
                           <ng-container *ngIf="field.controlType === 'ageDate'">
                             <span *ngIf="i == 0">
                               <div class="user__age-or-date" [dir]="dataCaptureLangsDir[i]">
-                                <div class="user__date">
-                                  <!-- <mat-form-field appearance="legacy">
-                                    <input matInput placeholder="{{ 'demographic.date_dd' | translate }}" #dd [value]="date"
-                                      (change)="onChangeHandler(field.id)"
-                                      (focusout)="onDOBChange();onChangeHandler(field.id);" [disabled]="readOnlyMode" />
-                                  </mat-form-field>
-                                  <mat-form-field appearance="legacy">
-                                    <input matInput placeholder="{{ 'demographic.date_mm' | translate }}" [value]="month"
-                                      #mm (focusout)="onDOBChange();onChangeHandler(field.id);"
-                                      (change)="onChangeHandler(field.id)" [disabled]="readOnlyMode" />
-                                  </mat-form-field>
-                                  <mat-form-field appearance="legacy">
-                                    <input matInput placeholder="{{ 'demographic.date_yyyy' | translate }}" [value]="year"
-                                      #yyyy (focusout)="onDOBChange();onChangeHandler(field.id);"
-                                      (change)="onChangeHandler(field.id)" [disabled]="readOnlyMode" />
-                                  </mat-form-field> -->
+                                <div class="user__date">                                  
                                   <mat-form-field appearance="legacy">
                                     <mat-label>{{localeDtFormat}}</mat-label>
                                     <input matInput [formControlName]="field.id + '_dateCtrl'"
@@ -1656,59 +1431,14 @@
                                     </span>
                                   </span>
                                 </div>
-                              </span>
-                              <!-- <mat-form-field [ngClass]="'dropdown-field'">
-                                <mat-label>
-                                  {{field.labelName[dataCaptureLanguage]}}
-                                </mat-label>
-                                <mat-select formControlName="{{ field.id }}"
-                                  (focus)="!readOnlyMode ? dropdownApiCall(field.id): ''" #dropdown>
-                                  <mat-option *ngIf="!(
-                                    selectOptionsDataArray[field.id]?.length > 0 &&
-                                    selectOptionsDataArray[field.id] !== null)">
-                                    <mat-spinner [diameter]="20" style="margin-left: 43%"></mat-spinner>
-                                  </mat-option>
-                                  <ng-container *ngFor="let dropdown of selectOptionsDataArray[field.id]">
-                                    <mat-option *ngIf="dropdown.languageCode === dataCaptureLanguage"
-                                      [value]="dropdown.valueCode"
-                                      (click)="resetLocationFields(field.id);onChangeHandler(field.id);"
-                                      title="{{getTitleForOptionInOtherLangs(field.id, dropdown.valueCode, dataCaptureLanguage)}}">
-                                      {{ dropdown.valueName }}
-                                    </mat-option>
-                                  </ng-container>
-                                </mat-select>
-                              </mat-form-field>
-                              <p></p>
-                              <span *ngIf="field.type !== 'string' && dataCaptureLanguages.length > 1">
-                                <span *ngFor="let option of selectOptionsDataArray[field.id];">
-                                  <span
-                                    *ngIf="option.languageCode !== dataCaptureLanguage && option.valueCode == userForm.get(field.id).value && dataCaptureLanguages.includes(option.languageCode)">
-                                    <span class="selectedOption">{{option.valueName}}</span>
-                                  </span>
-                                </span>
-                              </span> -->
+                              </span>                              
                             </span>
                           </ng-container>
                           <!-- Add Age Date fields-->
                           <ng-container *ngIf="field.controlType === 'ageDate' ">
                             <span *ngIf="i == 0">
                               <div class="user__age-or-date" [dir]="dataCaptureLangsDir[i]">
-                                <div class="user__date">
-                                  <!-- <mat-form-field appearance="legacy">
-                                    <input matInput placeholder="{{ 'demographic.date_dd' | translate }}" #dd [value]="date"
-                                      (change)="onChangeHandler(field.id)"
-                                      (focusout)="onDOBChange();onChangeHandler(field.id);" [disabled]="readOnlyMode" />
-                                  </mat-form-field>
-                                  <mat-form-field appearance="legacy">
-                                    <input matInput placeholder="{{ 'demographic.date_mm' | translate }}" [value]="month"
-                                      #mm (focusout)="onDOBChange();onChangeHandler(field.id);"
-                                      (change)="onChangeHandler(field.id)" [disabled]="readOnlyMode" />
-                                  </mat-form-field>
-                                  <mat-form-field appearance="legacy">
-                                    <input matInput placeholder="{{ 'demographic.date_yyyy' | translate }}" [value]="year"
-                                      #yyyy (focusout)="onDOBChange();onChangeHandler(field.id);"
-                                      (change)="onChangeHandler(field.id)" [disabled]="readOnlyMode" />
-                                  </mat-form-field> -->
+                                <div class="user__date">                                  
                                   <mat-form-field appearance="legacy">
                                     <mat-label>{{localeDtFormat}}</mat-label>
                                     <input matInput [formControlName]="field.id + '_dateCtrl'"
@@ -1957,59 +1687,14 @@
                                     </span>
                                   </span>
                                 </div>
-                              </span>
-                              <!-- <mat-form-field [ngClass]="'dropdown-field'">
-                                <mat-label>
-                                  {{field.labelName[dataCaptureLanguage]}}
-                                </mat-label>
-                                <mat-select formControlName="{{ field.id }}"
-                                  (focus)="!readOnlyMode ? dropdownApiCall(field.id): ''" #dropdown>
-                                  <mat-option *ngIf="!(
-                                    selectOptionsDataArray[field.id]?.length > 0 &&
-                                    selectOptionsDataArray[field.id] !== null)">
-                                    <mat-spinner [diameter]="20" style="margin-left: 43%"></mat-spinner>
-                                  </mat-option>
-                                  <ng-container *ngFor="let dropdown of selectOptionsDataArray[field.id]">
-                                    <mat-option *ngIf="dropdown.languageCode === dataCaptureLanguage"
-                                      [value]="dropdown.valueCode"
-                                      (click)="resetLocationFields(field.id);onChangeHandler(field.id);"
-                                      title="{{getTitleForOptionInOtherLangs(field.id, dropdown.valueCode, dataCaptureLanguage)}}">
-                                      {{ dropdown.valueName }}
-                                    </mat-option>
-                                  </ng-container>
-                                </mat-select>
-                              </mat-form-field>
-                              <p></p>
-                              <span *ngIf="field.type !== 'string' && dataCaptureLanguages.length > 1">
-                                <span *ngFor="let option of selectOptionsDataArray[field.id];">
-                                  <span
-                                    *ngIf="option.languageCode !== dataCaptureLanguage && option.valueCode == userForm.get(field.id).value && dataCaptureLanguages.includes(option.languageCode)">
-                                    <span class="selectedOption">{{option.valueName}}</span>
-                                  </span>
-                                </span>
-                              </span> -->
+                              </span>                              
                             </span>
                           </ng-container>
                           <!-- Add Age Date fields-->
                           <ng-container *ngIf="field.controlType === 'ageDate'">
                             <span *ngIf="i == 0">
                               <div class="user__age-or-date" [dir]="dataCaptureLangsDir[i]">
-                                <div class="user__date">
-                                  <!-- <mat-form-field appearance="legacy">
-                                    <input matInput placeholder="{{ 'demographic.date_dd' | translate }}" #dd [value]="date"
-                                      (change)="onChangeHandler(field.id)"
-                                      (focusout)="onDOBChange();onChangeHandler(field.id);" [disabled]="readOnlyMode" />
-                                  </mat-form-field>
-                                  <mat-form-field appearance="legacy">
-                                    <input matInput placeholder="{{ 'demographic.date_mm' | translate }}" [value]="month"
-                                      #mm (focusout)="onDOBChange();onChangeHandler(field.id);"
-                                      (change)="onChangeHandler(field.id)" [disabled]="readOnlyMode" />
-                                  </mat-form-field>
-                                  <mat-form-field appearance="legacy">
-                                    <input matInput placeholder="{{ 'demographic.date_yyyy' | translate }}" [value]="year"
-                                      #yyyy (focusout)="onDOBChange();onChangeHandler(field.id);"
-                                      (change)="onChangeHandler(field.id)" [disabled]="readOnlyMode" />
-                                  </mat-form-field> -->
+                                <div class="user__date">                                  
                                   <mat-form-field appearance="legacy">
                                     <mat-label>{{localeDtFormat}}</mat-label>
                                     <input matInput [formControlName]="field.id + '_dateCtrl'"
@@ -2263,59 +1948,14 @@
                                     </span>
                                   </span>
                                 </div>
-                              </span>
-                              <!-- <mat-form-field [ngClass]="'dropdown-field'">
-                                <mat-label>
-                                  {{field.labelName[dataCaptureLanguage]}}
-                                </mat-label>
-                                <mat-select formControlName="{{ field.id }}"
-                                  (focus)="!readOnlyMode ? dropdownApiCall(field.id): ''" #dropdown>
-                                  <mat-option *ngIf="!(
-                                    selectOptionsDataArray[field.id]?.length > 0 &&
-                                    selectOptionsDataArray[field.id] !== null)">
-                                    <mat-spinner [diameter]="20" style="margin-left: 43%"></mat-spinner>
-                                  </mat-option>
-                                  <ng-container *ngFor="let dropdown of selectOptionsDataArray[field.id]">
-                                    <mat-option *ngIf="dropdown.languageCode === dataCaptureLanguage"
-                                      [value]="dropdown.valueCode"
-                                      (click)="resetLocationFields(field.id);onChangeHandler(field.id);"
-                                      title="{{getTitleForOptionInOtherLangs(field.id, dropdown.valueCode, dataCaptureLanguage)}}">
-                                      {{ dropdown.valueName }}
-                                    </mat-option>
-                                  </ng-container>
-                                </mat-select>
-                              </mat-form-field>
-                              <p></p>
-                              <span *ngIf="field.type !== 'string' && dataCaptureLanguages.length > 1">
-                                <span *ngFor="let option of selectOptionsDataArray[field.id];">
-                                  <span
-                                    *ngIf="option.languageCode !== dataCaptureLanguage && option.valueCode == userForm.get(field.id).value && dataCaptureLanguages.includes(option.languageCode)">
-                                    <span class="selectedOption">{{option.valueName}}</span>
-                                  </span>
-                                </span>
-                              </span> -->
+                              </span>                              
                             </span>
                           </ng-container>
                           <!-- Add Age Date fields-->
                           <ng-container *ngIf="field.controlType === 'ageDate'">
                             <span *ngIf="i == 0">
                               <div class="user__age-or-date" [dir]="dataCaptureLangsDir[i]">
-                                <div class="user__date">
-                                  <!-- <mat-form-field appearance="legacy">
-                                    <input matInput placeholder="{{ 'demographic.date_dd' | translate }}" #dd [value]="date"
-                                      (change)="onChangeHandler(field.id)"
-                                      (focusout)="onDOBChange();onChangeHandler(field.id);" [disabled]="readOnlyMode" />
-                                  </mat-form-field>
-                                  <mat-form-field appearance="legacy">
-                                    <input matInput placeholder="{{ 'demographic.date_mm' | translate }}" [value]="month"
-                                      #mm (focusout)="onDOBChange();onChangeHandler(field.id);"
-                                      (change)="onChangeHandler(field.id)" [disabled]="readOnlyMode" />
-                                  </mat-form-field>
-                                  <mat-form-field appearance="legacy">
-                                    <input matInput placeholder="{{ 'demographic.date_yyyy' | translate }}" [value]="year"
-                                      #yyyy (focusout)="onDOBChange();onChangeHandler(field.id);"
-                                      (change)="onChangeHandler(field.id)" [disabled]="readOnlyMode" />
-                                  </mat-form-field> -->
+                                <div class="user__date">                                  
                                   <mat-form-field appearance="legacy">
                                     <mat-label>{{localeDtFormat}}</mat-label>
                                     <input matInput [formControlName]="field.id + '_dateCtrl'"
@@ -2564,59 +2204,14 @@
                                     </span>
                                   </span>
                                 </div>
-                              </span>
-                              <!-- <mat-form-field [ngClass]="'dropdown-field'">
-                                <mat-label>
-                                  {{field.labelName[dataCaptureLanguage]}}
-                                </mat-label>
-                                <mat-select formControlName="{{ field.id }}"
-                                  (focus)="!readOnlyMode ? dropdownApiCall(field.id): ''" #dropdown>
-                                  <mat-option *ngIf="!(
-                                    selectOptionsDataArray[field.id]?.length > 0 &&
-                                    selectOptionsDataArray[field.id] !== null)">
-                                    <mat-spinner [diameter]="20" style="margin-left: 43%"></mat-spinner>
-                                  </mat-option>
-                                  <ng-container *ngFor="let dropdown of selectOptionsDataArray[field.id]">
-                                    <mat-option *ngIf="dropdown.languageCode === dataCaptureLanguage"
-                                      [value]="dropdown.valueCode"
-                                      (click)="resetLocationFields(field.id);onChangeHandler(field.id);"
-                                      title="{{getTitleForOptionInOtherLangs(field.id, dropdown.valueCode, dataCaptureLanguage)}}">
-                                      {{ dropdown.valueName }}
-                                    </mat-option>
-                                  </ng-container>
-                                </mat-select>
-                              </mat-form-field>
-                              <p></p>
-                              <span *ngIf="field.type !== 'string' && dataCaptureLanguages.length > 1">
-                                <span *ngFor="let option of selectOptionsDataArray[field.id];">
-                                  <span
-                                    *ngIf="option.languageCode !== dataCaptureLanguage && option.valueCode == userForm.get(field.id).value && dataCaptureLanguages.includes(option.languageCode)">
-                                    <span class="selectedOption">{{option.valueName}}</span>
-                                  </span>
-                                </span>
-                              </span> -->
+                              </span>                              
                             </span>
                           </ng-container>
                           <!-- Add Age Date fields-->
                           <ng-container *ngIf="field.controlType === 'ageDate'">
                             <span *ngIf="i == 0">
                               <div class="user__age-or-date" [dir]="dataCaptureLangsDir[i]">
-                                <div class="user__date">
-                                  <!-- <mat-form-field appearance="legacy">
-                                    <input matInput placeholder="{{ 'demographic.date_dd' | translate }}" #dd [value]="date"
-                                      (change)="onChangeHandler(field.id)"
-                                      (focusout)="onDOBChange();onChangeHandler(field.id);" [disabled]="readOnlyMode" />
-                                  </mat-form-field>
-                                  <mat-form-field appearance="legacy">
-                                    <input matInput placeholder="{{ 'demographic.date_mm' | translate }}" [value]="month"
-                                      #mm (focusout)="onDOBChange();onChangeHandler(field.id);"
-                                      (change)="onChangeHandler(field.id)" [disabled]="readOnlyMode" />
-                                  </mat-form-field>
-                                  <mat-form-field appearance="legacy">
-                                    <input matInput placeholder="{{ 'demographic.date_yyyy' | translate }}" [value]="year"
-                                      #yyyy (focusout)="onDOBChange();onChangeHandler(field.id);"
-                                      (change)="onChangeHandler(field.id)" [disabled]="readOnlyMode" />
-                                  </mat-form-field> -->
+                                <div class="user__date">                                  
                                   <mat-form-field appearance="legacy">
                                     <mat-label>{{localeDtFormat}}</mat-label>
                                     <input matInput [formControlName]="field.id + '_dateCtrl'"
@@ -2867,59 +2462,14 @@
                                     </span>
                                   </span>
                                 </div>
-                              </span>
-                              <!-- <mat-form-field [ngClass]="'dropdown-field'">
-                                <mat-label>
-                                  {{field.labelName[dataCaptureLanguage]}}
-                                </mat-label>
-                                <mat-select formControlName="{{ field.id }}"
-                                  (focus)="!readOnlyMode ? dropdownApiCall(field.id): ''" #dropdown>
-                                  <mat-option *ngIf="!(
-                                    selectOptionsDataArray[field.id]?.length > 0 &&
-                                    selectOptionsDataArray[field.id] !== null)">
-                                    <mat-spinner [diameter]="20" style="margin-left: 43%"></mat-spinner>
-                                  </mat-option>
-                                  <ng-container *ngFor="let dropdown of selectOptionsDataArray[field.id]">
-                                    <mat-option *ngIf="dropdown.languageCode === dataCaptureLanguage"
-                                      [value]="dropdown.valueCode"
-                                      (click)="resetLocationFields(field.id);onChangeHandler(field.id);"
-                                      title="{{getTitleForOptionInOtherLangs(field.id, dropdown.valueCode, dataCaptureLanguage)}}">
-                                      {{ dropdown.valueName }}
-                                    </mat-option>
-                                  </ng-container>
-                                </mat-select>
-                              </mat-form-field>
-                              <p></p>
-                              <span *ngIf="field.type !== 'string' && dataCaptureLanguages.length > 1">
-                                <span *ngFor="let option of selectOptionsDataArray[field.id];">
-                                  <span
-                                    *ngIf="option.languageCode !== dataCaptureLanguage && option.valueCode == userForm.get(field.id).value && dataCaptureLanguages.includes(option.languageCode)">
-                                    <span class="selectedOption">{{option.valueName}}</span>
-                                  </span>
-                                </span>
-                              </span> -->
+                              </span>                              
                             </span>
                           </ng-container>
                           <!-- Add Age Date fields-->
                           <ng-container *ngIf="field.controlType === 'ageDate'">
                             <span *ngIf="i == 0">
                               <div class="user__age-or-date" [dir]="dataCaptureLangsDir[i]">
-                                <div class="user__date">
-                                  <!-- <mat-form-field appearance="legacy">
-                                    <input matInput placeholder="{{ 'demographic.date_dd' | translate }}" #dd [value]="date"
-                                      (change)="onChangeHandler(field.id)"
-                                      (focusout)="onDOBChange();onChangeHandler(field.id);" [disabled]="readOnlyMode" />
-                                  </mat-form-field>
-                                  <mat-form-field appearance="legacy">
-                                    <input matInput placeholder="{{ 'demographic.date_mm' | translate }}" [value]="month"
-                                      #mm (focusout)="onDOBChange();onChangeHandler(field.id);"
-                                      (change)="onChangeHandler(field.id)" [disabled]="readOnlyMode" />
-                                  </mat-form-field>
-                                  <mat-form-field appearance="legacy">
-                                    <input matInput placeholder="{{ 'demographic.date_yyyy' | translate }}" [value]="year"
-                                      #yyyy (focusout)="onDOBChange();onChangeHandler(field.id);"
-                                      (change)="onChangeHandler(field.id)" [disabled]="readOnlyMode" />
-                                  </mat-form-field> -->
+                                <div class="user__date">                                  
                                   <mat-form-field appearance="legacy">
                                     <mat-label>{{localeDtFormat}}</mat-label>
                                     <input matInput [formControlName]="field.id + '_dateCtrl'"
@@ -3212,59 +2762,14 @@
                                     </span>
                                   </span>
                                 </div>
-                              </span>
-                              <!-- <mat-form-field [ngClass]="'dropdown-field'">
-                                <mat-label>
-                                  {{field.labelName[dataCaptureLanguage]}}
-                                </mat-label>
-                                <mat-select formControlName="{{ field.id }}"
-                                  (focus)="!readOnlyMode ? dropdownApiCall(field.id): ''" #dropdown>
-                                  <mat-option *ngIf="!(
-                                    selectOptionsDataArray[field.id]?.length > 0 &&
-                                    selectOptionsDataArray[field.id] !== null)">
-                                    <mat-spinner [diameter]="20" style="margin-left: 43%"></mat-spinner>
-                                  </mat-option>
-                                  <ng-container *ngFor="let dropdown of selectOptionsDataArray[field.id]">
-                                    <mat-option *ngIf="dropdown.languageCode === dataCaptureLanguage"
-                                      [value]="dropdown.valueCode"
-                                      (click)="resetLocationFields(field.id);onChangeHandler(field.id);"
-                                      title="{{getTitleForOptionInOtherLangs(field.id, dropdown.valueCode, dataCaptureLanguage)}}">
-                                      {{ dropdown.valueName }}
-                                    </mat-option>
-                                  </ng-container>
-                                </mat-select>
-                              </mat-form-field>
-                              <p></p>
-                              <span *ngIf="field.type !== 'string' && dataCaptureLanguages.length > 1">
-                                <span *ngFor="let option of selectOptionsDataArray[field.id];">
-                                  <span
-                                    *ngIf="option.languageCode !== dataCaptureLanguage && option.valueCode == userForm.get(field.id).value && dataCaptureLanguages.includes(option.languageCode)">
-                                    <span class="selectedOption">{{option.valueName}}</span>
-                                  </span>
-                                </span>
-                              </span> -->
+                              </span>                              
                             </span>
                           </ng-container>
                           <!-- Add Age Date fields-->
                           <ng-container *ngIf="field.controlType === 'ageDate'">
                             <span *ngIf="i == 0">
                               <div class="user__age-or-date" [dir]="dataCaptureLangsDir[i]">
-                                <div class="user__date">
-                                  <!-- <mat-form-field appearance="legacy">
-                                    <input matInput placeholder="{{ 'demographic.date_dd' | translate }}" #dd [value]="date"
-                                      (change)="onChangeHandler(field.id)"
-                                      (focusout)="onDOBChange();onChangeHandler(field.id);" [disabled]="readOnlyMode" />
-                                  </mat-form-field>
-                                  <mat-form-field appearance="legacy">
-                                    <input matInput placeholder="{{ 'demographic.date_mm' | translate }}" [value]="month"
-                                      #mm (focusout)="onDOBChange();onChangeHandler(field.id);"
-                                      (change)="onChangeHandler(field.id)" [disabled]="readOnlyMode" />
-                                  </mat-form-field>
-                                  <mat-form-field appearance="legacy">
-                                    <input matInput placeholder="{{ 'demographic.date_yyyy' | translate }}" [value]="year"
-                                      #yyyy (focusout)="onDOBChange();onChangeHandler(field.id);"
-                                      (change)="onChangeHandler(field.id)" [disabled]="readOnlyMode" />
-                                  </mat-form-field> -->
+                                <div class="user__date">                                
                                   <mat-form-field appearance="legacy">
                                     <mat-label>{{localeDtFormat}}</mat-label>
                                     <input matInput [formControlName]="field.id + '_dateCtrl'"
@@ -3512,59 +3017,14 @@
                                     </span>
                                   </span>
                                 </div>
-                              </span>
-                              <!-- <mat-form-field [ngClass]="'dropdown-field'">
-                                <mat-label>
-                                  {{field.labelName[dataCaptureLanguage]}}
-                                </mat-label>
-                                <mat-select formControlName="{{ field.id }}"
-                                  (focus)="!readOnlyMode ? dropdownApiCall(field.id): ''" #dropdown>
-                                  <mat-option *ngIf="!(
-                                    selectOptionsDataArray[field.id]?.length > 0 &&
-                                    selectOptionsDataArray[field.id] !== null)">
-                                    <mat-spinner [diameter]="20" style="margin-left: 43%"></mat-spinner>
-                                  </mat-option>
-                                  <ng-container *ngFor="let dropdown of selectOptionsDataArray[field.id]">
-                                    <mat-option *ngIf="dropdown.languageCode === dataCaptureLanguage"
-                                      [value]="dropdown.valueCode"
-                                      (click)="resetLocationFields(field.id);onChangeHandler(field.id);"
-                                      title="{{getTitleForOptionInOtherLangs(field.id, dropdown.valueCode, dataCaptureLanguage)}}">
-                                      {{ dropdown.valueName }}
-                                    </mat-option>
-                                  </ng-container>
-                                </mat-select>
-                              </mat-form-field>
-                              <p></p>
-                              <span *ngIf="field.type !== 'string' && dataCaptureLanguages.length > 1">
-                                <span *ngFor="let option of selectOptionsDataArray[field.id];">
-                                  <span
-                                    *ngIf="option.languageCode !== dataCaptureLanguage && option.valueCode == userForm.get(field.id).value && dataCaptureLanguages.includes(option.languageCode)">
-                                    <span class="selectedOption">{{option.valueName}}</span>
-                                  </span>
-                                </span>
-                              </span> -->
+                              </span>                        
                             </span>
                           </ng-container>
                           <!-- Add Age Date fields-->
                           <ng-container *ngIf="field.controlType === 'ageDate'">
                             <span *ngIf="i == 0">
                               <div class="user__age-or-date" [dir]="dataCaptureLangsDir[i]">
-                                <div class="user__date">
-                                  <!-- <mat-form-field appearance="legacy">
-                                    <input matInput placeholder="{{ 'demographic.date_dd' | translate }}" #dd [value]="date"
-                                      (change)="onChangeHandler(field.id)"
-                                      (focusout)="onDOBChange();onChangeHandler(field.id);" [disabled]="readOnlyMode" />
-                                  </mat-form-field>
-                                  <mat-form-field appearance="legacy">
-                                    <input matInput placeholder="{{ 'demographic.date_mm' | translate }}" [value]="month"
-                                      #mm (focusout)="onDOBChange();onChangeHandler(field.id);"
-                                      (change)="onChangeHandler(field.id)" [disabled]="readOnlyMode" />
-                                  </mat-form-field>
-                                  <mat-form-field appearance="legacy">
-                                    <input matInput placeholder="{{ 'demographic.date_yyyy' | translate }}" [value]="year"
-                                      #yyyy (focusout)="onDOBChange();onChangeHandler(field.id);"
-                                      (change)="onChangeHandler(field.id)" [disabled]="readOnlyMode" />
-                                  </mat-form-field> -->
+                                <div class="user__date">                                  
                                   <mat-form-field appearance="legacy">
                                     <mat-label>{{localeDtFormat}}</mat-label>
                                     <input matInput [formControlName]="field.id + '_dateCtrl'"
@@ -3815,59 +3275,14 @@
                                     </span>
                                   </span>
                                 </div>
-                              </span>
-                              <!-- <mat-form-field [ngClass]="'dropdown-field'">
-                                <mat-label>
-                                  {{field.labelName[dataCaptureLanguage]}}
-                                </mat-label>
-                                <mat-select formControlName="{{ field.id }}"
-                                  (focus)="!readOnlyMode ? dropdownApiCall(field.id): ''" #dropdown>
-                                  <mat-option *ngIf="!(
-                                    selectOptionsDataArray[field.id]?.length > 0 &&
-                                    selectOptionsDataArray[field.id] !== null)">
-                                    <mat-spinner [diameter]="20" style="margin-left: 43%"></mat-spinner>
-                                  </mat-option>
-                                  <ng-container *ngFor="let dropdown of selectOptionsDataArray[field.id]">
-                                    <mat-option *ngIf="dropdown.languageCode === dataCaptureLanguage"
-                                      [value]="dropdown.valueCode"
-                                      (click)="resetLocationFields(field.id);onChangeHandler(field.id);"
-                                      title="{{getTitleForOptionInOtherLangs(field.id, dropdown.valueCode, dataCaptureLanguage)}}">
-                                      {{ dropdown.valueName }}
-                                    </mat-option>
-                                  </ng-container>
-                                </mat-select>
-                              </mat-form-field>
-                              <p></p>
-                              <span *ngIf="field.type !== 'string' && dataCaptureLanguages.length > 1">
-                                <span *ngFor="let option of selectOptionsDataArray[field.id];">
-                                  <span
-                                    *ngIf="option.languageCode !== dataCaptureLanguage && option.valueCode == userForm.get(field.id).value && dataCaptureLanguages.includes(option.languageCode)">
-                                    <span class="selectedOption">{{option.valueName}}</span>
-                                  </span>
-                                </span>
-                              </span> -->
+                              </span>                              
                             </span>
                           </ng-container>
                           <!-- Add Age Date fields-->
                           <ng-container *ngIf="field.controlType === 'ageDate'">
                             <span *ngIf="i == 0">
                               <div class="user__age-or-date" [dir]="dataCaptureLangsDir[i]">
-                                <div class="user__date">
-                                  <!-- <mat-form-field appearance="legacy">
-                                    <input matInput placeholder="{{ 'demographic.date_dd' | translate }}" #dd [value]="date"
-                                      (change)="onChangeHandler(field.id)"
-                                      (focusout)="onDOBChange();onChangeHandler(field.id);" [disabled]="readOnlyMode" />
-                                  </mat-form-field>
-                                  <mat-form-field appearance="legacy">
-                                    <input matInput placeholder="{{ 'demographic.date_mm' | translate }}" [value]="month"
-                                      #mm (focusout)="onDOBChange();onChangeHandler(field.id);"
-                                      (change)="onChangeHandler(field.id)" [disabled]="readOnlyMode" />
-                                  </mat-form-field>
-                                  <mat-form-field appearance="legacy">
-                                    <input matInput placeholder="{{ 'demographic.date_yyyy' | translate }}" [value]="year"
-                                      #yyyy (focusout)="onDOBChange();onChangeHandler(field.id);"
-                                      (change)="onChangeHandler(field.id)" [disabled]="readOnlyMode" />
-                                  </mat-form-field> -->
+                                <div class="user__date">                                  
                                   <mat-form-field appearance="legacy">
                                     <mat-label>{{localeDtFormat}}</mat-label>
                                     <input matInput [formControlName]="field.id + '_dateCtrl'"
@@ -4116,59 +3531,14 @@
                                     </span>
                                   </span>
                                 </div>
-                              </span>
-                              <!-- <mat-form-field [ngClass]="'dropdown-field'">
-                                <mat-label>
-                                  {{field.labelName[dataCaptureLanguage]}}
-                                </mat-label>
-                                <mat-select formControlName="{{ field.id }}"
-                                  (focus)="!readOnlyMode ? dropdownApiCall(field.id): ''" #dropdown>
-                                  <mat-option *ngIf="!(
-                                    selectOptionsDataArray[field.id]?.length > 0 &&
-                                    selectOptionsDataArray[field.id] !== null)">
-                                    <mat-spinner [diameter]="20" style="margin-left: 43%"></mat-spinner>
-                                  </mat-option>
-                                  <ng-container *ngFor="let dropdown of selectOptionsDataArray[field.id]">
-                                    <mat-option *ngIf="dropdown.languageCode === dataCaptureLanguage"
-                                      [value]="dropdown.valueCode"
-                                      (click)="resetLocationFields(field.id);onChangeHandler(field.id);"
-                                      title="{{getTitleForOptionInOtherLangs(field.id, dropdown.valueCode, dataCaptureLanguage)}}">
-                                      {{ dropdown.valueName }}
-                                    </mat-option>
-                                  </ng-container>
-                                </mat-select>
-                              </mat-form-field>
-                              <p></p>
-                              <span *ngIf="field.type !== 'string' && dataCaptureLanguages.length > 1">
-                                <span *ngFor="let option of selectOptionsDataArray[field.id];">
-                                  <span
-                                    *ngIf="option.languageCode !== dataCaptureLanguage && option.valueCode == userForm.get(field.id).value && dataCaptureLanguages.includes(option.languageCode)">
-                                    <span class="selectedOption">{{option.valueName}}</span>
-                                  </span>
-                                </span>
-                              </span> -->
+                              </span>                              
                             </span>
                           </ng-container>
                           <!-- Add Age Date fields-->
                           <ng-container *ngIf="field.controlType === 'ageDate'">
                             <span *ngIf="i == 0">
                               <div class="user__age-or-date" [dir]="dataCaptureLangsDir[i]">
-                                <div class="user__date">
-                                  <!-- <mat-form-field appearance="legacy">
-                                    <input matInput placeholder="{{ 'demographic.date_dd' | translate }}" #dd [value]="date"
-                                      (change)="onChangeHandler(field.id)"
-                                      (focusout)="onDOBChange();onChangeHandler(field.id);" [disabled]="readOnlyMode" />
-                                  </mat-form-field>
-                                  <mat-form-field appearance="legacy">
-                                    <input matInput placeholder="{{ 'demographic.date_mm' | translate }}" [value]="month"
-                                      #mm (focusout)="onDOBChange();onChangeHandler(field.id);"
-                                      (change)="onChangeHandler(field.id)" [disabled]="readOnlyMode" />
-                                  </mat-form-field>
-                                  <mat-form-field appearance="legacy">
-                                    <input matInput placeholder="{{ 'demographic.date_yyyy' | translate }}" [value]="year"
-                                      #yyyy (focusout)="onDOBChange();onChangeHandler(field.id);"
-                                      (change)="onChangeHandler(field.id)" [disabled]="readOnlyMode" />
-                                  </mat-form-field> -->
+                                <div class="user__date">                                  
                                   <mat-form-field appearance="legacy">
                                     <mat-label>{{localeDtFormat}}</mat-label>
                                     <input matInput [formControlName]="field.id + '_dateCtrl'"
@@ -4419,59 +3789,14 @@
                                     </span>
                                   </span>
                                 </div>
-                              </span>
-                              <!-- <mat-form-field [ngClass]="'dropdown-field'">
-                                <mat-label>
-                                  {{field.labelName[dataCaptureLanguage]}}
-                                </mat-label>
-                                <mat-select formControlName="{{ field.id }}"
-                                  (focus)="!readOnlyMode ? dropdownApiCall(field.id): ''" #dropdown>
-                                  <mat-option *ngIf="!(
-                                    selectOptionsDataArray[field.id]?.length > 0 &&
-                                    selectOptionsDataArray[field.id] !== null)">
-                                    <mat-spinner [diameter]="20" style="margin-left: 43%"></mat-spinner>
-                                  </mat-option>
-                                  <ng-container *ngFor="let dropdown of selectOptionsDataArray[field.id]">
-                                    <mat-option *ngIf="dropdown.languageCode === dataCaptureLanguage"
-                                      [value]="dropdown.valueCode"
-                                      (click)="resetLocationFields(field.id);onChangeHandler(field.id);"
-                                      title="{{getTitleForOptionInOtherLangs(field.id, dropdown.valueCode, dataCaptureLanguage)}}">
-                                      {{ dropdown.valueName }}
-                                    </mat-option>
-                                  </ng-container>
-                                </mat-select>
-                              </mat-form-field>
-                              <p></p>
-                              <span *ngIf="field.type !== 'string' && dataCaptureLanguages.length > 1">
-                                <span *ngFor="let option of selectOptionsDataArray[field.id];">
-                                  <span
-                                    *ngIf="option.languageCode !== dataCaptureLanguage && option.valueCode == userForm.get(field.id).value && dataCaptureLanguages.includes(option.languageCode)">
-                                    <span class="selectedOption">{{option.valueName}}</span>
-                                  </span>
-                                </span>
-                              </span> -->
+                              </span>                      
                             </span>
                           </ng-container>
                           <!-- Add Age Date fields-->
                           <ng-container *ngIf="field.controlType === 'ageDate'">
                             <span *ngIf="i == 0">
                               <div class="user__age-or-date" [dir]="dataCaptureLangsDir[i]">
-                                <div class="user__date">
-                                  <!-- <mat-form-field appearance="legacy">
-                                    <input matInput placeholder="{{ 'demographic.date_dd' | translate }}" #dd [value]="date"
-                                      (change)="onChangeHandler(field.id)"
-                                      (focusout)="onDOBChange();onChangeHandler(field.id);" [disabled]="readOnlyMode" />
-                                  </mat-form-field>
-                                  <mat-form-field appearance="legacy">
-                                    <input matInput placeholder="{{ 'demographic.date_mm' | translate }}" [value]="month"
-                                      #mm (focusout)="onDOBChange();onChangeHandler(field.id);"
-                                      (change)="onChangeHandler(field.id)" [disabled]="readOnlyMode" />
-                                  </mat-form-field>
-                                  <mat-form-field appearance="legacy">
-                                    <input matInput placeholder="{{ 'demographic.date_yyyy' | translate }}" [value]="year"
-                                      #yyyy (focusout)="onDOBChange();onChangeHandler(field.id);"
-                                      (change)="onChangeHandler(field.id)" [disabled]="readOnlyMode" />
-                                  </mat-form-field> -->
+                                <div class="user__date">                                  
                                   <mat-form-field appearance="legacy">
                                     <mat-label>{{localeDtFormat}}</mat-label>
                                     <input matInput [formControlName]="field.id + '_dateCtrl'"
@@ -4721,59 +4046,14 @@
                                     </span>
                                   </span>
                                 </div>
-                              </span>
-                              <!-- <mat-form-field [ngClass]="'dropdown-field'">
-                                <mat-label>
-                                  {{field.labelName[dataCaptureLanguage]}}
-                                </mat-label>
-                                <mat-select formControlName="{{ field.id }}"
-                                  (focus)="!readOnlyMode ? dropdownApiCall(field.id): ''" #dropdown>
-                                  <mat-option *ngIf="!(
-                                    selectOptionsDataArray[field.id]?.length > 0 &&
-                                    selectOptionsDataArray[field.id] !== null)">
-                                    <mat-spinner [diameter]="20" style="margin-left: 43%"></mat-spinner>
-                                  </mat-option>
-                                  <ng-container *ngFor="let dropdown of selectOptionsDataArray[field.id]">
-                                    <mat-option *ngIf="dropdown.languageCode === dataCaptureLanguage"
-                                      [value]="dropdown.valueCode"
-                                      (click)="resetLocationFields(field.id);onChangeHandler(field.id);"
-                                      title="{{getTitleForOptionInOtherLangs(field.id, dropdown.valueCode, dataCaptureLanguage)}}">
-                                      {{ dropdown.valueName }}
-                                    </mat-option>
-                                  </ng-container>
-                                </mat-select>
-                              </mat-form-field>
-                              <p></p>
-                              <span *ngIf="field.type !== 'string' && dataCaptureLanguages.length > 1">
-                                <span *ngFor="let option of selectOptionsDataArray[field.id];">
-                                  <span
-                                    *ngIf="option.languageCode !== dataCaptureLanguage && option.valueCode == userForm.get(field.id).value && dataCaptureLanguages.includes(option.languageCode)">
-                                    <span class="selectedOption">{{option.valueName}}</span>
-                                  </span>
-                                </span>
-                              </span> -->
+                              </span>                              
                             </span>
                           </ng-container>
                           <!-- Add Age Date fields-->
                           <ng-container *ngIf="field.controlType === 'ageDate'">
                             <span *ngIf="i == 0">
                               <div class="user__age-or-date" [dir]="dataCaptureLangsDir[i]">
-                                <div class="user__date">
-                                  <!-- <mat-form-field appearance="legacy">
-                                    <input matInput placeholder="{{ 'demographic.date_dd' | translate }}" #dd [value]="date"
-                                      (change)="onChangeHandler(field.id)"
-                                      (focusout)="onDOBChange();onChangeHandler(field.id);" [disabled]="readOnlyMode" />
-                                  </mat-form-field>
-                                  <mat-form-field appearance="legacy">
-                                    <input matInput placeholder="{{ 'demographic.date_mm' | translate }}" [value]="month"
-                                      #mm (focusout)="onDOBChange();onChangeHandler(field.id);"
-                                      (change)="onChangeHandler(field.id)" [disabled]="readOnlyMode" />
-                                  </mat-form-field>
-                                  <mat-form-field appearance="legacy">
-                                    <input matInput placeholder="{{ 'demographic.date_yyyy' | translate }}" [value]="year"
-                                      #yyyy (focusout)="onDOBChange();onChangeHandler(field.id);"
-                                      (change)="onChangeHandler(field.id)" [disabled]="readOnlyMode" />
-                                  </mat-form-field> -->
+                                <div class="user__date">                                  
                                   <mat-form-field appearance="legacy">
                                     <mat-label>{{localeDtFormat}}</mat-label>
                                     <input matInput [formControlName]="field.id + '_dateCtrl'"
@@ -4952,37 +4232,7 @@
                                     </span>
                                   </span>
                                 </div>
-                              </span>
-                              <!-- <mat-form-field [ngClass]="'dropdown-field'">
-                                <mat-label>
-                                  {{field.labelName[dataCaptureLanguage]}}
-                                </mat-label>
-                                <mat-select formControlName="{{ field.id }}"
-                                  (focus)="!readOnlyMode ? dropdownApiCall(field.id): ''" #dropdown>
-                                  <mat-option *ngIf="!(
-                                    selectOptionsDataArray[field.id]?.length > 0 &&
-                                    selectOptionsDataArray[field.id] !== null)">
-                                    <mat-spinner [diameter]="20" style="margin-left: 43%"></mat-spinner>
-                                  </mat-option>
-                                  <ng-container *ngFor="let dropdown of selectOptionsDataArray[field.id]">
-                                    <mat-option *ngIf="dropdown.languageCode === dataCaptureLanguage"
-                                      [value]="dropdown.valueCode"
-                                      (click)="resetLocationFields(field.id);onChangeHandler(field.id);"
-                                      title="{{getTitleForOptionInOtherLangs(field.id, dropdown.valueCode, dataCaptureLanguage)}}">
-                                      {{ dropdown.valueName }}
-                                    </mat-option>
-                                  </ng-container>
-                                </mat-select>
-                              </mat-form-field>
-                              <p></p>
-                              <span *ngIf="field.type !== 'string' && dataCaptureLanguages.length > 1">
-                                <span *ngFor="let option of selectOptionsDataArray[field.id];">
-                                  <span
-                                    *ngIf="option.languageCode !== dataCaptureLanguage && option.valueCode == userForm.get(field.id).value && dataCaptureLanguages.includes(option.languageCode)">
-                                    <span class="selectedOption">{{option.valueName}}</span>
-                                  </span>
-                                </span>
-                              </span> -->
+                              </span>                              
                             </span>
                           </ng-container>
                           <span *ngIf="field.controlType === 'textbox'" [dir]="userPrefLanguageDir">
@@ -5103,37 +4353,7 @@
                                     </span>
                                   </span>
                                 </div>
-                              </span>
-                              <!-- <mat-form-field [ngClass]="'dropdown-field'">
-                                <mat-label>
-                                  {{field.labelName[dataCaptureLanguage]}}
-                                </mat-label>
-                                <mat-select formControlName="{{ field.id }}"
-                                  (focus)="!readOnlyMode ? dropdownApiCall(field.id): ''" #dropdown>
-                                  <mat-option *ngIf="!(
-                                    selectOptionsDataArray[field.id]?.length > 0 &&
-                                    selectOptionsDataArray[field.id] !== null)">
-                                    <mat-spinner [diameter]="20" style="margin-left: 43%"></mat-spinner>
-                                  </mat-option>
-                                  <ng-container *ngFor="let dropdown of selectOptionsDataArray[field.id]">
-                                    <mat-option *ngIf="dropdown.languageCode === dataCaptureLanguage"
-                                      [value]="dropdown.valueCode"
-                                      (click)="resetLocationFields(field.id);onChangeHandler(field.id);"
-                                      title="{{getTitleForOptionInOtherLangs(field.id, dropdown.valueCode, dataCaptureLanguage)}}">
-                                      {{ dropdown.valueName }}
-                                    </mat-option>
-                                  </ng-container>
-                                </mat-select>
-                              </mat-form-field>
-                              <p></p>
-                              <span *ngIf="field.type !== 'string' && dataCaptureLanguages.length > 1">
-                                <span *ngFor="let option of selectOptionsDataArray[field.id];">
-                                  <span
-                                    *ngIf="option.languageCode !== dataCaptureLanguage && option.valueCode == userForm.get(field.id).value && dataCaptureLanguages.includes(option.languageCode)">
-                                    <span class="selectedOption">{{option.valueName}}</span>
-                                  </span>
-                                </span>
-                              </span> -->
+                              </span>                              
                             </span>
                           </ng-container>
                           <span *ngIf="field.controlType === 'textbox'" [dir]="userPrefLanguageDir">

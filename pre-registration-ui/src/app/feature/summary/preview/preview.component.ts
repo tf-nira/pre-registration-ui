@@ -91,8 +91,6 @@ export class PreviewComponent implements OnInit {
     }
     this.getLanguageLabels();
     await this.getIdentityJsonFormat();
-    // await this.getResidentDetails();
-    // await this.getGenderDetails();
     await this.getDynamicFieldValues(null);
     await this.getUserInfo();
     await this.getUserFiles();
@@ -167,7 +165,6 @@ export class PreviewComponent implements OnInit {
       }
     }
     this.dataLoaded = true;
-    //console.log(this.previewData);
   }
 
   initializeDataCaptureLanguages = async () => {
@@ -216,7 +213,6 @@ export class PreviewComponent implements OnInit {
 
   checkArray(data, control) {
     let result = false;
-    //if (controlId.type == "string")
     if (Array.isArray(data)) {
       result = true;
     }
@@ -226,10 +222,7 @@ export class PreviewComponent implements OnInit {
   async getIdentityJsonFormat() {
     return new Promise((resolve, reject) => {
       this.dataStorageService.getIdentityJson().subscribe((response) => {
-        //console.log(response);
-        //response = identityStubJson;
         let identityJsonSpec = response[appConstants.RESPONSE]["jsonSpec"]["identity"];
-        //console.log(jsonSpec)
         this.identityData = identityJsonSpec["identity"];
         let locationHeirarchiesFromJson = [
           ...identityJsonSpec["locationHierarchy"],
@@ -364,7 +357,6 @@ export class PreviewComponent implements OnInit {
             resolve(true);
             //user files can be uploaded or not
             //so we dont have to show error message
-            //this.showErrorMessage(error);
           });
     });
   }
@@ -495,10 +487,6 @@ export class PreviewComponent implements OnInit {
   }
 
   modifyDemographic() {
-    /*const url = Utils.getURL(this.router.url, "demographic", 3);
-    localStorage.setItem(appConstants.MODIFY_USER_FROM_PREVIEW, "true");
-    localStorage.setItem(appConstants.MODIFY_USER, "true");
-    this.router.navigateByUrl(url + `/${this.preRegId}`);*/
     // open dialog for confirming modify
     const message = "Are you sure you want to modify your Bio data";
     const ok_text = "YES, MODIFY";
@@ -524,8 +512,6 @@ export class PreviewComponent implements OnInit {
   }
 
   modifyDocument() {
-    /*localStorage.setItem("modifyDocument", "true");
-    this.navigateBack();*/
     const message = "Are you sure you want to modify your uploaded documents";
     const ok_text = "YES, MODIFY";
     const no_text = "CANCEL";
@@ -622,7 +608,6 @@ export class PreviewComponent implements OnInit {
             //fetching location names can be a fail safe operation
             //in case there is some error, we can still proceed 
             resolve(true);
-            //this.showErrorMessage(error);
           });
     });
   }
@@ -672,7 +657,6 @@ export class PreviewComponent implements OnInit {
         mandatoryLanguages, minLanguage, maxLanguage, this.userPrefLanguage);
       const dialogRef = this.openDialog(popupAttributes, "550px", "350px");
       dialogRef.afterClosed().subscribe((res) => {
-        //console.log(res);
         if (res == undefined) {
           this.isNavigateToDemographic = false;
         } else {
@@ -730,20 +714,11 @@ export class PreviewComponent implements OnInit {
   async navigateNext() {
     if (this.isBookingRequiredFlag) {
       await this.makeBooking();
-
-      //this.bookingService.setSendNotification(true);
       this.bookingService.setSendNotification(true);
     }
     let url = Utils.getURL(this.router.url, "summary", 3);
-    // url = url + `/${this.preRegId}/pick-center`;
     url = url + `/${this.preRegId}/acknowledgement`;
     this.router.navigateByUrl(url);
-
-    // this.bookingService.setSendNotification(true);
-    // let url = Utils.getURL(this.router.url, "summary", 3);
-    // // url = url + `/${this.preRegId}/pick-center`;
-    // url = url + `/${this.preRegId}/acknowledgement`;
-    // this.router.navigateByUrl(url);
   }
 
   //malay

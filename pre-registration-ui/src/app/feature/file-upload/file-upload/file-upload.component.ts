@@ -166,7 +166,6 @@ export class FileUploadComponent implements OnInit, OnDestroy {
   async getIdentityJsonFormat() {
     return new Promise((resolve) => {
       this.dataStorageService.getIdentityJson().subscribe(async (response) => {
-        //response = identityStubJson;
         let identityJsonSpec =
           response[appConstants.RESPONSE]["jsonSpec"]["identity"];
         this.identityData = identityJsonSpec["identity"];
@@ -289,7 +288,6 @@ export class FileUploadComponent implements OnInit, OnDestroy {
             //this is fail safe operation as user may not have uploaded any documents yet
             //so no err handling is required
             resolve(true);
-            //this.showErrorMessage(error);
           });
     });
   }
@@ -507,9 +505,7 @@ export class FileUploadComponent implements OnInit, OnDestroy {
       } else {
         applicant["applicantName"] = nameFieldObject;
       }
-      //console.log(applicant);
     });
-    //console.log("allApplicants>>>" + JSON.stringify(allApplicants));
     return allApplicants;
   }
   /**
@@ -518,7 +514,6 @@ export class FileUploadComponent implements OnInit, OnDestroy {
    * @memberof FileUploadComponent
    */
   async getApplicantTypeID() {
-    //console.log("getApplicantTypeID");
     let attributesArr = [];
     const identityObj = this.users[0].request.demographicDetails.identity;
     this.identityObjCopy=identityObj;
@@ -529,11 +524,6 @@ export class FileUploadComponent implements OnInit, OnDestroy {
         const element = keyArr[index];
         if (element != appConstants.IDSchemaVersionLabel) {
           let elemValue = identityObj[element];
-          // this.identityData.forEach((obj) => {
-          //   if (element === obj.id && obj.controlType === "ageDate" || obj.controlType === "date") {
-          //     console.log(elemValue);
-          //   }
-          // });
           attributesArr.push({
             "attribute": element,
             "value": elemValue
@@ -602,7 +592,6 @@ export class FileUploadComponent implements OnInit, OnDestroy {
             (res) => {
               if (res[appConstants.RESPONSE]) {
                 let documentCategories = res["response"].documentCategories;
-                //console.log("documentCategories received");
                 documentCategories.forEach((documentCategory) => {
                   this.uiFields.forEach((uiField) => {
                     if (uiField.subType == documentCategory.code) {
@@ -619,7 +608,6 @@ export class FileUploadComponent implements OnInit, OnDestroy {
                           );
                         }
                         this.userForm.controls[uiField.id].setValue("");
-                        // debugger;
                         this.LOD.push(documentCategory);
                       }
                     }
@@ -638,13 +626,10 @@ export class FileUploadComponent implements OnInit, OnDestroy {
                     });
                   });
                 }
-                //this.LOD = res["response"].documentCategories;
-                //console.log(this.LOD);
                 this.enableBrowseButtonList = new Array(this.LOD.length).fill(
                   false
                 );
                 this.onModification();
-                //console.log(this.LOD);
                 resolve(true);
               }
             },
@@ -674,7 +659,6 @@ export class FileUploadComponent implements OnInit, OnDestroy {
           },
           (error) => {
             //the is a fail safe operation hence no err messages are to be displayed
-            //this.showErrorMessage(error);
           },
           () => {
             this.setApplicants();
@@ -857,7 +841,6 @@ export class FileUploadComponent implements OnInit, OnDestroy {
    * @memberof FileUploadComponent
    */
   deleteUploadedFile(fileMeta) {
-    //console.log(fileMeta);
     let dialogRef = this.confirmationDialog(fileMeta.docName);
     dialogRef.afterClosed().subscribe((confirm) => {
       if (confirm == true) {
@@ -867,7 +850,6 @@ export class FileUploadComponent implements OnInit, OnDestroy {
           .subscribe(
             (res) => {
               if (res[appConstants.RESPONSE]) {
-                //console.log("deleted");
                 if (fileMeta.docCatCode === "POA") {
                   console.log(fileMeta.docCatCode);
                   this.sameAsselected = false;
@@ -962,7 +944,6 @@ export class FileUploadComponent implements OnInit, OnDestroy {
     let allowedFileUploaded: Boolean = false;
     this.disableNavigation = true;
 
-    // if (event.target.files[0].type === file) {
     if (extensionRegex.test(this.fileExtension)) {
       allowedFileUploaded = true;
       if (
@@ -1194,7 +1175,6 @@ export class FileUploadComponent implements OnInit, OnDestroy {
             }
           }
         });
-        //console.log(`uiFieldId:${uiFieldId} langCode:${controlLangCode} isInvalid:${isInvalid}`);
         if (isInvalid) {
           return {
             customPattern: {
@@ -1317,7 +1297,6 @@ export class FileUploadComponent implements OnInit, OnDestroy {
    * @memberof FileUploadComponent
    */
   updateUsers(fileResponse) {
-    //console.log(fileResponse);
     let i = 0;
     let fileObject = new FileModel();
     fileObject.docCatCode = fileResponse.response.docCatCode;
@@ -1335,11 +1314,9 @@ export class FileUploadComponent implements OnInit, OnDestroy {
         );
       }
     });
-    //console.log(`this.fileDocCatCode: ${this.fileDocCatCode}`);
     if (this.fileDocCatCode == fileResponse.response.docCatCode) {
       this.removeFilePreview();
     }
-    //console.log("sendFile");
     for (let file of this.users[0].files.documentsMetaData) {
       if (
         file.docCatCode == fileObject.docCatCode ||
@@ -1354,7 +1331,6 @@ export class FileUploadComponent implements OnInit, OnDestroy {
     if (i == this.users[0].files.documentsMetaData.length) {
       this.users[this.step].files.documentsMetaData.push(fileObject);
     }
-    //console.log(this.users[0].files.documentsMetaData);
     this.userFile = [];
   }
 
@@ -1370,7 +1346,6 @@ export class FileUploadComponent implements OnInit, OnDestroy {
     //if yes, and if application status is "Application_Incomplete",
     //then update it to "Booked"
     if (this.userForm.valid) {
-      //console.log("calling updateApplicationStatus");
       await this.updateApplicationStatus(appConstants.APPLICATION_STATUS_CODES.incomplete,
         appConstants.APPLICATION_STATUS_CODES.pending);
       //malay-->pending to booked.
@@ -1399,7 +1374,6 @@ export class FileUploadComponent implements OnInit, OnDestroy {
     //if yes, and if application status is "Pending_Appointment",
     //then update it to "Application_Incomplete"
     if (!this.userForm.valid) {
-      //console.log("calling updateApplicationStatus");
       //malay-->pending changed to booked
       await this.updateApplicationStatus(appConstants.APPLICATION_STATUS_CODES.pending,
         appConstants.APPLICATION_STATUS_CODES.incomplete);
@@ -1431,7 +1405,6 @@ export class FileUploadComponent implements OnInit, OnDestroy {
     this.disableNavigation = true;
     if (event.value == "") {
       let arr = fileMetadata.filter((ent) => ent.docCatCode === "POA");
-      //console.log("removing file " + arr[0].documentId);
       const subs = this.dataStorageService
         .deleteFile(arr[0].documentId, this.preRegId)
         .subscribe(
@@ -1465,7 +1438,6 @@ export class FileUploadComponent implements OnInit, OnDestroy {
         );
       this.subscriptions.push(subs);
     } else {
-      //console.log("copying file " + event.value);
       const subs = this.dataStorageService
         .copyDocument(event.value, this.users[0].preRegId)
         .subscribe(
@@ -1520,22 +1492,10 @@ export class FileUploadComponent implements OnInit, OnDestroy {
    * @memberof FileUploadComponent
    */
   removePOADocument() {
-    //console.log("removePOADocument");
     this.userFiles = new FilesModel();
-    //let i = 0;
-    // if (this.users[0].files.documentsMetaData) {
-    //   for (let file of this.users[0].files.documentsMetaData) {
-    //     console.log(file);
-    //     if (file.docCatCode == "POA") {
-    //       this.users[0].files.documentsMetaData.splice(i, 1);
-    //     }
-    //     i++;
-    //   }
-    // }
     let allFiles = this.users[0].files.documentsMetaData;
     if (allFiles) {
       let updatedFiles = allFiles.filter(file => file.docCatCode !== "POA");
-      //console.log(updatedFiles);
       this.users[0].files.documentsMetaData = updatedFiles;
     }
   }
@@ -1743,9 +1703,6 @@ export class FileUploadComponent implements OnInit, OnDestroy {
     this.dataUploadComplete = true;
     let url = "";
     if (localStorage.getItem(appConstants.MODIFY_USER_FROM_PREVIEW) === "true" && this.preRegId) {
-      /* url = Utils.getURL(this.router.url, "summary");
-       localStorage.setItem(appConstants.MODIFY_USER_FROM_PREVIEW, "false");
-       this.router.navigateByUrl(url + `/${this.preRegId}/preview`);*/
       // modify open dialog
       const message = "You have successfuly modified your document uploads";
       const body = {

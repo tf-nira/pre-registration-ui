@@ -100,8 +100,6 @@
           </span>
           <p></p>
         </div>
-        <!-- <div class="endOfAck" *ngIf="i + 1 !== ackDataArr.length"></div>
-        <div class="lastAck" *ngIf="i + 1 == ackDataArr.length"></div> -->
       </div>
     </div>
   </div>
@@ -109,8 +107,6 @@
 </div>
 <div *ngIf="!showSpinner">
   <div class="ack__button-container">
-    <!-- <button mat-button (click)="navigateBack()" class="user-back-btn">{{'preview.action_back'| translate}}</button> -->
-    <!-- <span class="spacer"></span> -->
     <button *ngIf=" notificationTypes && notificationTypes.length > 0 && notificationTypes[0] !== ''"
       matTooltip="{{ 'helpText.send_email/sms' | translate }}" mat-button (click)="sendAcknowledgement()"
       class="ack-book_later-btn">

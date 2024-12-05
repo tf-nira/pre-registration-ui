@@ -296,7 +296,6 @@ export class DemographicComponent extends FormDeactivateGuardService
       }
       identityRequest = { identity: this.newIdentityObj };
     }
-    //console.log(identityRequest);
     return identityRequest;
   }
 
@@ -357,7 +356,6 @@ export class DemographicComponent extends FormDeactivateGuardService
     this.initializationFlag = true;//malay
 
     console.log("log1 :: before await this.onChangeHandler ")
-    // await this.onChangeHandler("");
     const ongetFieldAndDataPromise = () => new Promise<void>(async (resolve) => {
       await this.onChangeHandler("");
         resolve(); // Resolve the promise once resetHiddenField is done
@@ -651,7 +649,6 @@ export class DemographicComponent extends FormDeactivateGuardService
     } else {
       allLangs = [...this.dataCaptureLanguages];
     }
-    //console.log(allLangs);
     return allLangs;
   };
 
@@ -664,7 +661,6 @@ export class DemographicComponent extends FormDeactivateGuardService
         allLangsDir.push("rtl");
       }
     });
-    //console.log(allLangsDir);
     return allLangsDir;
   };
 
@@ -786,10 +782,7 @@ export class DemographicComponent extends FormDeactivateGuardService
           );
           this.setDropDownArrays();
           this.setLocations();
-          // this.setGender();
-          // this.setResident();
           await this.getDynamicFieldValues(null);
-          //console.log("fetched dynnamic values");
           resolve(true);
         },
         (error) => {
@@ -825,8 +818,6 @@ export class DemographicComponent extends FormDeactivateGuardService
         this.uiFieldsForAlignmentGroups[obj.alignmentGroup].push(obj);
       }
     });
-    //console.log(this.alignmentGroups);
-    //console.log(this.uiFieldsForAlignmentGroups);
   }
 
   /**
@@ -954,7 +945,6 @@ export class DemographicComponent extends FormDeactivateGuardService
             }
           }
         });
-        //console.log(`uiFieldId:${uiFieldId} langCode:${controlLangCode} isInvalid:${isInvalid}`);
         if (isInvalid) {
           return {
             customPattern: {
@@ -1032,7 +1022,6 @@ export class DemographicComponent extends FormDeactivateGuardService
   async dropdownApiCall(controlId: string) {
     let _this = this;
     if (this.isThisFieldInLocationHeirarchies(controlId)) {
-      //console.log("dropdownApiCall : " + controlId);
       if (this.getIndexInLocationHeirarchy(controlId) !== 0) {
         this.selectOptionsDataArray[controlId] = [];
         this.filteredSelectOptions[controlId] = new ReplaySubject<CodeValueModal[]>(1);
@@ -1049,11 +1038,9 @@ export class DemographicComponent extends FormDeactivateGuardService
               }
             });
           }
-          //console.log(`${parentLocationName} : ${locationCode}`);
           let promisesArr = await this.loadLocationData(locationCode, controlId,
             filtered.locationHierarchyName);
           Promise.all(promisesArr).then((values) => {
-            //this.userForm.controls[`${controlId}_search`].setValue("");
             const newDataArr = _this.selectOptionsDataArray[controlId];
             if (newDataArr && (newDataArr.length / _this.dataCaptureLanguages.length) == 1) {
               const firstValue = newDataArr[0].valueCode;
@@ -1066,7 +1053,6 @@ export class DemographicComponent extends FormDeactivateGuardService
             }
             this.searchInDropdown(controlId);
             this.resetLocationFields(controlId);
-            //console.log(`done`);
             return;
           });
         }
@@ -1224,7 +1210,6 @@ export class DemographicComponent extends FormDeactivateGuardService
       }
   
     }
-    //console.log(`isChild: ${isChild}`);
     let formIdentityData = {
       identity: {
         ...identityFormData.identity,
@@ -1270,7 +1255,6 @@ export class DemographicComponent extends FormDeactivateGuardService
           (subfield) => subfield.id === fieldId);
         //check if the subfield has "visibleCondition" or "requiredCondition"
         if (subField) {
-          //console.log(subField)
           if (subField.hasOwnProperty("visibleCondition")) {
             await this.processShowHideFields(formIdentityData, subField);
           }
@@ -1326,7 +1310,6 @@ export class DemographicComponent extends FormDeactivateGuardService
   processShowHideFields = async (formIdentityData: any, subField?: any) => {
     return new Promise<void>((resolve, reject) => {
       if (subField) {
-        //let facts = {};
         /** Construct a fact to be consumed by the json-rule-engine based on 
          * parent field value.
          */
@@ -1336,7 +1319,6 @@ export class DemographicComponent extends FormDeactivateGuardService
           onSuccess() {
             //in "visibleCondition" is statisfied then show the field
             subField.isVisible = true;
-            //console.log(subField.id + " visible")
           },
           async onFailure() {
             //in "visibleCondition" is not statisfied then hide the field
@@ -1345,8 +1327,6 @@ export class DemographicComponent extends FormDeactivateGuardService
               
             resetHiddenFieldFunc(subField);
             }
-
-            //console.log(subField.id + " not visible")
           },
           event: {
             type: "message",
@@ -1356,7 +1336,6 @@ export class DemographicComponent extends FormDeactivateGuardService
           },
         });
         this.jsonRulesEngine.addRule(visibilityRule);
-        //console.log(visibilityRule)
         //evaluate the visibleCondition
         this.jsonRulesEngine
           .run(formIdentityData)
@@ -1371,14 +1350,12 @@ export class DemographicComponent extends FormDeactivateGuardService
             resolve(); // Resolve the promise on success
           })
           .catch((error) => {
-            //console.log("err is", error);
             this.jsonRulesEngine.removeRule(visibilityRule);
             reject(error);
           });
 
       }
       else {
-        //console.log("called without subField");
         this.uiFields.forEach((uiField) => {
           let facts = {};
           /** If no "visibleCondition" is given, then show the field.
@@ -1496,8 +1473,6 @@ export class DemographicComponent extends FormDeactivateGuardService
         if (uiField.parentField) {
           for (const field of uiField.parentField) {
             const parentFieldValue = identityFormData.identity[field.fieldId];
-            //facts = { [field.fieldId]: parentFieldValue };
-            //facts[field.fieldId] = parentFieldValue;
           }
         }
         const addValidatorsFunc = this.addRequiredValidator;
@@ -1697,8 +1672,6 @@ export class DemographicComponent extends FormDeactivateGuardService
                         valueName: element.name,
                         languageCode: element.langCode,
                       };
-                      // console.log("fetched locations for: " + fieldName + ": " + codeValueModal);
-                      // console.log("line 2 fetched locations for: " + fieldName + ": " + codeValueModal.valueName);
                       this.selectOptionsDataArray[`${fieldName}`].push(codeValueModal);
                     });
                   }
@@ -1894,7 +1867,6 @@ export class DemographicComponent extends FormDeactivateGuardService
           }
         });
         Promise.all(promisesResolved).then((values) => {
-          //console.log(`done fetching locations`);
           resolve(true);
         });
       }
@@ -2385,11 +2357,9 @@ export class DemographicComponent extends FormDeactivateGuardService
     const str =
       response[appConstants.ERROR][appConstants.NESTED_ERROR][0]["message"];
     const attr = str.substring(str.lastIndexOf("/") + 1);
-    //let message = this.errorlabels[attr];
     this.userForm.controls[attr].setErrors({
       incorrect: true,
     });
-    //return message;
   }
 
   /**

@@ -1,5 +1,4 @@
 <div [dir]="textDir" class="dashboard-body">
-  <!--  [dir]="textDir"-->
   <div class="heading-row">
     <div class="heading">
       <p>{{ "dashboard.title" | translate }}</p>
@@ -10,8 +9,6 @@
         matTooltip="{{ 'helpText.book/modify_appointment' | translate }}"
         [matTooltipDisabled]="!disableModifyAppointmentButton"
       >
-        <!-- class="modify-app-btn" -->
-        <!-- mat-button -->
         <button
           style="margin-left: 20px"
           [disabled]="disableModifyAppointmentButton"
@@ -22,7 +19,6 @@
         </button></span
       >
       <span>
-        <!-- class="create-app-btn" -->
         <button class="btn_axn-pri page_btn" (click)="onNewApplication()">
           <img src="assets\Create new application.png" alt="New application" class="create-app-img" />
           {{ "dashboard.action_cre_application" | translate }}
@@ -49,12 +45,6 @@
               >{{
                 "dashboard.card.text_app_id" | translate
               }}&nbsp;&nbsp;<strong style="color: #c02533"> {{ user.applicationID }}</strong>
-              <!-- <mat-icon
-                class="icon"
-                matTooltip="{{ 'helpText.applicationId' | translate }}"
-                [inline]="true"
-                >help_outline</mat-icon
-              > -->
             </span>
             <span class="spacer"></span>
             <span
@@ -99,10 +89,6 @@
                     "
                   >{{ user.name }}</td>
                 </tr>
-                <!--<tr>
-                  <td class="column1">{{ "dashboard.card.text_appoinment_date" | translate }}</td>
-                  <td class="application-value">{{ user.appointmentTime }} {{ user.appointmentDate }}</td>
-                </tr>-->
                 <tr>
                   <td class="column1">{{ "dashboard.card.text_status" | translate }}</td>
                   <td class="application-value" [ngStyle]="{ color: getColor(user.status) }">
@@ -170,7 +156,6 @@
                   alt="Modify information"
                 />&nbsp;{{ "dashboard.card.action_modify_information" | translate }}
               </button>
-              <!-- (click)="onSelectUser(user)" -->
               <button
                 mat-button
                 class="footer-btn"
@@ -202,9 +187,6 @@
                   "dashboard.card.action_view_acknowledgement" | translate
                 }}
               </button>
-              <!-- <button mat-icon-button class="footer-download-btn">
-                <img src="assets\download.png" class="download-btn-img" />
-              </button> -->
               </div>
             </mat-card-actions>
           </mat-card-footer>

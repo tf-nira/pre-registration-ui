@@ -3,20 +3,6 @@
 </div>
 <div *ngIf="previewData !== undefined && dataLoaded" class="preview__container">
   <mat-card class="preview__header-container card-padding">
-    <!-- <mat-card-header class="preview__header-container"> -->
-    <!-- <div class="preview__header">
-        <header>{{ previewLabels.title_preview }}
-          (<span *ngFor="let dataCaptureLang of dataCaptureLanguagesLabels;index as labelsIndex">
-            <span [dir]="userPrefLanguageDir">&nbsp;{{dataCaptureLang}}&nbsp;</span>
-          </span>)
-        </header>
-        <div class="preview__modify-div" *ngIf="!readOnlyMode">
-          <span (click)="modifyDemographic()"
-            [ngStyle]="userPrefLanguageDir == 'rtl'? {'float': 'left'} : {'float': 'right'}"
-            matTooltip="{{ helpText.modify_at_DemoPreview }}"><img src="assets/edit.png" /> {{
-            previewLabels.action_modify }}</span>
-        </div>
-      </div> -->
     <div class="preview__header">
       <span>{{ previewLabels.title_preview }}&nbsp;(<span
           *ngFor="let dataCaptureLang of dataCaptureLanguagesLabels;index as labelsIndex">
@@ -28,7 +14,6 @@
           previewLabels.action_modify }}</span>
       </span>
     </div>
-    <!-- </mat-card-header> -->
     <mat-card-content [dir]="dataCaptureLangsDir[0]">
       <div class="preview__body-content-container">
         <div class="preview__body-content-div">
@@ -44,8 +29,6 @@
                     </span>
                     <span
                 *ngFor="let dataCaptureLanguage of dataCaptureLanguages; let i = index; let first = first; let last = last;">
-                <!-- <table width="100%">
-                  <tr> -->
                 <span  class="value" *ngIf="checkArray(previewData[controlId], controlId);then content else other_content"></span>
                 <ng-template #content  >
                   <td class="value">
@@ -70,13 +53,9 @@
                       <b>{{ ControlIdLabelObjects[controlId][dataCaptureLanguage] }}</b>
                       <i *ngIf="!last"> / </i>
                       <i *ngIf="last"> : </i>
-                      <!-- <span *ngIf="previewData[controlId][index]?.value">: {{ previewData[controlId][index]?.value }}:</span> -->
-                      <!-- <span *ngIf="!dataCaptureLanguage.isLast"> : </span> -->
                     </span>
                     <span
                 *ngFor="let dataCaptureLanguage of dataCaptureLanguages; let i = index; let first = first; let last = last;">
-                <!-- <table width="100%">
-                  <tr> -->
                 <span  class="value" *ngIf="checkArray(previewData[controlId], controlId);then content else other_content"></span>
                 <ng-template #content  >
                   <td >
