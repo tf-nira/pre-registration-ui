@@ -1261,43 +1261,32 @@ export class DemographicComponent extends FormDeactivateGuardService
           if (subField.hasOwnProperty("requiredCondition")) {
             await this.processConditionalRequiredValidations(formIdentityData, subField);
           }
+          //default value decision
+          if(subField.isVisible==true){
+            let valueToSet;
+            let result;
+            if (subField.hasOwnProperty("setDefaultValueCondition")) {
+              result = await this.processConditionalDefaultValue(formIdentityData, subField);
+            }
+            if (subField.hasOwnProperty("setDefaultValue")) {
+              let value = subField.setDefaultValue;
+              if(result === "true"){
+                valueToSet = value;
+                this.userForm.controls[fieldId].setValue(valueToSet);
+                this.userForm.controls[fieldId].disable();
+              }
+              else{
+                this.userForm.controls[fieldId].enable();
+              }
+            }
+          }
         } else {
           // Optional: Handle the case where the subField isn't found
           console.warn(`Dependent field with ID '${fieldId}' not found.`);
         }
       }
     }
-
-    //custom validation for defaultvalue decision
-    if(selectedFieldId!=""){
-      let valueToSet;
-      let result;
-      const fieldId = selectedFieldId;
-        subField = this.identityData.find(
-          (subfield) => subfield.id === fieldId);
-          if(subField){
-            if (subField.hasOwnProperty("setDefaultValueCondition")) {
-              result = await this.processConditionalDefaultValue(formIdentityData, subField);
-            }
-            if (subField.hasOwnProperty("setDefaultValueto")) {
-              let field = subField.setDefaultValueto;
-              if(result === "true"){
-                valueToSet = "Y";
-                this.userForm.controls[field].setValue(valueToSet);
-                this.userForm.controls[field].disable();
-              }
-              else{
-                valueToSet = "N";
-                this.userForm.controls[field].setValue(valueToSet);
-                this.userForm.controls[field].enable();
-              }
-            }
-          }
-          else{
-            console.warn(`field with ID '${fieldId}' not found.`);
-          }
-    }
-     
+    
     if (selectedFieldId && selectedFieldId.trim() !== "" && myFlag == false) {
       await this.processChangeActions(selectedFieldId).then(async () => {
       });
