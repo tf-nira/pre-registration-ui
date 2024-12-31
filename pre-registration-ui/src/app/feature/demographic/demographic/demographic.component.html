@@ -1039,8 +1039,51 @@
                 <button mat-button color="primary" (click)="nextStep()">Next</button>
               </mat-action-row>
             </mat-expansion-panel>
-          
+
             <mat-expansion-panel *ngIf="!isRenewalService() && !isCopService()" [expanded]="expStep === 3" (opened)="setStep(3)" hideToggle>
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  <b>Foundling Check:</b>                 
+                
+                </mat-panel-title>
+                <mat-panel-description>
+                </mat-panel-description>
+              </mat-expansion-panel-header>
+            
+              <span *ngFor="let alignmentGroup of alignmentGroups">
+                <div class="rowContainer">
+                  <span *ngFor="let field of uiFieldsForAlignmentGroups[alignmentGroup]; index as uiFieldIndex">
+            
+                    <div class="fieldContainer" *ngIf="field.isVisible == true && field.renderID === 'frm_3afc_c7_Found_child'"> 
+                      <div class="fieldHeader" [ngStyle]="field.headerStyle">
+                        <mat-checkbox [formControlName]="field.id" (change)="onChangeHandler(field.id)">
+                          <span *ngFor="let lang of dataCaptureLanguages;index as langIndex">
+                            <span *ngIf="langIndex !== 0"> / </span>{{field.labelName[lang]}}
+                          </span>
+                        </mat-checkbox>
+                        <span *ngIf="field.required" class="required-annotation"></span>
+                        
+                        <span *ngIf="field.required" class="required-annotation">*</span>
+                      </div>
+                      <div class="fieldContent" [ngStyle]="field.containerStyle">
+                        <span *ngIf="!readOnlyMode && primaryuserForm && userForm.get(field.id) && userForm.get(field.id).hasError('required') && userForm.get(field.id).touched">
+                          <mat-error class="primary-errors">
+                            {{ field.labelName[userPrefLanguage] }} {{demographiclabels.validation.requiredMessage}}
+                          </mat-error>
+                        </span>
+                      </div>
+                    </div>
+                  </span>
+                </div>
+              </span>
+            
+              <mat-action-row>
+                <button mat-button color="warn" (click)="prevStep()">Previous</button>
+                <button mat-button color="primary" (click)="nextStep()">Next</button>
+              </mat-action-row>
+            </mat-expansion-panel>
+          
+            <mat-expansion-panel *ngIf="!isRenewalService() && !isCopService()" [expanded]="expStep === 4" (opened)="setStep(4)" hideToggle>
               <mat-expansion-panel-header>
                 <mat-panel-title>
                <b>Place Of Birth:</b>
@@ -1296,10 +1339,10 @@
               </mat-action-row>
             </mat-expansion-panel>
 
-            <mat-expansion-panel *ngIf="!isRenewalService() && !isCopService()" [expanded]="expStep === 4" (opened)="setStep(4)" hideToggle>
+            <mat-expansion-panel *ngIf="!isRenewalService() && !isCopService()" [expanded]="expStep === 5" (opened)="setStep(5)" hideToggle>
               <mat-expansion-panel-header>
                 <mat-panel-title>
-               <b>Passport Information:</b>
+               <b>Place of Origin:</b>
                 </mat-panel-title>
                 
               </mat-expansion-panel-header>
@@ -1307,7 +1350,7 @@
               <span *ngFor="let alignmentGroup of alignmentGroups">
                 <div class="rowContainer">
                   <span *ngFor="let field of uiFieldsForAlignmentGroups[alignmentGroup]; index as uiFieldIndex">
-                    <div class="fieldContainer" *ngIf="field.isVisible == true && field.renderID.startsWith('frm_3a_a5')">
+                    <div class="fieldContainer" *ngIf="field.isVisible == true && field.renderID.startsWith('frm_3a_a4')">
                       <div class="fieldHeader" [ngStyle]="field.headerStyle">
                         <!-- Create container header with label in user's login lang -->
                         <mat-label>{{field.labelName[userPrefLanguage]}} : </mat-label>
@@ -1552,10 +1595,10 @@
               </mat-action-row>
             </mat-expansion-panel>
 
-            <mat-expansion-panel *ngIf="!isRenewalService() && !isCopService()" [expanded]="expStep === 5" (opened)="setStep(5)" hideToggle>
+            <mat-expansion-panel *ngIf="!isRenewalService() && !isCopService()" [expanded]="expStep === 6" (opened)="setStep(6)" hideToggle>
               <mat-expansion-panel-header>
                 <mat-panel-title>
-               <b>Place Of Origin:</b>
+               <b>Citizenship Details:</b>
                 </mat-panel-title>
                 
               </mat-expansion-panel-header>
@@ -1563,7 +1606,7 @@
               <span *ngFor="let alignmentGroup of alignmentGroups">
                 <div class="rowContainer">
                   <span *ngFor="let field of uiFieldsForAlignmentGroups[alignmentGroup]; index as uiFieldIndex">
-                    <div class="fieldContainer" *ngIf="field.isVisible == true && field.renderID.startsWith('frm_3a_a4')">
+                    <div class="fieldContainer" *ngIf="field.isVisible == true && field.renderID.startsWith('frm_3a_a5')">
                       <div class="fieldHeader" [ngStyle]="field.headerStyle">
                         <!-- Create container header with label in user's login lang -->
                         <mat-label>{{field.labelName[userPrefLanguage]}} : </mat-label>
@@ -1807,16 +1850,15 @@
                 <button mat-button color="primary" (click)="nextStep()">Next</button>
               </mat-action-row>
             </mat-expansion-panel>
-
-
-            <mat-expansion-panel *ngIf="!isRenewalService() && !isCopService()" [expanded]="expStep === 6" (opened)="setStep(6)" hideToggle>
+            
+            <mat-expansion-panel *ngIf="!isRenewalService() && !isCopService()" [expanded]="expStep === 7" (opened)="setStep(7)" hideToggle>
               <mat-expansion-panel-header>
                 <mat-panel-title>
                <b>Voters Information:</b>
                 </mat-panel-title>
             
                 <mat-panel-description>
-                  Only filled if the applicant is above 18
+                  Only filled if the applicant is above 16
                 </mat-panel-description>
             
               </mat-expansion-panel-header>
@@ -2069,7 +2111,7 @@
               </mat-action-row>
             </mat-expansion-panel>
 
-            <mat-expansion-panel *ngIf="!isRenewalService() && !isCopService()" [expanded]="expStep === 7" (opened)="setStep(7)" hideToggle>
+            <mat-expansion-panel *ngIf="!isRenewalService() && !isCopService()" [expanded]="expStep === 8" (opened)="setStep(8)" hideToggle>
               <mat-expansion-panel-header>
                 <mat-panel-title>
                <b>Marital Status:</b>
@@ -2327,7 +2369,7 @@
 
 
 
-            <mat-expansion-panel *ngIf="!isRenewalService() && !isCopService()" [expanded]="expStep === 8" (opened)="setStep(8)" hideToggle>
+            <mat-expansion-panel *ngIf="!isRenewalService() && !isCopService()" [expanded]="expStep === 9" (opened)="setStep(9)" hideToggle>
               <mat-expansion-panel-header>
                 <mat-panel-title>
                <b>Spouse Details:</b>
@@ -2582,51 +2624,6 @@
                 <button mat-button color="primary" (click)="nextStep()">Next</button>
               </mat-action-row>
             </mat-expansion-panel>
-
-            <mat-expansion-panel *ngIf="!isRenewalService() && !isCopService()" [expanded]="expStep === 9" (opened)="setStep(9)" hideToggle>
-              <mat-expansion-panel-header>
-                <mat-panel-title>
-                  <b>Foundling Check:</b> 
-                
-                </mat-panel-title>
-                <mat-panel-description>
-                </mat-panel-description>
-              </mat-expansion-panel-header>
-            
-              <span *ngFor="let alignmentGroup of alignmentGroups">
-                <div class="rowContainer">
-                  <span *ngFor="let field of uiFieldsForAlignmentGroups[alignmentGroup]; index as uiFieldIndex">
-            
-                    <div class="fieldContainer" *ngIf="field.isVisible == true && field.renderID === 'frm_3afc_c7_Found_child'"> 
-                      <div class="fieldHeader" [ngStyle]="field.headerStyle">
-                        <mat-checkbox [formControlName]="field.id" (change)="onChangeHandler(field.id)">
-                          <span *ngFor="let lang of dataCaptureLanguages;index as langIndex">
-                            <span *ngIf="langIndex !== 0"> / </span>{{field.labelName[lang]}}
-                          </span>
-                        </mat-checkbox>
-                        <span *ngIf="field.required" class="required-annotation"></span>
-                        
-                        <span *ngIf="field.required" class="required-annotation">*</span>
-                      </div>
-                      <div class="fieldContent" [ngStyle]="field.containerStyle">
-                        <span *ngIf="!readOnlyMode && primaryuserForm && userForm.get(field.id) && userForm.get(field.id).hasError('required') && userForm.get(field.id).touched">
-                          <mat-error class="primary-errors">
-                            {{ field.labelName[userPrefLanguage] }} {{demographiclabels.validation.requiredMessage}}
-                          </mat-error>
-                        </span>
-                      </div>
-                    </div>
-            
-                  </span>
-                </div>
-              </span>
-            
-              <mat-action-row>
-                <button mat-button color="warn" (click)="prevStep()">Previous</button>
-                <button mat-button color="primary" (click)="nextStep()">Next</button>
-              </mat-action-row>
-            </mat-expansion-panel>
-
 
             <mat-expansion-panel *ngIf="!isRenewalService()  && !isCopService()" [expanded]="expStep === 10" (opened)="setStep(10)" hideToggle>
               <mat-expansion-panel-header>
