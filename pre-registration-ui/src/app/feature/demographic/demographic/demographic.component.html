@@ -279,6 +279,9 @@
                 <mat-panel-title>
                   <b>Personal Information:</b>
                 </mat-panel-title>
+                <mat-panel-description>
+                  Please note: Maiden name and any previous names will not appear on the card.
+                </mat-panel-description>
                 
               </mat-expansion-panel-header>
           
@@ -1858,7 +1861,7 @@
                 </mat-panel-title>
             
                 <mat-panel-description>
-                  Only filled if the applicant is above 16
+                  Only filled if the applicant age is 16 and above
                 </mat-panel-description>
             
               </mat-expansion-panel-header>
@@ -2374,15 +2377,22 @@
                 <mat-panel-title>
                <b>Spouse Details:</b>
                 </mat-panel-title>
+                <mat-panel-description>
+                  Maximum of 4 Spouses can be added
+                </mat-panel-description>
                 
               </mat-expansion-panel-header>
           
               <span *ngFor="let alignmentGroup of alignmentGroups">
+                <span *ngFor="let field of uiFieldsForAlignmentGroups[alignmentGroup]; index as uiFieldIndex">
+                  <div class="subsection-name" *ngIf="field.SectionName && field.isVisible == true && field.renderID.startsWith('frm_3a_b6a')">
+                    <b>{{field.SectionName}}:</b>
+                  </div>
+                </span>
                 <div class="rowContainer">
                   <span *ngFor="let field of uiFieldsForAlignmentGroups[alignmentGroup]; index as uiFieldIndex">
                     <div class="fieldContainer" *ngIf="field.isVisible == true && field.renderID.startsWith('frm_3a_b6a')">
                       <div class="fieldHeader" [ngStyle]="field.headerStyle">
-                        
                         <mat-label>{{field.labelName[userPrefLanguage]}} : </mat-label>
                         <span *ngIf="field.required" class="required-annotation">*</span>
                       </div>
@@ -3398,10 +3408,18 @@
                 <mat-panel-title>
                <b>Particulars of Applicant’s Children :</b>
                 </mat-panel-title>
+                <mat-panel-description>
+                  Maximum of 6 children can be added
+                </mat-panel-description>
                 
               </mat-expansion-panel-header>
           
               <span *ngFor="let alignmentGroup of alignmentGroups">
+                <span *ngFor="let field of uiFieldsForAlignmentGroups[alignmentGroup]; index as uiFieldIndex">
+                  <div class="subsection-name" *ngIf="field.SectionName && field.isVisible == true && field.renderID.startsWith('frm_3a_e1')">
+                    <b>{{field.SectionName}}:</b>
+                  </div>
+                </span>
                 <div class="rowContainer">
                   <span *ngFor="let field of uiFieldsForAlignmentGroups[alignmentGroup]; index as uiFieldIndex">
                     <div class="fieldContainer" *ngIf="field.isVisible == true && field.renderID.startsWith('frm_3a_e1')">
@@ -3912,7 +3930,7 @@
                <b>Declarant's Details:</b>
                 </mat-panel-title>
                 <mat-panel-description>
-                  Only required if the applicant is below 16yrs
+                  Only required if the applicant age is below 18 years
                 </mat-panel-description>
               </mat-expansion-panel-header>
           
