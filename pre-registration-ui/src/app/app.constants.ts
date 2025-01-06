@@ -221,6 +221,10 @@ export const USER_SERVICE = {
   UPDATE : "UPDATE"
 };
 
+export const USER_SERVICETYPE = {
+  BYBIRTH : "CBBI",
+};
+
 export const NOTIFICATION_OF_CHANGE = {
   userServiceTypeCop : "notificationOfChange",
   nameFields : "nocNameFields",

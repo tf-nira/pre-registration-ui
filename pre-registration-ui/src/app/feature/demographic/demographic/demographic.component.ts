@@ -1158,6 +1158,9 @@ export class DemographicComponent extends FormDeactivateGuardService
     if(selectedFieldId==appConstants.userServiceTypeCop){
       this.userServiceTypeCop=this.userForm.controls[selectedFieldId].value;
     }
+    if(selectedFieldId==appConstants.userServiceType){
+      this.userServiceType=this.userForm.controls[selectedFieldId].value;
+    }
     // Consent Declaration
     if (selectedFieldId && selectedFieldId.trim() !== "") {
       if (selectedFieldId == appConstants.userService && this.userForm.controls[selectedFieldId].value !== this.userService) {
@@ -2837,6 +2840,14 @@ export class DemographicComponent extends FormDeactivateGuardService
 
   isCopService(): boolean {
     if (this.userService === appConstants.USER_SERVICE.UPDATE) {
+      return true;
+    }
+    return false;
+  }
+
+  isByBirth(): boolean {
+    console.log(this.userServiceType);
+    if (this.userServiceType === appConstants.USER_SERVICETYPE.BYBIRTH) {
       return true;
     }
     return false;
