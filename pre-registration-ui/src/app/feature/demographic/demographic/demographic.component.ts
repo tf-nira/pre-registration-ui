@@ -1220,6 +1220,22 @@ export class DemographicComponent extends FormDeactivateGuardService
         age: currentAge,
       },
     };
+
+  
+    //minor restriction for byreg and bynat
+    let applicantAge = Number(this.currentAge);
+    if(selectedFieldId !="" && selectedFieldId==this.dateOfBirthFieldId){
+      if(this.userServiceType==appConstants.USER_SERVICETYPE.BYNATURALISATION || this.userServiceType==appConstants.USER_SERVICETYPE.BYREGISTRATION){
+        if(applicantAge<18 && applicantAge!=null){
+          this.userForm.controls[selectedFieldId].setValue("");
+          this.userForm.controls[selectedFieldId].markAsTouched();
+          this.userForm.controls[selectedFieldId].setErrors({
+            incorrect: true,
+          });
+        }
+      } 
+    }
+    
     //following code added malay
 
     /** Execute processShowHideFields on first run to make all fields visible. */

@@ -223,6 +223,8 @@ export const USER_SERVICE = {
 
 export const USER_SERVICETYPE = {
   BYBIRTH : "CBBI",
+  BYNATURALISATION: "NAT",
+  BYREGISTRATION: "CBREG"
 };
 
 export const NOTIFICATION_OF_CHANGE = {
