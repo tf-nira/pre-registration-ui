@@ -592,6 +592,18 @@ export class FileUploadComponent implements OnInit, OnDestroy {
             (res) => {
               if (res[appConstants.RESPONSE]) {
                 let documentCategories = res["response"].documentCategories;
+
+                // Sort documentCategories based on the order of uiFields
+                documentCategories.sort((a, b) => {
+                  const indexA = this.uiFields.findIndex(
+                    (uiField) => uiField.subType === a.code
+                  );
+                  const indexB = this.uiFields.findIndex(
+                    (uiField) => uiField.subType === b.code
+                  );
+                  return indexA - indexB;
+                });
+                
                 documentCategories.forEach((documentCategory) => {
                   this.uiFields.forEach((uiField) => {
                     if (uiField.subType == documentCategory.code) {
