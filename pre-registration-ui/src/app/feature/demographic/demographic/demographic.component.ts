@@ -70,6 +70,17 @@ interface DependentField {
  * @implements {OnInit}
  * @implements {OnDestroy}
  */
+export const DATE_FORMATS = {
+  parse: {
+    dateInput: 'LL',
+  },
+  display: {
+    dateInput: 'DD/MM/YYYY',
+    monthYearLabel: 'YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'YYYY',
+  },
+};
 @Component({
   selector: "app-demographic",
   templateUrl: "./demographic.component.html",
@@ -80,7 +91,7 @@ interface DependentField {
       provide: DateAdapter,
       useClass: MomentDateAdapter,
     },
-    { provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS },
+    { provide: MAT_DATE_FORMATS, useValue: DATE_FORMATS},
   ],
 })
 export class DemographicComponent extends FormDeactivateGuardService
