@@ -34,7 +34,7 @@
     </button>
     <span class="spacer"></span>
     <button [disabled]="disableSend" mat-button [mat-dialog-close]="inputList" cdkFocusInitial
-    [ngClass]="disableSend ? 'btn-submit-disabled' : 'btn-submit'" >
+      [ngClass]="disableSend ? 'btn-submit-disabled' : 'btn-submit'">
       {{ "dialog.action_submit" | translate }}
     </button>
   </mat-dialog-actions>
@@ -95,8 +95,8 @@
             <span class="consent-popup-title">
               {{ item.labels.consent.title }}
             </span>
-            </mat-panel-title>
-           </mat-expansion-panel-header>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
         <div [dir]="input.textDirectionArr[i]">
           <!-- <h3 class="consent-popup-subtitle">
             {{ item.labels.consent.subtitle }}
@@ -105,40 +105,83 @@
             <!-- <div *ngFor="let message of item.fileText">
               <div>{{ message }}</div>
             </div> -->
-            <h3>Regulatory Framework</h3>
-            <p><b>Section 5</b> of the <b>Registration of Persons Act 2015</b> mandates the <b>National Identification and Registration Authority (NIRA)</b> to create, maintain, and operate the <b>National Identification Register</b> and register citizens of Uganda.</p>
-            <p><b>Section 54</b> of the Act requires all citizens to register with NIRA to obtain a <b>National Identification Number</b> and <b>National Identification Card</b>. Failure to comply constitutes an offense punishable by a fine or imprisonment, as outlined in <b>Section 76(b)</b>.</p>
-            <p>The collected information is used for identification purposes and in addition promote the delivery of government services and improve the efficiency of public and social services.</p>
-            <h3>Data Collection</h3>
-            <p>NIRA collects and processes the following information:</p>
-            <ol><b>
-              <li>Full name</li>
+            <h1 style="text-align: center;">DATA PROTECTION AND PRIVACY NOTICE</h1>
+            <p>
+              This Data Protection and Privacy notice informs you about how NIRA collects, uses, stores,
+              and shares your personal data in compliance with Section 13 of the Data Protection Act Cap. 97.
+            </p>
+
+            <h2>Who are we?</h2>
+            <p>
+              The Registration of Persons Act Cap 332 established the National Identification and Registration Authority
+              (NIRA). Section 5 of the Registration of Persons Act 2015 mandates NIRA to create, maintain and operate the
+              National Identification Register and register all citizens of Uganda among others.
+            </p>
+
+            <h2>Why do we collect your Personal Identification Information?</h2>
+            <p>
+              The Act under Section 54, compels a citizen to register with NIRA for purposes of obtaining a National
+              Identification Number and National Identification Card.
+            </p>
+            <p>
+              The information collected forms part of the established National Identification Register. And is used to
+              promote the delivery of government services, improve the efficiency and targeted delivery of public and social services among
+              others.
+            </p>
+
+            <h2>What data do we collect from you?</h2>
+            <p>NIRA collects and processes the following information among others:</p>
+            <ol type="i">
+              <li>Full name of the applicant</li>
               <li>Sex</li>
               <li>Date of birth</li>
-              <li>Email/phone</li>
+              <li>Email/Phone</li>
               <li>Place of Residence, Origin, and Birth</li>
               <li>Citizenship information (Tribe/Clan, Category)</li>
-              <li>Voter information (Preferred Voting Location)</li>
-              <li>Spouse information (if applicable)</li>
-              <li>Parents' Information</li></b>
+              <li>Voters information (Preferred Voting Location)</li>
+              <li>Spouse information if applicable</li>
+              <li>Parents Information</li>
             </ol>
-            <h3>Data Sharing</h3>
-            <p>Data sharing is in accordance with the <b>Data Protection and Privacy Act 2019</b> and the<b> Registration of Persons (Access and Use of Information) Regulations 2015</b>. NIRA processes personal data with prior consent or as authorized by law.</p>
-            <h3>Data Protection and Retention</h3>
-            <p>NIRA safeguards data confidentiality, integrity, and availability through organizational, physical, and technical security measures. NIRA retains the information through out the lifespan of the individual.</p>
-            <h3>Data Privacy Rights</h3>
-            <p>Registered persons have the right to be informed, object, request access to their information, and correct their personal information, subject to legal requirements and limitations.</p>
-            <h3>Importance of Accurate Information</h3>
-            <p><b>Section 76(a)(b)</b> of the <b>Registration of Persons Act 2015</b> provides penalties for individuals who fail to register or provide false information.</p>
-            <h3>Responsibilities of the Data Subject</h3>
-            <p>As a data subject, you have specific responsibilities when interacting with the National Identification and Registration Authority (NIRA): </p>
-            <ol>
-              <li><strong>Provide Accurate Information:</strong> Ensure that all information you provide to NIRA is accurate, complete, and up-to-date. False or misleading information can lead to penalties.</li>
-              <li><strong>Protect Your Personal Data:</strong> Be mindful of the security of your personal data. Avoid disclosing personal data on social media platforms, entities, or disclosure not supported in the law.</li>
-              <li><strong>Exercise Your Rights:</strong> Familiarize yourself with your data privacy rights under Ugandan law. This includes the right to access, correct, and delete your personal data. If you have concerns about how your data is being handled, you can exercise these rights by contacting NIRA.</li>
-              <li><strong>Report Data Breaches:</strong> If you suspect a data breach involving your personal information, report it to NIRA immediately. This helps protect your data and allows NIRA to take appropriate measures.</li>
-              <li><strong>Comply with Legal Requirements:</strong> Adhere to any legal obligations related to your registration with NIRA, such as renewing your National Identification Card when necessary.</li>
-            </ol>
+
+            <h2>How do we share your data?</h2>
+            <p>
+              Data collected is shared in accordance with The Data Protection and Privacy Act 2019 and the Registration
+              of Persons (Access and Use of Information) Regulations 2015.
+            </p>
+            <p>
+              NIRA processes personal data either with the prior consent of the data subject or in accordance with the
+              exceptions provided under the above mentioned legal framework such as where the collection or processing is authorized or
+              required by law or through a Court Order.
+            </p>
+
+            <h2>How is your Data protected and Retained?</h2>
+            <p>
+              NIRA safeguards the confidentiality, integrity and availability of your personal information physically
+              and/or electronically by maintaining a combination of organizational, physical and technical security measures based on
+              accepted data privacy and information security standards such as access control, acceptable use, firewall and end to end
+              encryption.
+            </p>
+
+            <h2>What are your data privacy rights as a data subject?</h2>
+            <p>
+              The registered persons as data subjects have rights provided under the law, such as the right to be
+              informed, request access to their information, correct their personal information in accordance with the procedures provided under
+              the existing legal framework.
+            </p>
+
+            <h2>Why you should refrain from providing incorrect information?</h2>
+            <p>
+              It is an offence to provide incorrect or wrong information. Section 76 (a) (b) of the Registration of
+              Persons Act 2015 provides that a person, who gives false information or statement when providing information for an entry commits an
+              offense and is liable on conviction to a fine or imprisonment not exceeding five years or both.
+            </p>
+
+            <h2>Your acceptance of these Terms and Conditions</h2>
+            <p>
+              By reviewing and accepting these terms and conditions, you agree to abide by NIRA's data collection,
+              processing, storage, and sharing practices and procedures as outlined in this notice and in accordance with the existing legal
+              framework.
+            </p>
           </div>
         </div>
       </mat-expansion-panel>
@@ -146,14 +189,14 @@
   </mat-dialog-content>
   <mat-dialog-actions [dir]="input.textDirectionArr[0]">
     <mat-checkbox (change)="onSelectCheckbox()"></mat-checkbox>
-      <span class="content-display-iniline-block" *ngFor="let item of input.data; let last = last">{{ item.labels.consent.checkCondition }}
-        <span *ngIf="!last">&nbsp;/&nbsp;</span>
-      </span>
+    <span class="content-display-iniline-block" *ngFor="let item of input.data; let last = last">{{
+      item.labels.consent.checkCondition }}
+      <span *ngIf="!last">&nbsp;/&nbsp;</span>
+    </span>
   </mat-dialog-actions>
   <p></p>
   <mat-dialog-actions align="end" [dir]="input.textDirectionArr[0]">
-    <button mat-button class="btn-cancel" mat-dialog-close
-      (click)="onNoClick(); cancelConsent(input.data); ">{{
+    <button mat-button class="btn-cancel" mat-dialog-close (click)="onNoClick(); cancelConsent(input.data); ">{{
       input.cancelBtn }}</button>
     <span class="spacer"></span>
     <div *ngFor="let item of input.data">
@@ -166,17 +209,17 @@
     </div>
   </mat-dialog-actions>
 </div>
-<div class="logout-pre-message" *ngIf="input.case === 'POPUP'"  [dir]="input.textDir? input.textDir: textDir">
+<div class="logout-pre-message" *ngIf="input.case === 'POPUP'" [dir]="input.textDir? input.textDir: textDir">
   <mat-dialog-content>
     <p>{{ input.content }}</p>
   </mat-dialog-content>
 </div>
-<div class="logout-post-message" *ngIf="input.case === 'POSTLOGOUT'"  [dir]="input.textDir? input.textDir: textDir">
+<div class="logout-post-message" *ngIf="input.case === 'POSTLOGOUT'" [dir]="input.textDir? input.textDir: textDir">
   <mat-dialog-content>
     <p>{{ input.contentLogout }}</p>
   </mat-dialog-content>
 </div>
-<div *ngIf="input.case === 'ERROR'"  [dir]="input.textDir? input.textDir: textDir">
+<div *ngIf="input.case === 'ERROR'" [dir]="input.textDir? input.textDir: textDir">
   <h2 mat-dialog-title *ngIf="input.title">{{ input.title }}</h2>
   <mat-dialog-content style="white-space: pre-line;">{{ input.message }}</mat-dialog-content>
   <mat-dialog-actions align="end">
@@ -220,15 +263,15 @@
     <button mat-button (click)="onNoClick(true)" cdkFocusInitial class="btn-submit">
       {{ "dialog.action_dismiss" | translate }}
     </button>
-  </mat-dialog-actions> 
+  </mat-dialog-actions>
 </div>
 
 <div *ngIf="input.case === 'PRN-CONNECT-ERRORS'" [dir]="input.textDir? input.textDir: textDir">
   <h2 mat-dialog-title *ngIf="input.title">{{ input.title }}</h2>
   <mat-dialog-content style="white-space: pre-line;">{{ input.message }}</mat-dialog-content>
   <mat-dialog-actions align="end">
-    <button mat-button (click)="onNoClick(true)"  cdkFocusInitial class="btn-submit">
+    <button mat-button (click)="onNoClick(true)" cdkFocusInitial class="btn-submit">
       {{ "dialog.action_dismiss" | translate }}
     </button>
-  </mat-dialog-actions> 
+  </mat-dialog-actions>
 </div>
