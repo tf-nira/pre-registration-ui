@@ -72,7 +72,7 @@ interface DependentField {
  */
 export const DATE_FORMATS = {
   parse: {
-    dateInput: 'LL',
+    dateInput: 'DD/MM/YYYY',
   },
   display: {
     dateInput: 'DD/MM/YYYY',
