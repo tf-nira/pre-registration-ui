@@ -199,6 +199,7 @@ export class DemographicComponent extends FormDeactivateGuardService
   showChangeDataCaptureLangBtn = false;
   localeDtFormat = "";
   serverDtFormat = "YYYY/MM/DD";
+
   @ViewChild("singleSelect") singleSelect: MatSelect;
   /* Subject that emits when the component has been destroyed. */
   protected _onDestroy = new Subject<void>();
@@ -746,7 +747,7 @@ export class DemographicComponent extends FormDeactivateGuardService
           this.identityData = identityJsonSpec["identity"];
 
           //LOCAL
-          //this.identityData = [];    //malay
+          this.identityData = [];    //malay
 
           let locationHeirarchiesFromJson = [
             ...identityJsonSpec["locationHierarchy"], //malay
@@ -755,8 +756,8 @@ export class DemographicComponent extends FormDeactivateGuardService
             response[appConstants.RESPONSE]["idSchemaVersion"];
 
             //LOCAL
-          //const fieldDefinitions = await this.loadFieldDefinitions();
-          //this.identityData.push(...fieldDefinitions);
+          const fieldDefinitions = await this.loadFieldDefinitions();
+          this.identityData.push(...fieldDefinitions);
 
           if (Array.isArray(locationHeirarchiesFromJson[0])) {
             this.locationHeirarchies = locationHeirarchiesFromJson;
@@ -1141,6 +1142,8 @@ export class DemographicComponent extends FormDeactivateGuardService
    * and fields are shown/hidden in the UI form.
    */
   async onChangeHandler(selectedFieldId: string) {
+    console.log(this.userForm.value);
+    debugger
     if (this.initializationFlag == false && selectedFieldId == appConstants.userServiceType && this.dataModification != true) {
       for (const control of this.uiFields) {
         if (!(control.id == appConstants.userService || control.id == appConstants.userServiceType)) {
@@ -2872,6 +2875,13 @@ export class DemographicComponent extends FormDeactivateGuardService
     return false;
   }
 
+  isGetFirstId(): boolean {
+    if (this.userService === appConstants.USER_SERVICE.FIRSTID) {
+      return true;
+    }
+    return false;
+  }
+
   isByBirth(): boolean {
     console.log(this.userServiceType);
     if (this.userServiceType === appConstants.USER_SERVICETYPE.BYBIRTH) {
@@ -2902,4 +2912,47 @@ export class DemographicComponent extends FormDeactivateGuardService
           error_value: true
         };
   }
+
+  toggleUserButton(fieldId: string): void {
+    const control = this.userForm.get(fieldId);
+    if (control) {
+      control.setValue(!control.value); // Toggle between true and false
+    }
+  }
+  
+
+  // /** COP changes */
+  // // Toggle subfields display
+  // toggleSubfields(parentFieldId: string, subFields: any[]): void {
+  //   if (!this.subFieldsList) this.subFieldsList = {};
+  // this.subFieldsList[parentFieldId] = subFields; // Populate subFieldsList
+  //   this.showSubfields[parentFieldId] = !this.showSubfields[parentFieldId];
+  // }
+  // // Add selected subfields to the Notification of Change
+  // addSubfieldToNotification(subField: any): void {
+  //   if (!this.notificationSubfields.some(item => item.id === subField.id)) {
+  //     this.notificationSubfields.push(subField);
+  //   }
+  // }
+  //  // Remove subfield
+  //  removeSubfield(subField: any): void {
+  //   console.log("removeSubfield")
+  //   this.notificationSubfields = this.notificationSubfields.filter(
+  //     item => item.id !== subField.id
+  //   );
+  // }
+  // logFieldId(id: string): boolean {
+  //   console.log('field.id:', id);
+  //   return true; // Always return true for *ngIf condition.
+  // }
+  // controlId = uiField.id + "_" + language;
+  // this.userForm.controls[controlId].setValue("");
+
+  //toggleButton(fieldId: string): void {
+    // const control = this.userForm.get(fieldId);
+    // if (control) {
+    //   control.setValue(!control.value); // Toggle between true and false
+    // }
+  //}
+  
 }

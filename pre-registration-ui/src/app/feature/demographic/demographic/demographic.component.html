@@ -30,251 +30,447 @@
         <form [formGroup]="userForm" class="user__form">
 
 
-          <span *ngFor="let alignmentGroup of alignmentGroups">
-            <div class="rowContainer">
-              <span *ngFor="let field of uiFieldsForAlignmentGroups[alignmentGroup]; index as uiFieldIndex">
-                <div class="fieldContainer" *ngIf="field.isVisible == true && field.renderID.startsWith('frm_3a_use')">
-                  <div class="fieldHeader" [ngStyle]="field.headerStyle">
-                    <!-- Create container header with label in user's login lang -->
-                    <mat-label>{{field.labelName[userPrefLanguage]}} : </mat-label>
-                    <span *ngIf="field.required" class="required-annotation">*</span>
-                  </div>
-                  <div class="fieldContent" [ngStyle]="field.containerStyle">
-                    <!-- Create form fields to capture data in all chosen dataCaptureLanguages -->
-                    <span *ngFor="let dataCaptureLanguage of dataCaptureLanguages;index as i">
-                      <!-- Add TextBox for each dataCaptureLanguage -->
-                      <ng-container *ngIf="field.controlType === 'textbox' && field.type !== 'string'">
-                        <div *ngIf="!readOnlyMode" [dir]="dataCaptureLangsDir[i]">
-                          <mat-form-field appearance="legacy"
-                            [ngStyle]="dataCaptureLangsDir[i] == 'ltr'? {'text-align': 'left'} : {'text-align': 'right'}">
-                            <mat-label>
-                              {{field.description}}
-                            </mat-label>
-                            <input matInput [formControlName]="field.id + '_' + dataCaptureLanguage"
-                              (change)="onChangeHandler(field.id)"
-                              (focusout)="transliterateFieldValue(field.id, dataCaptureLanguage, $event)"
-                              (input)="transliterateFieldValue(field.id, dataCaptureLanguage, $event)" #keyboardRef
-                              #input />
-                            <i *ngIf="dataCaptureLangsDir[i] === 'ltr'"
-                              style="float: right; color: grey; cursor: pointer;" matSuffix class="material-icons"
-                              (click)="openKeyboard(field.id, dataCaptureLanguage)">keyboard</i>
-                            <i *ngIf="dataCaptureLangsDir[i] === 'rtl'"
-                              style="float: left; color: grey; cursor: pointer;" matSuffix class="material-icons"
-                              (click)="openKeyboard(field.id, dataCaptureLanguage)">keyboard</i>
-                          </mat-form-field>
-                        </div>
-                        <div *ngIf="readOnlyMode" [dir]="dataCaptureLangsDir[i]">
-                          <mat-form-field appearance="legacy"
-                            [ngStyle]="dataCaptureLangsDir[i] == 'ltr'? {'text-align': 'left'} : {'text-align': 'right'}">
-                            <!-- Again Label is required at each TextBox level too -->
-                            <mat-label>
-                              {{field.description}}
-                            </mat-label>
-                            <input matInput [formControlName]="field.id + '_' + dataCaptureLanguage"
-                              (change)="onChangeHandler(field.id)"
-                              (focusout)="transliterateFieldValue(field.id, dataCaptureLanguage, $event)"
-                              (input)="transliterateFieldValue(field.id, dataCaptureLanguage, $event)" #keyboardRef
-                              #input />
-                          </mat-form-field>
-                        </div>
-                      </ng-container>
-                      <!-- Add CheckBox only once, but show Labels in all dataCaptureLanguages -->
-                      <ng-container *ngIf="field.controlType === 'checkbox'">
-                        <span *ngIf="i == 0" [dir]="dataCaptureLangsDir[i]">
-                          <mat-checkbox class="form_checkBox" [formControlName]="field.id"
-                            (change)="onChangeHandler(field.id);">
-                          </mat-checkbox>&nbsp;&nbsp;
-                          <span *ngFor="let lang of dataCaptureLanguages;index as langIndex">
-                            <span *ngIf="langIndex !== 0"> / </span>{{field.labelName[lang]}}
+          <mat-expansion-panel [expanded]="expStep === 0" (opened)="setStep(0)" hideToggle>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <b>Application Type:</b>
+              </mat-panel-title>
+
+            </mat-expansion-panel-header>
+            <span *ngFor="let alignmentGroup of alignmentGroups">
+              <div class="rowContainer">
+                <span *ngFor="let field of uiFieldsForAlignmentGroups[alignmentGroup]; index as uiFieldIndex">
+                  <div class="fieldContainer"
+                    *ngIf="field.isVisible == true && field.renderID.startsWith('frm_3a_use')">
+                    <div class="fieldHeader" [ngStyle]="field.headerStyle">
+                      <!-- Create container header with label in user's login lang -->
+                      <mat-label>{{field.labelName[userPrefLanguage]}} : </mat-label>
+                      <span *ngIf="field.required" class="required-annotation">*</span>
+                    </div>
+                    <div class="fieldContent" [ngStyle]="field.containerStyle">
+                      <!-- Create form fields to capture data in all chosen dataCaptureLanguages -->
+                      <span *ngFor="let dataCaptureLanguage of dataCaptureLanguages;index as i">
+                        <!-- Add TextBox for each dataCaptureLanguage -->
+                        <ng-container *ngIf="field.controlType === 'textbox' && field.type !== 'string'">
+                          <div *ngIf="!readOnlyMode" [dir]="dataCaptureLangsDir[i]">
+                            <mat-form-field appearance="legacy"
+                              [ngStyle]="dataCaptureLangsDir[i] == 'ltr'? {'text-align': 'left'} : {'text-align': 'right'}">
+                              <mat-label>
+                                {{field.description}}
+                              </mat-label>
+                              <input matInput [formControlName]="field.id + '_' + dataCaptureLanguage"
+                                (change)="onChangeHandler(field.id)"
+                                (focusout)="transliterateFieldValue(field.id, dataCaptureLanguage, $event)"
+                                (input)="transliterateFieldValue(field.id, dataCaptureLanguage, $event)" #keyboardRef
+                                #input />
+                              <i *ngIf="dataCaptureLangsDir[i] === 'ltr'"
+                                style="float: right; color: grey; cursor: pointer;" matSuffix class="material-icons"
+                                (click)="openKeyboard(field.id, dataCaptureLanguage)">keyboard</i>
+                              <i *ngIf="dataCaptureLangsDir[i] === 'rtl'"
+                                style="float: left; color: grey; cursor: pointer;" matSuffix class="material-icons"
+                                (click)="openKeyboard(field.id, dataCaptureLanguage)">keyboard</i>
+                            </mat-form-field>
+                          </div>
+                          <div *ngIf="readOnlyMode" [dir]="dataCaptureLangsDir[i]">
+                            <mat-form-field appearance="legacy"
+                              [ngStyle]="dataCaptureLangsDir[i] == 'ltr'? {'text-align': 'left'} : {'text-align': 'right'}">
+                              <!-- Again Label is required at each TextBox level too -->
+                              <mat-label>
+                                {{field.description}}
+                              </mat-label>
+                              <input matInput [formControlName]="field.id + '_' + dataCaptureLanguage"
+                                (change)="onChangeHandler(field.id)"
+                                (focusout)="transliterateFieldValue(field.id, dataCaptureLanguage, $event)"
+                                (input)="transliterateFieldValue(field.id, dataCaptureLanguage, $event)" #keyboardRef
+                                #input />
+                            </mat-form-field>
+                          </div>
+                        </ng-container>
+                        <!-- Add CheckBox only once, but show Labels in all dataCaptureLanguages -->
+                        <ng-container *ngIf="field.controlType === 'checkbox'">
+                          <span *ngIf="i == 0" [dir]="dataCaptureLangsDir[i]">
+                            <mat-checkbox class="form_checkBox" [formControlName]="field.id"
+                              (change)="onChangeHandler(field.id);">
+                            </mat-checkbox>&nbsp;&nbsp;
+                            <span *ngFor="let lang of dataCaptureLanguages;index as langIndex">
+                              <span *ngIf="langIndex !== 0"> / </span>{{field.labelName[lang]}}
+                            </span>
                           </span>
-                        </span>
-                      </ng-container>
-                      <!-- Add Button Options in  only one language on mouse over other lang are shown -->
-                      <ng-container *ngIf="field.controlType === 'button'">
-                        <span *ngIf="i == 0" [dir]="dataCaptureLangsDir[i]">
-                          <mat-button-toggle-group class="btn_grp" [formControlName]="field.id"
-                            (click)="onChangeHandler(field.id);">
-                            <ng-container *ngFor="let button of selectOptionsDataArray[field.id]">
-                              <span *ngIf="button.languageCode === dataCaptureLanguage">
-                                <mat-button-toggle class="btn_grp mat-button-toggle" value="{{button.valueCode}}"
-                                  title="{{getTitleForOptionInOtherLangs(field.id, button.valueCode, dataCaptureLanguage)}}">
-                                  {{button.valueName}}
-                                </mat-button-toggle>
-                              </span>
-                            </ng-container>
-                          </mat-button-toggle-group>
-                          <br>
-                          <span *ngIf="field.type !== 'string' && dataCaptureLanguages.length > 1"
-                            [dir]="dataCaptureLangsDir[i]">
-                            <span *ngFor="let option of selectOptionsDataArray[field.id]">
-                              <span
-                                *ngIf="option.languageCode !== dataCaptureLanguage && option.valueCode === userForm.get(field.id).value && dataCaptureLanguages.includes(option.languageCode)">
-                                <span class="selectedOption">{{option.valueName}}</span>
+                        </ng-container>
+                        <!-- Add Button Options in  only one language on mouse over other lang are shown -->
+                        <ng-container *ngIf="field.controlType === 'button'">
+                          <span *ngIf="i == 0" [dir]="dataCaptureLangsDir[i]">
+                            <mat-button-toggle-group class="btn_grp" [formControlName]="field.id"
+                              (click)="onChangeHandler(field.id);">
+                              <ng-container *ngFor="let button of selectOptionsDataArray[field.id]">
+                                <span *ngIf="button.languageCode === dataCaptureLanguage">
+                                  <mat-button-toggle class="btn_grp mat-button-toggle" value="{{button.valueCode}}"
+                                    title="{{getTitleForOptionInOtherLangs(field.id, button.valueCode, dataCaptureLanguage)}}">
+                                    {{button.valueName}}
+                                  </mat-button-toggle>
+                                </span>
+                              </ng-container>
+                            </mat-button-toggle-group>
+                            <br>
+                            <span *ngIf="field.type !== 'string' && dataCaptureLanguages.length > 1"
+                              [dir]="dataCaptureLangsDir[i]">
+                              <span *ngFor="let option of selectOptionsDataArray[field.id]">
+                                <span
+                                  *ngIf="option.languageCode !== dataCaptureLanguage && option.valueCode === userForm.get(field.id).value && dataCaptureLanguages.includes(option.languageCode)">
+                                  <span class="selectedOption">{{option.valueName}}</span>
+                                </span>
                               </span>
                             </span>
                           </span>
-                        </span>
-                      </ng-container>
-                      <!-- Add Dropdown Options in  only one language on mouse over other lang are shown-->
-                      <ng-container *ngIf="field.controlType === 'dropdown'">
-                        <span *ngIf="i == 0" [dir]="dataCaptureLangsDir[i]">
-                          <mat-form-field appearance="legacy"
-                            [ngStyle]="dataCaptureLangsDir[i] == 'ltr'? {'text-align': 'left'} : {'text-align': 'right'}">
-                            <mat-label>
-                              {{field.description}}
-                            </mat-label>
-                            <mat-select formControlName="{{field.id}}"
-                              (focus)="!readOnlyMode ? dropdownApiCall(field.id): ''"
-                              (blur)="onChangeHandler(field.id);" #singleSelect>
-                              <mat-option>
-                                <ngx-mat-select-search formControlName="{{field.id + '_search'}}"
-                                  placeholderLabel="{{ 'demographic.lookup_search_message' | translate }}"
-                                  noEntriesFoundLabel="{{ 'demographic.lookup_no_results_found' | translate }}">
-                                </ngx-mat-select-search>
-                              </mat-option>
-                              <mat-option *ngIf="selectOptionsDataArray[field.id].length == 0">
-                                <mat-spinner [diameter]="20" style="margin-left: 43%"></mat-spinner>
-                              </mat-option>
-                              <ng-container *ngIf="selectOptionsDataArray[field.id].length > 0">
-                                <ng-container *ngFor="let dropdown of filteredSelectOptions[field.id] | async">
-                                  <mat-option *ngIf="dropdown.languageCode === dataCaptureLanguage"
-                                    [value]="dropdown.valueCode"
-                                    title="{{getTitleForOptionInOtherLangs(field.id, dropdown.valueCode, dataCaptureLanguage)}}">
-                                    {{ dropdown.valueName }}
-                                  </mat-option>
+                        </ng-container>
+                        <!-- Add Dropdown Options in  only one language on mouse over other lang are shown-->
+                        <ng-container *ngIf="field.controlType === 'dropdown'">
+                          <span *ngIf="i == 0" [dir]="dataCaptureLangsDir[i]">
+                            <mat-form-field appearance="legacy"
+                              [ngStyle]="dataCaptureLangsDir[i] == 'ltr'? {'text-align': 'left'} : {'text-align': 'right'}">
+                              <mat-label>
+                                {{field.description}}
+                              </mat-label>
+                              <mat-select formControlName="{{field.id}}"
+                                (focus)="!readOnlyMode ? dropdownApiCall(field.id): ''"
+                                (blur)="onChangeHandler(field.id);" #singleSelect>
+                                <mat-option>
+                                  <ngx-mat-select-search formControlName="{{field.id + '_search'}}"
+                                    placeholderLabel="{{ 'demographic.lookup_search_message' | translate }}"
+                                    noEntriesFoundLabel="{{ 'demographic.lookup_no_results_found' | translate }}">
+                                  </ngx-mat-select-search>
+                                </mat-option>
+                                <mat-option *ngIf="selectOptionsDataArray[field.id].length == 0">
+                                  <mat-spinner [diameter]="20" style="margin-left: 43%"></mat-spinner>
+                                </mat-option>
+                                <ng-container *ngIf="selectOptionsDataArray[field.id].length > 0">
+                                  <ng-container *ngFor="let dropdown of filteredSelectOptions[field.id] | async">
+                                    <mat-option *ngIf="dropdown.languageCode === dataCaptureLanguage"
+                                      [value]="dropdown.valueCode"
+                                      title="{{getTitleForOptionInOtherLangs(field.id, dropdown.valueCode, dataCaptureLanguage)}}">
+                                      {{ dropdown.valueName }}
+                                    </mat-option>
+                                  </ng-container>
                                 </ng-container>
-                              </ng-container>
-                            </mat-select>
-                          </mat-form-field>
-                          <p></p>
-                          <span *ngIf="field.type !== 'string' && dataCaptureLanguages.length > 1">
-                            <div class="selectedOption">
-                              <span *ngFor="let option of selectOptionsDataArray[field.id];">
-                                <span *ngIf="option.languageCode !== dataCaptureLanguage
+                              </mat-select>
+                            </mat-form-field>
+                            <p></p>
+                            <span *ngIf="field.type !== 'string' && dataCaptureLanguages.length > 1">
+                              <div class="selectedOption">
+                                <span *ngFor="let option of selectOptionsDataArray[field.id];">
+                                  <span *ngIf="option.languageCode !== dataCaptureLanguage
                                   && userForm.get(field.id).value != null 
                                   && option.valueCode == userForm.get(field.id).value 
                                   && dataCaptureLanguages.includes(option.languageCode)">{{option.valueName}}
+                                  </span>
                                 </span>
-                              </span>
-                            </div>
+                              </div>
+                            </span>
                           </span>
-                        </span>
-                      </ng-container>
-                      <!-- Add Age Date fields-->
-                      <ng-container *ngIf="field.controlType === 'ageDate'">
-                        <span *ngIf="i == 0">
-                          <div class="user__age-or-date" [dir]="dataCaptureLangsDir[i]">
-                            <div class="user__date">
-                              <mat-form-field appearance="legacy">
-                                <mat-label>{{localeDtFormat}}</mat-label>
-                                <input matInput [formControlName]="field.id + '_dateCtrl'"
-                                  placeholder="{{localeDtFormat}}"
-                                  (dateChange)="onDOBChange(field.id);onChangeHandler(field.id);"
-                                  [matDatepicker]="dp" />
-                                <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
-                                <mat-datepicker #dp></mat-datepicker>
-                              </mat-form-field>
-                            </div>
-                            <div class="user__pref">
-                              {{ "demographic.text_or" | translate }}
-                            </div>
-                            <div class="user__age">
-                              <mat-form-field appearance="legacy">
-                                <input type="number" class="form-control" matInput [value]="currentAge" #age
-                                  [disabled]="readOnlyMode" placeholder="{{ 'demographic.label_age' | translate }}"
-                                  (change)="onAgeChange(field.id);onChangeHandler(field.id);">
-                              </mat-form-field>
-                              <div class="user__age--years">
-                                {{ "demographic.text_years" | translate }}
+                        </ng-container>
+                        <!-- Add Age Date fields-->
+                        <ng-container *ngIf="field.controlType === 'ageDate'">
+                          <span *ngIf="i == 0">
+                            <div class="user__age-or-date" [dir]="dataCaptureLangsDir[i]">
+                              <div class="user__date">
+                                <mat-form-field appearance="legacy">
+                                  <mat-label>{{localeDtFormat}}</mat-label>
+                                  <input matInput [formControlName]="field.id + '_dateCtrl'"
+                                    placeholder="{{localeDtFormat}}"
+                                    (dateChange)="onDOBChange(field.id);onChangeHandler(field.id);"
+                                    [matDatepicker]="dp" />
+                                  <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+                                  <mat-datepicker #dp></mat-datepicker>
+                                </mat-form-field>
+                              </div>
+                              <div class="user__pref">
+                                {{ "demographic.text_or" | translate }}
+                              </div>
+                              <div class="user__age">
+                                <mat-form-field appearance="legacy">
+                                  <input type="number" class="form-control" matInput [value]="currentAge" #age
+                                    [disabled]="readOnlyMode" placeholder="{{ 'demographic.label_age' | translate }}"
+                                    (change)="onAgeChange(field.id);onChangeHandler(field.id);">
+                                </mat-form-field>
+                                <div class="user__age--years">
+                                  {{ "demographic.text_years" | translate }}
+                                </div>
                               </div>
                             </div>
-                          </div>
-                          <br>
-                          <div class="mat-error ng-star-inserted user__dob__error" *ngIf="!readOnlyMode && primaryuserForm &&    
+                            <br>
+                            <div class="mat-error ng-star-inserted user__dob__error" *ngIf="!readOnlyMode && primaryuserForm &&    
                               userForm.get(field.id) &&
                               (userForm.get(field.id).touched &&
                                 userForm.get(field.id).hasError('incorrect'))" [dir]="userPrefLanguageDir">
-                            {{demographiclabels.validation.DOB_validation}}
-                          </div>
-                        </span>
-                      </ng-container>
-                      <!-- Date fields-->
-                      <ng-container *ngIf="field.controlType === 'date'">
-                        <span *ngIf="i == 0" [dir]="dataCaptureLangsDir[i]">
-                          <mat-form-field appearance="legacy">
-                            <mat-label>{{localeDtFormat}}</mat-label>
-                            <input matInput [formControlName]="field.id" placeholder='{{localeDtFormat}}'
-                              (dateChange)="onChangeHandler(field.id);" [matDatepicker]="dp" />
-                            <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
-                            <mat-datepicker #dp></mat-datepicker>
-                          </mat-form-field>
-                        </span>
-                      </ng-container>
-                      <!-- Add Phone and Email in only one lang -->
-                      <ng-container *ngIf="(field.controlType === 'textbox' && field.type === 'string')">
-                        <span *ngIf="i == 0" [dir]="dataCaptureLangsDir[i]">
-                          <mat-form-field appearance="legacy"
-                            [ngStyle]="dataCaptureLangsDir[i] == 'ltr'? {'text-align': 'left'} : {'text-align': 'right'}">
-                            <!-- Again Label is required at each TextBox level too -->
-                            <mat-label>
-                              {{field.labelName[dataCaptureLanguage]}}
-                            </mat-label>
-                            <input matInput [formControlName]="field.id" (change)="onChangeHandler(field.id)" #input />
-                          </mat-form-field>
-                        </span>
-                      </ng-container>
-                      <!-- Error handling for various types -->
-                      <span *ngIf="field.controlType === 'textbox'" [dir]="userPrefLanguageDir">
-                        <mat-error class="primary-errors" *ngIf="
+                              {{demographiclabels.validation.DOB_validation}}
+                            </div>
+                          </span>
+                        </ng-container>
+                        <!-- Date fields-->
+                        <ng-container *ngIf="field.controlType === 'date'">
+                          <span *ngIf="i == 0" [dir]="dataCaptureLangsDir[i]">
+                            <mat-form-field appearance="legacy">
+                              <mat-label>{{localeDtFormat}}</mat-label>
+                              <input matInput [formControlName]="field.id" placeholder='{{localeDtFormat}}'
+                                (dateChange)="onChangeHandler(field.id);" [matDatepicker]="dp" />
+                              <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+                              <mat-datepicker #dp></mat-datepicker>
+                            </mat-form-field>
+                          </span>
+                        </ng-container>
+                        <!-- Add Phone and Email in only one lang -->
+                        <ng-container *ngIf="(field.controlType === 'textbox' && field.type === 'string')">
+                          <span *ngIf="i == 0" [dir]="dataCaptureLangsDir[i]">
+                            <mat-form-field appearance="legacy"
+                              [ngStyle]="dataCaptureLangsDir[i] == 'ltr'? {'text-align': 'left'} : {'text-align': 'right'}">
+                              <!-- Again Label is required at each TextBox level too -->
+                              <mat-label>
+                                {{field.labelName[dataCaptureLanguage]}}
+                              </mat-label>
+                              <input matInput [formControlName]="field.id" (change)="onChangeHandler(field.id)"
+                                #input />
+                            </mat-form-field>
+                          </span>
+                        </ng-container>
+                        <!-- Error handling for various types -->
+                        <span *ngIf="field.controlType === 'textbox'" [dir]="userPrefLanguageDir">
+                          <mat-error class="primary-errors" *ngIf="
                         !readOnlyMode && primaryuserForm &&
                           userForm.get(field.id + '_' + dataCaptureLanguage) &&
                           userForm.get(field.id + '_' + dataCaptureLanguage).hasError('required') &&
                           userForm.get(field.id + '_' + dataCaptureLanguage).touched">
-                          {{ field.labelName[userPrefLanguage] }}
-                          {{demographiclabels.validation.requiredMessage}}
-                        </mat-error>
-                        <mat-error class="primary-errors" *ngIf="!readOnlyMode && primaryuserForm &&
-                          userForm.get(field.id + '_' + dataCaptureLanguage) &&
-                          userForm.get(field.id + '_' + dataCaptureLanguage).touched &&
-                          userForm.get(field.id + '_' + dataCaptureLanguage).dirty &&
-                          userForm.get(field.id + '_' + dataCaptureLanguage).hasError('customPattern')">
-                          {{ demographiclabels.validation.InvalidMessage}} {{ field.labelName[userPrefLanguage] }}<br>
-                          {{ userForm.get(field.id + '_' + dataCaptureLanguage)["errors"]["customPattern"]["msg"] }}<br>
-                        </mat-error>
-                      </span>
-                      <span *ngIf="field.controlType === 'ageDate' || field.controlType === 'date' 
-                        || field.controlType === 'dropdown' || field.controlType === 'button' 
-                        || field.controlType === 'checkbox'
-                        || (field.controlType === 'textbox' && field.type === 'string')">
-                        <span *ngIf="i == 0" [dir]="userPrefLanguageDir">
-                          <mat-error class="primary-errors" *ngIf="
-                          !readOnlyMode && primaryuserForm &&
-                          userForm.get(field.id) &&
-                          userForm.get(field.id).hasError('required') &&
-                          userForm.get(field.id).touched">
                             {{ field.labelName[userPrefLanguage] }}
                             {{demographiclabels.validation.requiredMessage}}
                           </mat-error>
                           <mat-error class="primary-errors" *ngIf="!readOnlyMode && primaryuserForm &&
+                          userForm.get(field.id + '_' + dataCaptureLanguage) &&
+                          userForm.get(field.id + '_' + dataCaptureLanguage).touched &&
+                          userForm.get(field.id + '_' + dataCaptureLanguage).dirty &&
+                          userForm.get(field.id + '_' + dataCaptureLanguage).hasError('customPattern')">
+                            {{ demographiclabels.validation.InvalidMessage}} {{ field.labelName[userPrefLanguage] }}<br>
+                            {{ userForm.get(field.id + '_' + dataCaptureLanguage)["errors"]["customPattern"]["msg"]
+                            }}<br>
+                          </mat-error>
+                        </span>
+                        <span *ngIf="field.controlType === 'ageDate' || field.controlType === 'date' 
+                        || field.controlType === 'dropdown' || field.controlType === 'button' 
+                        || field.controlType === 'checkbox'
+                        || (field.controlType === 'textbox' && field.type === 'string')">
+                          <span *ngIf="i == 0" [dir]="userPrefLanguageDir">
+                            <mat-error class="primary-errors" *ngIf="
+                          !readOnlyMode && primaryuserForm &&
+                          userForm.get(field.id) &&
+                          userForm.get(field.id).hasError('required') &&
+                          userForm.get(field.id).touched">
+                              {{ field.labelName[userPrefLanguage] }}
+                              {{demographiclabels.validation.requiredMessage}}
+                            </mat-error>
+                            <mat-error class="primary-errors" *ngIf="!readOnlyMode && primaryuserForm &&
                           userForm.get(field.id) &&
                           userForm.get(field.id).touched &&
                           userForm.get(field.id).dirty &&
                           userForm.get(field.id).hasError('customPattern')">
-                          {{ demographiclabels.validation.InvalidMessage}} {{ field.labelName[userPrefLanguage] }}<br>
-                            {{ userForm.get(field.id)["errors"]["customPattern"]["msg"] }}<br>
-                          </mat-error>
+                              {{ demographiclabels.validation.InvalidMessage}} {{ field.labelName[userPrefLanguage]
+                              }}<br>
+                              {{ userForm.get(field.id)["errors"]["customPattern"]["msg"] }}<br>
+                            </mat-error>
+                          </span>
                         </span>
                       </span>
-                    </span>
+                    </div>
                   </div>
+                </span>
+              </div>
+            </span>
+            <mat-action-row>
+              <button mat-button color="primary" (click)="nextStep()">Next</button>
+            </mat-action-row>
+          </mat-expansion-panel>
+
+          <mat-expansion-panel *ngIf="isCopService()" [expanded]="expStep === 1" (opened)="setStep(1)" hideToggle>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <b>COP Categories and Services:</b>
+              </mat-panel-title>
+
+            </mat-expansion-panel-header>
+            <span *ngFor="let alignmentGroup of alignmentGroups">
+              <div class="columnContainer">
+                <span *ngFor="let field of uiFieldsForAlignmentGroups[alignmentGroup]; index as uiFieldIndex">
+                  <div class="fieldContainer"
+                    *ngIf="field.isVisible == true && (field.renderID.startsWith('frm_3a_copcat') )">
+                    
+                    <div class="fieldContent" [ngStyle]="field.containerStyle">
+                      <!-- Create form fields to capture data in all chosen dataCaptureLanguages -->
+                      <span *ngFor="let dataCaptureLanguage of dataCaptureLanguages;index as i">
+                        <!-- Add CheckBox only once, but show Labels in all dataCaptureLanguages -->
+                        <ng-container *ngIf="field.controlType === 'checkbox'">
+                          <span *ngIf="i == 0" [dir]="dataCaptureLangsDir[i]">
+                            <mat-checkbox class="form_checkBox" [formControlName]="field.id"
+                              (change)="onChangeHandler(field.id);">
+                            </mat-checkbox>&nbsp;&nbsp;
+                            <span *ngFor="let lang of dataCaptureLanguages;index as langIndex">
+                              <span *ngIf="langIndex !== 0"> / </span>{{field.labelName[lang]}}
+                            </span>
+                          </span>
+                        </ng-container>
+                        <!-- <ng-container *ngIf="field.controlType === 'button'">
+                          <div class="toggleContainer">
+                            <mat-slide-toggle 
+                              class="singleToggle" 
+                              [formControlName]="field.id" 
+                              (change)="onChangeHandler(field.id)">
+                              {{ field.labelName[dataCaptureLanguage] }}
+                            </mat-slide-toggle>
+                          </div>
+                        </ng-container> -->
+                        <ng-container *ngIf="field.controlType === 'button'">
+                          <div class="buttonContainer">
+                            <button 
+                              class="toggleButton" 
+                              [class.active]="userForm.get(field.id)?.value" 
+                              (click)="toggleUserButton(field.id)">
+                              {{ field.labelName[dataCaptureLanguage] }}
+                            </button>
+                          </div>
+                        </ng-container>                        
+                        <ng-container *ngIf="field.controlType === 'textbox' && field.type !== 'string'">
+                          <div *ngIf="!readOnlyMode" [dir]="dataCaptureLangsDir[i]">
+                            <mat-form-field appearance="legacy"
+                              [ngStyle]="dataCaptureLangsDir[i] == 'ltr'? {'text-align': 'left'} : {'text-align': 'right'}">
+                              <mat-label>
+                                {{field.description}}
+                              </mat-label>
+                              <input matInput [formControlName]="field.id + '_' + dataCaptureLanguage"
+                                (change)="onChangeHandler(field.id)"
+                                (focusout)="transliterateFieldValue(field.id, dataCaptureLanguage, $event)"
+                                (input)="transliterateFieldValue(field.id, dataCaptureLanguage, $event)" #keyboardRef
+                                #input />
+                              <i *ngIf="dataCaptureLangsDir[i] === 'ltr'"
+                                style="float: right; color: grey; cursor: pointer;" matSuffix class="material-icons"
+                                (click)="openKeyboard(field.id, dataCaptureLanguage)">keyboard</i>
+                              <i *ngIf="dataCaptureLangsDir[i] === 'rtl'"
+                                style="float: left; color: grey; cursor: pointer;" matSuffix class="material-icons"
+                                (click)="openKeyboard(field.id, dataCaptureLanguage)">keyboard</i>
+                            </mat-form-field>
+                          </div>
+                          <div *ngIf="readOnlyMode" [dir]="dataCaptureLangsDir[i]">
+                            <mat-form-field appearance="legacy"
+                              [ngStyle]="dataCaptureLangsDir[i] == 'ltr'? {'text-align': 'left'} : {'text-align': 'right'}">
+                              <!-- Again Label is required at each TextBox level too -->
+                              <mat-label>
+                                {{field.description}}
+                              </mat-label>
+                              <input matInput [formControlName]="field.id + '_' + dataCaptureLanguage"
+                                (change)="onChangeHandler(field.id)"
+                                (focusout)="transliterateFieldValue(field.id, dataCaptureLanguage, $event)"
+                                (input)="transliterateFieldValue(field.id, dataCaptureLanguage, $event)" #keyboardRef
+                                #input />
+                            </mat-form-field>
+                          </div>
+                        </ng-container>
+                      </span>
+                    </div>
+                  </div>
+                </span>
+              </div>
+            </span>
+            <mat-action-row>
+              <button mat-button color="warn" (click)="prevStep()">Previous</button>
+              <button mat-button color="primary" (click)="nextStep()">Next</button>
+            </mat-action-row>
+          </mat-expansion-panel>
+          <mat-expansion-panel *ngIf="isCopService()" [expanded]="expStep === 2" (opened)="setStep(2)" hideToggle>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <b>COP Categories and Services:</b>
+              </mat-panel-title>
+
+            </mat-expansion-panel-header>
+            <span *ngFor="let alignmentGroup of alignmentGroups">
+              <span *ngFor="let field of uiFieldsForAlignmentGroups[alignmentGroup]; index as uiFieldIndex">
+                <div class="subsection-name" *ngIf="field.SectionName && field.isVisible == true && field.renderID.startsWith('frm_3a_copoptions')">
+                  <b>{{field.SectionName}}:</b>
                 </div>
               </span>
-            </div>
-          </span>
-
+              <div class="rowContainer">
+                <span *ngFor="let field of uiFieldsForAlignmentGroups[alignmentGroup]; index as uiFieldIndex">
+                  <div class="fieldContainer"
+                    *ngIf="field.isVisible == true && (field.renderID.startsWith('frm_3a_copoptions') )">
+                    
+                    <div>
+                      <!-- Create form fields to capture data in all chosen dataCaptureLanguages -->
+                      <span *ngFor="let dataCaptureLanguage of dataCaptureLanguages;index as i">
+                        <!-- Add CheckBox only once, but show Labels in all dataCaptureLanguages -->
+                        <ng-container *ngIf="field.controlType === 'checkbox'">
+                          <span *ngIf="i == 0" [dir]="dataCaptureLangsDir[i]">
+                            <mat-checkbox class="form_checkBox" [formControlName]="field.id"
+                              (change)="onChangeHandler(field.id);">
+                            </mat-checkbox>&nbsp;&nbsp;
+                            <span *ngFor="let lang of dataCaptureLanguages;index as langIndex">
+                              <span *ngIf="langIndex !== 0"> / </span>{{field.labelName[lang]}}
+                            </span>
+                          </span>
+                        </ng-container>
+                        <ng-container *ngIf="field.controlType === 'button'">
+                          <div class="buttonContainer">
+                            <button 
+                              class="toggleButton" 
+                              [class.active]="userForm.get(field.id)?.value" 
+                              (click)="toggleUserButton(field.id)">
+                              {{ field.labelName[dataCaptureLanguage] }}
+                            </button>
+                          </div>
+                        </ng-container>                        
+                        <ng-container *ngIf="field.controlType === 'textbox' && field.type !== 'string'">
+                          <div *ngIf="!readOnlyMode" [dir]="dataCaptureLangsDir[i]">
+                            <mat-form-field appearance="legacy"
+                              [ngStyle]="dataCaptureLangsDir[i] == 'ltr'? {'text-align': 'left'} : {'text-align': 'right'}">
+                              <mat-label>
+                                {{field.description}}
+                              </mat-label>
+                              <input matInput [formControlName]="field.id + '_' + dataCaptureLanguage"
+                                (change)="onChangeHandler(field.id)"
+                                (focusout)="transliterateFieldValue(field.id, dataCaptureLanguage, $event)"
+                                (input)="transliterateFieldValue(field.id, dataCaptureLanguage, $event)" #keyboardRef
+                                #input />
+                              <i *ngIf="dataCaptureLangsDir[i] === 'ltr'"
+                                style="float: right; color: grey; cursor: pointer;" matSuffix class="material-icons"
+                                (click)="openKeyboard(field.id, dataCaptureLanguage)">keyboard</i>
+                              <i *ngIf="dataCaptureLangsDir[i] === 'rtl'"
+                                style="float: left; color: grey; cursor: pointer;" matSuffix class="material-icons"
+                                (click)="openKeyboard(field.id, dataCaptureLanguage)">keyboard</i>
+                            </mat-form-field>
+                          </div>
+                          <div *ngIf="readOnlyMode" [dir]="dataCaptureLangsDir[i]">
+                            <mat-form-field appearance="legacy"
+                              [ngStyle]="dataCaptureLangsDir[i] == 'ltr'? {'text-align': 'left'} : {'text-align': 'right'}">
+                              <!-- Again Label is required at each TextBox level too -->
+                              <mat-label>
+                                {{field.description}}
+                              </mat-label>
+                              <input matInput [formControlName]="field.id + '_' + dataCaptureLanguage"
+                                (change)="onChangeHandler(field.id)"
+                                (focusout)="transliterateFieldValue(field.id, dataCaptureLanguage, $event)"
+                                (input)="transliterateFieldValue(field.id, dataCaptureLanguage, $event)" #keyboardRef
+                                #input />
+                            </mat-form-field>
+                          </div>
+                        </ng-container>
+                      </span>
+                    </div>
+                  </div>
+                </span>
+              </div>
+            </span>
+            <mat-action-row>
+              <button mat-button color="warn" (click)="prevStep()">Previous</button>
+              <button mat-button color="primary" (click)="nextStep()">Next</button>
+            </mat-action-row>
+          </mat-expansion-panel>
 
           <mat-accordion  class="example-headers-align">
-            <mat-expansion-panel *ngIf="!isCopService()"  [expanded]="expStep === 0" (opened)="setStep(0)" hideToggle>
+            <mat-expansion-panel *ngIf="!isCopService() && !isGetFirstId()"  [expanded]="expStep === 3" (opened)="setStep(3)" hideToggle>
               <mat-expansion-panel-header>
                 <mat-panel-title>
                   <b>Personal Information:</b>
@@ -527,12 +723,13 @@
                 </div>
               </span>
               <mat-action-row>
+                <button mat-button color="warn" (click)="prevStep()">Previous</button>
                 <button mat-button color="primary" (click)="nextStep()">Next</button>
               </mat-action-row>
             </mat-expansion-panel>
 
             
-            <mat-expansion-panel *ngIf="isCopService()" [expanded]="expStep === 1" (opened)="setStep(1)" hideToggle>
+            <mat-expansion-panel *ngIf="isCopService() || isGetFirstId()" [expanded]="expStep === 4" (opened)="setStep(4)" hideToggle>
               <mat-expansion-panel-header>
                 <mat-panel-title>
                   <b>Personal Information:</b>
@@ -786,7 +983,7 @@
               </mat-action-row>
             </mat-expansion-panel>
           
-            <mat-expansion-panel *ngIf="!isCopService()" [expanded]="expStep === 2" (opened)="setStep(2)" hideToggle>
+            <mat-expansion-panel *ngIf="!isCopService() && !isGetFirstId()" [expanded]="expStep === 5" (opened)="setStep(5)" hideToggle>
               <mat-expansion-panel-header>
                 <mat-panel-title>
                   <b>Place Of Residence:</b>
@@ -1043,7 +1240,7 @@
               </mat-action-row>
             </mat-expansion-panel>
 
-            <mat-expansion-panel *ngIf="!isRenewalService() && !isCopService()" [expanded]="expStep === 3" (opened)="setStep(3)" hideToggle>
+            <mat-expansion-panel *ngIf="!isRenewalService() && !isCopService() && !isGetFirstId()" [expanded]="expStep === 6" (opened)="setStep(6)" hideToggle>
               <mat-expansion-panel-header>
                 <mat-panel-title>
                   <b>Foundling Check:</b>                 
@@ -1087,7 +1284,7 @@
               </mat-action-row>
             </mat-expansion-panel>
           
-            <mat-expansion-panel *ngIf="!isRenewalService() && !isCopService()" [expanded]="expStep === 4" (opened)="setStep(4)" hideToggle>
+            <mat-expansion-panel *ngIf="!isRenewalService() && !isCopService() && !isGetFirstId()" [expanded]="expStep === 7" (opened)="setStep(7)" hideToggle>
               <mat-expansion-panel-header>
                 <mat-panel-title>
                <b>Place Of Birth:</b>
@@ -1343,7 +1540,7 @@
               </mat-action-row>
             </mat-expansion-panel>
 
-            <mat-expansion-panel *ngIf="!isRenewalService() && !isCopService()" [expanded]="expStep === 5" (opened)="setStep(5)" hideToggle>
+            <mat-expansion-panel *ngIf="!isRenewalService() && !isCopService() && !isGetFirstId()" [expanded]="expStep === 8" (opened)="setStep(8)" hideToggle>
               <mat-expansion-panel-header>
                 <mat-panel-title>
                <b>Place of Origin:</b>
@@ -1599,7 +1796,7 @@
               </mat-action-row>
             </mat-expansion-panel>
 
-            <mat-expansion-panel *ngIf="!isRenewalService() && !isCopService()" [expanded]="expStep === 6" (opened)="setStep(6)" hideToggle>
+            <mat-expansion-panel *ngIf="!isRenewalService() && !isCopService() && !isGetFirstId()" [expanded]="expStep === 9" (opened)="setStep(9)" hideToggle>
               <mat-expansion-panel-header>
                 <mat-panel-title *ngIf="isByBirth()">
                   <b>Passport Details:</b>
@@ -1858,7 +2055,7 @@
               </mat-action-row>
             </mat-expansion-panel>
             
-            <mat-expansion-panel *ngIf="!isRenewalService() && !isCopService()" [expanded]="expStep === 7" (opened)="setStep(7)" hideToggle>
+            <mat-expansion-panel *ngIf="!isRenewalService() && !isCopService() && !isGetFirstId()" [expanded]="expStep === 10" (opened)="setStep(10)" hideToggle>
               <mat-expansion-panel-header>
                 <mat-panel-title>
                <b>Voters Information:</b>
@@ -2114,7 +2311,7 @@
               </mat-action-row>
             </mat-expansion-panel>
 
-            <mat-expansion-panel *ngIf="!isRenewalService() && !isCopService()" [expanded]="expStep === 8" (opened)="setStep(8)" hideToggle>
+            <mat-expansion-panel *ngIf="!isRenewalService() && !isCopService() && !isGetFirstId()" [expanded]="expStep === 11" (opened)="setStep(11)" hideToggle>
               <mat-expansion-panel-header>
                 <mat-panel-title>
                <b>Marital Status:</b>
@@ -2372,7 +2569,7 @@
 
 
 
-            <mat-expansion-panel *ngIf="!isRenewalService() && !isCopService()" [expanded]="expStep === 9" (opened)="setStep(9)" hideToggle>
+            <mat-expansion-panel *ngIf="!isRenewalService() && !isCopService() && !isGetFirstId()" [expanded]="expStep === 12" (opened)="setStep(12)" hideToggle>
               <mat-expansion-panel-header>
                 <mat-panel-title>
                <b>Spouse Details:</b>
@@ -2635,7 +2832,7 @@
               </mat-action-row>
             </mat-expansion-panel>
 
-            <mat-expansion-panel *ngIf="!isRenewalService()  && !isCopService()" [expanded]="expStep === 10" (opened)="setStep(10)" hideToggle>
+            <mat-expansion-panel *ngIf="!isRenewalService()  && !isCopService() && !isGetFirstId()" [expanded]="expStep === 13" (opened)="setStep(13)" hideToggle>
               <mat-expansion-panel-header>
                 <mat-panel-title>
                <b>Father's Details:</b>
@@ -2890,7 +3087,7 @@
               </mat-action-row>
             </mat-expansion-panel>
 
-            <mat-expansion-panel *ngIf="!isRenewalService() && !isCopService()" [expanded]="expStep === 11" (opened)="setStep(11)" hideToggle>
+            <mat-expansion-panel *ngIf="!isRenewalService() && !isCopService() && !isGetFirstId()" [expanded]="expStep === 14" (opened)="setStep(14)" hideToggle>
               <mat-expansion-panel-header>
                 <mat-panel-title>
                <b>Mother's Details</b>
@@ -3145,7 +3342,7 @@
               </mat-action-row>
             </mat-expansion-panel>
 
-            <mat-expansion-panel *ngIf="!isRenewalService() && !isCopService()" [expanded]="expStep === 12" (opened)="setStep(12)" hideToggle>
+            <mat-expansion-panel *ngIf="!isRenewalService() && !isCopService() && !isGetFirstId()" [expanded]="expStep === 15" (opened)="setStep(15)" hideToggle>
               <mat-expansion-panel-header>
                 <mat-panel-title>
                <b>Blood Relative's/Introducer Details:</b>
@@ -3403,7 +3600,7 @@
               </mat-action-row>
             </mat-expansion-panel>
 
-            <mat-expansion-panel *ngIf="!isRenewalService() && !isCopService()" [expanded]="expStep === 13" (opened)="setStep(13)" hideToggle>
+            <mat-expansion-panel *ngIf="!isRenewalService() && !isCopService() && !isGetFirstId()" [expanded]="expStep === 16" (opened)="setStep(16)" hideToggle>
               <mat-expansion-panel-header>
                 <mat-panel-title>
                <b>Particulars of Applicant’s Children :</b>
@@ -3666,7 +3863,7 @@
                 <button mat-button color="primary" (click)="nextStep()">Next</button>
               </mat-action-row>
             </mat-expansion-panel>
-            <mat-expansion-panel *ngIf="isCopService()" [expanded]="expStep === 14" (opened)="setStep(14)" hideToggle>
+            <mat-expansion-panel *ngIf="isCopService()" [expanded]="expStep === 17" (opened)="setStep(17)" hideToggle>
               <mat-expansion-panel-header>
                 <mat-panel-title>
                <b>Notification of Change:</b>
@@ -3924,7 +4121,7 @@
                 <button mat-button color="primary" (click)="nextStep()">Next</button>
               </mat-action-row>
             </mat-expansion-panel>
-            <mat-expansion-panel *ngIf="!isRenewalService()  && !isCopService()" [expanded]="expStep === 15" (opened)="setStep(15)" hideToggle>
+            <mat-expansion-panel *ngIf="!isRenewalService()  && !isCopService() && !isGetFirstId()" [expanded]="expStep === 18" (opened)="setStep(18)" hideToggle>
               <mat-expansion-panel-header>
                 <mat-panel-title>
                <b>Declarant's Details:</b>
@@ -4182,7 +4379,7 @@
               </mat-action-row>
             </mat-expansion-panel>
 
-            <mat-expansion-panel *ngIf="isCopService()" [expanded]="expStep === 16" (opened)="setStep(16)" hideToggle>
+            <mat-expansion-panel *ngIf="isCopService()" [expanded]="expStep === 19" (opened)="setStep(19)" hideToggle>
               <mat-expansion-panel-header>
                 <mat-panel-title>
                   <b>Require a new Card:</b> 
@@ -4304,7 +4501,7 @@
               </mat-action-row>
             </mat-expansion-panel>
 
-            <mat-expansion-panel *ngIf="isCopService()" [expanded]="expStep === 17" (opened)="setStep(17)" hideToggle>
+            <mat-expansion-panel *ngIf="isCopService()" [expanded]="expStep === 20" (opened)="setStep(20)" hideToggle>
               <mat-expansion-panel-header>
                 <mat-panel-title>
                   <b>Error Occurred by NIRA:</b> 
@@ -4424,9 +4621,269 @@
                 <button mat-button color="primary" (click)="nextStep()">Next</button>
               </mat-action-row>
             </mat-expansion-panel>
+
+            <mat-expansion-panel *ngIf="isGetFirstId()" [expanded]="expStep === 21" (opened)="setStep(21)" hideToggle>
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+               <b>Information to be Updated:</b>
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+          
+              <span *ngFor="let alignmentGroup of alignmentGroups">
+                <span *ngFor="let field of uiFieldsForAlignmentGroups[alignmentGroup]; index as uiFieldIndex">
+                  <div class="subsection-name" *ngIf="field.SectionName && field.isVisible == true && (field.renderID.startsWith('frm_3a_a1I') || field.renderID.startsWith('frm_3a_a2') || field.renderID.startsWith('frm_3a_b5'))">
+                    <b>{{field.SectionName}}:</b>
+                  </div>
+                </span>
+                <div class="rowContainer">
+                  <span *ngFor="let field of uiFieldsForAlignmentGroups[alignmentGroup]; index as uiFieldIndex">
+                    <div class="fieldContainer" *ngIf="field.isVisible == true && (field.renderID.startsWith('frm_3a_a1I') || field.renderID.startsWith('frm_3a_a2') || field.renderID.startsWith('frm_3a_b5'))">
+                      <div class="fieldHeader" [ngStyle]="field.headerStyle">
+                        <!-- Create container header with label in user's login lang -->
+                        <mat-label>{{field.labelName[userPrefLanguage]}} : </mat-label>
+                        <span *ngIf="field.required" class="required-annotation">*</span>
+                      </div>
+                      <div class="fieldContent" [ngStyle]="field.containerStyle">
+                        <!-- Create form fields to capture data in all chosen dataCaptureLanguages -->
+                        <span *ngFor="let dataCaptureLanguage of dataCaptureLanguages;index as i">
+                          <!-- Add TextBox for each dataCaptureLanguage -->
+                          <ng-container *ngIf="field.controlType === 'textbox' && field.type !== 'string'">
+                            <div *ngIf="!readOnlyMode" [dir]="dataCaptureLangsDir[i]">
+                              <mat-form-field appearance="legacy"
+                                [ngStyle]="dataCaptureLangsDir[i] == 'ltr'? {'text-align': 'left'} : {'text-align': 'right'}">
+                                <mat-label>
+                                  {{field.description}}
+                                </mat-label>
+                                <input matInput [formControlName]="field.id + '_' + dataCaptureLanguage"
+                                  (change)="onChangeHandler(field.id)"
+                                  (focusout)="transliterateFieldValue(field.id, dataCaptureLanguage, $event)"
+                                  (input)="transliterateFieldValue(field.id, dataCaptureLanguage, $event)" #keyboardRef
+                                  #input />
+                                <i *ngIf="dataCaptureLangsDir[i] === 'ltr'"
+                                  style="float: right; color: grey; cursor: pointer;" matSuffix class="material-icons"
+                                  (click)="openKeyboard(field.id, dataCaptureLanguage)">keyboard</i>
+                                <i *ngIf="dataCaptureLangsDir[i] === 'rtl'"
+                                  style="float: left; color: grey; cursor: pointer;" matSuffix class="material-icons"
+                                  (click)="openKeyboard(field.id, dataCaptureLanguage)">keyboard</i>
+                              </mat-form-field>
+                            </div>
+                            <div *ngIf="readOnlyMode" [dir]="dataCaptureLangsDir[i]">
+                              <mat-form-field appearance="legacy"
+                                [ngStyle]="dataCaptureLangsDir[i] == 'ltr'? {'text-align': 'left'} : {'text-align': 'right'}">
+                                <!-- Again Label is required at each TextBox level too -->
+                                <mat-label>
+                                  {{field.description}}
+                                </mat-label>
+                                <input matInput [formControlName]="field.id + '_' + dataCaptureLanguage"
+                                  (change)="onChangeHandler(field.id)"
+                                  (focusout)="transliterateFieldValue(field.id, dataCaptureLanguage, $event)"
+                                  (input)="transliterateFieldValue(field.id, dataCaptureLanguage, $event)" #keyboardRef
+                                  #input />
+                              </mat-form-field>
+                            </div>
+                          </ng-container>
+                          <!-- Add CheckBox only once, but show Labels in all dataCaptureLanguages -->
+                          <ng-container *ngIf="field.controlType === 'checkbox'">
+                            <span *ngIf="i == 0" [dir]="dataCaptureLangsDir[i]">
+                              <mat-checkbox class="form_checkBox" [formControlName]="field.id"
+                                (change)="onChangeHandler(field.id);">
+                              </mat-checkbox>&nbsp;&nbsp;
+                              <span *ngFor="let lang of dataCaptureLanguages;index as langIndex">
+                                <span *ngIf="langIndex !== 0"> / </span>{{field.labelName[lang]}}
+                              </span>
+                            </span>
+                          </ng-container>
+                          <!-- Add Button Options in  only one language on mouse over other lang are shown -->
+                          <ng-container *ngIf="field.controlType === 'button'">
+                            <span *ngIf="i == 0" [dir]="dataCaptureLangsDir[i]">
+                              <mat-button-toggle-group class="btn_grp" [formControlName]="field.id"
+                                (click)="onChangeHandler(field.id);">
+                                <ng-container *ngFor="let button of selectOptionsDataArray[field.id]">
+                                  <span *ngIf="button.languageCode === dataCaptureLanguage">
+                                    <mat-button-toggle class="btn_grp mat-button-toggle" value="{{button.valueCode}}"
+                                      title="{{getTitleForOptionInOtherLangs(field.id, button.valueCode, dataCaptureLanguage)}}">
+                                      {{button.valueName}}
+                                    </mat-button-toggle>
+                                  </span>
+                                </ng-container>
+                              </mat-button-toggle-group>
+                              <br>
+                              <span *ngIf="field.type !== 'string' && dataCaptureLanguages.length > 1"
+                                [dir]="dataCaptureLangsDir[i]">
+                                <span *ngFor="let option of selectOptionsDataArray[field.id]">
+                                  <span
+                                    *ngIf="option.languageCode !== dataCaptureLanguage && option.valueCode === userForm.get(field.id).value && dataCaptureLanguages.includes(option.languageCode)">
+                                    <span class="selectedOption">{{option.valueName}}</span>
+                                  </span>
+                                </span>
+                              </span>
+                            </span>
+                          </ng-container>
+                          <!-- Add Dropdown Options in  only one language on mouse over other lang are shown-->
+                          <ng-container *ngIf="field.controlType === 'dropdown'">
+                            <span *ngIf="i == 0" [dir]="dataCaptureLangsDir[i]">
+                              <mat-form-field appearance="legacy"
+                                [ngStyle]="dataCaptureLangsDir[i] == 'ltr'? {'text-align': 'left'} : {'text-align': 'right'}">
+                                <mat-label>
+                                  {{field.description}}
+                                </mat-label>
+                                <mat-select formControlName="{{field.id}}"
+                                  (focus)="!readOnlyMode ? dropdownApiCall(field.id): ''"
+                                  (blur)="onChangeHandler(field.id);" #singleSelect>
+                                  <mat-option>
+                                    <ngx-mat-select-search formControlName="{{field.id + '_search'}}"
+                                      placeholderLabel="{{ 'demographic.lookup_search_message' | translate }}"
+                                      noEntriesFoundLabel="{{ 'demographic.lookup_no_results_found' | translate }}">
+                                    </ngx-mat-select-search>
+                                  </mat-option>
+                                  <mat-option *ngIf="selectOptionsDataArray[field.id].length == 0">
+                                    <mat-spinner [diameter]="20" style="margin-left: 43%"></mat-spinner>
+                                  </mat-option>
+                                  <ng-container *ngIf="selectOptionsDataArray[field.id].length > 0">
+                                    <ng-container *ngFor="let dropdown of filteredSelectOptions[field.id] | async">
+                                      <mat-option *ngIf="dropdown.languageCode === dataCaptureLanguage"
+                                        [value]="dropdown.valueCode"
+                                        title="{{getTitleForOptionInOtherLangs(field.id, dropdown.valueCode, dataCaptureLanguage)}}">
+                                        {{ dropdown.valueName }}
+                                      </mat-option>
+                                    </ng-container>
+                                  </ng-container>
+                                </mat-select>
+                              </mat-form-field>
+                              <p></p>
+                              <span *ngIf="field.type !== 'string' && dataCaptureLanguages.length > 1">
+                                <div class="selectedOption">
+                                  <span *ngFor="let option of selectOptionsDataArray[field.id];">
+                                    <span *ngIf="option.languageCode !== dataCaptureLanguage
+                                      && userForm.get(field.id).value != null 
+                                      && option.valueCode == userForm.get(field.id).value 
+                                      && dataCaptureLanguages.includes(option.languageCode)">{{option.valueName}}
+                                    </span>
+                                  </span>
+                                </div>
+                              </span>                              
+                            </span>
+                          </ng-container>
+                          <!-- Add Age Date fields-->
+                          <ng-container *ngIf="field.controlType === 'ageDate'">
+                            <span *ngIf="i == 0">
+                              <div class="user__age-or-date" [dir]="dataCaptureLangsDir[i]">
+                                <div class="user__date">                                
+                                  <mat-form-field appearance="legacy">
+                                    <mat-label>{{localeDtFormat}}</mat-label>
+                                    <input matInput [formControlName]="field.id + '_dateCtrl'"
+                                      placeholder="{{localeDtFormat}}"
+                                      (dateChange)="onDOBChange(field.id);onChangeHandler(field.id);"
+                                      [matDatepicker]="dp" />
+                                    <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+                                    <mat-datepicker #dp></mat-datepicker>
+                                  </mat-form-field>
+                                </div>
+                                <div class="user__pref">
+                                  {{ "demographic.text_or" | translate }}
+                                </div>
+                                <div class="user__age">
+                                  <mat-form-field appearance="legacy">
+                                    <input type="number" class="form-control" matInput [value]="currentAge" #age
+                                      [disabled]="readOnlyMode" placeholder="{{ 'demographic.label_age' | translate }}"
+                                      (change)="onAgeChange(field.id);onChangeHandler(field.id);">
+                                  </mat-form-field>
+                                  <div class="user__age--years">
+                                    {{ "demographic.text_years" | translate }}
+                                  </div>
+                                </div>
+                              </div>
+                              <br>
+                              <div class="mat-error ng-star-inserted user__dob__error" *ngIf="!readOnlyMode && primaryuserForm &&    
+                                  userForm.get(field.id) &&
+                                  (userForm.get(field.id).touched &&
+                                    userForm.get(field.id).hasError('incorrect'))" [dir]="userPrefLanguageDir">
+                                {{demographiclabels.validation.DOB_validation}}
+                              </div>
+                            </span>
+                          </ng-container>
+                          <!-- Date fields-->
+                          <ng-container *ngIf="field.controlType === 'date'">
+                            <span *ngIf="i == 0" [dir]="dataCaptureLangsDir[i]">
+                              <mat-form-field appearance="legacy">
+                                <mat-label>{{localeDtFormat}}</mat-label>
+                                <input matInput [formControlName]="field.id" placeholder='{{localeDtFormat}}'
+                                  (dateChange)="onChangeHandler(field.id);" [matDatepicker]="dp" />
+                                <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+                                <mat-datepicker #dp></mat-datepicker>
+                              </mat-form-field>
+                            </span>
+                          </ng-container>
+                          <!-- Add Phone and Email in only one lang -->
+                          <ng-container *ngIf="(field.controlType === 'textbox' && field.type === 'string')">
+                            <span *ngIf="i == 0" [dir]="dataCaptureLangsDir[i]">
+                              <mat-form-field appearance="legacy"
+                                [ngStyle]="dataCaptureLangsDir[i] == 'ltr'? {'text-align': 'left'} : {'text-align': 'right'}">
+                                <!-- Again Label is required at each TextBox level too -->
+                                <mat-label>
+                                  {{field.labelName[dataCaptureLanguage]}}
+                                </mat-label>
+                                <input matInput [formControlName]="field.id" (change)="onChangeHandler(field.id)" #input />
+                              </mat-form-field>
+                            </span>
+                          </ng-container>
+                          <!-- Error handling for various types -->
+                          <span *ngIf="field.controlType === 'textbox'" [dir]="userPrefLanguageDir">
+                            <mat-error class="primary-errors" *ngIf="
+                            !readOnlyMode && primaryuserForm &&
+                              userForm.get(field.id + '_' + dataCaptureLanguage) &&
+                              userForm.get(field.id + '_' + dataCaptureLanguage).hasError('required') &&
+                              userForm.get(field.id + '_' + dataCaptureLanguage).touched">
+                              {{ field.labelName[userPrefLanguage] }}
+                              {{demographiclabels.validation.requiredMessage}}
+                            </mat-error>
+                            <mat-error class="primary-errors" *ngIf="!readOnlyMode && primaryuserForm &&
+                              userForm.get(field.id + '_' + dataCaptureLanguage) &&
+                              userForm.get(field.id + '_' + dataCaptureLanguage).touched &&
+                              userForm.get(field.id + '_' + dataCaptureLanguage).dirty &&
+                              userForm.get(field.id + '_' + dataCaptureLanguage).hasError('customPattern')">
+                              {{ demographiclabels.validation.InvalidMessage}} {{ field.labelName[userPrefLanguage] }}<br>
+                              {{ userForm.get(field.id + '_' + dataCaptureLanguage)["errors"]["customPattern"]["msg"] }}<br>
+                            </mat-error>
+                          </span>
+                          <span *ngIf="field.controlType === 'ageDate' || field.controlType === 'date' 
+                            || field.controlType === 'dropdown' || field.controlType === 'button' 
+                            || field.controlType === 'checkbox'
+                            || (field.controlType === 'textbox' && field.type === 'string')">
+                            <span *ngIf="i == 0" [dir]="userPrefLanguageDir">
+                              <mat-error class="primary-errors" *ngIf="
+                              !readOnlyMode && primaryuserForm &&
+                              userForm.get(field.id) &&
+                              userForm.get(field.id).hasError('required') &&
+                              userForm.get(field.id).touched">
+                                {{ field.labelName[userPrefLanguage] }}
+                                {{demographiclabels.validation.requiredMessage}}
+                              </mat-error>
+                              <mat-error class="primary-errors" *ngIf="!readOnlyMode && primaryuserForm &&
+                              userForm.get(field.id) &&
+                              userForm.get(field.id).touched &&
+                              userForm.get(field.id).dirty &&
+                              userForm.get(field.id).hasError('customPattern')">
+                              {{ demographiclabels.validation.InvalidMessage}} {{ field.labelName[userPrefLanguage] }}<br>
+                                {{ userForm.get(field.id)["errors"]["customPattern"]["msg"] }}<br>
+                              </mat-error>
+                            </span>
+                          </span>
+                        </span>
+                      </div>
+                    </div>
+                  </span>
+                </div>
+              </span>
+          
+              <mat-action-row>
+                <button mat-button color="warn" (click)="prevStep()">Previous</button>
+                <button mat-button color="primary" (click)="nextStep()">Next</button>
+              </mat-action-row>
+            </mat-expansion-panel>
             
 
-            <mat-expansion-panel [expanded]="expStep === 18" (opened)="setStep(18)" hideToggle>
+            <mat-expansion-panel [expanded]="expStep === 22" (opened)="setStep(22)" hideToggle>
               <mat-expansion-panel-header>
                 <mat-panel-title>
                   <b>Declaration:</b> 

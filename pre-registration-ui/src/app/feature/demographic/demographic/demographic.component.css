@@ -429,6 +429,68 @@ mat-icon {
   align-items: space-between;
   justify-content: flex-start;
 }
+.columnContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+}
+/* General container for the buttons */
+.buttonContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 10px 0;
+  gap: 15px; /* Spacing between buttons */
+}
+
+/* Button style */
+.toggleButton {
+  background-color: #f8f9fa; /* Light background for unselected state */
+  color: #333; /* Dark text for better readability */
+  border: 1px solid #dcdcdcd8; /* Border to match design */
+  border-radius: 4px; /* Rounded edges */
+  width: 300px;
+  height: 30px;
+  font-size: 14px;
+  cursor: pointer;
+  box-shadow: none;
+  transition: all 0.3s ease;
+  text-align: center;
+  text-transform: none;
+}
+
+/* Active button style */
+.toggleButton.active {
+  background-color: #FFE4E4; /* Blue background for selected state */
+  color: rgb(0, 0, 0); /* White text for selected state */
+  border: none; /* Remove border in active state */
+}
+
+/* Hover effect */
+.toggleButton:hover {
+  background-color: #e0e0e0; /* Light gray hover effect */
+  color: #333;
+}
+
+/* Active button hover effect */
+.toggleButton.active:hover {
+  background-color: #FFE4E4; /* Darker blue for active hover state */
+}
+
+/* Focused button outline */
+.toggleButton:focus {
+  outline: 2px solid #FFE4E4;
+}
+
+/* Disabled button style */
+.toggleButton:disabled {
+  background-color: #f0f0f0; /* Light gray background for disabled */
+  color: #a0a0a0; /* Gray text for disabled */
+  cursor: not-allowed;
+  border: 1px solid #e0e0e0;
+}
+
 .fieldContainer {
   flex: 1;
   margin-right: 10px;
