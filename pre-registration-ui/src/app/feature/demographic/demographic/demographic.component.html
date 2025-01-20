@@ -3869,7 +3869,7 @@
                <b>Notification of Change:</b>
                 </mat-panel-title>
                 <mat-panel-description>
-                  Fill only the fields you wish to update. Leave the rest blank
+                
                 </mat-panel-description>
                 
               </mat-expansion-panel-header>
@@ -3877,7 +3877,7 @@
               <span *ngFor="let alignmentGroup of alignmentGroups">
                 <div class="rowContainer">
                   <span *ngFor="let field of uiFieldsForAlignmentGroups[alignmentGroup]; index as uiFieldIndex">
-                    <div class="fieldContainer" *ngIf="field.isVisible == true && (field.renderID.startsWith('frm_3a_a1_C_') ||field.renderID.startsWith('frm_3a_a2') || field.renderID.startsWith('frm_3a_a4_') || field.renderID.startsWith('frm_3a_c7_C') || field.renderID.startsWith('frm_3a_c8_C_'))">
+                    <div class="fieldContainer" *ngIf="field.isVisible == true && (field.renderID.startsWith('frm_3a_a1_C_') ||field.renderID.startsWith('frm_3a_a2') || field.renderID.startsWith('frm_3a_a4_') || field.renderID.startsWith('frm_3a_c7_C') || field.renderID.startsWith('frm_3a_c8_C_') || field.renderID.startsWith('frm_3a_a3') || field.renderID.startsWith('frm_3a_b5'))">
                       <div class="fieldHeader" [ngStyle]="field.headerStyle">
                         
                         <mat-label>{{field.labelName[userPrefLanguage]}} : </mat-label>
