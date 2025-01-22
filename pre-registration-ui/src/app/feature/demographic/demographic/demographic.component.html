@@ -3929,7 +3929,7 @@
                                 (change)="onChangeHandler(field.id);">
                               </mat-checkbox>&nbsp;&nbsp;
                               <span *ngFor="let lang of dataCaptureLanguages;index as langIndex">
-                                <span *ngIf="langIndex !== 0"> / </span>{{field.labelName[lang]}}
+                                <span *ngIf="langIndex !== 0"> / </span>{{field.description}}
                               </span>
                             </span>
                           </ng-container>
@@ -4521,7 +4521,7 @@
               </mat-action-row>
             </mat-expansion-panel>
 
-            <mat-expansion-panel *ngIf="isCopService()" [expanded]="expStep === 19" (opened)="setStep(19)" hideToggle>
+            <mat-expansion-panel *ngIf="isCopService() && isRenewalService()" [expanded]="expStep === 19" (opened)="setStep(19)" hideToggle>
               <mat-expansion-panel-header>
                 <mat-panel-title>
                   <b>Require a new Card:</b> 
@@ -4642,7 +4642,7 @@
                 <button mat-button color="primary" (click)="nextStep()">Next</button>
               </mat-action-row>
             </mat-expansion-panel>
-            <mat-expansion-panel *ngIf="isCopService()" [expanded]="expStep === 20" (opened)="setStep(20)" hideToggle>
+            <mat-expansion-panel *ngIf="isCopService() && isRenewalService()" [expanded]="expStep === 20" (opened)="setStep(20)" hideToggle>
               <mat-expansion-panel-header>
                 <mat-panel-title>
                   <b>Error Occurred by NIRA:</b> 

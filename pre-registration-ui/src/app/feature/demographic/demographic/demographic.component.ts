@@ -123,7 +123,8 @@ export class DemographicComponent extends FormDeactivateGuardService
 
   userService: string = "";
   userServiceType: string = "";
-  userServiceTypeCop: string = "";
+  //userServiceTypeCop: string = "";
+  copUpdateName: boolean;
   notificationOfChangeServiceType = [];
   notificationOfChangeNameFields = [];
   ageCop: number;
@@ -1169,8 +1170,11 @@ export class DemographicComponent extends FormDeactivateGuardService
       }
     }
     const identityFormData = this.createIdentityJSONDynamic(true, selectedFieldId);
-    if(selectedFieldId==appConstants.userServiceTypeCop){
-      this.userServiceTypeCop=this.userForm.controls[selectedFieldId].value;
+    //if(selectedFieldId==appConstants.userServiceTypeCop){
+      //this.userServiceTypeCop=this.userForm.controls[selectedFieldId].value;
+    //}
+    if(selectedFieldId==appConstants.copUpdateName){
+      this.copUpdateName=this.userForm.controls[selectedFieldId].value;
     }
     if(selectedFieldId==appConstants.userServiceType){
       this.userServiceType=this.userForm.controls[selectedFieldId].value;
@@ -1749,11 +1753,11 @@ export class DemographicComponent extends FormDeactivateGuardService
                       res["langCode"]
                     );
                   }
-                  else if(res.name==appConstants.NOTIFICATION_OF_CHANGE.userServiceTypeCop){
-                    const fieldValArray1 = res["fieldVal"];
-                    const notificationOfChangeServiceType = fieldValArray1.map(item => item.code);
-                    this.notificationOfChangeServiceType = notificationOfChangeServiceType;
-                  }
+                  // else if(res.name==appConstants.NOTIFICATION_OF_CHANGE.userServiceTypeCop){
+                  //   const fieldValArray1 = res["fieldVal"];
+                  //   const notificationOfChangeServiceType = fieldValArray1.map(item => item.code);
+                  //   this.notificationOfChangeServiceType = notificationOfChangeServiceType;
+                  // }
                   else if(res.name==appConstants.NOTIFICATION_OF_CHANGE.nameFields){
                     const fieldValArray = res["fieldVal"];
                     const notificationOfChangeNameFields = fieldValArray.map(item => item.value);
@@ -2891,9 +2895,10 @@ export class DemographicComponent extends FormDeactivateGuardService
   }
 
   nameFieldsCopValidation() {
-    const nameFieldsUserServiceCopArr = this.notificationOfChangeServiceType;
+   // const nameFieldsUserServiceCopArr = this.notificationOfChangeServiceType;
     const nameFields = this.notificationOfChangeNameFields;
-    if (nameFieldsUserServiceCopArr.includes(this.userServiceTypeCop)) {
+    //if (nameFieldsUserServiceCopArr.includes(this.userServiceTypeCop)) {
+    if (this.copUpdateName) {
       const hasValue = nameFields.some((field) => {
         const namefieldCop = this.userForm.controls[field];
         return namefieldCop && namefieldCop.value && namefieldCop.value.trim() !== "";
