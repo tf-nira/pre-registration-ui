@@ -2925,39 +2925,4 @@ export class DemographicComponent extends FormDeactivateGuardService
     }
   }
   
-
-  // /** COP changes */
-  // // Toggle subfields display
-  // toggleSubfields(parentFieldId: string, subFields: any[]): void {
-  //   if (!this.subFieldsList) this.subFieldsList = {};
-  // this.subFieldsList[parentFieldId] = subFields; // Populate subFieldsList
-  //   this.showSubfields[parentFieldId] = !this.showSubfields[parentFieldId];
-  // }
-  // // Add selected subfields to the Notification of Change
-  // addSubfieldToNotification(subField: any): void {
-  //   if (!this.notificationSubfields.some(item => item.id === subField.id)) {
-  //     this.notificationSubfields.push(subField);
-  //   }
-  // }
-  //  // Remove subfield
-  //  removeSubfield(subField: any): void {
-  //   console.log("removeSubfield")
-  //   this.notificationSubfields = this.notificationSubfields.filter(
-  //     item => item.id !== subField.id
-  //   );
-  // }
-  // logFieldId(id: string): boolean {
-  //   console.log('field.id:', id);
-  //   return true; // Always return true for *ngIf condition.
-  // }
-  // controlId = uiField.id + "_" + language;
-  // this.userForm.controls[controlId].setValue("");
-
-  //toggleButton(fieldId: string): void {
-    // const control = this.userForm.get(fieldId);
-    // if (control) {
-    //   control.setValue(!control.value); // Toggle between true and false
-    // }
-  //}
-  
 }

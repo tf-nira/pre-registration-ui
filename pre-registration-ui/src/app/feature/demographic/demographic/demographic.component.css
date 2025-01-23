@@ -441,15 +441,15 @@ mat-icon {
   justify-content: space-between;
   align-items: center;
   margin: 10px 0;
-  gap: 15px; /* Spacing between buttons */
+  gap: 15px;
 }
 
 /* Button style */
 .toggleButton {
-  background-color: #f8f9fa; /* Light background for unselected state */
-  color: #333; /* Dark text for better readability */
-  border: 1px solid #dcdcdcd8; /* Border to match design */
-  border-radius: 4px; /* Rounded edges */
+  background-color: #f8f9fa; 
+  color: #333; 
+  border: 1px solid #dcdcdcd8; 
+  border-radius: 4px; 
   width: 300px;
   height: 30px;
   font-size: 14px;
@@ -462,20 +462,20 @@ mat-icon {
 
 /* Active button style */
 .toggleButton.active {
-  background-color: #FFE4E4; /* Blue background for selected state */
-  color: rgb(0, 0, 0); /* White text for selected state */
-  border: none; /* Remove border in active state */
+  background-color: #FFE4E4;
+  color: rgb(0, 0, 0);
+  border: none; 
 }
 
 /* Hover effect */
 .toggleButton:hover {
-  background-color: #e0e0e0; /* Light gray hover effect */
+  background-color: #e0e0e0; 
   color: #333;
 }
 
 /* Active button hover effect */
 .toggleButton.active:hover {
-  background-color: #FFE4E4; /* Darker blue for active hover state */
+  background-color: #FFE4E4; 
 }
 
 /* Focused button outline */
@@ -485,8 +485,8 @@ mat-icon {
 
 /* Disabled button style */
 .toggleButton:disabled {
-  background-color: #f0f0f0; /* Light gray background for disabled */
-  color: #a0a0a0; /* Gray text for disabled */
+  background-color: #f0f0f0; 
+  color: #a0a0a0; 
   cursor: not-allowed;
   border: 1px solid #e0e0e0;
 }
