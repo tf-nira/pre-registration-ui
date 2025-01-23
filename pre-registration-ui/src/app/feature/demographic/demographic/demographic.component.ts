@@ -748,7 +748,7 @@ export class DemographicComponent extends FormDeactivateGuardService
           this.identityData = identityJsonSpec["identity"];
 
           //LOCAL
-          this.identityData = [];    //malay
+          //this.identityData = [];    //malay
 
           let locationHeirarchiesFromJson = [
             ...identityJsonSpec["locationHierarchy"], //malay
@@ -757,8 +757,8 @@ export class DemographicComponent extends FormDeactivateGuardService
             response[appConstants.RESPONSE]["idSchemaVersion"];
 
             //LOCAL
-          const fieldDefinitions = await this.loadFieldDefinitions();
-          this.identityData.push(...fieldDefinitions);
+          // const fieldDefinitions = await this.loadFieldDefinitions();
+          // this.identityData.push(...fieldDefinitions);
 
           if (Array.isArray(locationHeirarchiesFromJson[0])) {
             this.locationHeirarchies = locationHeirarchiesFromJson;
