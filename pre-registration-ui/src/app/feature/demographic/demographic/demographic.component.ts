@@ -123,7 +123,8 @@ export class DemographicComponent extends FormDeactivateGuardService
 
   userService: string = "";
   userServiceType: string = "";
-  userServiceTypeCop: string = "";
+  //userServiceTypeCop: string = "";
+  copUpdateName: boolean;
   notificationOfChangeServiceType = [];
   notificationOfChangeNameFields = [];
   ageCop: number;
@@ -199,6 +200,7 @@ export class DemographicComponent extends FormDeactivateGuardService
   showChangeDataCaptureLangBtn = false;
   localeDtFormat = "";
   serverDtFormat = "YYYY/MM/DD";
+
   @ViewChild("singleSelect") singleSelect: MatSelect;
   /* Subject that emits when the component has been destroyed. */
   protected _onDestroy = new Subject<void>();
@@ -755,8 +757,8 @@ export class DemographicComponent extends FormDeactivateGuardService
             response[appConstants.RESPONSE]["idSchemaVersion"];
 
             //LOCAL
-          //const fieldDefinitions = await this.loadFieldDefinitions();
-          //this.identityData.push(...fieldDefinitions);
+          // const fieldDefinitions = await this.loadFieldDefinitions();
+          // this.identityData.push(...fieldDefinitions);
 
           if (Array.isArray(locationHeirarchiesFromJson[0])) {
             this.locationHeirarchies = locationHeirarchiesFromJson;
@@ -1141,6 +1143,8 @@ export class DemographicComponent extends FormDeactivateGuardService
    * and fields are shown/hidden in the UI form.
    */
   async onChangeHandler(selectedFieldId: string) {
+    console.log(this.userForm.value);
+    debugger
     if (this.initializationFlag == false && selectedFieldId == appConstants.userServiceType && this.dataModification != true) {
       for (const control of this.uiFields) {
         if (!(control.id == appConstants.userService || control.id == appConstants.userServiceType)) {
@@ -1166,8 +1170,11 @@ export class DemographicComponent extends FormDeactivateGuardService
       }
     }
     const identityFormData = this.createIdentityJSONDynamic(true, selectedFieldId);
-    if(selectedFieldId==appConstants.userServiceTypeCop){
-      this.userServiceTypeCop=this.userForm.controls[selectedFieldId].value;
+    //if(selectedFieldId==appConstants.userServiceTypeCop){
+      //this.userServiceTypeCop=this.userForm.controls[selectedFieldId].value;
+    //}
+    if(selectedFieldId==appConstants.copUpdateName){
+      this.copUpdateName=this.userForm.controls[selectedFieldId].value;
     }
     if(selectedFieldId==appConstants.userServiceType){
       this.userServiceType=this.userForm.controls[selectedFieldId].value;
@@ -1746,11 +1753,11 @@ export class DemographicComponent extends FormDeactivateGuardService
                       res["langCode"]
                     );
                   }
-                  else if(res.name==appConstants.NOTIFICATION_OF_CHANGE.userServiceTypeCop){
-                    const fieldValArray1 = res["fieldVal"];
-                    const notificationOfChangeServiceType = fieldValArray1.map(item => item.code);
-                    this.notificationOfChangeServiceType = notificationOfChangeServiceType;
-                  }
+                  // else if(res.name==appConstants.NOTIFICATION_OF_CHANGE.userServiceTypeCop){
+                  //   const fieldValArray1 = res["fieldVal"];
+                  //   const notificationOfChangeServiceType = fieldValArray1.map(item => item.code);
+                  //   this.notificationOfChangeServiceType = notificationOfChangeServiceType;
+                  // }
                   else if(res.name==appConstants.NOTIFICATION_OF_CHANGE.nameFields){
                     const fieldValArray = res["fieldVal"];
                     const notificationOfChangeNameFields = fieldValArray.map(item => item.value);
@@ -2872,6 +2879,13 @@ export class DemographicComponent extends FormDeactivateGuardService
     return false;
   }
 
+  isGetFirstId(): boolean {
+    if (this.userService === appConstants.USER_SERVICE.FIRSTID) {
+      return true;
+    }
+    return false;
+  }
+
   isByBirth(): boolean {
     console.log(this.userServiceType);
     if (this.userServiceType === appConstants.USER_SERVICETYPE.BYBIRTH) {
@@ -2881,9 +2895,10 @@ export class DemographicComponent extends FormDeactivateGuardService
   }
 
   nameFieldsCopValidation() {
-    const nameFieldsUserServiceCopArr = this.notificationOfChangeServiceType;
+   // const nameFieldsUserServiceCopArr = this.notificationOfChangeServiceType;
     const nameFields = this.notificationOfChangeNameFields;
-    if (nameFieldsUserServiceCopArr.includes(this.userServiceTypeCop)) {
+    //if (nameFieldsUserServiceCopArr.includes(this.userServiceTypeCop)) {
+    if (this.copUpdateName) {
       const hasValue = nameFields.some((field) => {
         const namefieldCop = this.userForm.controls[field];
         return namefieldCop && namefieldCop.value && namefieldCop.value.trim() !== "";
@@ -2902,4 +2917,12 @@ export class DemographicComponent extends FormDeactivateGuardService
           error_value: true
         };
   }
+
+  toggleUserButton(fieldId: string): void {
+    const control = this.userForm.get(fieldId);
+    if (control) {
+      control.setValue(!control.value); // Toggle between true and false
+    }
+  }
+  
 }
