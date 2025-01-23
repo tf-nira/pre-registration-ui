@@ -2820,13 +2820,13 @@ export class DemographicComponent extends FormDeactivateGuardService
     if (error) {
       let text;
       switch (error.error_name) {
-        case 'nameCopRequired': text = `Any one of the field in notification of chage is required!`; break;
-        case 'required': text = `${error.control_name} is required!`; break;
+        case 'nameCopRequired': text = `Any one of the field in Update/Change Order of Name is required!`; break;
+        case 'required': text = `${error.control_name}(${error.section_name}) is required!`; break;
         case 'pattern': text = `${error.control_name} has wrong pattern!`; break;
         case 'email': text = `${error.control_name} has wrong email format!`; break;
         case 'minlength': text = `${error.control_name} has wrong length! Required length: ${error.error_value.requiredLength}`; break;
         case 'areEqual': text = `${error.control_name} must be equal!`; break;
-        default: text = `${error.control_name} is invalid`;
+        default: text = `${error.control_name}(${error.section_name}) is invalid`;
       }
       return text;
     }
@@ -2846,8 +2846,10 @@ export class DemographicComponent extends FormDeactivateGuardService
         Object.keys(controlErrors).forEach(keyError => {
           let label = _this.uiFields.find(f => f.id == key);
           if (!label) label = _this.uiFields.find(f => f.id == key.replace(/_[a-zA-Z]+$/, ''));
+          let sectionName = label ? label.alignmentGroup : 'Unknown Section';
           if (label != null) {
             errors.push({
+              section_name: sectionName,
               control_name: label.labelName instanceof String ? label.labelName : label.labelName[_this.userPrefLanguage],
               error_name: keyError,
               error_value: controlErrors[keyError]
@@ -2858,6 +2860,7 @@ export class DemographicComponent extends FormDeactivateGuardService
     });
     return errors;
   }
+  
   getLocationNameFromFieldId = (fieldId) => {
     let filtered = this.uiFields.find(uiField => uiField.id == fieldId);
     let parentField = this.uiFields.filter(uiField => uiField.locationHierarchyLevel ==
