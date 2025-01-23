@@ -3875,6 +3875,11 @@
               </mat-expansion-panel-header>
           
               <span *ngFor="let alignmentGroup of alignmentGroups">
+                  <span *ngFor="let field of uiFieldsForAlignmentGroups[alignmentGroup]; index as uiFieldIndex">
+                    <div class="subsection-name" *ngIf="field.SectionName && field.isVisible == true && (field.renderID.startsWith('frm_3a_a1_C_') ||field.renderID.startsWith('frm_3a_a2') || field.renderID.startsWith('frm_3a_a4_') || field.renderID.startsWith('frm_3a_c7_C') || field.renderID.startsWith('frm_3a_c8_C_') || field.renderID.startsWith('frm_3a_a3') || field.renderID.startsWith('frm_3a_b5') || field.renderID.startsWith('frm_isErrorOccurredbyNIRA'))">
+                      <b>{{field.SectionName}}:</b>
+                    </div>
+                  </span>
                 <div class="rowContainer">
                   <span *ngFor="let field of uiFieldsForAlignmentGroups[alignmentGroup]; index as uiFieldIndex">
                     <div class="fieldContainer" *ngIf="field.isVisible == true && (field.renderID.startsWith('frm_3a_a1_C_') ||field.renderID.startsWith('frm_3a_a2') || field.renderID.startsWith('frm_3a_a4_') || field.renderID.startsWith('frm_3a_c7_C') || field.renderID.startsWith('frm_3a_c8_C_') || field.renderID.startsWith('frm_3a_a3') || field.renderID.startsWith('frm_3a_b5'))">
