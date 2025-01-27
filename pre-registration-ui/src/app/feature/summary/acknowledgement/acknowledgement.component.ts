@@ -161,7 +161,7 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
             if (!this.userService) {
               this.userService = demographicData["userService"];
             }
-            if(this.userService==appConstants.USER_SERVICE.UPDATE){
+            if(this.userService==appConstants.USER_SERVICE.UPDATE || this.userService==appConstants.USER_SERVICE.FIRSTID){
               this.name = appConstants.PRE_REGISTRATION_IDENTITY_NAME_COP;
             }
 
@@ -601,7 +601,7 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
    */
   generatePaymentRefNum(demographicData: any) {
     let surname;
-    if(this.userService==appConstants.USER_SERVICE.UPDATE){
+    if(this.userService==appConstants.USER_SERVICE.UPDATE || this.userService==appConstants.USER_SERVICE.FIRSTID){
       surname = demographicData.surnameCop[0].value;
     }
     else{
