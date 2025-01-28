@@ -748,17 +748,17 @@ export class DemographicComponent extends FormDeactivateGuardService
           this.identityData = identityJsonSpec["identity"];
 
           //LOCAL
-          //this.identityData = [];    //malay
+          this.identityData = [];    
 
           let locationHeirarchiesFromJson = [
-            ...identityJsonSpec["locationHierarchy"], //malay
+            ...identityJsonSpec["locationHierarchy"], 
           ];
           this.identitySchemaVersion =
             response[appConstants.RESPONSE]["idSchemaVersion"];
 
             //LOCAL
-          // const fieldDefinitions = await this.loadFieldDefinitions();
-          // this.identityData.push(...fieldDefinitions);
+          const fieldDefinitions = await this.loadFieldDefinitions();
+          this.identityData.push(...fieldDefinitions);
 
           if (Array.isArray(locationHeirarchiesFromJson[0])) {
             this.locationHeirarchies = locationHeirarchiesFromJson;
@@ -2884,6 +2884,13 @@ export class DemographicComponent extends FormDeactivateGuardService
 
   isGetFirstId(): boolean {
     if (this.userService === appConstants.USER_SERVICE.FIRSTID) {
+      return true;
+    }
+    return false;
+  }
+
+  isReplacement(): boolean {
+    if (this.userService === appConstants.USER_SERVICE.REPLACEMENT) {
       return true;
     }
     return false;

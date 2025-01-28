@@ -221,7 +221,8 @@ export const copUpdateName = "copCat1AddingName";
 export const USER_SERVICE = {
   RENEWAL : "RENEWAL",
   UPDATE : "UPDATE",
-  FIRSTID: "FIRSTID"
+  FIRSTID: "FIRSTID",
+  REPLACEMENT: "LOST"
 };
 
 export const USER_SERVICETYPE = {
