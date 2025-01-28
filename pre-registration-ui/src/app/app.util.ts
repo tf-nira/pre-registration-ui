@@ -62,18 +62,9 @@ export default class Utils {
       proceed = true;
     }
     if (proceed) {
-      const pipe = new DatePipe(localeId);
       const date = appointment_date.split("-");
-      let appointmentDateTime =
-        date[2] + " " + appConstants.MONTHS[Number(date[1])] + " " + date[0];
-      appointmentDateTime = pipe.transform(appointmentDateTime, "MMM");
-      date[1] = appointmentDateTime;
-      if (ltrLangs.includes(language)) {
-        appointmentDateTime = date.reverse().join(" ");
-      }  else {
-        appointmentDateTime = date.join(" ");
-      }
-      //console.log(appointmentDateTime);
+      // Ensure date stays in "YYYY/MM/DD" format
+      const appointmentDateTime = `${date[0]}/${date[1]}/${date[2]}`;
       return appointmentDateTime;
     } else {
       return appointment_date;
