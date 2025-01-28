@@ -149,6 +149,10 @@ export class PreviewComponent implements OnInit {
               }
             });
           }
+        } else if (control.id === controlId && (control.controlType === "date" || control.controlType === "ageDate")) {
+          const ele = this.previewData[controlId];
+            const dateParts = ele.split("/");
+            this.previewData[controlId] = `${dateParts[2]}/${dateParts[1]}/${dateParts[0]}`;
         }
       });
       if (locations.includes(controlId)) {
