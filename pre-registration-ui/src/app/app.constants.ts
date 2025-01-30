@@ -216,7 +216,11 @@ export const userServiceType = "userServiceType";
 
 export const userServiceTypeCop = "userServiceTypeCop";
 
-export const copUpdateName = "copCat1AddingName";
+export const copAddName = "copCat1AddingName";
+export const copChangeNameOrder = "copCat1ChangeofOrderofNames";
+export const copCompleChange = "copCat1CompleteChangeofName";
+export const removingName = "copCat1RemovingName";
+
 
 export const USER_SERVICE = {
   RENEWAL : "RENEWAL",

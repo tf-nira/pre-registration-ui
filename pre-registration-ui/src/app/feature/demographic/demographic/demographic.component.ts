@@ -124,7 +124,10 @@ export class DemographicComponent extends FormDeactivateGuardService
   userService: string = "";
   userServiceType: string = "";
   //userServiceTypeCop: string = "";
-  copUpdateName: boolean;
+  copAddName: boolean;
+  copChangeNameOrder: boolean;
+  copCompleChange: boolean;
+  removingName: boolean;
   notificationOfChangeServiceType = [];
   notificationOfChangeNameFields = [];
   ageCop: number;
@@ -748,7 +751,7 @@ export class DemographicComponent extends FormDeactivateGuardService
           this.identityData = identityJsonSpec["identity"];
 
           //LOCAL
-          //this.identityData = [];    
+          this.identityData = [];    
 
           let locationHeirarchiesFromJson = [
             ...identityJsonSpec["locationHierarchy"], 
@@ -758,8 +761,8 @@ export class DemographicComponent extends FormDeactivateGuardService
             response[appConstants.RESPONSE]["idSchemaVersion"];
 
             //LOCAL
-          // const fieldDefinitions = await this.loadFieldDefinitions();
-          // this.identityData.push(...fieldDefinitions);
+          const fieldDefinitions = await this.loadFieldDefinitions();
+          this.identityData.push(...fieldDefinitions);
 
           if (Array.isArray(locationHeirarchiesFromJson[0])) {
             this.locationHeirarchies = locationHeirarchiesFromJson;
@@ -1174,8 +1177,17 @@ export class DemographicComponent extends FormDeactivateGuardService
     //if(selectedFieldId==appConstants.userServiceTypeCop){
       //this.userServiceTypeCop=this.userForm.controls[selectedFieldId].value;
     //}
-    if(selectedFieldId==appConstants.copUpdateName){
-      this.copUpdateName=this.userForm.controls[selectedFieldId].value;
+    if(selectedFieldId==appConstants.copAddName){
+      this.copAddName=this.userForm.controls[selectedFieldId].value;
+    }
+    if(selectedFieldId==appConstants.copChangeNameOrder){
+      this.copChangeNameOrder=this.userForm.controls[selectedFieldId].value;
+    }
+    if(selectedFieldId==appConstants.copCompleChange){
+      this.copCompleChange=this.userForm.controls[selectedFieldId].value;
+    }
+    if(selectedFieldId==appConstants.removingName){
+      this.removingName=this.userForm.controls[selectedFieldId].value;
     }
     if(selectedFieldId==appConstants.userServiceType){
       this.userServiceType=this.userForm.controls[selectedFieldId].value;
@@ -2909,7 +2921,7 @@ export class DemographicComponent extends FormDeactivateGuardService
    // const nameFieldsUserServiceCopArr = this.notificationOfChangeServiceType;
     const nameFields = this.notificationOfChangeNameFields;
     //if (nameFieldsUserServiceCopArr.includes(this.userServiceTypeCop)) {
-    if (this.copUpdateName) {
+    if (this.copAddName || this.copChangeNameOrder || this.copCompleChange) {
       const hasValue = nameFields.some((field) => {
         const namefieldCop = this.userForm.controls[field];
         return namefieldCop && namefieldCop.value && namefieldCop.value.trim() !== "";

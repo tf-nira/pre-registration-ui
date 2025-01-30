@@ -4102,7 +4102,11 @@
               <span *ngFor="let alignmentGroup of alignmentGroups">
                   <span *ngFor="let field of uiFieldsForAlignmentGroups[alignmentGroup]; index as uiFieldIndex">
                     <div class="subsection-name" *ngIf="field.SectionName && field.isVisible == true && (field.renderID.startsWith('frm_3a_a1_C_') ||field.renderID.startsWith('frm_3a_a2') || field.renderID.startsWith('frm_3a_a4_') || field.renderID.startsWith('frm_3a_c7_C') || field.renderID.startsWith('frm_3a_c8_C_') || field.renderID.startsWith('frm_3a_a3') || field.renderID.startsWith('frm_3a_b5') || field.renderID.startsWith('frm_isErrorOccurredbyNIRA') || field.renderID.startsWith('frm_3a_b6a'))">
-                      <b>{{field.SectionName}}:</b>
+                      <b *ngIf="field.SectionName !== 'name'">{{ field.SectionName }}:</b>
+                      <b *ngIf="this.copAddName">Adding a Name:</b>
+                      <b *ngIf="this.removingName">Removing a Name:</b>
+                      <b *ngIf="this.copChangeNameOrder">Change of Order of Names:</b>
+                      <b *ngIf="this.copCompleChange">Complete Change of Name:</b>
                     </div>
                   </span>
                 <div class="rowContainer">
