@@ -216,10 +216,10 @@ export const userServiceType = "userServiceType";
 
 export const userServiceTypeCop = "userServiceTypeCop";
 
-export const copAddName = "copCat1AddingName";
-export const copChangeNameOrder = "copCat1ChangeofOrderofNames";
-export const copCompleChange = "copCat1CompleteChangeofName";
-export const removingName = "copCat1RemovingName";
+export const copAddName = "addingName";
+export const copChangeNameOrder = "changeOrderOfNames";
+export const copCompleChange = "completeChangeofName";
+export const removingName = "removingName";
 
 
 export const USER_SERVICE = {

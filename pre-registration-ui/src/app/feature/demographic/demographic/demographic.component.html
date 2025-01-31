@@ -406,8 +406,10 @@
                           <div class="buttonContainer">
                             <button 
                               class="toggleButton" 
-                              [class.active]="userForm.get(field.id)?.value" 
-                              (click)="toggleUserButton(field.id); onChangeHandler(field.id);">
+                              [class.active]="userForm.get(field.id)?.value"
+                              [disabled]="userForm.get(field.id)?.disabled" 
+                              (click)="toggleUserButton(field.id); onChangeHandler(field.id);"
+                              (change)="onChangeHandler(field.id)"> 
                               {{ field.labelName[dataCaptureLanguage] }}
                             </button>
                           </div>

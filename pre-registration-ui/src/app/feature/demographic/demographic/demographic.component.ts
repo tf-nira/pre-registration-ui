@@ -53,7 +53,7 @@ import {
 import identityStubJson from "../../../../assets/identity-spec1.json";
 import { RouterExtService } from "src/app/shared/router/router-ext.service";
 
-import { myFlag, setMyFlag, disabledUiFields} from "src/app/shared/global-vars";
+import { myFlag, setMyFlag, disabledUiFields, Service, setService} from "src/app/shared/global-vars";
 import { and } from "@angular/router/src/utils/collection";
 
 //malay
@@ -353,6 +353,8 @@ export class DemographicComponent extends FormDeactivateGuardService
    * @memberof DemographicComponent
    */
   async ngOnInit() {
+    // Attach onChangeHandler to window so JS can call it
+    (window as any).onChangeHandler = this.onChangeHandler.bind(this);
     console.log("1");
     await this.initialization();
     await this.initializeDataCaptureLanguages();
@@ -1147,8 +1149,6 @@ export class DemographicComponent extends FormDeactivateGuardService
    * and fields are shown/hidden in the UI form.
    */
   async onChangeHandler(selectedFieldId: string) {
-    console.log(this.userForm.value);
-    debugger
     if (this.initializationFlag == false && selectedFieldId == appConstants.userServiceType && this.dataModification != true) {
       for (const control of this.uiFields) {
         if (!(control.id == appConstants.userService || control.id == appConstants.userServiceType)) {
@@ -1200,6 +1200,7 @@ export class DemographicComponent extends FormDeactivateGuardService
           if (this.isConsentMessage) this.consentDeclaration();
         }
         this.userService = this.userForm.controls[selectedFieldId].value;
+        setService(this.userService);
       }
     }
 
@@ -1341,7 +1342,7 @@ export class DemographicComponent extends FormDeactivateGuardService
       await this.processChangeActions(selectedFieldId).then(async () => {
       });
     }
-
+    //console.log(this.userForm.value);
   }
 
 

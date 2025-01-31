@@ -35,8 +35,24 @@ const setAndDisableIfFilled = async (context, args, uiField) => {
             // If the target field is not multilingual
             if (context.userForm.controls[targetField.id]) {
               if (checkboxVal === true){
+              let controlTypeField = String(targetField.controlType);
+               if (controlTypeField === "button") {
+                   console.log("hiyes");
+                   const control = context.userForm.get(targetField.id);
+                   let valueToSetin = Boolean(!valueToSet);
+                   control.setValue(valueToSetin);
+                  // if (window.onChangeHandler) {
+                  //   window.onChangeHandler(targetField.id);
+                  // } else {
+                  //   console.error("onChangeHandler not found on window!");
+                  // }
+                  control.disable();
+                  control.reset();
+               }
+               else{
                 context.userForm.controls[targetField.id].setValue(valueToSet);
                 context.userForm.controls[targetField.id].disable();
+               }          
               }
               else{
                 context.userForm.controls[targetField.id].reset();
