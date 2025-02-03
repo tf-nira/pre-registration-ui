@@ -53,7 +53,7 @@ import {
 import identityStubJson from "../../../../assets/identity-spec1.json";
 import { RouterExtService } from "src/app/shared/router/router-ext.service";
 
-import { myFlag, setMyFlag, disabledUiFields} from "src/app/shared/global-vars";
+import { myFlag, setMyFlag, disabledUiFields, Service, setService} from "src/app/shared/global-vars";
 import { and } from "@angular/router/src/utils/collection";
 
 //malay
@@ -124,7 +124,10 @@ export class DemographicComponent extends FormDeactivateGuardService
   userService: string = "";
   userServiceType: string = "";
   //userServiceTypeCop: string = "";
-  copUpdateName: boolean;
+  copAddName: boolean;
+  copChangeNameOrder: boolean;
+  copCompleChange: boolean;
+  removingName: boolean;
   notificationOfChangeServiceType = [];
   notificationOfChangeNameFields = [];
   ageCop: number;
@@ -350,6 +353,8 @@ export class DemographicComponent extends FormDeactivateGuardService
    * @memberof DemographicComponent
    */
   async ngOnInit() {
+    // Attach onChangeHandler to window so JS can call it
+    (window as any).onChangeHandler = this.onChangeHandler.bind(this);
     console.log("1");
     await this.initialization();
     await this.initializeDataCaptureLanguages();
@@ -1144,8 +1149,6 @@ export class DemographicComponent extends FormDeactivateGuardService
    * and fields are shown/hidden in the UI form.
    */
   async onChangeHandler(selectedFieldId: string) {
-    console.log(this.userForm.value);
-    debugger
     if (this.initializationFlag == false && selectedFieldId == appConstants.userServiceType && this.dataModification != true) {
       for (const control of this.uiFields) {
         if (!(control.id == appConstants.userService || control.id == appConstants.userServiceType)) {
@@ -1174,8 +1177,17 @@ export class DemographicComponent extends FormDeactivateGuardService
     //if(selectedFieldId==appConstants.userServiceTypeCop){
       //this.userServiceTypeCop=this.userForm.controls[selectedFieldId].value;
     //}
-    if(selectedFieldId==appConstants.copUpdateName){
-      this.copUpdateName=this.userForm.controls[selectedFieldId].value;
+    if(selectedFieldId==appConstants.copAddName){
+      this.copAddName=this.userForm.controls[selectedFieldId].value;
+    }
+    if(selectedFieldId==appConstants.copChangeNameOrder){
+      this.copChangeNameOrder=this.userForm.controls[selectedFieldId].value;
+    }
+    if(selectedFieldId==appConstants.copCompleChange){
+      this.copCompleChange=this.userForm.controls[selectedFieldId].value;
+    }
+    if(selectedFieldId==appConstants.removingName){
+      this.removingName=this.userForm.controls[selectedFieldId].value;
     }
     if(selectedFieldId==appConstants.userServiceType){
       this.userServiceType=this.userForm.controls[selectedFieldId].value;
@@ -1188,6 +1200,7 @@ export class DemographicComponent extends FormDeactivateGuardService
           if (this.isConsentMessage) this.consentDeclaration();
         }
         this.userService = this.userForm.controls[selectedFieldId].value;
+        setService(this.userService);
       }
     }
 
@@ -1329,7 +1342,7 @@ export class DemographicComponent extends FormDeactivateGuardService
       await this.processChangeActions(selectedFieldId).then(async () => {
       });
     }
-
+    //console.log(this.userForm.value);
   }
 
 
@@ -2909,7 +2922,7 @@ export class DemographicComponent extends FormDeactivateGuardService
    // const nameFieldsUserServiceCopArr = this.notificationOfChangeServiceType;
     const nameFields = this.notificationOfChangeNameFields;
     //if (nameFieldsUserServiceCopArr.includes(this.userServiceTypeCop)) {
-    if (this.copUpdateName) {
+    if (this.copAddName || this.copChangeNameOrder || this.copCompleChange) {
       const hasValue = nameFields.some((field) => {
         const namefieldCop = this.userForm.controls[field];
         return namefieldCop && namefieldCop.value && namefieldCop.value.trim() !== "";
