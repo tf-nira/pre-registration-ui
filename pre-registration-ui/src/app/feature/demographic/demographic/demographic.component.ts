@@ -753,7 +753,7 @@ export class DemographicComponent extends FormDeactivateGuardService
           this.identityData = identityJsonSpec["identity"];
 
           //LOCAL
-          //this.identityData = [];    
+          this.identityData = [];    
 
           let locationHeirarchiesFromJson = [
             ...identityJsonSpec["locationHierarchy"], 
@@ -763,8 +763,8 @@ export class DemographicComponent extends FormDeactivateGuardService
             response[appConstants.RESPONSE]["idSchemaVersion"];
 
             //LOCAL
-          // const fieldDefinitions = await this.loadFieldDefinitions();
-          // this.identityData.push(...fieldDefinitions);
+           const fieldDefinitions = await this.loadFieldDefinitions();
+           this.identityData.push(...fieldDefinitions);
 
           if (Array.isArray(locationHeirarchiesFromJson[0])) {
             this.locationHeirarchies = locationHeirarchiesFromJson;
@@ -1149,6 +1149,7 @@ export class DemographicComponent extends FormDeactivateGuardService
    * and fields are shown/hidden in the UI form.
    */
   async onChangeHandler(selectedFieldId: string) {
+    debugger
     if (this.initializationFlag == false && selectedFieldId == appConstants.userServiceType && this.dataModification != true) {
       for (const control of this.uiFields) {
         if (!(control.id == appConstants.userService || control.id == appConstants.userServiceType)) {
@@ -2922,7 +2923,7 @@ export class DemographicComponent extends FormDeactivateGuardService
    // const nameFieldsUserServiceCopArr = this.notificationOfChangeServiceType;
     const nameFields = this.notificationOfChangeNameFields;
     //if (nameFieldsUserServiceCopArr.includes(this.userServiceTypeCop)) {
-    if (this.copAddName || this.copChangeNameOrder || this.copCompleChange) {
+    if (this.copAddName) {
       const hasValue = nameFields.some((field) => {
         const namefieldCop = this.userForm.controls[field];
         return namefieldCop && namefieldCop.value && namefieldCop.value.trim() !== "";
