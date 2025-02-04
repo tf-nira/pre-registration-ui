@@ -16,6 +16,8 @@ import { RequestModel } from "src/app/shared/models/request-model/RequestModel";
 import { BookingModel } from "src/app/feature/booking/center-selection/booking.model";
 import identityStubJson from "../../../../assets/identity-spec.json";
 import { BookingService } from "../../booking/booking.service";
+import {Service} from  'src/app/shared/global-vars';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: "app-preview",
@@ -372,19 +374,53 @@ export class PreviewComponent implements OnInit {
   }
 
   getDocumentCategories() {
+    debugger
     const applicantcode = localStorage.getItem("applicantType");
-    return new Promise((resolve) => {
-      this.dataStorageService
-        .getDocumentCategories(applicantcode)
-        .subscribe((response) => {
-          this.documentTypes =
-            response[appConstants.RESPONSE].documentCategories;
-          resolve(true);
-        },
-          (error) => {
-            this.showErrorMessage(error);
-          });
-    });
+    if (Service === appConstants.USER_SERVICE.UPDATE) {
+      const applicantCodesArray = applicantcode.split(","); // Convert "700,702" to ["700", "702"]
+
+        return new Promise((resolve) => {
+          const requests = applicantCodesArray.map((code) =>
+            this.dataStorageService.getDocumentCategories(code) // API call for each code
+          );
+
+          forkJoin(requests).subscribe(
+            (responses) => {
+              let documentCategoriesMap = new Map();
+
+              // Merge document categories from all responses while removing duplicates
+              responses.forEach((response) => {
+                if (response[appConstants.RESPONSE]) {
+                  response[appConstants.RESPONSE].documentCategories.forEach((doc) => {
+                    documentCategoriesMap.set(doc.code, doc); // Using 'code' as a unique identifier
+                  });
+                }
+              });
+
+              this.documentTypes = Array.from(documentCategoriesMap.values()); // Get unique values
+              resolve(true);
+            },
+            (error) => {
+              this.showErrorMessage(error);
+              resolve(false);
+            }
+          );
+        });
+    }
+    else{
+      return new Promise((resolve) => {
+        this.dataStorageService
+          .getDocumentCategories(applicantcode)
+          .subscribe((response) => {
+            this.documentTypes =
+              response[appConstants.RESPONSE].documentCategories;
+            resolve(true);
+          },
+            (error) => {
+              this.showErrorMessage(error);
+            });
+      });
+    }
   }
 
   formatDob(dob: string) {
