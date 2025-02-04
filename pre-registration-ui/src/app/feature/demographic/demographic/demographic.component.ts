@@ -1267,6 +1267,16 @@ export class DemographicComponent extends FormDeactivateGuardService
           });
         }
       } 
+    }if(selectedFieldId !="" && selectedFieldId==this.dateOfBirthFieldIdCop){
+      if(this.userService==appConstants.USER_SERVICE.FIRSTID){
+        if(applicantAge<16 && applicantAge!=null){
+          this.userForm.controls[selectedFieldId].setValue("");
+          this.userForm.controls[selectedFieldId].markAsTouched();
+          this.userForm.controls[selectedFieldId].setErrors({
+            incorrect: true,
+          });
+        }
+      } 
     }
     
     //following code added malay
