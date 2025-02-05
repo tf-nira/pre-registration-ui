@@ -202,7 +202,7 @@ export class DemographicComponent extends FormDeactivateGuardService
   readOnlyMode = false;
   showChangeDataCaptureLangBtn = false;
   localeDtFormat = "";
-  serverDtFormat = "YYYY/MM/DD";
+  serverDtFormat = "DD/MM/YYYY";
 
   @ViewChild("singleSelect") singleSelect: MatSelect;
   /* Subject that emits when the component has been destroyed. */
@@ -1149,6 +1149,7 @@ export class DemographicComponent extends FormDeactivateGuardService
    * and fields are shown/hidden in the UI form.
    */
   async onChangeHandler(selectedFieldId: string) {
+    console.log(this.userForm.value);
     debugger
     if (this.initializationFlag == false && selectedFieldId == appConstants.userServiceType && this.dataModification != true) {
       for (const control of this.uiFields) {
@@ -1211,6 +1212,9 @@ export class DemographicComponent extends FormDeactivateGuardService
       this.dateOfBirthFieldId != "" &&
       identityFormData.identity[this.dateOfBirthFieldId]
     ) {
+      let birth = identityFormData.identity[this.dateOfBirthFieldId]; 
+      let formattedBirth = birth.split('/').reverse().join('/');
+      this.userForm.controls[this.dateOfBirthFieldId].setValue(formattedBirth);
       const dateOfBirthDt = identityFormData.identity[this.dateOfBirthFieldId];
       let calcAge = this.calculateAge(dateOfBirthDt);
       if (calcAge !== "" && Number(calcAge) > -1) {
@@ -1230,6 +1234,9 @@ export class DemographicComponent extends FormDeactivateGuardService
       this.dateOfBirthFieldIdCop != "" &&
       identityFormData.identity[this.dateOfBirthFieldIdCop]
     ){
+      let birthCop = identityFormData.identity[this.dateOfBirthFieldIdCop]; 
+      let formattedBirthCop = birthCop.split('/').reverse().join('/');
+      this.userForm.controls[this.dateOfBirthFieldIdCop].setValue(formattedBirthCop);
       const dateOfBirthDt = identityFormData.identity[this.dateOfBirthFieldIdCop];
       let calcAge = this.calculateAge(dateOfBirthDt);
       if (calcAge !== "" && Number(calcAge) > -1) {
