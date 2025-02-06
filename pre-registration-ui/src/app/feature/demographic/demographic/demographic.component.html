@@ -4341,7 +4341,6 @@
                     <div class="subsection-name" *ngIf="field.SectionName && field.isVisible == true && (field.renderID.startsWith('frm_3a_a1_C_') ||field.renderID.startsWith('frm_3a_a2') || field.renderID.startsWith('frm_3a_a4_') || field.renderID.startsWith('frm_3a_c7_C') || field.renderID.startsWith('frm_3a_c8_C_') || field.renderID.startsWith('frm_3a_a3') || field.renderID.startsWith('frm_3a_b5') || field.renderID.startsWith('frm_isErrorOccurredbyNIRA') || field.renderID.startsWith('frm_3a_b6a'))">
                       <b *ngIf="field.SectionName !== 'name'">{{ field.SectionName }}:</b>
                       <b *ngIf="field.SectionName === 'name' && this.copAddName">Adding a Name:</b>
-                      <b *ngIf="field.SectionName === 'name' && this.removingName">Removing a Name:</b>
                       <b *ngIf="field.SectionName === 'name' && this.copChangeNameOrder">Change of Order of Names:</b>
                       <b *ngIf="field.SectionName === 'name' && this.copCompleChange">Complete Change of Name:</b>
                     </div>
@@ -5374,7 +5373,7 @@
               </mat-action-row>
             </mat-expansion-panel>
 
-            <mat-expansion-panel *ngIf="isCopService() && isRenewalService()" [expanded]="expStep === 20" (opened)="setStep(20)" hideToggle>
+            <mat-expansion-panel *ngIf="isCopService()" [expanded]="expStep === 20" (opened)="setStep(20)" hideToggle>
               <mat-expansion-panel-header>
                 <mat-panel-title>
                   <b>Require a new Card:</b> 
