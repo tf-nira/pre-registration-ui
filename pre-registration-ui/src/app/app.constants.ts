@@ -216,6 +216,8 @@ export const userServiceType = "userServiceType";
 
 export const userServiceTypeCop = "userServiceTypeCop";
 
+export const declaration = "declarationCheckBox";
+
 export const copAddName = "addingName";
 export const copChangeNameOrder = "changeOrderOfNames";
 export const copCompleChange = "completeChangeofName";

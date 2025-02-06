@@ -1278,7 +1278,11 @@ export class DemographicComponent extends FormDeactivateGuardService
         }
       } 
     }
-    
+    if(selectedFieldId !="" && selectedFieldId==appConstants.declaration){
+      if(this.userForm.controls[selectedFieldId].value === false){
+        this.userForm.controls[selectedFieldId].reset();
+      }
+    }
     //following code added malay
 
     /** Execute processShowHideFields on first run to make all fields visible. */
