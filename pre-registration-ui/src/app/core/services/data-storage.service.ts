@@ -32,7 +32,7 @@ export class DataStorageService {
    * @memberof DataStorageService
    */
   
-  serverDtFormat = "DD/MM/YYYY";
+  serverDtFormat = "YYYY/MM/DD";
   constructor(
     private httpClient: HttpClient,
     private appConfigService: AppConfigService,
