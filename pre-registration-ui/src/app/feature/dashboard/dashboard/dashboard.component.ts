@@ -341,7 +341,10 @@ export class DashBoardComponent implements OnInit, OnDestroy {
       dataAvailableLanguages = Utils.reorderLangsForUserPreferredLang(dataAvailableLanguages, this.userPreferredLangCode);
     }
     let applicantName = "";
-    const nameField = applicantResponse["demographicMetadata"][this.name];
+    let nameField = applicantResponse["demographicMetadata"][this.name];
+    if(nameField==null){
+       nameField = applicantResponse["demographicMetadata"][appConstants.PRE_REGISTRATION_IDENTITY_NAME_COP];
+    }
     if (Array.isArray(nameField)) {
       nameField.forEach(fld => {
         if (fld.language == this.userPreferredLangCode) {
