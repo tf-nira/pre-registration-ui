@@ -207,6 +207,7 @@ isStepVisible(step: number): boolean {
   removingName: boolean;
   notificationOfChangeServiceType = [];
   notificationOfChangeNameFields = [];
+  notificationOfChangeRemoveFields = [];
   ageCop: number;
   agePattern: string;
   defaultDay: string;
@@ -1869,6 +1870,11 @@ isStepVisible(step: number): boolean {
                     const notificationOfChangeNameFields = fieldValArray.map(item => item.value);
                     this.notificationOfChangeNameFields = notificationOfChangeNameFields;
                   }
+                  else if(res.name==appConstants.NOTIFICATION_OF_CHANGE.removeFields){
+                    const fieldValArray = res["fieldVal"];
+                    const notificationOfChangeRemoveFields = fieldValArray.map(item => item.value);
+                    this.notificationOfChangeRemoveFields = notificationOfChangeRemoveFields;
+                  }
                 });
               });
               let totalPages = response[appConstants.RESPONSE]["totalPages"];
@@ -2926,7 +2932,7 @@ isStepVisible(step: number): boolean {
     if (error) {
       let text;
       switch (error.error_name) {
-        case 'nameCopRequired': text = `Any one of the field in Update/Change Order of Name is required!`; break;
+        case 'nameCopRequired': text = `Any one of the field in Adding/removing of Name is required!`; break;
         case 'required': text = `${error.control_name}(${error.section_name}) is required!`; break;
         case 'pattern': text = `${error.control_name} has wrong pattern!`; break;
         case 'email': text = `${error.control_name} has wrong email format!`; break;
@@ -3011,10 +3017,12 @@ isStepVisible(step: number): boolean {
   }
 
   nameFieldsCopValidation() {
+    debugger
    // const nameFieldsUserServiceCopArr = this.notificationOfChangeServiceType;
     const nameFields = this.notificationOfChangeNameFields;
+    const nameFieldsRemove = this.notificationOfChangeRemoveFields;
     //if (nameFieldsUserServiceCopArr.includes(this.userServiceTypeCop)) {
-    if (this.copAddName) {
+    if (this.copAddName && this.userForm.valid) {
       const hasValue = nameFields.some((field) => {
         const namefieldCop = this.userForm.controls[field];
         return namefieldCop && namefieldCop.value && namefieldCop.value.trim() !== "";
@@ -3024,6 +3032,17 @@ isStepVisible(step: number): boolean {
         this.userForm.setErrors({ invalidForm: true });
       }
     }
+    if (this.removingName && this.userForm.valid) {
+      const hasTrueValue = nameFieldsRemove.some((field) => {
+        const removeFieldCop = this.userForm.controls[field];
+        return removeFieldCop && removeFieldCop.value === true;
+      });
+    
+      if (!hasTrueValue) {
+        this.userForm.setErrors({ invalidForm: true });
+      }
+    }
+    
   }
 
   nameFieldsCopValidationError(): { control_name: string; error_name: string; error_value: boolean } | null {

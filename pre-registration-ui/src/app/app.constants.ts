@@ -240,6 +240,7 @@ export const USER_SERVICETYPE = {
 export const NOTIFICATION_OF_CHANGE = {
   userServiceTypeCop : "notificationOfChange",
   nameFields : "nocNameFields",
+  removeFields: "nocRemoveFields",
   isCardRequiredCop : "cardRequiredCop",
   cardOptionalCopServiceType : "cardOptionalCop"
 }
