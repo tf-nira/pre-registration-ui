@@ -111,9 +111,9 @@
 <mat-card class="preview__button-container" *ngIf="previewData !== undefined && dataLoaded">
   <button (click)="navigateBack()" class="user__btn user__btn-back">{{ previewLabels.action_back }}</button>
   <span class="spacer"></span>
-  <button matTooltip="{{ helpText.add_applicant }}" (click)="onNewApplication()" class="user__btn user__btn-action">
+  <!-- <button matTooltip="{{ helpText.add_applicant }}" (click)="onNewApplication()" class="user__btn user__btn-action">
     {{ previewLabels.action_add_applicant }}
-  </button>
+  </button> -->
   <button (click)="navigateNext()" class="user__btn" *ngIf="!appPrefetched">
     {{ previewLabels.action_continue }}
   </button>

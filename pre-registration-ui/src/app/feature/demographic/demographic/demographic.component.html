@@ -282,9 +282,6 @@
                 </span>
               </div>
             </span>
-            <mat-action-row>
-              <button mat-button color="primary" (click)="nextStep()">Next</button>
-            </mat-action-row>
           </mat-expansion-panel>
 
           <mat-expansion-panel *ngIf="isCopService()" [expanded]="expStep === 1" (opened)="setStep(1)" hideToggle>
@@ -1441,6 +1438,7 @@
                 </div>
               </span>
               <mat-action-row>
+                <button mat-button color="warn" (click)="prevStep()">Previous</button>
                 <button mat-button color="primary" (click)="nextStep()">Next</button>
               </mat-action-row>
             </mat-expansion-panel>
@@ -5914,7 +5912,6 @@
             
               <mat-action-row>
                 <button mat-button color="warn" (click)="prevStep()">Previous</button>
-                <button mat-button color="primary" (click)="nextStep()">Next</button>
               </mat-action-row>
             </mat-expansion-panel>
             

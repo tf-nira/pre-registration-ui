@@ -112,15 +112,92 @@ export class DemographicComponent extends FormDeactivateGuardService
   setStep(index: number) {
     this.expStep = index;
   }
+///
 
-  nextStep() {
+  // nextStep() {
+  //   this.expStep++;
+  // }
+
+  // prevStep() {
+  //   this.expStep--;
+  // }
+////
+nextStep() {
+  let maxSteps = 23; // Set the total number of steps
+  do {
     this.expStep++;
-  }
+  } while (
+    this.expStep <= maxSteps && 
+    !this.isStepVisible(this.expStep) // Skip hidden steps
+  );
+}
 
-  prevStep() {
+prevStep() {
+  do {
     this.expStep--;
-  }
+  } while (
+    this.expStep >= 0 && 
+    !this.isStepVisible(this.expStep) // Skip hidden steps
+  );
+}
 
+isStepVisible(step: number): boolean {
+  switch (step) {
+    case 0:
+      return true; // Always visible
+    case 1:
+      return this.isCopService();
+    case 2:
+      return this.isCopService();
+    case 3:
+      return !this.isCopService() && !this.isGetFirstId() && !this.isReplacement();
+    case 4:
+      return this.isCopService() || this.isGetFirstId() || this.isReplacement();
+    case 5:
+      return !this.isCopService() && !this.isGetFirstId() && !this.isReplacement(); // Replace with actual condition
+    case 6:
+      return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement();
+    case 7:
+      return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement();
+    case 8:
+      return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement();
+    case 9:
+      return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement();
+    case 10:
+      return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement();
+    case 11:
+      return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement();
+    case 12:
+      return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement();
+    case 13:
+      return !this.isRenewalService()  && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement();
+    case 14:
+      return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement();
+    case 15:
+      return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement();
+    case 16:
+      return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement();
+    case 17:
+      return this.isCopService();
+    case 18:
+      return this.isReplacement();
+    case 19:
+      return !this.isRenewalService()  && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement();
+    case 20:
+      return this.isCopService();
+    case 21:
+      return this.isCopService() && this.isRenewalService();
+    case 22:
+      return this.isGetFirstId();
+    case 23:
+      return true;
+    default:
+      return false;
+  }
+}
+
+
+//////
   userService: string = "";
   userServiceType: string = "";
   //userServiceTypeCop: string = "";
