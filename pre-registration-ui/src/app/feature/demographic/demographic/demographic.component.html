@@ -5623,7 +5623,7 @@
               <span *ngFor="let alignmentGroup of alignmentGroups">
                 <span *ngFor="let field of uiFieldsForAlignmentGroups[alignmentGroup]; index as uiFieldIndex">
 
-                  <div class="subsection-name" *ngIf="field.SectionName && field.isVisible == true && (field.renderID.startsWith('frm_3a_a1_occ') || field.renderID.startsWith('frm_3a_a1I') || field.renderID.startsWith('frm_3a_a2') || field.renderID.startsWith('frm_3a_b5'))">
+                  <div class="subsection-name" *ngIf="field.SectionName && field.isVisible == true && (field.renderID.startsWith('frm_3a_a1_o') || field.renderID.startsWith('frm_3a_a1I') || field.renderID.startsWith('frm_3a_a2') || field.renderID.startsWith('frm_3a_b5'))">
 
                     <b>{{field.SectionName}}:</b>
                   </div>
@@ -5631,7 +5631,7 @@
                 <div class="rowContainer">
                   <span *ngFor="let field of uiFieldsForAlignmentGroups[alignmentGroup]; index as uiFieldIndex">
 
-                    <div class="fieldContainer" *ngIf="field.isVisible == true && (field.renderID.startsWith('frm_3a_a1_occ') || field.renderID.startsWith('frm_3a_a1I') || field.renderID.startsWith('frm_3a_a2') || field.renderID.startsWith('frm_3a_b5'))">
+                    <div class="fieldContainer" *ngIf="field.isVisible == true && (field.renderID.startsWith('frm_3a_a1_o') || field.renderID.startsWith('frm_3a_a1I') || field.renderID.startsWith('frm_3a_a2') || field.renderID.startsWith('frm_3a_b5'))">
 
                       <div class="fieldHeader" [ngStyle]="field.headerStyle">
                         <!-- Create container header with label in user's login lang -->
