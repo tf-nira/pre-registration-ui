@@ -1331,8 +1331,8 @@ isStepVisible(step: number): boolean {
         age: currentAge,
       },
     };
-
-  
+    
+    
     //minor restriction for byreg and bynat
     let applicantAge = Number(this.currentAge);
     if(selectedFieldId !="" && selectedFieldId==this.dateOfBirthFieldId){
@@ -3033,15 +3033,16 @@ isStepVisible(step: number): boolean {
       }
     }
     if (this.removingName && this.userForm.valid) {
-      const hasTrueValue = nameFieldsRemove.some((field) => {
+      const hasValidValue = nameFieldsRemove.some((field) => {
         const removeFieldCop = this.userForm.controls[field];
-        return removeFieldCop && removeFieldCop.value === true;
+        return removeFieldCop && (removeFieldCop.value === true || removeFieldCop.value === "Y");
       });
     
-      if (!hasTrueValue) {
+      if (!hasValidValue) {
         this.userForm.setErrors({ invalidForm: true });
       }
     }
+    
     
   }
 
