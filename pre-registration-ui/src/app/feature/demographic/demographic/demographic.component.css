@@ -458,6 +458,10 @@ mat-icon {
   transition: all 0.3s ease;
   text-align: center;
   text-transform: none;
+  display: flex;
+  align-items: center;  /* Vertically center text */
+  justify-content: center; /* Horizontally center text */
+  margin: 10px auto; /* Centers the button */
 }
 
 /* Active button style */
@@ -482,14 +486,21 @@ mat-icon {
 .toggleButton:focus {
   outline: 2px solid #FFE4E4;
 }
-
-
-/* Disabled button style */
-.toggleButton:disabled {
+/* Disabled button style - Shows 'not-allowed' cursor inside and outside */
+::ng-deep .mat-button-toggle.disabled,
+::ng-deep .mat-button-toggle[disabled],
+::ng-deep .mat-button-toggle.mat-button-toggle-disabled {
   background-color: #f0f0f0;
   color: #ca5454a4;
   cursor: not-allowed;
   border: 1px solid #e0e0e0;
+  opacity: 1 ;
+}
+/* Ensures the 'not-allowed' cursor applies to text inside the button */
+::ng-deep .mat-button-toggle.disabled *,
+::ng-deep .mat-button-toggle[disabled] *,
+::ng-deep .mat-button-toggle.mat-button-toggle-disabled * {
+  cursor: not-allowed !important;
 }
 
 .fieldContainer {

@@ -400,16 +400,18 @@
                           </span>
                         </ng-container>
                         <ng-container *ngIf="field.controlType === 'button'">
-                          <div class="buttonContainer">
-                            <button 
-                              class="toggleButton" 
+                          <span *ngIf="i == 0" [dir]="dataCaptureLangsDir[i]">
+                            <div class="buttonContainer">
+                              <mat-button-toggle
+                              class="toggleButton"
                               [class.active]="userForm.get(field.id)?.value"
-                              [disabled]="userForm.get(field.id)?.disabled" 
-                              (click)="toggleUserButton(field.id); onChangeHandler(field.id);"
-                              (change)="onChangeHandler(field.id)"> 
-                              {{ field.labelName[dataCaptureLanguage] }}
-                            </button>
-                          </div>
+                              [class.disabled]="userForm.get(field.id)?.disabled"
+                              [disabled]="userForm.get(field.id)?.disabled"
+                              (click)="toggleUserButton(field.id); onChangeHandler(field.id);">
+                                {{ field.labelName[dataCaptureLanguage] }}
+                            </mat-button-toggle>
+                            </div>
+                          </span>
                         </ng-container>                        
                         <ng-container *ngIf="field.controlType === 'textbox' && field.type !== 'string'">
                           <div *ngIf="!readOnlyMode" [dir]="dataCaptureLangsDir[i]">
