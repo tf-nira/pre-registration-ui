@@ -208,12 +208,13 @@ isStepVisible(step: number): boolean {
   notificationOfChangeServiceType = [];
   notificationOfChangeNameFields = [];
   notificationOfChangeRemoveFields = [];
-  ageCop: number;
+  // ageCop: string;
   agePattern: string;
   defaultDay: string;
   defaultMonth: string;
   defaultLocation: string;
   currentAge: string = "";
+  currentAgeCop: string = "";
   isNewApplicant = false;
   checked = true;
   dataUploadComplete = true;
@@ -253,6 +254,7 @@ isStepVisible(step: number): boolean {
   isSubmitted = false;
   _moment = moment;
   @ViewChild("age") age: ElementRef;
+  @ViewChild("ageCop") ageCop: ElementRef;
   private _keyboardRef: MatKeyboardRef<MatKeyboardComponent>;
   @ViewChildren("keyboardRef", { read: ElementRef })
   private _attachToElementMesOne: any;
@@ -1020,7 +1022,7 @@ isStepVisible(step: number): boolean {
               else if (validatorItem.type === "beforeApplicantDOB") {
                 let inputDate = new Date(val);
                 let currentDate = new Date();
-                const dateOfBirthValue = this.userForm.controls["dateOfBirth"].value;
+                const dateOfBirthValue = this.userForm.controls[this.dateOfBirthFieldId].value;
                 const applicantDOB = new Date(dateOfBirthValue);
                 currentDate.setHours(0, 0, 0, 0); // Clear time for accurate comparison
                 if (inputDate > currentDate || applicantDOB <= inputDate) {
@@ -1208,9 +1210,12 @@ isStepVisible(step: number): boolean {
       } else if (i == 0 && myFlag == false) {
         controlId = uiField.id;
 
-        if (controlId == "dateOfBirth") {
+        if (controlId == this.dateOfBirthFieldId) {
           controlId = controlId + "_dateCtrl"
           this.currentAge = null;
+        } else if (controlId == this.dateOfBirthFieldIdCop) {
+          controlId = controlId + "_dateCtrl"
+          this.currentAgeCop = null;
         }
         this.userForm.controls[controlId].reset();
 
@@ -1285,6 +1290,7 @@ isStepVisible(step: number): boolean {
 
     let isChild = false;
     let currentAge = null;
+    let currentAgeCop = null;
     if (
       this.dateOfBirthFieldId != "" &&
       identityFormData.identity[this.dateOfBirthFieldId]
@@ -1309,16 +1315,16 @@ isStepVisible(step: number): boolean {
       identityFormData.identity[this.dateOfBirthFieldIdCop]
     ){
       const dateOfBirthDt = identityFormData.identity[this.dateOfBirthFieldIdCop];
-      let calcAge = this.calculateAge(dateOfBirthDt);
-      if (calcAge !== "" && Number(calcAge) > -1) {
-        currentAge = Number(calcAge);
+      let calcAgeCop = this.calculateAge(dateOfBirthDt);
+      if (calcAgeCop !== "" && Number(calcAgeCop) > -1) {
+        currentAgeCop = Number(calcAgeCop);
       }
       const ageToBeAdult = this.config[
         appConstants.CONFIG_KEYS.mosip_adult_age
       ];
       if (
-        Number(this.currentAge) > -1 &&
-        Number(this.currentAge) <= Number(ageToBeAdult)
+        Number(this.currentAgeCop) > -1 &&
+        Number(this.currentAgeCop) <= Number(ageToBeAdult)
       ) {
         isChild = true;
       }
@@ -1329,12 +1335,20 @@ isStepVisible(step: number): boolean {
         ...identityFormData.identity,
         isChild: isChild,
         age: currentAge,
+        ageCop: currentAgeCop,
       },
     };
     
     
     //minor restriction for byreg and bynat
-    let applicantAge = Number(this.currentAge);
+    let applicantAge = null;
+    let applicantAgeCop = null;
+    if(selectedFieldId == this.dateOfBirthFieldId){
+      applicantAge = Number(this.currentAge);
+    } else if(selectedFieldId == this.dateOfBirthFieldIdCop){
+      applicantAgeCop = Number(this.currentAgeCop);
+    }
+
     if(selectedFieldId !="" && selectedFieldId==this.dateOfBirthFieldId){
       if(this.userServiceType==appConstants.USER_SERVICETYPE.BYNATURALISATION || this.userServiceType==appConstants.USER_SERVICETYPE.BYREGISTRATION){
         if(applicantAge<18 && applicantAge!=null){
@@ -1347,7 +1361,7 @@ isStepVisible(step: number): boolean {
       } 
     }if(selectedFieldId !="" && selectedFieldId==this.dateOfBirthFieldIdCop){
       if(this.userService==appConstants.USER_SERVICE.FIRSTID){
-        if(applicantAge<16 && applicantAge!=null){
+        if(applicantAgeCop<16 && applicantAgeCop!=null){
           this.userForm.controls[selectedFieldId].setValue("");
           this.userForm.controls[selectedFieldId].markAsTouched();
           this.userForm.controls[selectedFieldId].setErrors({
@@ -1961,7 +1975,7 @@ isStepVisible(step: number): boolean {
                 this.setDateOfBirth(control.id);
               }
               if (control.controlType === "ageDateCop") {
-                this.setDateOfBirth(control.id);
+                this.setDateOfBirthCop(control.id);
               }
               if (control.controlType === "date") {
                 this.setDate(control.id);
@@ -2085,6 +2099,19 @@ isStepVisible(step: number): boolean {
       this.userForm.controls[`${controlId}_dateCtrl`].setValue(dateMomentObj);
     }
   }
+  
+  setDateOfBirthCop(controlId: string) {
+    const dateValStr = this.user.request.demographicDetails.identity[controlId];
+    const dateMomentObj = moment(dateValStr, this.serverDtFormat, true);
+    if (dateMomentObj.isValid()) {
+      let calcAgeCop = this.calculateAge(dateValStr).toString();
+      if (calcAgeCop !== "" && Number(calcAgeCop) > -1) {
+        this.currentAgeCop = calcAgeCop;
+      }
+      this.userForm.controls[controlId].setValue(dateValStr);
+      this.userForm.controls[`${controlId}_dateCtrl`].setValue(dateMomentObj);
+    }
+  }
 
   setDate(controlId: string) {
     const dateValStr = this.user.request.demographicDetails.identity[controlId];
@@ -2110,18 +2137,21 @@ isStepVisible(step: number): boolean {
       appConstants.CONFIG_KEYS.mosip_id_validation_identity_age
     ];
     const ageRegex = new RegExp(this.agePattern);
-    const ageVal = this.age.nativeElement.value;
-    if (ageVal) {
-      if (
-        ageRegex.test(ageVal) &&
-        Number(ageVal) > -1 &&
-        Number(ageVal) < 150
-      ) {
-        this.currentAge = ageVal;
+
+    if (dateFieldId === this.dateOfBirthFieldId) {
+      const ageVal = this.age.nativeElement.value;
+      if (ageVal) {
+        if (
+          ageRegex.test(ageVal) &&
+           Number(ageVal) > -1 &&
+            Number(ageVal) < 150
+          ) {
+          this.currentAge = ageVal;
+        }
+  
         const now = new Date();
-        const calulatedYear = now.getFullYear() - Number(this.currentAge);
-        const newDate =
-          calulatedYear + "/" + this.defaultMonth + "/" + this.defaultDay;
+        const calculatedYear = now.getFullYear() - Number(ageVal);
+        const newDate = `${calculatedYear}/${this.defaultMonth}/${this.defaultDay}`;
         const newMomentObj = moment(newDate, this.serverDtFormat);
         this.userForm.controls[dateFieldId].setValue(newDate);
         this.userForm.controls[`${dateFieldId}_dateCtrl`].setValue(
@@ -2132,12 +2162,44 @@ isStepVisible(step: number): boolean {
           this.hasDobChangedFromChildToAdult(dateFieldId);
         }
       } else {
-        this.userForm.controls[dateFieldId].setValue("");
-        this.userForm.controls[dateFieldId].markAsTouched();
-        this.userForm.controls[dateFieldId].setErrors({
-          incorrect: true,
-        });
+        this.resetAgeFields(dateFieldId);
       }
+    }else if (dateFieldId === this.dateOfBirthFieldIdCop) {
+      const ageValCop = this.ageCop.nativeElement.value;
+      if (ageValCop) {
+        if (ageRegex.test(ageValCop) && Number(ageValCop) > -1 && Number(ageValCop) < 150) {
+          this.currentAgeCop = ageValCop;
+        }
+  
+        const now = new Date();
+        const calculatedYear = now.getFullYear() - Number(ageValCop);
+        const newDate = `${calculatedYear}/${this.defaultMonth}/${this.defaultDay}`;
+        const newMomentObj = moment(newDate, this.serverDtFormat);
+  
+        this.userForm.controls[dateFieldId].setValue(newDate);
+        this.userForm.controls[`${dateFieldId}_dateCtrl`].setValue(newMomentObj);
+        this.userForm.controls[dateFieldId].setErrors(null);
+  
+        if (this.dataModification) {
+          this.hasDobChangedFromChildToAdult(dateFieldId);
+        }
+      } else {
+        this.resetAgeFields(dateFieldId);
+      }
+    } 
+  }
+  
+  resetAgeFields(dateFieldId: string) {
+    this.userForm.controls[dateFieldId].setValue("");
+    this.userForm.controls[dateFieldId].markAsTouched();
+    this.userForm.controls[dateFieldId].setErrors({ incorrect: true });
+  
+    if (dateFieldId === this.dateOfBirthFieldId) {
+      this.currentAge = "";
+      this.age.nativeElement.value = "";
+    } else if (dateFieldId === this.dateOfBirthFieldIdCop) {
+      this.currentAgeCop = "";
+      this.ageCop.nativeElement.value = "";
     }
   }
 
@@ -2153,31 +2215,49 @@ isStepVisible(step: number): boolean {
     if (newDtMomentObj && newDtMomentObj.isValid()) {
       newDtMomentObj.locale("en-GB");
       let formattedDt = newDtMomentObj.format(this.serverDtFormat);
-      let calcAge = this.calculateAge(formattedDt).toString();
-      if (calcAge !== "" && Number(calcAge) > -1) {
-        this.currentAge = calcAge;
-        this.age.nativeElement.value = this.currentAge;
+  
+      if (controlId === this.dateOfBirthFieldId) {
+        let calcAge = this.calculateAge(formattedDt).toString();
+        if (calcAge !== "" && Number(calcAge) > -1) {
+          this.currentAge = calcAge;
+          this.age.nativeElement.value = this.currentAge;
+        }
+
         this.userForm.controls[controlId].setValue(formattedDt);
         if (this.dataModification) {
           this.hasDobChangedFromChildToAdult(controlId);
         }
-      } else {
-        this.userForm.controls[controlId].setValue("");
-        this.userForm.controls[controlId].markAsTouched();
-        this.userForm.controls[controlId].setErrors({
-          incorrect: true,
-        });
-        this.currentAge = "";
-        this.age.nativeElement.value = "";
+      } else if(controlId === this.dateOfBirthFieldIdCop) {
+        let calcAgeCop = this.calculateAge(formattedDt).toString();
+        if (calcAgeCop !== "" && Number(calcAgeCop) > -1) {
+          this.currentAgeCop = calcAgeCop;
+          this.ageCop.nativeElement.value = this.currentAgeCop;
+        }
+
+        this.userForm.controls[controlId].setValue(formattedDt);
+  
+        if (this.dataModification) {
+          this.hasDobChangedFromChildToAdult(controlId);
+        }
+      }else {
+        this.resetDOBFields(controlId);
       }
     } else {
-      this.userForm.controls[controlId].setValue("");
-      this.userForm.controls[controlId].markAsTouched();
-      this.userForm.controls[controlId].setErrors({
-        incorrect: true,
-      });
+      this.resetDOBFields(controlId);
+    }
+  }
+  
+  resetDOBFields(controlId: string) {
+    this.userForm.controls[controlId].setValue("");
+    this.userForm.controls[controlId].markAsTouched();
+    this.userForm.controls[controlId].setErrors({ incorrect: true });
+  
+    if (controlId === this.dateOfBirthFieldId) {
       this.currentAge = "";
       this.age.nativeElement.value = "";
+    } else if (controlId === this.dateOfBirthFieldIdCop) {
+      this.currentAgeCop = "";
+      this.ageCop.nativeElement.value = "";
     }
   }
 
