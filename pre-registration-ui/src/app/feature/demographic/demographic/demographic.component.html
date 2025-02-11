@@ -977,7 +977,7 @@
                               {{ userForm.get(field.id + '_' + dataCaptureLanguage)["errors"]["customPattern"]["msg"] }}<br>
                             </mat-error>
                           </span>
-                          <span *ngIf="field.controlType === 'ageDate' || field.controlType === 'date' 
+                          <span *ngIf="field.controlType === 'ageDate' || field.controlType === 'ageDateCop'|| field.controlType === 'date' 
                             || field.controlType === 'dropdown' || field.controlType === 'button' 
                             || field.controlType === 'checkbox'
                             || (field.controlType === 'textbox' && field.type === 'string')">
@@ -1249,7 +1249,7 @@
                               {{ userForm.get(field.id + '_' + dataCaptureLanguage)["errors"]["customPattern"]["msg"] }}<br>
                             </mat-error>
                           </span>
-                          <span *ngIf="field.controlType === 'ageDate' || field.controlType === 'date' 
+                          <span *ngIf="field.controlType === 'ageDate' || field.controlType === 'ageDateCop'|| field.controlType === 'date' 
                             || field.controlType === 'dropdown' || field.controlType === 'button' 
                             || field.controlType === 'checkbox'
                             || (field.controlType === 'textbox' && field.type === 'string')">
@@ -1522,7 +1522,7 @@
                               {{ userForm.get(field.id + '_' + dataCaptureLanguage)["errors"]["customPattern"]["msg"] }}<br>
                             </mat-error>
                           </span>
-                          <span *ngIf="field.controlType === 'ageDate' || field.controlType === 'date' 
+                          <span *ngIf="field.controlType === 'ageDate' || field.controlType === 'ageDateCop'|| field.controlType === 'date' 
                             || field.controlType === 'dropdown' || field.controlType === 'button' 
                             || field.controlType === 'checkbox'
                             || (field.controlType === 'textbox' && field.type === 'string')">
