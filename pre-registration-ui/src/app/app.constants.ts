@@ -231,6 +231,13 @@ export const USER_SERVICE = {
   REPLACEMENT: "LOST"
 };
 
+export const TAX_HEADS = {
+  COP_SPELLING_CORRECTION : "CISE",
+  COP_NORMAL : "COI",
+  DAMAGED_CARD: "DMG",
+  REPLACEMENT: "LOST",
+  };
+
 export const USER_SERVICETYPE = {
   BYBIRTH : "CBBI",
   BYNATURALISATION: "NAT",
