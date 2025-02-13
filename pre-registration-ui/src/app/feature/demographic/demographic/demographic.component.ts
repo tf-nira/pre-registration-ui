@@ -182,7 +182,7 @@ isStepVisible(step: number): boolean {
     case 18:
       return this.isReplacement();
     case 19:
-      return !this.isRenewalService()  && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement();
+      return !this.isRenewalService() && !this.isGetFirstId() && !this.isReplacement();
     case 20:
       return this.isCopService();
     case 21:
