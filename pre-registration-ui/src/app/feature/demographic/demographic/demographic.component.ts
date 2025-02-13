@@ -1296,6 +1296,9 @@ isStepVisible(step: number): boolean {
       identityFormData.identity[this.dateOfBirthFieldId]
     ) {
       const dateOfBirthDt = identityFormData.identity[this.dateOfBirthFieldId];
+      let birth = identityFormData.identity[this.dateOfBirthFieldId];
+        let formattedBirth = birth.split('/').reverse().join('/');
+        this.userForm.controls[this.dateOfBirthFieldId].setValue(formattedBirth);
       let calcAge = this.calculateAge(dateOfBirthDt);
       if (calcAge !== "" && Number(calcAge) > -1) {
         currentAge = Number(calcAge);
@@ -1315,6 +1318,10 @@ isStepVisible(step: number): boolean {
       identityFormData.identity[this.dateOfBirthFieldIdCop]
     ){
       const dateOfBirthDt = identityFormData.identity[this.dateOfBirthFieldIdCop];
+        let birthCop = identityFormData.identity[this.dateOfBirthFieldIdCop];
+        let formattedBirthCop = birthCop.split('/').reverse().join('/');
+        this.userForm.controls[this.dateOfBirthFieldIdCop].setValue(formattedBirthCop);
+
       let calcAgeCop = this.calculateAge(dateOfBirthDt);
       if (calcAgeCop !== "" && Number(calcAgeCop) > -1) {
         currentAgeCop = Number(calcAgeCop);
@@ -3038,7 +3045,12 @@ isStepVisible(step: number): boolean {
         Object.keys(controlErrors).forEach(keyError => {
           let label = _this.uiFields.find(f => f.id == key);
           if (!label) label = _this.uiFields.find(f => f.id == key.replace(/_[a-zA-Z]+$/, ''));
-          let sectionName = label ? label.alignmentGroup : 'Unknown Section';
+          let sectionName;
+          if(this.userService==appConstants.USER_SERVICE.UPDATE && label.copAlignmentGroup)
+            sectionName = label ? label.copAlignmentGroup : 'Unknown Section';
+          else
+            sectionName = label ? label.alignmentGroup : 'Unknown Section';
+
           if (label != null) {
             errors.push({
               section_name: sectionName,
@@ -3052,7 +3064,7 @@ isStepVisible(step: number): boolean {
     });
     return errors;
   }
-  
+
   getLocationNameFromFieldId = (fieldId) => {
     let filtered = this.uiFields.find(uiField => uiField.id == fieldId);
     let parentField = this.uiFields.filter(uiField => uiField.locationHierarchyLevel ==

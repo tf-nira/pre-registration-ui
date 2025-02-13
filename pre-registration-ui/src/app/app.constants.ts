@@ -228,7 +228,8 @@ export const USER_SERVICE = {
   RENEWAL : "RENEWAL",
   UPDATE : "UPDATE",
   FIRSTID: "FIRSTID",
-  REPLACEMENT: "LOST"
+  REPLACEMENT: "LOST",
+  NEW : "NEW"
 };
 
 export const TAX_HEADS = {
