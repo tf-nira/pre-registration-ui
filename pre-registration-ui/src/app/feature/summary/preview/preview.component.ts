@@ -376,7 +376,7 @@ export class PreviewComponent implements OnInit {
   getDocumentCategories() {
     debugger
     const applicantcode = localStorage.getItem("applicantType");
-    if (Service === appConstants.USER_SERVICE.UPDATE) {
+    
       const applicantCodesArray = applicantcode.split(","); // Convert "700,702" to ["700", "702"]
 
         return new Promise((resolve) => {
@@ -406,21 +406,6 @@ export class PreviewComponent implements OnInit {
             }
           );
         });
-    }
-    else{
-      return new Promise((resolve) => {
-        this.dataStorageService
-          .getDocumentCategories(applicantcode)
-          .subscribe((response) => {
-            this.documentTypes =
-              response[appConstants.RESPONSE].documentCategories;
-            resolve(true);
-          },
-            (error) => {
-              this.showErrorMessage(error);
-            });
-      });
-    }
   }
 
   formatDob(dob: string) {
