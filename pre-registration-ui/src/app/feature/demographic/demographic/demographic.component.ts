@@ -2095,7 +2095,9 @@ isStepVisible(step: number): boolean {
   }
 
   setDateOfBirth(controlId: string) {
-    const dateValStr = this.user.request.demographicDetails.identity[controlId];
+    let formattedBirth = this.user.request.demographicDetails.identity[controlId];
+    formattedBirth = formattedBirth.split('/').reverse().join('/');
+    const dateValStr = formattedBirth;
     const dateMomentObj = moment(dateValStr, this.serverDtFormat, true);
     if (dateMomentObj.isValid()) {
       let calcAge = this.calculateAge(dateValStr).toString();
@@ -2108,7 +2110,9 @@ isStepVisible(step: number): boolean {
   }
   
   setDateOfBirthCop(controlId: string) {
-    const dateValStr = this.user.request.demographicDetails.identity[controlId];
+    let formattedBirth = this.user.request.demographicDetails.identity[controlId];
+    formattedBirth = formattedBirth.split('/').reverse().join('/');
+    const dateValStr = formattedBirth;
     const dateMomentObj = moment(dateValStr, this.serverDtFormat, true);
     if (dateMomentObj.isValid()) {
       let calcAgeCop = this.calculateAge(dateValStr).toString();
