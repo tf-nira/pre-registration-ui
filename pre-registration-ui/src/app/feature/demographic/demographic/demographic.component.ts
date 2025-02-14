@@ -833,7 +833,7 @@ isStepVisible(step: number): boolean {
           this.identityData = identityJsonSpec["identity"];
 
           //LOCAL
-          //this.identityData = [];    
+          // this.identityData = [];    
 
           let locationHeirarchiesFromJson = [
             ...identityJsonSpec["locationHierarchy"], 
@@ -3048,6 +3048,8 @@ isStepVisible(step: number): boolean {
           let sectionName;
           if(this.userService==appConstants.USER_SERVICE.UPDATE && label.copAlignmentGroup)
             sectionName = label ? label.copAlignmentGroup : 'Unknown Section';
+          else if(this.userService==appConstants.USER_SERVICE.FIRSTID && label.gfAlignmentGroup)
+            sectionName = label ? label.gfAlignmentGroup : 'Unknown Section';
           else
             sectionName = label ? label.alignmentGroup : 'Unknown Section';
 
