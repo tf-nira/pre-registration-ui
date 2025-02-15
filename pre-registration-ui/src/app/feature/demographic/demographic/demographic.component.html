@@ -2117,10 +2117,10 @@
             <mat-expansion-panel *ngIf="!isRenewalService() && !isCopService() && !isGetFirstId() && !isReplacement()" [expanded]="expStep === 8" (opened)="setStep(8)" hideToggle>
               <mat-expansion-panel-header>
                 <mat-panel-title *ngIf="isByBirth()">
-                  <b>Place of Origin and Passport Details:</b>
+                  <b>Place of Origin and Passport Information:</b>
                 </mat-panel-title>
                 <mat-panel-title *ngIf="!isByBirth()">
-                  <b>Place of Origin and Citizenship Details:</b>
+                  <b>Place of Origin and Citizenship Information:</b>
                 </mat-panel-title>
                 
               </mat-expansion-panel-header>
