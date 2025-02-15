@@ -195,7 +195,7 @@
     </span>
   </mat-dialog-actions>
   <p></p>
-  <mat-dialog-actions align="end" [dir]="input.textDirectionArr[0]">
+  <!-- <mat-dialog-actions align="end" [dir]="input.textDirectionArr[0]">
     <button mat-button class="btn-cancel" mat-dialog-close (click)="onNoClick(); cancelConsent(input.data); ">{{
       input.cancelBtn }}</button>
     <span class="spacer"></span>
@@ -204,6 +204,23 @@
         <button [ngClass]="isChecked ? 'btn-submit-disabled' : 'btn-submit'" [disabled]="isChecked" mat-button
           (click)="onNoClick(item.labels.consent.acceptButton)" cdkFocusInitial>
           {{ item.labels.consent.acceptButton }}
+        </button>
+      </div>
+    </div>
+  </mat-dialog-actions> -->
+  <mat-dialog-actions align="end" [dir]="input.textDirectionArr[0]">
+    <!-- Cancel Button -->
+    <button mat-button class="btn-cancel" (click)="confirmationPopUp(input.data)">
+      {{ input.cancelBtn || 'Cancel' }}
+    </button>
+    <!-- Spacer -->
+    <span class="spacer"></span>
+    <!-- Accept Button -->
+    <div *ngFor="let item of input.data">
+      <div *ngIf="item.langCode === input.userPrefferedlangCode">
+        <button [ngClass]="isChecked ? 'btn-submit-disabled' : 'btn-submit'" [disabled]="isChecked" mat-button
+          (click)="onNoClick(item.labels.consent.acceptButton)" cdkFocusInitial>
+          {{ item.labels.consent.acceptButton || 'Accept' }} <!-- Fallback to 'Accept' if acceptButton is not provided -->
         </button>
       </div>
     </div>

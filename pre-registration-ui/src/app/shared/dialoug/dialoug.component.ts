@@ -139,6 +139,32 @@ export class DialougComponent implements OnInit {
     this.dialogRef.close(this.selectedLanguage);
   }
 
+  confirmationPopUp(dataq: any) {
+    const confirmationData = {
+      case: 'CONFIRMATION',
+      title: 'Cancel Terms & Conditions?',
+      message: 'Cancelling the Terms & Conditions will redirect you to the Home Page. Are you sure you want to proceed?',
+      noButtonText: 'No, Go Back', 
+      yesButtonText: 'Yes, Cancel', 
+    };
+  
+    this.dialogBox
+      .open(DialougComponent, {
+        width: '400px',
+        data: confirmationData,
+        disableClose: true,
+      })
+      .afterClosed()
+      .subscribe((result) => {
+        if (result === true) {
+          this.dialogRef.close(dataq);
+          this.cancelConsent(dataq)
+        } else {
+          console.log('Cancellation aborted.');
+        }
+      });
+  }
+
   cancelConsent(message) {
     this.router.navigateByUrl('/dummy', { skipLocationChange: true }).then(() => {
       this.router.navigateByUrl(`${this.userPreferredLangCode}/pre-registration/demographic/new`);

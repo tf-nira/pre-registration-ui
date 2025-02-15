@@ -23,33 +23,35 @@ export class CanDeactivateGuardService
     component: UnloadDeactivateGuardService
   ): boolean | Observable<boolean> | Promise<boolean> {
     if (this.authService.isAuthenticated() && !component.canDeactivate()) {
-      let message;
-      let ok_text;
-      let no_text;
-      return new Promise((resolve) => {
-       this.dataStorageService
-        .getI18NLanguageFiles(localStorage.getItem("userPrefLanguage"))
-        .subscribe((response) => {
-          message = response["dialog"]["navigation_alert"];
-          ok_text = response["dialog"]["action_ok"];
-          no_text = response["dialog"]["title_discard"];
-          const body = {
-            case: "CONFIRMATION",
-            message: message,
-            yesButtonText: ok_text,
-            noButtonText: no_text,
-          };
-          this.dialog
-            .open(DialougComponent, { width: "400px", data: body })
-            .beforeClosed()
-            .subscribe((res) => {
-              if (res === true) resolve(true);
-              else {
-                resolve(true);
-              }
-            });
-        });
-      });
+      // let message;
+      // let ok_text;
+      // let no_text;
+      // return new Promise((resolve) => {
+      //  this.dataStorageService
+      //   .getI18NLanguageFiles(localStorage.getItem("userPrefLanguage"))
+      //   .subscribe((response) => {
+      //     debugger
+      //     message = response["dialog"]["navigation_alert"];
+      //     ok_text = response["dialog"]["action_ok"];
+      //     no_text = response["dialog"]["title_discard"];
+      //     const body = {
+      //       case: "CONFIRMATION",
+      //       message: message,
+      //       yesButtonText: ok_text,
+      //       noButtonText: no_text,
+      //     };
+      //     this.dialog
+      //       .open(DialougComponent, { width: "400px", data: body })
+      //       .beforeClosed()
+      //       .subscribe((res) => {
+      //         if (res === true) resolve(true);
+      //         else {
+      //           resolve(true);
+      //         }
+      //       });
+      //   });
+      // });
+      return true;
     } else return true;
   }
 }
