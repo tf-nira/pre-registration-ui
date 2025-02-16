@@ -168,28 +168,26 @@ isStepVisible(step: number): boolean {
     case 11:
       return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement();
     case 12:
-      return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement();
-    case 13:
       return !this.isRenewalService()  && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement();
+    case 13:
+      return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement();
     case 14:
       return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement();
     case 15:
       return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement();
     case 16:
-      return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement();
+      return this.isCopService();
     case 17:
-      return this.isCopService();
-    case 18:
       return this.isReplacement();
-    case 19:
+    case 18:
       return !this.isRenewalService() && !this.isGetFirstId() && !this.isReplacement();
-    case 20:
+    case 19:
       return this.isCopService();
-    case 21:
+    case 20:
       return this.isCopService() && this.isRenewalService();
-    case 22:
+    case 21:
       return this.isGetFirstId();
-    case 23:
+    case 22:
       return true;
     default:
       return false;
@@ -833,7 +831,7 @@ isStepVisible(step: number): boolean {
           this.identityData = identityJsonSpec["identity"];
 
           //LOCAL
-          // this.identityData = [];    
+          //this.identityData = [];    
 
           let locationHeirarchiesFromJson = [
             ...identityJsonSpec["locationHierarchy"], 
@@ -843,8 +841,8 @@ isStepVisible(step: number): boolean {
             response[appConstants.RESPONSE]["idSchemaVersion"];
 
             //LOCAL
-          //  const fieldDefinitions = await this.loadFieldDefinitions();
-          //  this.identityData.push(...fieldDefinitions);
+            //const fieldDefinitions = await this.loadFieldDefinitions();
+            //this.identityData.push(...fieldDefinitions);
 
           if (Array.isArray(locationHeirarchiesFromJson[0])) {
             this.locationHeirarchies = locationHeirarchiesFromJson;
