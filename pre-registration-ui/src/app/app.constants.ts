@@ -252,3 +252,7 @@ export const NOTIFICATION_OF_CHANGE = {
   isCardRequiredCop : "cardRequiredCop",
   cardOptionalCopServiceType : "cardOptionalCop"
 }
+
+export const APPLICANT_PLACE_OF_RESIDENCE_YEARS_LIVED_FIELD = "applicantPlaceOfResidenceYearsLived";
+
+export const DATE_OF_BIRTH_FIELD = 'dateOfBirth';

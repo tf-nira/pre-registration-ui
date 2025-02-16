@@ -13,6 +13,7 @@ import {
   FormControl,
   Validators,
   AbstractControl,
+  ValidationErrors,
 } from "@angular/forms";
 import { MatDialog } from "@angular/material";
 import { TranslateService } from "@ngx-translate/core";
@@ -108,6 +109,7 @@ export class DemographicComponent extends FormDeactivateGuardService
   expStep = 0;
   filledFieldCount: number;
   filledFields: Number;
+
 
   setStep(index: number) {
     this.expStep = index;
@@ -281,7 +283,7 @@ isStepVisible(step: number): boolean {
   showChangeDataCaptureLangBtn = false;
   localeDtFormat = "";
   serverDtFormat = "YYYY/MM/DD";
-
+  userAge
   @ViewChild("singleSelect") singleSelect: MatSelect;
   /* Subject that emits when the component has been destroyed. */
   protected _onDestroy = new Subject<void>();
@@ -490,7 +492,6 @@ isStepVisible(step: number): boolean {
     if (this.dataModification) {
       await this.getFieldAndData();
     }
-
   }
 
   async getFieldAndData() {
@@ -1255,6 +1256,7 @@ isStepVisible(step: number): boolean {
         }
       }
     }
+ 
     const identityFormData = this.createIdentityJSONDynamic(true, selectedFieldId);
     //if(selectedFieldId==appConstants.userServiceTypeCop){
       //this.userServiceTypeCop=this.userForm.controls[selectedFieldId].value;
@@ -1300,6 +1302,7 @@ isStepVisible(step: number): boolean {
       let calcAge = this.calculateAge(dateOfBirthDt);
       if (calcAge !== "" && Number(calcAge) > -1) {
         currentAge = Number(calcAge);
+        this.userAge = currentAge;
       }
       const ageToBeAdult = this.config[
         appConstants.CONFIG_KEYS.mosip_adult_age
@@ -1323,6 +1326,7 @@ isStepVisible(step: number): boolean {
       let calcAgeCop = this.calculateAge(dateOfBirthDt);
       if (calcAgeCop !== "" && Number(calcAgeCop) > -1) {
         currentAgeCop = Number(calcAgeCop);
+        this.userAge=currentAgeCop
       }
       const ageToBeAdult = this.config[
         appConstants.CONFIG_KEYS.mosip_adult_age
@@ -1454,11 +1458,17 @@ isStepVisible(step: number): boolean {
       await this.processChangeActions(selectedFieldId).then(async () => {
       });
     }
-    //console.log(this.userForm.value);
+    if (selectedFieldId === appConstants.APPLICANT_PLACE_OF_RESIDENCE_YEARS_LIVED_FIELD) {
+      this.validateYearsLived(selectedFieldId);
+    }
+  
+    if (selectedFieldId === appConstants.DATE_OF_BIRTH_FIELD) {
+      this.validateYearsLived(appConstants.APPLICANT_PLACE_OF_RESIDENCE_YEARS_LIVED_FIELD);
+    }
   }
 
 
-  //malay
+  
   processShowHideFields = async (formIdentityData: any, subField?: any) => {
     return new Promise<void>((resolve, reject) => {
       if (subField) {
@@ -3105,7 +3115,6 @@ isStepVisible(step: number): boolean {
   }
 
   isByBirth(): boolean {
-    console.log(this.userServiceType);
     if (this.userServiceType === appConstants.USER_SERVICETYPE.BYBIRTH) {
       return true;
     }
@@ -3156,5 +3165,20 @@ isStepVisible(step: number): boolean {
       control.setValue(!control.value); // Toggle between true and false
     }
   }
+  validateYearsLived(fieldId: string) {
+    const control = this.userForm.get(fieldId);
+    const yearsLived = this.userForm.controls[appConstants.APPLICANT_PLACE_OF_RESIDENCE_YEARS_LIVED_FIELD].value;
+    if (this.userAge !== undefined && this.userAge !== null && yearsLived !== undefined && yearsLived !== null) {
+      if (yearsLived >= this.userAge) {
+        this.userForm.controls[appConstants.APPLICANT_PLACE_OF_RESIDENCE_YEARS_LIVED_FIELD].setErrors({
+          yearsLivedInvalid: { message: "Years Lived should be less than the Age." }
+        });
+      } else {
+        this.userForm.controls[appConstants.APPLICANT_PLACE_OF_RESIDENCE_YEARS_LIVED_FIELD].setErrors(null);
+      }
+    }
+  }
+
+  
   
 }

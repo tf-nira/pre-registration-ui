@@ -1776,6 +1776,17 @@
                               {{ demographiclabels.validation.InvalidMessage}} {{ field.labelName[userPrefLanguage] }}<br>
                               {{ userForm.get(field.id + '_' + dataCaptureLanguage)["errors"]["customPattern"]["msg"] }}<br>
                             </mat-error>
+                            <!-- ERROR HANDLING FOR YEARS LIVED INVALID -->
+                            <mat-error class="primary-errors" *ngIf="
+                                                        !readOnlyMode && primaryuserForm &&
+                                                        userForm.get(field.id ) &&
+                                                        userForm.get(field.id ).hasError('yearsLivedInvalid')"
+                              >
+                            
+                              {{ demographiclabels.validation.InvalidMessage }} {{ field.labelName[userPrefLanguage] }}<br>
+                              {{ userForm.get(field.id)["errors"]["yearsLivedInvalid"]["message"] }}<br>
+                              
+                            </mat-error>
                           </span>
                           <span *ngIf="field.controlType === 'ageDate' || field.controlType === 'date' 
                             || field.controlType === 'dropdown' || field.controlType === 'button' 
@@ -4410,6 +4421,17 @@
                               userForm.get(field.id + '_' + dataCaptureLanguage).touched">
                               {{ field.labelName[userPrefLanguage] }}
                               {{demographiclabels.validation.requiredMessage}}
+                            </mat-error>
+                            <!-- ERROR HANDLING FOR YEARS LIVED INVALID -->
+                            <mat-error class="primary-errors" *ngIf="
+                                                        !readOnlyMode && primaryuserForm &&
+                                                        userForm.get(field.id ) &&
+                                                        userForm.get(field.id ).hasError('yearsLivedInvalid')"
+                              >
+                            
+                              {{ demographiclabels.validation.InvalidMessage }} {{ field.labelName[userPrefLanguage] }}<br>
+                              {{ userForm.get(field.id)["errors"]["yearsLivedInvalid"]["message"] }}<br>
+                              
                             </mat-error>
                             <mat-error class="primary-errors" *ngIf="!readOnlyMode && primaryuserForm &&
                               userForm.get(field.id + '_' + dataCaptureLanguage) &&
