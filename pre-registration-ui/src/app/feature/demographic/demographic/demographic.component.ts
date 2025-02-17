@@ -262,7 +262,9 @@ isStepVisible(step: number): boolean {
   identityData = [];
   uiFields = [];
   alignmentGroups = [];
+  copAlignmentGroups = [];
   uiFieldsForAlignmentGroups = [];
+  uiFieldsForAlignmentGroupsCop=[];
   uiFieldsWithTransliteration = [];
   jsonRulesEngine = new Engine();
   primaryuserForm = false;
@@ -872,6 +874,7 @@ isStepVisible(step: number): boolean {
           //set the alignmentGroups for UI rendering, by default, 3 containers with multilang controls will appear in a row
           //you can update this by combining controls using "alignmentGroup", "containerStyle" and "headerStyle" in UI specs.
           this.setAlignmentGroups();
+          this.setCopAlignmentGroups();
           this.dynamicFields = this.uiFields.filter(
             (fields) =>
               (fields.controlType === "dropdown" ||
@@ -914,6 +917,20 @@ isStepVisible(step: number): boolean {
           this.alignmentGroups.push(obj.alignmentGroup);
         }
         this.uiFieldsForAlignmentGroups[obj.alignmentGroup].push(obj);
+      }
+    });
+  }
+
+  setCopAlignmentGroups() {
+    let rowIndex = 0;
+    this.uiFields.forEach((obj, index) => {
+      if (obj.copAlignmentGroup && obj.copAlignmentGroup != null) {
+        if (!this.copAlignmentGroups.includes(obj.copAlignmentGroup)) {
+          this.uiFieldsForAlignmentGroupsCop[obj.copAlignmentGroup] = [];
+          this.copAlignmentGroups.push(obj.copAlignmentGroup);
+          rowIndex = rowIndex + 1;
+        }
+        this.uiFieldsForAlignmentGroupsCop[obj.copAlignmentGroup].push(obj);
       }
     });
   }
@@ -1460,8 +1477,8 @@ isStepVisible(step: number): boolean {
     }
     if (selectedFieldId === appConstants.APPLICANT_PLACE_OF_RESIDENCE_YEARS_LIVED_FIELD) {
       this.validateYearsLived(selectedFieldId);
-    }
-  
+  }
+
     if (selectedFieldId === appConstants.DATE_OF_BIRTH_FIELD) {
       this.validateYearsLived(appConstants.APPLICANT_PLACE_OF_RESIDENCE_YEARS_LIVED_FIELD);
     }
