@@ -743,7 +743,28 @@ export class PreviewComponent implements OnInit {
     }
     let url = Utils.getURL(this.router.url, "summary", 3);
     url = url + `/${this.preRegId}/acknowledgement`;
-    this.router.navigateByUrl(url);
+    const confirmationData = {
+      case: 'CONFIRMATION',
+      title: 'Proceed with Submission?',
+      message: 'This is a confirmation message to proceed with the entered user data?',
+      noButtonText: 'Discard',
+      yesButtonText: 'Ok',
+    };
+  
+    this.dialog
+      .open(DialougComponent, {
+        width: '400px',
+        data: confirmationData,
+        disableClose: true,
+      })
+      .afterClosed()
+      .subscribe((result) => {
+        if (result === true) {
+          this.router.navigateByUrl(url);
+        } else {
+          console.log('Cancellation aborted.');
+        }
+      });
   }
 
   //malay
