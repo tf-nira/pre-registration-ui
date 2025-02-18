@@ -148,13 +148,13 @@ isStepVisible(step: number): boolean {
     case 0:
       return true; // Always visible
     case 1:
-      return this.isCopService();
+      return this.isCopService() || this.isGetFirstId() || this.isReplacement();
     case 2:
       return this.isCopService();
     case 3:
-      return !this.isCopService() && !this.isGetFirstId() && !this.isReplacement();
+      return this.isCopService();
     case 4:
-      return this.isCopService() || this.isGetFirstId() || this.isReplacement();
+      return !this.isCopService() && !this.isGetFirstId() && !this.isReplacement();
     case 5:
       return !this.isCopService() && !this.isGetFirstId() && !this.isReplacement(); // Replace with actual condition
     case 6:
