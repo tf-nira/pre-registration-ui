@@ -282,6 +282,9 @@
                 </span>
               </div>
             </span>
+            <mat-action-row>
+              <button mat-button color="primary" (click)="nextStep()">Next</button>
+            </mat-action-row>
           </mat-expansion-panel>
 
           <mat-expansion-panel *ngIf="isCopService() || isGetFirstId() || isReplacement()" [expanded]="expStep === 1" (opened)="setStep(1)" hideToggle>
@@ -4495,7 +4498,7 @@
                             <div style="display: flex; justify-content: space-between; align-items: center;">
                               <!-- Left Side: Description -->
                               <span *ngIf="i == 0" [dir]="dataCaptureLangsDir[i]" style="flex: 1; text-align: left;">
-                                {{ field.labelName[userPrefLanguage] }}
+                                {{ field.labelName[userPrefLanguage] }} <span *ngIf="field.required" class="required-annotation">*</span>
                               </span>
                           
                               <!-- Right Side: Dropdown Selection -->
