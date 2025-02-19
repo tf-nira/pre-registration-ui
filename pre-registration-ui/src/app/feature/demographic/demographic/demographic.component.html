@@ -2923,7 +2923,7 @@
           
               <span *ngFor="let alignmentGroup of alignmentGroups">
                 <span *ngFor="let field of uiFieldsForAlignmentGroups[alignmentGroup]; index as uiFieldIndex">
-                  <div class="subsection-name" *ngIf="field.SectionName && field.isVisible == true && field.renderID.startsWith('frm_3a_b6a')">
+                  <div class="subsection-name" *ngIf="field.SectionName && field.isVisible == true && field.renderID.startsWith('frm_3a_b6a') && !isFemale()">
                     <b>{{field.SectionName}}:</b>
                   </div>
                 </span>
