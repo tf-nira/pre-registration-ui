@@ -643,7 +643,7 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
   
   generatePaymentRefNum(demographicData: any) {
     let surname;
-    if(this.userService==appConstants.USER_SERVICE.UPDATE || appConstants.USER_SERVICE.REPLACEMENT){
+    if(this.userService==appConstants.USER_SERVICE.UPDATE || this.userService==appConstants.USER_SERVICE.REPLACEMENT){
       surname = demographicData.surnameCop[0].value;
     }
     else{
