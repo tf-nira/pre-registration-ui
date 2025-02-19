@@ -11,7 +11,6 @@ import * as appConstants from "../../../app.constants";
 import { ConfigService } from "src/app/core/services/config.service";
 import { CodeValueModal } from "src/app/shared/models/demographic-model/code.value.modal";
 import { DialougComponent } from "src/app/shared/dialoug/dialoug.component";
-//malay
 import { RequestModel } from "src/app/shared/models/request-model/RequestModel";
 import { BookingModel } from "src/app/feature/booking/center-selection/booking.model";
 import identityStubJson from "../../../../assets/identity-spec.json";
@@ -40,7 +39,6 @@ export class PreviewComponent implements OnInit {
   apiErrorCodes: any;
   errorlabels: any;
   previewLabels: any;
-  //malay
   registrationCenter: String;
   languagelabels: any;
   bookingDataList = [];
@@ -75,7 +73,6 @@ export class PreviewComponent implements OnInit {
     private translate: TranslateService,
     private activatedRoute: ActivatedRoute,
     private configService: ConfigService,
-    //malay
     private dataService: DataStorageService
   ) {
     this.translate.use(this.userPrefLanguage);
@@ -767,7 +764,6 @@ export class PreviewComponent implements OnInit {
       });
   }
 
-  //malay
   async makeBooking() {
     console.log("in make booking :: ")
     this.bookingDataList = [];

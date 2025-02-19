@@ -117,7 +117,6 @@ export class FileUploadComponent implements OnInit, OnDestroy {
   canDeactivateFlag: boolean;
   checked: true;
   dataUploadComplete: true;
-  //malay
   validationErrorCodes: any;
   jsonRulesEngine = new Engine();
   identityObjCopy:any;
@@ -171,7 +170,7 @@ export class FileUploadComponent implements OnInit, OnDestroy {
           response[appConstants.RESPONSE]["jsonSpec"]["identity"];
         this.identityData = identityJsonSpec["identity"];
 
-        // this.identityData = [];    //malay
+        // this.identityData = [];    
         // const fieldDefinitions = await this.loadFieldDefinitions();
         // this.identityData.push(...fieldDefinitions);
         this.identityData.forEach((obj) => {
@@ -186,7 +185,6 @@ export class FileUploadComponent implements OnInit, OnDestroy {
         });
     });
   }
-  //malay
   // async loadFieldDefinitions() {
   //   const response = await fetch('assets/data/niraUiSpec.json');
   //   return response.json();
@@ -1170,7 +1168,6 @@ export class FileUploadComponent implements OnInit, OnDestroy {
     this.documentCategory = null;
     this.documentType = null;
   }
-  //malay
   
   
   customValidator(
@@ -1378,7 +1375,6 @@ export class FileUploadComponent implements OnInit, OnDestroy {
     if (this.userForm.valid) {
       await this.updateApplicationStatus(appConstants.APPLICATION_STATUS_CODES.incomplete,
         appConstants.APPLICATION_STATUS_CODES.pending);
-      //malay-->pending to booked.
     }
     //Mark all form fields are untouched to prevent errors before Submit. 
     this.uiFields.forEach((control) => {
@@ -1404,7 +1400,6 @@ export class FileUploadComponent implements OnInit, OnDestroy {
     //if yes, and if application status is "Pending_Appointment",
     //then update it to "Application_Incomplete"
     if (!this.userForm.valid) {
-      //malay-->pending changed to booked
       await this.updateApplicationStatus(appConstants.APPLICATION_STATUS_CODES.pending,
         appConstants.APPLICATION_STATUS_CODES.incomplete);
     }
@@ -1571,7 +1566,6 @@ export class FileUploadComponent implements OnInit, OnDestroy {
         }
       });
       if (this.userForm.valid) {
-        //malay-popup
         // open dialog for confirming 
         const message = "Please review your details before proceeding to the next section.";
         const ok_text = "Proceed";
@@ -1589,7 +1583,7 @@ export class FileUploadComponent implements OnInit, OnDestroy {
           .subscribe(async (res) => {
             if (res === true) {
               await this.updateApplicationStatus(appConstants.APPLICATION_STATUS_CODES.incomplete,
-                appConstants.APPLICATION_STATUS_CODES.pending);//malay
+                appConstants.APPLICATION_STATUS_CODES.pending);
               localStorage.setItem("modifyDocument", "false");
               let url = Utils.getURL(this.router.url, "summary");
               this.router.navigateByUrl(url + `/${this.preRegId}/preview`);
