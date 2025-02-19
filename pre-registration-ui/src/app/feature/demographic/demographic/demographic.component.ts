@@ -1305,7 +1305,7 @@ isStepVisible(step: number): boolean {
     }
 
     if(selectedFieldId=="gender"){
-      this.gender= this.userService = this.userForm.controls[selectedFieldId].value;
+      this.gender=this.userForm.controls[selectedFieldId].value;
     }
 
     let isChild = false;
