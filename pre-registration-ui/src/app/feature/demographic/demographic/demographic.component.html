@@ -4364,7 +4364,8 @@
                                     <input matInput [formControlName]="field.id + '_dateCtrl'"
                                       placeholder="{{localeDtFormat}}"
                                       (dateChange)="onDOBChange(field.id);onChangeHandler(field.id);"
-                                      [matDatepicker]="dp" />
+                                      [matDatepicker]="dp" 
+                                      [max]="maxDate"/>
                                     <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
                                     <mat-datepicker #dp></mat-datepicker>
                                   </mat-form-field>
@@ -4376,7 +4377,8 @@
                                   <mat-form-field appearance="legacy">
                                     <input type="number" class="form-control" matInput [value]="currentAge" #age
                                       [disabled]="readOnlyMode" placeholder="{{ 'demographic.label_age' | translate }}"
-                                      (change)="onAgeChange(field.id);onChangeHandler(field.id);">
+                                      (change)="onAgeChange(field.id);onChangeHandler(field.id);"
+                                      [min]="0">
                                   </mat-form-field>
                                   <div class="user__age--years">
                                     {{ "demographic.text_years" | translate }}

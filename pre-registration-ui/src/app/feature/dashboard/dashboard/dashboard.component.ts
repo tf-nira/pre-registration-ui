@@ -830,7 +830,6 @@ export class DashBoardComponent implements OnInit, OnDestroy {
             const notificationDto = new NotificationDtoModel(
               userDetails[this.name][0].value,
               prid,
-              //malay
               appDate,
               appDateTime,
               userDetails.phone,

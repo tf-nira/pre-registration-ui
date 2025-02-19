@@ -57,7 +57,6 @@ import { RouterExtService } from "src/app/shared/router/router-ext.service";
 import { myFlag, setMyFlag, disabledUiFields, Service, setService} from "src/app/shared/global-vars";
 import { and } from "@angular/router/src/utils/collection";
 
-//malay
 interface DependentField {
   fieldId: string;
 }
@@ -109,7 +108,7 @@ export class DemographicComponent extends FormDeactivateGuardService
   expStep = 0;
   filledFieldCount: number;
   filledFields: Number;
-
+  
 
   setStep(index: number) {
     this.expStep = index;
@@ -277,20 +276,20 @@ isStepVisible(step: number): boolean {
   changeActions = [];
   changeActionsNamesArr = [];
   identitySchemaVersion = "";
-  initializationFlag: boolean; //malay
-  identityObj: any = {};    //malay
-  newIdentityObj: any = {}; //malay
-  showPRNField = false; //malay
-  generatedPRN = '';    //malay
+  initializationFlag: boolean; 
+  identityObj: any = {};    
+  newIdentityObj: any = {}; 
+  showPRNField = false; 
+  generatedPRN = '';   
   readOnlyMode = false;
   showChangeDataCaptureLangBtn = false;
   localeDtFormat = "";
   serverDtFormat = "YYYY/MM/DD";
   userAge
+  
   @ViewChild("singleSelect") singleSelect: MatSelect;
   /* Subject that emits when the component has been destroyed. */
   protected _onDestroy = new Subject<void>();
-  /**lines 177 to 284 malay*/
   /* Overloaded the  createIdentityJSONDynamic one 
   during normal onChangeHandler calls and other for onSubmit*/
   private createIdentityJSONDynamic(includingBlankFields: boolean): any;
@@ -454,8 +453,7 @@ isStepVisible(step: number): boolean {
     await this.setFormControlValues();
     /*setting the initialization flag. To control method calls that are required only for the first time 
     when screen is loading*/
-    this.initializationFlag = true;//malay
-
+    this.initializationFlag = true;
     console.log("log1 :: before await this.onChangeHandler ")
     const ongetFieldAndDataPromise = () => new Promise<void>(async (resolve) => {
       await this.onChangeHandler("");
@@ -490,7 +488,7 @@ isStepVisible(step: number): boolean {
      * Otherwise processShowHideFields will be called even if the respective field does not 
      * have dependent attribute.
      */
-    this.initializationFlag = false; //malay
+    this.initializationFlag = false; 
 
     if (this.dataModification) {
       await this.getFieldAndData();
@@ -835,7 +833,7 @@ isStepVisible(step: number): boolean {
           this.identityData = identityJsonSpec["identity"];
 
           //LOCAL
-          //this.identityData = [];    
+          // this.identityData = [];    
 
           let locationHeirarchiesFromJson = [
             ...identityJsonSpec["locationHierarchy"], 
@@ -845,8 +843,8 @@ isStepVisible(step: number): boolean {
             response[appConstants.RESPONSE]["idSchemaVersion"];
 
             //LOCAL
-            //const fieldDefinitions = await this.loadFieldDefinitions();
-            //this.identityData.push(...fieldDefinitions);
+            // const fieldDefinitions = await this.loadFieldDefinitions();
+            // this.identityData.push(...fieldDefinitions);
 
           if (Array.isArray(locationHeirarchiesFromJson[0])) {
             this.locationHeirarchies = locationHeirarchiesFromJson;
@@ -894,7 +892,7 @@ isStepVisible(step: number): boolean {
     });
   }
 
-  //malay
+  
   async loadFieldDefinitions() {
     const response = await fetch('assets/data/niraUiSpec.json');
     return response.json();
@@ -1406,7 +1404,6 @@ isStepVisible(step: number): boolean {
         this.userForm.controls[selectedFieldId].reset();
       }
     }
-    //following code added malay
 
     /** Execute processShowHideFields on first run to make all fields visible. */
     if (this.initializationFlag === true) {
@@ -1480,6 +1477,7 @@ isStepVisible(step: number): boolean {
       await this.processChangeActions(selectedFieldId).then(async () => {
       });
     }
+    
     if (selectedFieldId === appConstants.APPLICANT_PLACE_OF_RESIDENCE_YEARS_LIVED_FIELD) {
       this.validateYearsLived(selectedFieldId);
   }
@@ -1646,7 +1644,7 @@ isStepVisible(step: number): boolean {
     });
   };
 
-  //malay
+  
   processConditionalRequiredValidations(identityFormData, uiField) {
     return new Promise<void>((resolve, reject) => {
       let facts = {};
@@ -2541,7 +2539,7 @@ isStepVisible(step: number): boolean {
       console.log('Number of filled fields:', this.filledFieldCount);
 
       if (this.userForm.valid) {
-        //malay-popup
+        //""-popup
         // open dialog for confirming 
         const message = "Please review your details before proceeding to the next section.";
         const ok_text = "Proceed";
@@ -3045,7 +3043,6 @@ isStepVisible(step: number): boolean {
   }
 
   getValidationErrorMessages() {
-    debugger
     let error: any = this.getFormValidationErrors(this.userForm.controls).shift();
     if(error==null && this.userService==appConstants.USER_SERVICE.UPDATE){
       error=this.nameFieldsCopValidationError();
@@ -3151,7 +3148,6 @@ isStepVisible(step: number): boolean {
   }
 
   nameFieldsCopValidation() {
-    debugger
    // const nameFieldsUserServiceCopArr = this.notificationOfChangeServiceType;
     const nameFields = this.notificationOfChangeNameFields;
     const nameFieldsRemove = this.notificationOfChangeRemoveFields;

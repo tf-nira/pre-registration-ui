@@ -1,6 +1,5 @@
 const setAndDisableIfFilled = async (context, args, uiField) => {
   console.log("setAndDisable called");
-  debugger
   if (args.length > 0) {
     let checkboxVal = context.userForm.controls[`${uiField.id}`].value;
     for (const arg of args) {
