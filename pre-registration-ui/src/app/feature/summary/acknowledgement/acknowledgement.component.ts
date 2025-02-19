@@ -540,7 +540,6 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
             Number(user.bookingTimePrimary.split(":")[0]) < 10
               ? "0" + user.bookingTimePrimary
               : user.bookingTimePrimary,
-            //malay
             contactInfo["phone"] === undefined ? null : contactInfo["phone"],
             contactInfo["email"] === undefined ? null : contactInfo["email"],
             additionalRecipient,
