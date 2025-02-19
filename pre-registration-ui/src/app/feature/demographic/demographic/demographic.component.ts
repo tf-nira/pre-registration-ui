@@ -199,6 +199,7 @@ isStepVisible(step: number): boolean {
 
 //////
   userService: string = "";
+  gender: string = "";
   userServiceType: string = "";
   //userServiceTypeCop: string = "";
   copAddName: boolean;
@@ -1303,6 +1304,10 @@ isStepVisible(step: number): boolean {
         this.userService = this.userForm.controls[selectedFieldId].value;
         setService(this.userService);
       }
+    }
+
+    if(selectedFieldId=="gender"){
+      this.gender= this.userService = this.userForm.controls[selectedFieldId].value;
     }
 
     let isChild = false;
@@ -3133,6 +3138,13 @@ isStepVisible(step: number): boolean {
 
   isByBirth(): boolean {
     if (this.userServiceType === appConstants.USER_SERVICETYPE.BYBIRTH) {
+      return true;
+    }
+    return false;
+  }
+
+  isFemale(): boolean {
+    if (this.gender === "FLE") {
       return true;
     }
     return false;
