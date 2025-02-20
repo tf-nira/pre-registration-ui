@@ -37,7 +37,7 @@ import { LogService } from "src/app/shared/logger/log.service";
 import { FormDeactivateGuardService } from "src/app/shared/can-deactivate-guard/form-guard/form-deactivate-guard.service";
 import { Subscription } from "rxjs";
 import { Engine, Rule } from "json-rules-engine";
-import moment from "moment";
+import moment, { invalid } from "moment";
 import { AuditModel } from "src/app/shared/models/demographic-model/audit.model";
 import { MatSelect } from "@angular/material/select";
 import { ReplaySubject, Subject } from "rxjs";
@@ -2175,11 +2175,12 @@ isStepVisible(step: number): boolean {
     this.agePattern = this.config[
       appConstants.CONFIG_KEYS.mosip_id_validation_identity_age
     ];
-    const ageRegex = new RegExp(this.agePattern);
+
+    const ageRegex = new RegExp('^[1-9]\\d*$');
 
     if (dateFieldId === this.dateOfBirthFieldId) {
       const ageVal = this.age.nativeElement.value;
-      if (ageVal) {
+      if (ageVal && ageRegex.test(ageVal)) {
         if (
           ageRegex.test(ageVal) &&
            Number(ageVal) > -1 &&
@@ -2205,7 +2206,7 @@ isStepVisible(step: number): boolean {
       }
     }else if (dateFieldId === this.dateOfBirthFieldIdCop) {
       const ageValCop = this.ageCop.nativeElement.value;
-      if (ageValCop) {
+      if (ageValCop && ageRegex.test(ageValCop)) {
         if (ageRegex.test(ageValCop) && Number(ageValCop) > -1 && Number(ageValCop) < 150) {
           this.currentAgeCop = ageValCop;
         }
