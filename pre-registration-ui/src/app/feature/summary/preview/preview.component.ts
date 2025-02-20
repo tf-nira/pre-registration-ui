@@ -388,9 +388,14 @@ export class PreviewComponent implements OnInit {
               // Merge document categories from all responses while removing duplicates
               responses.forEach((response) => {
                 if (response[appConstants.RESPONSE]) {
-                  response[appConstants.RESPONSE].documentCategories.forEach((doc) => {
-                    documentCategoriesMap.set(doc.code, doc); // Using 'code' as a unique identifier
-                  });
+                  // response[appConstants.RESPONSE].documentCategories.forEach((doc) => {
+                  //   documentCategoriesMap.set(doc.code, doc); // Using 'code' as a unique identifier
+                  // });
+                  response[appConstants.RESPONSE].documentCategories
+                    .filter(doc => doc.code !== 'POS' && doc.code !== 'POMC' && doc.code !== 'POIS' && doc.code !== 'POPF') // Exclude POS and POMC
+                    .forEach((doc) => {
+                      documentCategoriesMap.set(doc.code, doc);
+                    });
                 }
               });
 
