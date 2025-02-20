@@ -744,9 +744,9 @@ export class DataStorageService {
     }
 
     calculateAge(dateStr: string) {
-      if (moment(dateStr, this.serverDtFormat, true).isValid()) {
+      if (moment(dateStr, "DD/MM/YYYY", true).isValid()) {
         const now = new Date();
-        const born = new Date(dateStr);
+        const born = moment(dateStr,"DD/MM/YYYY").toDate();
         const years = Math.floor(
           (now.getTime() - born.getTime()) / (365.25 * 24 * 60 * 60 * 1000)
         );

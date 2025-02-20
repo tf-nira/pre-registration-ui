@@ -17,6 +17,7 @@ import { NameList } from "src/app/shared/models/demographic-model/name-list.moda
 import { UserModel } from "src/app/shared/models/demographic-model/user.modal";
 import { PRNRequestModel } from "src/app/shared/models/request-model/prnrequestModel";
 import { PRNResponseModel } from "src/app/shared/models/request-model/prnresponseModel";
+import { log } from "util";
 
 
 
@@ -642,16 +643,20 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
   }
   
   generatePaymentRefNum(demographicData: any) {
+    const desiredService = demographicData.userService; 
     let surname;
-    if(this.userService==appConstants.USER_SERVICE.UPDATE || this.userService==appConstants.USER_SERVICE.REPLACEMENT){
+    if(desiredService===appConstants.USER_SERVICE.UPDATE || desiredService===appConstants.USER_SERVICE.REPLACEMENT){
+
       surname = demographicData.surnameCop[0].value;
     }
     else{
       surname = demographicData.surname;
     }
     const nin = demographicData.NIN;
-    const desiredService = demographicData.userService; 
-    const age:number =this.dataStorageService.calculateAge(demographicData.dateOfBirthCop);
+
+    const age:number = this.dataStorageService.calculateAge(demographicData.dateOfBirthCop);
+    //console.log(age);
+
     
   
       if (desiredService ===appConstants.USER_SERVICE.UPDATE){
@@ -663,9 +668,11 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
                    this.requestBody = {
                    service: appConstants.TAX_HEADS.COP_NORMAL,
                    NIN: nin,
-                   fullName: surname
+
+                   fullName: surname+ " " +demographicData.givenNameCop[0].value
                    };
-                    // console.log("consoled from generatePaymentRefNum",this.requestBody);
+                  console.log("consoled from generatePaymentRefNum",this.requestBody);
+
                     this.getPRNResponse();
                     // console.log("this is from the general update");
                }
@@ -674,7 +681,9 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
                this.requestBody = {
                service: appConstants.TAX_HEADS.COP_SPELLING_CORRECTION,
                NIN: nin,
-               fullName: surname
+
+               fullName: surname+ " " +demographicData.givenNameCop[0].value
+
                };
                console.log("consoled from generatePaymentRefNum",this.requestBody);
                if (this.requestBody.fullName &&  this.requestBody.NIN &&  this.requestBody.service) {
@@ -704,7 +713,9 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
             this.requestBody = {
               service: appConstants.TAX_HEADS.DAMAGED_CARD ,
               NIN: nin !== undefined ? nin : null,
-              fullName: surname
+
+              fullName: surname+ " " +demographicData.givenNameCop[0].value
+
             };
              this.getPRNResponse();
           }
