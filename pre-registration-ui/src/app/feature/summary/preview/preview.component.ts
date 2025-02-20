@@ -64,6 +64,8 @@ export class PreviewComponent implements OnInit {
   isNavigateToDemographic = false;
   dataLoaded = false;
   isBookingRequiredFlag = true;
+  docCategoriesField: any[] = []; // Allowing any type (less strict)
+
   constructor(
     private bookingService: BookingService,
     public dialog: MatDialog,
@@ -248,6 +250,13 @@ export class PreviewComponent implements OnInit {
           ) {
             this.uiFields.push(obj);
           }
+          if (
+            obj.inputRequired === true &&
+            obj.controlType !== null &&
+            obj.controlType === "fileupload"
+          ) {
+            this.docCategoriesField.push(obj);
+          }
         });
         this.dynamicFields = this.uiFields.filter(
           (fields) =>
@@ -373,7 +382,6 @@ export class PreviewComponent implements OnInit {
   getDocumentCategories() {
     debugger
     const applicantcode = localStorage.getItem("applicantType");
-    
       const applicantCodesArray = applicantcode.split(","); // Convert "700,702" to ["700", "702"]
 
         return new Promise((resolve) => {
@@ -388,18 +396,29 @@ export class PreviewComponent implements OnInit {
               // Merge document categories from all responses while removing duplicates
               responses.forEach((response) => {
                 if (response[appConstants.RESPONSE]) {
-                  // response[appConstants.RESPONSE].documentCategories.forEach((doc) => {
-                  //   documentCategoriesMap.set(doc.code, doc); // Using 'code' as a unique identifier
-                  // });
-                  response[appConstants.RESPONSE].documentCategories
-                    .filter(doc => doc.code !== 'POS' && doc.code !== 'POMC' && doc.code !== 'POIS' && doc.code !== 'POPF') // Exclude POS and POMC
-                    .forEach((doc) => {
-                      documentCategoriesMap.set(doc.code, doc);
-                    });
+                  response[appConstants.RESPONSE].documentCategories.forEach((doc) => {
+                    documentCategoriesMap.set(doc.code, doc); // Using 'code' as a unique identifier
+                  });
                 }
               });
+              // Clear documentTypes to avoid duplicates
+              this.documentTypes = []; // Clear before assigning filtered values
 
-              this.documentTypes = Array.from(documentCategoriesMap.values()); // Get unique values
+              documentCategoriesMap.forEach((documentCategory, key) => {
+                this.docCategoriesField.forEach((uiDocField) => {
+                  if (uiDocField.subType === key) {  // key is the category code
+                    debugger
+                    if (uiDocField.inputRequired) {
+                      documentCategory["required"] = uiDocField.required;
+                      documentCategory["labelName"] = uiDocField.labelName;
+                      documentCategory["containerStyle"] = uiDocField.containerStyle;
+                      documentCategory["headerStyle"] = uiDocField.headerStyle;
+                      documentCategory["id"] = uiDocField.id;
+                      this.documentTypes.push(documentCategory);
+                    }
+                  }
+                });
+              });
               resolve(true);
             },
             (error) => {
