@@ -643,7 +643,6 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
   }
   
   generatePaymentRefNum(demographicData: any) {
-    debugger
     const desiredService = demographicData.userService; 
     let surname;
     if(desiredService===appConstants.USER_SERVICE.UPDATE || desiredService===appConstants.USER_SERVICE.REPLACEMENT){
