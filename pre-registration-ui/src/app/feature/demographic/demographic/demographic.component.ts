@@ -108,7 +108,6 @@ export class DemographicComponent extends FormDeactivateGuardService
   expStep = 0;
   filledFieldCount: number;
   filledFields: Number;
-  
 
   setStep(index: number) {
     this.expStep = index;
