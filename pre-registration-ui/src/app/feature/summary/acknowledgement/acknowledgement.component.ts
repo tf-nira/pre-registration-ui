@@ -643,6 +643,7 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
   }
   
   generatePaymentRefNum(demographicData: any) {
+    debugger
     const desiredService = demographicData.userService; 
     let surname;
     if(desiredService===appConstants.USER_SERVICE.UPDATE || desiredService===appConstants.USER_SERVICE.REPLACEMENT){
@@ -663,7 +664,8 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
         if (demographicData.isErrorNameChange==="N"  || !("isErrorNameChange" in demographicData)){
           
           if ( age > 16) { 
-            if (demographicData.changeReasonNameChange[0].value != "SPLC" && (demographicData.removingName==="Y"|| demographicData.addingName==="Y"||demographicData.completeChangeofName==="Y" ||demographicData.changeOfDateOfBirth==="Y" ||demographicData.changeInPlaceOfResidence==="Y") )
+            // demographicData.changeReasonNameChange[0].value != "SPLC" &&  removed cause of bocker -> Karthik
+            if ((demographicData.removingName==="Y"|| demographicData.addingName==="Y"||demographicData.completeChangeofName==="Y" ||demographicData.changeOfDateOfBirth==="Y" ||demographicData.changeInPlaceOfResidence==="Y") )
                {
                    this.requestBody = {
                    service: appConstants.TAX_HEADS.COP_NORMAL,
