@@ -1222,6 +1222,8 @@ isStepVisible(step: number): boolean {
         controlId = uiField.id + "_" + language;
         this.userForm.controls[controlId].reset();
         this.userForm.controls[controlId].setValue("");
+        this.processChangeActions(controlId).then(async () => {
+        });
         this.userForm.controls[controlId].setErrors(null);
         this.userForm.controls[controlId].updateValueAndValidity();
       } else if (i == 0 && myFlag == false) {
@@ -1236,6 +1238,8 @@ isStepVisible(step: number): boolean {
         }
         this.userForm.controls[controlId].reset();
         this.userForm.controls[controlId].setValue("");
+        this.processChangeActions(controlId).then(async () => {
+        });
         this.userForm.controls[controlId].setErrors(null);
         this.userForm.controls[controlId].updateValueAndValidity();   
 
