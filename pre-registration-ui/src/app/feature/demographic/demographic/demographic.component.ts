@@ -1222,6 +1222,8 @@ isStepVisible(step: number): boolean {
         controlId = uiField.id + "_" + language;
         this.userForm.controls[controlId].reset();
         this.userForm.controls[controlId].setValue("");
+        this.userForm.controls[controlId].setErrors(null);
+        this.userForm.controls[controlId].updateValueAndValidity();
       } else if (i == 0 && myFlag == false) {
         controlId = uiField.id;
 
@@ -1233,9 +1235,9 @@ isStepVisible(step: number): boolean {
           this.currentAgeCop = null;
         }
         this.userForm.controls[controlId].reset();
-
-
-        this.userForm.controls[controlId].setValue("");   
+        this.userForm.controls[controlId].setValue("");
+        this.userForm.controls[controlId].setErrors(null);
+        this.userForm.controls[controlId].updateValueAndValidity();   
 
       }
     });
@@ -1363,8 +1365,8 @@ isStepVisible(step: number): boolean {
       identity: {
         ...identityFormData.identity,
         isChild: isChild,
-        age: currentAge,
-        ageCop: currentAgeCop,
+        age: this.currentAge,
+        ageCop: this.currentAgeCop,
       },
     };
     
