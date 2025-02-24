@@ -154,6 +154,12 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
           });
           console.log("after appointment deatils")
           const demographicData = user["request"].demographicDetails.identity;
+          const isoDateStr = user["request"].createdDateTime;
+          const dateObj = new Date(isoDateStr);
+          const day = ('0' + dateObj.getDate()).slice(-2);
+          const month = ('0' + (dateObj.getMonth() + 1)).slice(-2);
+          const year = dateObj.getFullYear();
+          this.ackDataItem["submissionDate"] = `${day}/${month}/${year}`;
           let applicationLanguages = Utils.getApplicationLangs(user["request"]);
           applicationLanguages = Utils.reorderLangsForUserPreferredLang(applicationLanguages, this.langCode);
           applicationLanguages.forEach(applicationLang => {
