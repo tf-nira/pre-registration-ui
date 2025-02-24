@@ -25,6 +25,11 @@
      
                 <td><b>{{ ackData.Suname }}</b></td>
                 </tr>
+                <tr>
+                  <td>{{'acknowledgement.submissionDateLabel' | translate }} : </td>
+                
+                  <td><b>{{ ackData.submissionDate}}</b></td>
+                </tr>
                 <tr *ngIf="PRN">
                   <td>{{'acknowledgement.prnLabel'| translate}}: </td>
                      <td><b>{{ PRN }}</b></td>

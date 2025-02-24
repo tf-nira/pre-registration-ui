@@ -715,7 +715,8 @@
     "feeLabel":"Fee",
     "prnErrorMessage1":"Your PRN generation failed",
     "prnErrorMessageCont":"You can pay for  your selected service from any Bank before proceeding to NIRA",
-    "surnamelabel":"Surname"
+    "surnamelabel":"Surname",
+    "submissionDateLabel":"Submission Date"
   },
   "preview": {
     "title_preview": "Applicant Details",
