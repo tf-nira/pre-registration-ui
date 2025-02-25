@@ -34,7 +34,6 @@ const copyAndDisableIfFilled = async (context, args, uiField) => {
                   addDisabledUiField(uiField2);
                 }
               } else {
-                context.userForm.controls[toId].reset();
                 context.userForm.controls[toId].enable();
               }
             });
@@ -61,7 +60,6 @@ const copyAndDisableIfFilled = async (context, args, uiField) => {
                 }
               }
             } else {
-              context.userForm.controls[uiField2.id].reset();
               context.userForm.controls[uiField2.id].enable();
             }
           }
