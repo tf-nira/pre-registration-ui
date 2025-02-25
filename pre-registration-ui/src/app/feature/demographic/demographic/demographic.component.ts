@@ -2186,7 +2186,7 @@ isStepVisible(step: number): boolean {
 
     if (dateFieldId === this.dateOfBirthFieldId) {
       const ageVal = this.age.nativeElement.value;
-      if (ageVal && ageRegex.test(ageVal)) {
+      if (ageVal && ageRegex.test(ageVal) && ageVal<=120) {
         if (
           ageRegex.test(ageVal) &&
            Number(ageVal) > -1 &&
@@ -2212,7 +2212,7 @@ isStepVisible(step: number): boolean {
       }
     }else if (dateFieldId === this.dateOfBirthFieldIdCop) {
       const ageValCop = this.ageCop.nativeElement.value;
-      if (ageValCop && ageRegex.test(ageValCop)) {
+      if (ageValCop && ageRegex.test(ageValCop) && ageValCop<=120) {
         if (ageRegex.test(ageValCop) && Number(ageValCop) > -1 && Number(ageValCop) < 150) {
           this.currentAgeCop = ageValCop;
         }
@@ -2270,6 +2270,9 @@ isStepVisible(step: number): boolean {
         }
 
         this.userForm.controls[controlId].setValue(formattedDt);
+        if(calcAge=="" || Number(calcAge)>120){
+          this.resetDOBFields(controlId);
+        }
         if (this.dataModification) {
           this.hasDobChangedFromChildToAdult(controlId);
         }
@@ -2281,7 +2284,9 @@ isStepVisible(step: number): boolean {
         }
 
         this.userForm.controls[controlId].setValue(formattedDt);
-  
+        if(calcAgeCop=="" || Number(calcAgeCop)>120){
+          this.resetDOBFields(controlId);
+        }
         if (this.dataModification) {
           this.hasDobChangedFromChildToAdult(controlId);
         }
