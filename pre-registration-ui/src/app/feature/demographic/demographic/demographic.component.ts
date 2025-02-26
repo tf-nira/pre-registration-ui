@@ -1034,6 +1034,16 @@ isStepVisible(step: number): boolean {
                   msg = "The date must not be in the future.";
                 }
               }
+              else if (validatorItem.type === "minimumExpiry") {
+                debugger
+                let inputDate = new Date(val);
+                let existancyDate = new Date("2014-08-01");
+                existancyDate.setHours(0, 0, 0, 0); // Clear time for accurate comparison
+                if (inputDate < existancyDate) {
+                  isInvalid = true;
+                  msg = "The date is too old for expiry.";
+                }
+              }
               else if (validatorItem.type === "beforeApplicantDOB") {
                 let inputDate = new Date(val);
                 let currentDate = new Date();
