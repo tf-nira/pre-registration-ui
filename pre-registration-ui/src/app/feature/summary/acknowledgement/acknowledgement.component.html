@@ -37,7 +37,7 @@
                 </tr>
                 <tr *ngIf="PRN">
                   <td>{{'acknowledgement.feeLabel' | translate }}: </td>
-                     <td><b style="color: brown">{{ amount }}</b></td>
+                     <td><b style="color: brown">{{currency}} {{ amount | number:'1.0-0' }}</b></td>
                 </tr>
                 <tr *ngIf="PRNerrorMessage">
                   <td>{{'acknowledgement.prnErrorMessage1'| translate}}:

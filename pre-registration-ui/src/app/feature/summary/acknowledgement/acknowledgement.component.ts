@@ -38,6 +38,7 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
   apiErrorCodes: any;
   showSpinner: boolean = true;
   PRN:string="";
+  currency:string="";
   PRNerrorMessage="";
   amount:string="";
   bookingDataPrimary = "";
@@ -616,6 +617,7 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
       if (response.response != null) {
           this.PRN = response.response.data.prn;
           this.amount = response.response.data.amount;
+		  this.currency = response.response.data.currency;
           
               } 
            

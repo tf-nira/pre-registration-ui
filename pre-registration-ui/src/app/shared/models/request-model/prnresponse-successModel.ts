@@ -5,7 +5,8 @@ export interface PRNResponseSuccessModel {
         errorCode: string;
         errorDesc: string;
         expiryDate: string;
-        amount:string
+        amount:string;
+        currency:string
     }
     
    }
