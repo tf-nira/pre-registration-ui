@@ -220,6 +220,7 @@ isStepVisible(step: number): boolean {
   dataUploadComplete = true;
   hasError = false;
   dataModification: boolean;
+  initialdataModification: boolean;
   showPreviewButton = false;
   dataIncomingSuccessful = false;
   canDeactivateFlag = true;
@@ -688,6 +689,7 @@ isStepVisible(step: number): boolean {
     }
     if (localStorage.getItem(appConstants.MODIFY_USER) === "true") {
       this.dataModification = true;
+      this.initialdataModification = true;
       await this.getPreRegId();
       await this.getUserInfo(this.preRegId);
       if (
@@ -1263,8 +1265,7 @@ isStepVisible(step: number): boolean {
    * and fields are shown/hidden in the UI form.
    */
   async onChangeHandler(selectedFieldId: string) {
-    debugger
-    if (this.initializationFlag == false && selectedFieldId == appConstants.userServiceType && this.dataModification != true) {
+    if (this.initializationFlag == false && selectedFieldId == appConstants.userServiceType && this.initialdataModification!=true) {
       for (const control of this.uiFields) {
         if (!(control.id == appConstants.userService || control.id == appConstants.userServiceType)) {
           const resetHiddenFieldPromise = () => new Promise<void>(async (resolve) => {
@@ -1276,7 +1277,7 @@ isStepVisible(step: number): boolean {
         }
       }
     }
-    if (this.initializationFlag == false && selectedFieldId == appConstants.userService && this.dataModification != true) {
+    if (this.initializationFlag == false && selectedFieldId == appConstants.userService && this.initialdataModification!=true) {
       for (const control of this.uiFields) {
         if (!(control.id == appConstants.userService)) {
           const resetHiddenFieldPromise = () => new Promise<void>(async (resolve) => {
@@ -1420,7 +1421,11 @@ isStepVisible(step: number): boolean {
         this.userForm.controls[selectedFieldId].reset();
       }
     }
-
+    if(selectedFieldId !="" && selectedFieldId==appConstants.declaration){
+      if(this.dataModification){
+        this.initialdataModification=false;
+      }
+    }
     /** Execute processShowHideFields on first run to make all fields visible. */
     if (this.initializationFlag === true) {
       await this.processShowHideFields(formIdentityData);
@@ -2585,6 +2590,7 @@ isStepVisible(step: number): boolean {
               console.log("this.dataModification:: " + this.dataModification);
               this.dataUploadComplete = false;
               if (this.dataModification) {
+                this.dataModification= false;
                 this.subscriptions.push(
                   this.dataStorageService
                     .updateUser(request, this.preRegId)
