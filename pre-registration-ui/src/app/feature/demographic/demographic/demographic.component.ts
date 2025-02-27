@@ -1225,7 +1225,7 @@ isStepVisible(step: number): boolean {
    * This function will reset the value of the hidden field in the form.
    * @param uiField
    */
-  resetHiddenField = (uiField) => {
+  resetHiddenField = async (uiField) => {
     this.dataCaptureLanguages.forEach((language, i) => {
       let controlId = "";
       if (this.isControlInMultiLang(uiField) && myFlag == false) {
@@ -1267,8 +1267,8 @@ isStepVisible(step: number): boolean {
     if (this.initializationFlag == false && selectedFieldId == appConstants.userServiceType && this.dataModification != true) {
       for (const control of this.uiFields) {
         if (!(control.id == appConstants.userService || control.id == appConstants.userServiceType)) {
-          const resetHiddenFieldPromise = () => new Promise<void>((resolve) => {
-            this.resetHiddenField(control);
+          const resetHiddenFieldPromise = () => new Promise<void>(async (resolve) => {
+            await this.resetHiddenField(control);
             resolve();
           });
           await resetHiddenFieldPromise();
@@ -1279,8 +1279,8 @@ isStepVisible(step: number): boolean {
     if (this.initializationFlag == false && selectedFieldId == appConstants.userService && this.dataModification != true) {
       for (const control of this.uiFields) {
         if (!(control.id == appConstants.userService)) {
-          const resetHiddenFieldPromise = () => new Promise<void>((resolve) => {
-            this.resetHiddenField(control);
+          const resetHiddenFieldPromise = () => new Promise<void>(async (resolve) => {
+            await this.resetHiddenField(control);
             resolve();
           });
           await resetHiddenFieldPromise();
@@ -1523,7 +1523,7 @@ isStepVisible(step: number): boolean {
             subField.isVisible = false;
             if(!myFlag){
               
-            resetHiddenFieldFunc(subField);
+              await resetHiddenFieldFunc(subField);
             }
           },
           event: {
