@@ -1227,15 +1227,15 @@ isStepVisible(step: number): boolean {
    * This function will reset the value of the hidden field in the form.
    * @param uiField
    */
-  resetHiddenField =  (uiField) => {
+  resetHiddenField = async (uiField) => {
+    const promises = [];
     this.dataCaptureLanguages.forEach((language, i) => {
       let controlId = "";
       if (this.isControlInMultiLang(uiField) && myFlag == false) {
         controlId = uiField.id + "_" + language;
         this.userForm.controls[controlId].reset();
         this.userForm.controls[controlId].setValue("");
-        this.processChangeActions(controlId).then(async () => {
-        });
+        promises.push(this.processChangeActions(controlId));
         this.userForm.controls[controlId].setErrors(null);
         this.userForm.controls[controlId].updateValueAndValidity();
       } else if (i == 0 && myFlag == false) {
@@ -1250,13 +1250,13 @@ isStepVisible(step: number): boolean {
         }
         this.userForm.controls[controlId].reset();
         this.userForm.controls[controlId].setValue("");
-        this.processChangeActions(controlId).then(async () => {
-        });
+        promises.push(this.processChangeActions(controlId));
         this.userForm.controls[controlId].setErrors(null);
         this.userForm.controls[controlId].updateValueAndValidity();   
 
       }
     });
+    await Promise.all(promises);
   };
 
   /**
@@ -1265,30 +1265,51 @@ isStepVisible(step: number): boolean {
    * and fields are shown/hidden in the UI form.
    */
   async onChangeHandler(selectedFieldId: string) {
-    if (this.initializationFlag == false && selectedFieldId == appConstants.userServiceType && this.initialdataModification!=true) {
+    console.log(myFlag,"myFlagmyFlagmyFlagmyFlagmyFlagmyFlag");
+    // if (this.initializationFlag == false && selectedFieldId == appConstants.userServiceType && this.initialdataModification!=true) {
+    //   for (const control of this.uiFields) {
+    //     if (!(control.id == appConstants.userService || control.id == appConstants.userServiceType)) {
+    //       const resetHiddenFieldPromise = () => new Promise<void>(async (resolve) => {
+    //       await this.resetHiddenField(control);
+    //         resolve();
+    //       });
+    //       await resetHiddenFieldPromise();
+    //       await this.onChangeHandler(control.id);
+    //     }
+    //   }
+    // }
+    if (this.initializationFlag == false && selectedFieldId == appConstants.userServiceType && this.initialdataModification != true) {
+      // Process fields sequentially with proper async handling
       for (const control of this.uiFields) {
-        if (!(control.id == appConstants.userService || control.id == appConstants.userServiceType)) {
-          const resetHiddenFieldPromise = () => new Promise<void>( (resolve) => {
-           this.resetHiddenField(control);
-            resolve();
-          });
-          await resetHiddenFieldPromise();
+        if (control.id != appConstants.userService && control.id != appConstants.userServiceType) {
+          // Use await directly instead of creating a new Promise wrapper
+          await this.resetHiddenField(control);
           await this.onChangeHandler(control.id);
         }
       }
     }
-    if (this.initializationFlag == false && selectedFieldId == appConstants.userService && this.initialdataModification!=true) {
+    if (this.initializationFlag == false && selectedFieldId == appConstants.userService && this.initialdataModification != true) {
+      // Process fields sequentially with proper async handling
       for (const control of this.uiFields) {
-        if (!(control.id == appConstants.userService)) {
-          const resetHiddenFieldPromise = () => new Promise<void>( (resolve) => {
-           this.resetHiddenField(control);
-            resolve();
-          });
-          await resetHiddenFieldPromise();
+        if (control.id != appConstants.userService) {
+          // Use await directly instead of creating a new Promise wrapper
+          await this.resetHiddenField(control);
           await this.onChangeHandler(control.id);
         }
       }
     }
+    // if (this.initializationFlag == false && selectedFieldId == appConstants.userService && this.initialdataModification!=true) {
+    //   for (const control of this.uiFields) {
+    //     if (!(control.id == appConstants.userService)) {
+    //       const resetHiddenFieldPromise = () => new Promise<void>(async (resolve) => {
+    //       await this.resetHiddenField(control);
+    //         resolve();
+    //       });
+    //       await resetHiddenFieldPromise();
+    //       await this.onChangeHandler(control.id);
+    //     }
+    //   }
+    // }
  
     const identityFormData = this.createIdentityJSONDynamic(true, selectedFieldId);
     //if(selectedFieldId==appConstants.userServiceTypeCop){
@@ -1424,6 +1445,7 @@ isStepVisible(step: number): boolean {
     if(selectedFieldId !="" && selectedFieldId==appConstants.declaration){
       if(this.dataModification){
         this.initialdataModification=false;
+        setMyFlag(false);
       }
     }
     /** Execute processShowHideFields on first run to make all fields visible. */
@@ -1528,7 +1550,7 @@ isStepVisible(step: number): boolean {
             subField.isVisible = false;
             if(!myFlag){
               
-              resetHiddenFieldFunc(subField);
+            await  resetHiddenFieldFunc(subField);
             }
           },
           event: {
