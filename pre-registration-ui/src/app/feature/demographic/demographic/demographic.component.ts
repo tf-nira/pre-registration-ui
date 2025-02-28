@@ -1265,7 +1265,6 @@ isStepVisible(step: number): boolean {
    * and fields are shown/hidden in the UI form.
    */
   async onChangeHandler(selectedFieldId: string) {
-    console.log(myFlag,"myFlagmyFlagmyFlagmyFlagmyFlagmyFlag");
     // if (this.initializationFlag == false && selectedFieldId == appConstants.userServiceType && this.initialdataModification!=true) {
     //   for (const control of this.uiFields) {
     //     if (!(control.id == appConstants.userService || control.id == appConstants.userServiceType)) {
