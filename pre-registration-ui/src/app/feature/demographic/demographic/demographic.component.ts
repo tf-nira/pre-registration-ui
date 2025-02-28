@@ -1278,20 +1278,16 @@ isStepVisible(step: number): boolean {
     //   }
     // }
     if (this.initializationFlag == false && selectedFieldId == appConstants.userServiceType && this.initialdataModification != true) {
-      // Process fields sequentially with proper async handling
       for (const control of this.uiFields) {
         if (control.id != appConstants.userService && control.id != appConstants.userServiceType) {
-          // Use await directly instead of creating a new Promise wrapper
           await this.resetHiddenField(control);
           await this.onChangeHandler(control.id);
         }
       }
     }
     if (this.initializationFlag == false && selectedFieldId == appConstants.userService && this.initialdataModification != true) {
-      // Process fields sequentially with proper async handling
       for (const control of this.uiFields) {
         if (control.id != appConstants.userService) {
-          // Use await directly instead of creating a new Promise wrapper
           await this.resetHiddenField(control);
           await this.onChangeHandler(control.id);
         }
