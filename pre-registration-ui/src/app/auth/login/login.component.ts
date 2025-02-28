@@ -51,7 +51,7 @@ export class LoginComponent implements OnInit {
   siteKey: any;
   enableCaptcha = false;
   enableSendOtp: boolean;
-  showCaptcha = true;
+  showCaptcha = false;
   captchaError: boolean;
   mandatoryLanguages: string[];
   optionalLanguages: string[];
@@ -377,8 +377,13 @@ export class LoginComponent implements OnInit {
   }
 
   verifyInput() {
-    //this.loginIdValidator();
-    this.errorMessage ="";
+    this.loginIdValidator();
+    if(this.errorMessage !=""){
+      this.showCaptcha=false;
+    }
+    else{
+      this.showCaptcha=true;
+    }
   }
 
   timerFn = () => {

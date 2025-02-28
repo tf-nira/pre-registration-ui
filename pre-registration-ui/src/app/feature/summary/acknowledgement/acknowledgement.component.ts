@@ -670,41 +670,22 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
       if (desiredService ===appConstants.USER_SERVICE.UPDATE){
         if (demographicData.isErrorNameChange==="N"  || !("isErrorNameChange" in demographicData)){
           
-          if ( age > 16) { 
-            // demographicData.changeReasonNameChange[0].value != "SPLC" &&  removed cause of bocker -> Karthik
-            if ((demographicData.removingName==="Y"|| demographicData.addingName==="Y"||demographicData.completeChangeofName==="Y" ||demographicData.changeOfDateOfBirth==="Y" ||demographicData.changeInPlaceOfResidence==="Y") )
-               {
-                   this.requestBody = {
-                   service: appConstants.TAX_HEADS.COP_NORMAL,
-                   NIN: nin,
+          if (age >= 16) {
+            if ((demographicData.removingName === "Y" || demographicData.addingName === "Y" || demographicData.completeChangeofName === "Y" || demographicData.changeOfDateOfBirth === "Y" || demographicData.changeInPlaceOfResidence === "Y")) {
+              this.requestBody = {
+                service: appConstants.TAX_HEADS.COP_NORMAL,
+                NIN: nin,
 
-                   fullName: surname+ " " +demographicData.givenNameCop[0].value
-                   };
-                  console.log("consoled from generatePaymentRefNum",this.requestBody);
+                fullName: surname + " " + demographicData.givenNameCop[0].value
+              };
+              console.log("consoled from generatePaymentRefNum", this.requestBody);
 
-                    this.getPRNResponse();
-                    // console.log("this is from the general update");
-               }
-           else if((demographicData.removingName==="Y"|| demographicData.addingName==="Y"||demographicData.completeChangeofName==="Y" ||demographicData.changeOfDateOfBirth==="Y" ||demographicData.changeInPlaceOfResidence==="Y") && demographicData.changeReasonNameChange[0].value === "SPLC" )
-                {
-               this.requestBody = {
-               service: appConstants.TAX_HEADS.COP_SPELLING_CORRECTION,
-               NIN: nin,
+              this.getPRNResponse();
+              // console.log("this is from the general update");
+            }
 
-               fullName: surname+ " " +demographicData.givenNameCop[0].value
-
-               };
-               console.log("consoled from generatePaymentRefNum",this.requestBody);
-               if (this.requestBody.fullName &&  this.requestBody.NIN &&  this.requestBody.service) {
-                    console.log(this.requestBody);
-                   this.getPRNResponse();
-                  //  console.log("this is from spelling error");
-                 
-                 } 
-               }
-  
-         }
-         }
+          }
+        }
    }
   else if(desiredService ===appConstants.USER_SERVICE.REPLACEMENT){
           if(demographicData.userServiceTypeReplacement[0].value==="LOST"){

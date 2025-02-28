@@ -1414,21 +1414,15 @@ isStepVisible(step: number): boolean {
     if(selectedFieldId !="" && selectedFieldId==this.dateOfBirthFieldId){
       if(this.userServiceType==appConstants.USER_SERVICETYPE.BYNATURALISATION || this.userServiceType==appConstants.USER_SERVICETYPE.BYREGISTRATION){
         if(applicantAge<18 && applicantAge!=null){
-          this.userForm.controls[selectedFieldId].setValue("");
-          this.userForm.controls[selectedFieldId].markAsTouched();
-          this.userForm.controls[selectedFieldId].setErrors({
-            incorrect: true,
-          });
+          this.resetDOBFields(selectedFieldId+"_dateCtrl");
+          this.resetAgeFields(selectedFieldId);
         }
       } 
     }if(selectedFieldId !="" && selectedFieldId==this.dateOfBirthFieldIdCop){
       if(this.userService==appConstants.USER_SERVICE.FIRSTID){
         if(applicantAgeCop<16 && applicantAgeCop!=null){
-          this.userForm.controls[selectedFieldId].setValue("");
-          this.userForm.controls[selectedFieldId].markAsTouched();
-          this.userForm.controls[selectedFieldId].setErrors({
-            incorrect: true,
-          });
+          this.resetDOBFields(selectedFieldId+"_dateCtrl");
+          this.resetAgeFields(selectedFieldId);
         }
       } 
     }
@@ -1941,6 +1935,9 @@ isStepVisible(step: number): boolean {
               this.dynamicFields.forEach((field) => {
                 dynamicField.forEach((res) => {
                   if (field.subType === res.name || field.id === res.name) {
+                    if(res.name==appConstants.Tribe){
+                      res.fieldVal.sort((a, b) => a.value.localeCompare(b.value));
+                    }
                     this.populateSelectOptsDataArr(
                       field.id,
                       res["fieldVal"],

@@ -47,7 +47,7 @@
         </div>
         <div *ngIf="enableCaptcha && showCaptcha">
           <form >
-            <altcha-widget [challengeurl]="challengeUrl" (statechange)="handleAltchaState($event)"></altcha-widget>
+            <altcha-widget [challengeurl]="challengeUrl" (statechange)="handleAltchaState($event)" style="width: 100%; display: block; margin-bottom: 20px;"></altcha-widget>
             <div *ngIf="errorMessage" class="error-message">
               {{ captchaErrorMessage }}
             </div>
