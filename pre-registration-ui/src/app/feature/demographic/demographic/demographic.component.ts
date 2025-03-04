@@ -2989,7 +2989,8 @@ isStepVisible(step: number): boolean {
    * @param {number} index
    * @memberof DemographicComponent
    */
-  openKeyboard(controlName: string, langCode: string) {
+  async openKeyboard(controlName: string, langCode: string) {
+    debugger
     let control: AbstractControl;
     let formControlName = controlName + "_" + langCode;
     let multiLangControls = [];
@@ -3025,12 +3026,44 @@ isStepVisible(step: number): boolean {
       if (this.userForm.controls[formControlName]) {
         control = this.userForm.controls[formControlName];
       }
+
+      // Ensure index is valid and an element exists at that position
+      let el: ElementRef | null = this._attachToElementMesOne._results[index] || null;
+
+      if (!el || !el.nativeElement) {
+        // console.warn(`Element at index ${index} not found for field ${formControlName}. Creating a dummy element.`);
+
+        // // Create a hidden dummy input
+        // const dummyInput = document.createElement("input");
+        // dummyInput.setAttribute("type", "text");
+        // dummyInput.setAttribute("id", `dummy-${formControlName}`);
+        // dummyInput.style.position = "absolute";
+        // dummyInput.style.opacity = "0";
+        // dummyInput.style.height = "0";
+        // dummyInput.style.width = "0";
+        // dummyInput.style.zIndex = "-1"; // Keep it hidden
+
+
+        // // Append dummy input to the body
+        // document.body.appendChild(dummyInput);
+
+        // // Wrap it in an ElementRef
+        // el = new ElementRef(dummyInput);
+
+        // Store the dummy input in the results array for future reference
+        // this._attachToElementMesOne._results[index] = el;
+        
+        this._attachToElementMesOne._results[index] = this._attachToElementMesOne._results[0];
+        el= this._attachToElementMesOne._results[index];
+      }
+      await new Promise((resolve) => setTimeout(resolve, 50)); 
+      
+
       if (this.oldKeyBoardIndex == index && this.matKeyboardService.isOpened) {
         this.matKeyboardService.dismiss();
+        this.oldKeyBoardIndex = -1;
       } else {
-        let el: ElementRef;
         this.oldKeyBoardIndex = index;
-        el = this._attachToElementMesOne._results[index];
         el.nativeElement.focus();
         this._keyboardRef = this.matKeyboardService.open(localeId);
         this._keyboardRef.instance.setInputInstance(el);
