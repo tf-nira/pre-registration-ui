@@ -584,89 +584,96 @@ export class FileUploadComponent implements OnInit, OnDestroy {
    */
   async getDocumentCategories(applicantcode) {
     debugger
-      return new Promise((resolve) => {
-        let applicantTypeCodes = applicantcode.split(","); // Supports multiple applicant codes
-        let requests = applicantTypeCodes.map((code) =>
-          this.dataStorageService.getDocumentCategoriesByLang(code, this.userPrefLanguage)
-        );
-  
-        this.subscriptions.push(
-          forkJoin(requests).subscribe(
-            (responses) => {
-              let documentCategoriesMap = new Map();
-  
-              // Merge document categories from all responses, avoiding duplicates
-              responses.forEach((res) => {
-                if (res[appConstants.RESPONSE]) {
-                  res["response"].documentCategories.forEach((doc) => {
-                    if (!documentCategoriesMap.has(doc.code)) {
-                      documentCategoriesMap.set(doc.code, doc);
-                    }
-                  });
-                }
-              });
-  
-              let documentCategories = Array.from(documentCategoriesMap.values());
-  
-              // Sort documentCategories based on the order of uiFields
-              documentCategories.sort((a, b) => {
-                const indexA = this.uiFields.findIndex(
-                  (uiField) => uiField.subType === a.code
-                );
-                const indexB = this.uiFields.findIndex(
-                  (uiField) => uiField.subType === b.code
-                );
-                return indexA - indexB;
-              });
-  
-              documentCategories.forEach((documentCategory) => {
-                this.uiFields.forEach((uiField) => {
-                  if (uiField.subType == documentCategory.code) {
-                    if (uiField.inputRequired) {
-                      documentCategory["required"] = uiField.required;
-                      documentCategory["labelName"] = uiField.labelName;
-                      documentCategory["containerStyle"] = uiField.containerStyle;
-                      documentCategory["headerStyle"] = uiField.headerStyle;
-                      documentCategory["id"] = uiField.id;
-                      this.userForm.addControl(uiField.id, new FormControl(""));
-  
-                      if (uiField.required) {
-                        this.userForm.controls[uiField.id].setValidators(
-                          Validators.required
-                        );
-                      }
-                      this.userForm.controls[uiField.id].setValue("");
-                      this.LOD.push(documentCategory);
-                    }
+    return new Promise((resolve) => {
+      let applicantTypeCodes = applicantcode.split(","); // Supports multiple applicant codes
+      let requests = applicantTypeCodes.map((code) =>
+        this.dataStorageService.getDocumentCategoriesByLang(code, this.userPrefLanguage)
+      );
+    
+      this.subscriptions.push(
+        forkJoin(requests).subscribe(
+          (responses) => {
+            let documentCategoriesMap = new Map();
+    
+            // Process responses to build a unique document categories map
+            responses.forEach((res) => {
+              if (res[appConstants.RESPONSE]) {
+                res["response"].documentCategories.forEach((doc) => {
+                  if (!documentCategoriesMap.has(doc.code)) {
+                    documentCategoriesMap.set(doc.code, { 
+                      ...doc, 
+                      documentTypes: [] 
+                    });
                   }
-                });
-              });
-  
-              // Handle userFiles metadata
-              if (this.userFiles && this.userFiles["documentsMetaData"]) {
-                this.userFiles["documentsMetaData"].forEach((userFile) => {
-                  this.uiFields.forEach((uiField) => {
-                    if (uiField.subType == userFile.docCatCode) {
-                      if (this.userForm.controls[uiField.id]) {
-                        this.userForm.controls[uiField.id].setValue(
-                          userFile.docName
-                        );
-                      }
+                  let existingCategory = documentCategoriesMap.get(doc.code);
+
+                  if (!doc.documentTypes) {
+                    doc.documentTypes = [];
+                  }
+
+                  doc.documentTypes.forEach((docType) => {
+                    if (!existingCategory.documentTypes.some((existing) => existing.code === docType.code)) {
+                      existingCategory.documentTypes.push(docType);
                     }
                   });
                 });
               }
-  
-              this.enableBrowseButtonList = new Array(this.LOD.length).fill(false);
-              this.onModification();
-              resolve(true);
-            },
-            (error) => {
-              this.showErrorMessage(error);
+            });
+    
+            let documentCategories = Array.from(documentCategoriesMap.values());
+    
+            // Sort documentCategories based on the order of uiFields
+            documentCategories.sort((a, b) => {
+              const indexA = this.uiFields.findIndex((uiField) => uiField.subType === a.code);
+              const indexB = this.uiFields.findIndex((uiField) => uiField.subType === b.code);
+              return indexA - indexB;
+            });
+    
+            // Process sorted categories and bind to UI fields
+            documentCategories.forEach((documentCategory) => {
+              this.uiFields.forEach((uiField) => {
+                if (uiField.subType == documentCategory.code) {
+                  if (uiField.inputRequired) {
+                    documentCategory["required"] = uiField.required;
+                    documentCategory["labelName"] = uiField.labelName;
+                    documentCategory["containerStyle"] = uiField.containerStyle;
+                    documentCategory["headerStyle"] = uiField.headerStyle;
+                    documentCategory["id"] = uiField.id;
+                    this.userForm.addControl(uiField.id, new FormControl(""));
+    
+                    if (uiField.required) {
+                      this.userForm.controls[uiField.id].setValidators(Validators.required);
+                    }
+                    this.userForm.controls[uiField.id].setValue("");
+                    this.LOD.push(documentCategory);
+                  }
+                }
+              });
+            });
+    
+            // Handle userFiles metadata
+            if (this.userFiles && this.userFiles["documentsMetaData"]) {
+              this.userFiles["documentsMetaData"].forEach((userFile) => {
+                this.uiFields.forEach((uiField) => {
+                  if (uiField.subType == userFile.docCatCode) {
+                    if (this.userForm.controls[uiField.id]) {
+                      this.userForm.controls[uiField.id].setValue(userFile.docName);
+                    }
+                  }
+                });
+              });
             }
-          )
-        );
-      });
+    
+            this.enableBrowseButtonList = new Array(this.LOD.length).fill(false);
+            this.onModification();
+            resolve(true);
+          },
+          (error) => {
+            this.showErrorMessage(error);
+          }
+        )
+      );
+    });    
   }
 
   /**
