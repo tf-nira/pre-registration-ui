@@ -51,13 +51,13 @@
                     </mat-option>
                   </mat-select>
                 </mat-form-field>
-                <mat-form-field class="file-upload__docrefid">
+                <!-- <mat-form-field class="file-upload__docrefid">
                   <mat-label>{{ documentLabels.text_docrefid }}</mat-label>
                   <input matInput value="{{document.selectedRefNumber}}"
                     (focusout)="handleDocRefInput($event, document.code)" (input)="changeRefNumber($event, i)"
                     placeholder="" (change)="handleDocRefInput($event, document.code)"
                     [disabled]="readOnlyMode || disableNavigation" #keyboardRef #input />
-                </mat-form-field>
+                </mat-form-field> -->
                 <span class="file-upload__button">
                   <input #fileUpload type="file" id="file_{{ i }}" (click)="fileUpload.value = null" value=""
                     (change)="handleFileInput($event, document.selectedDocName, document.code, document.selectedRefNumber)"
