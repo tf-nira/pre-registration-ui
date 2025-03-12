@@ -223,7 +223,8 @@ mat-select:focus {
 .file-upload__button {
   display: inline-flex;
   justify-content: flex-end;
-  margin-left: 1.5rem;
+  /* margin-left: 1.5rem; */
+  margin-left: 5.5rem;
 }
 
 .file-uplaoad__body__2__preview {
