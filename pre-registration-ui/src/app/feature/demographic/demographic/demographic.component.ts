@@ -3182,6 +3182,13 @@ isStepVisible(step: number): boolean {
     return false;
   }
 
+  isNaturalization(): boolean {
+    if (this.userServiceType === appConstants.USER_SERVICETYPE.BYNATURALISATION) {
+      return true;
+    }
+    return false;
+  }
+
   isFemale(): boolean {
     if (this.gender === "FLE") {
       return true;

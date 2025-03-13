@@ -2147,7 +2147,10 @@
                 <mat-panel-title *ngIf="isByBirth()">
                   <b>Place of Origin and Passport Information:</b>
                 </mat-panel-title>
-                <mat-panel-title *ngIf="!isByBirth()">
+                <mat-panel-title *ngIf="isNaturalization()">
+                  <b>Citizenship Information:</b>
+                </mat-panel-title>
+                <mat-panel-title *ngIf="!isByBirth() && !isNaturalization()">
                   <b>Place of Origin and Citizenship Information:</b>
                 </mat-panel-title>
                 
