@@ -640,7 +640,7 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
                     const body = {
                     case: "PRN-CONNECT-ERRORS",
                     title: "PRN Generation Error",
-                    message: this.PRNerrorMessage + "\n\nMake sure to pay from any Bank before proceeding to NIRA office"
+                    message: this.PRNerrorMessage +": URA server down." + "\n\nPlease pay at any URA-authorized center before visiting enrollment center"
                     };
                     this.dialog.open(DialougComponent, {
                     width: "500px",

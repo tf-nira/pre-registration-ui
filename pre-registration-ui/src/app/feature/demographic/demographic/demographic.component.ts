@@ -200,6 +200,12 @@ isStepVisible(step: number): boolean {
   userService: string = "";
   gender: string = "";
   userServiceType: string = "";
+  marriageDates = [
+    appConstants.SPOUSE_DATE_OF_MARRIAGE.ONE,
+    appConstants.SPOUSE_DATE_OF_MARRIAGE.TWO,
+    appConstants.SPOUSE_DATE_OF_MARRIAGE.THREE,
+    appConstants.SPOUSE_DATE_OF_MARRIAGE.FOUR
+  ];
   //userServiceTypeCop: string = "";
   copAddName: boolean;
   copChangeNameOrder: boolean;
@@ -1426,6 +1432,24 @@ isStepVisible(step: number): boolean {
         }
       } 
     }
+    
+    
+    if (this.marriageDates.includes(selectedFieldId)) {
+      const newDtMomentObj = this.userForm.controls[selectedFieldId].value;
+      if(newDtMomentObj !=""){
+        newDtMomentObj.locale("en-GB");
+        const formattedDt = newDtMomentObj.format(this.serverDtFormat);
+        const calcAge = Number(this.calculateAge(formattedDt));
+    
+        if (calcAge > -1) {
+          const referenceAge = this.userService === appConstants.USER_SERVICE.NEW ? this.currentAge : this.currentAgeCop;
+          if (referenceAge && (Number(referenceAge) <= Number(calcAge))) {
+            this.resetDOBFields(selectedFieldId);
+          }
+        }
+      }
+    }
+    
     if(selectedFieldId !="" && selectedFieldId==appConstants.declaration){
       if(this.userForm.controls[selectedFieldId].value === false){
         this.userForm.controls[selectedFieldId].reset();
