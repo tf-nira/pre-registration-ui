@@ -245,6 +245,12 @@ export const USER_SERVICETYPE = {
   BYREGISTRATION: "CBREG"
 };
 
+export const SPOUSE_DATE_OF_MARRIAGE = {
+  ONE : "spouseDateOfMarriage",
+  TWO : "spouseTwoDateOfMarriage",
+  THREE : "spouseThreeDateOfMarriage",
+  FOUR : "spouseFourDateOfMarriage"
+};
 export const NOTIFICATION_OF_CHANGE = {
   userServiceTypeCop : "notificationOfChange",
   nameFields : "nocNameFields",
