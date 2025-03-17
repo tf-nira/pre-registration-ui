@@ -679,6 +679,7 @@ isStepVisible(step: number): boolean {
   private async initialization() {
     //load error related labels in user's login lang,
     //this is required to show errors from services
+    this.dataModification = false;
     this.dataStorageService
       .getI18NLanguageFiles(this.userPrefLanguage)
       .subscribe((response) => {
@@ -1299,6 +1300,11 @@ isStepVisible(step: number): boolean {
         }
       }
     }
+    if(selectedFieldId == appConstants.userServiceType || selectedFieldId == appConstants.userService){
+      if(this.dataModification==true){
+        this.userForm.controls[selectedFieldId].disable();
+      }
+    }
     // if (this.initializationFlag == false && selectedFieldId == appConstants.userService && this.initialdataModification!=true) {
     //   for (const control of this.uiFields) {
     //     if (!(control.id == appConstants.userService)) {
@@ -1504,21 +1510,46 @@ isStepVisible(step: number): boolean {
             await this.processConditionalRequiredValidations(formIdentityData, subField);
           }
           //default value decision
-          if(subField.isVisible==true){
+          if (subField.isVisible == true) {
             let valueToSet;
             let result;
-            if (subField.hasOwnProperty("setDefaultValueCondition")) {
+            if (subField.hasOwnProperty("setDefaultValueCondition") && this.initialdataModification != true) {
               result = await this.processConditionalDefaultValue(formIdentityData, subField);
             }
-            if (subField.hasOwnProperty("setDefaultValue")) {
+            if (subField.hasOwnProperty("setDefaultValue") && this.initialdataModification != true) {
               let value = subField.setDefaultValue;
-              if(result === "true"){
+              let fieldKey
+              let subFieldfieldKey;
+              if (typeof value === "string" && value.startsWith("field:")) {
+                fieldKey = value.split(":")[1]; // Extract the part after "field:"
+                subFieldfieldKey = this.identityData.find(
+                  (subfield) => subfield.id === fieldKey);
+                if (this.isControlInMultiLang(subFieldfieldKey)) {
+                  valueToSet = this.userForm.controls[fieldKey + "_eng"].value;
+                }
+                else {
+                  valueToSet = this.userForm.controls[fieldKey].value;
+                }
+              } else {
                 valueToSet = value;
-                this.userForm.controls[fieldId].setValue(valueToSet);
-                this.userForm.controls[fieldId].disable();
               }
-              else{
-                this.userForm.controls[fieldId].enable();
+              if (result === "true") {
+                if (this.isControlInMultiLang(subField)) {
+                  this.userForm.controls[fieldId + "_eng"].setValue(valueToSet);
+                  this.userForm.controls[fieldId + "_eng"].disable();
+                }
+                else {
+                  this.userForm.controls[fieldId].setValue(valueToSet);
+                  this.userForm.controls[fieldId].disable();
+                }
+              }
+              else {
+                if (this.isControlInMultiLang(subField)) {
+                  this.userForm.controls[fieldId + "_eng"].enable();
+                }
+                else {
+                  this.userForm.controls[fieldId].enable();
+                }
               }
             }
           }
