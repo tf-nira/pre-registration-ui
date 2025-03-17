@@ -1512,44 +1512,54 @@ isStepVisible(step: number): boolean {
           //default value decision
           if (subField.isVisible == true) {
             let valueToSet;
-            let result;
-            if (subField.hasOwnProperty("setDefaultValueCondition") && this.initialdataModification != true) {
-              result = await this.processConditionalDefaultValue(formIdentityData, subField);
+            let selectedValue = null;
+
+            // Iterate over possible condition-value pairs
+            const conditions = [
+              { conditionKey: "setDefaultValueCondition", valueKey: "setDefaultValue" },
+              { conditionKey: "setDefaultValueCondition2", valueKey: "setDefaultValue2" }
+            ];
+
+            for (let { conditionKey, valueKey } of conditions) {
+              if (subField.hasOwnProperty(conditionKey) && this.initialdataModification != true) {
+                let result = await this.processConditionalDefaultValue(formIdentityData, subField, conditionKey); // Pass conditionKey
+
+                if (result === "true") {
+                  selectedValue = subField[valueKey];
+                  break; // Apply the first matched condition
+                }
+              }
             }
-            if (subField.hasOwnProperty("setDefaultValue") && this.initialdataModification != true) {
-              let value = subField.setDefaultValue;
-              let fieldKey
+
+            if (selectedValue !== null) {
+              let fieldKey;
               let subFieldfieldKey;
-              if (typeof value === "string" && value.startsWith("field:")) {
-                fieldKey = value.split(":")[1]; // Extract the part after "field:"
-                subFieldfieldKey = this.identityData.find(
-                  (subfield) => subfield.id === fieldKey);
+
+              if (typeof selectedValue === "string" && selectedValue.startsWith("field:")) {
+                fieldKey = selectedValue.split(":")[1];
+                subFieldfieldKey = this.identityData.find(subfield => subfield.id === fieldKey);
+
                 if (this.isControlInMultiLang(subFieldfieldKey)) {
                   valueToSet = this.userForm.controls[fieldKey + "_eng"].value;
-                }
-                else {
+                } else {
                   valueToSet = this.userForm.controls[fieldKey].value;
                 }
               } else {
-                valueToSet = value;
+                valueToSet = selectedValue;
               }
-              if (result === "true") {
-                if (this.isControlInMultiLang(subField)) {
-                  this.userForm.controls[fieldId + "_eng"].setValue(valueToSet);
-                  this.userForm.controls[fieldId + "_eng"].disable();
-                }
-                else {
-                  this.userForm.controls[fieldId].setValue(valueToSet);
-                  this.userForm.controls[fieldId].disable();
-                }
+
+              if (this.isControlInMultiLang(subField)) {
+                this.userForm.controls[fieldId + "_eng"].setValue(valueToSet);
+                this.userForm.controls[fieldId + "_eng"].disable();
+              } else {
+                this.userForm.controls[fieldId].setValue(valueToSet);
+                this.userForm.controls[fieldId].disable();
               }
-              else {
-                if (this.isControlInMultiLang(subField)) {
-                  this.userForm.controls[fieldId + "_eng"].enable();
-                }
-                else {
-                  this.userForm.controls[fieldId].enable();
-                }
+            } else {
+              if (this.isControlInMultiLang(subField)) {
+                this.userForm.controls[fieldId + "_eng"].enable();
+              } else {
+                this.userForm.controls[fieldId].enable();
               }
             }
           }
@@ -1820,11 +1830,12 @@ isStepVisible(step: number): boolean {
    * @private
    * @memberof DemographicComponent
    */
-  async processConditionalDefaultValue(identityFormData, uiField) {
-    console.log("set default called");
-    if (uiField && uiField.setDefaultValueCondition && uiField.setDefaultValueCondition !== "") {
+  async processConditionalDefaultValue(identityFormData, uiField, conditionKey) {
+    console.log(`set default called for condition: ${conditionKey}`);
+  
+    if (uiField && uiField[conditionKey] && uiField[conditionKey] !== "") {
       const defaultValueRule = new Rule({
-        conditions: uiField.setDefaultValueCondition,
+        conditions: uiField[conditionKey],
         event: {
           type: "defaultValueCheck",
           params: {
@@ -1836,21 +1847,24 @@ isStepVisible(step: number): boolean {
       this.jsonRulesEngine.addRule(defaultValueRule);
   
       try {
-        const results = await this.jsonRulesEngine.run(identityFormData); // Await the result of the engine
+        const results = await this.jsonRulesEngine.run(identityFormData); // Run rule engine
         const isConditionSatisfied = results.events.some(
           (event) => event.type === "defaultValueCheck"
         );
+  
         this.jsonRulesEngine.removeRule(defaultValueRule); // Cleanup rule
+  
         return isConditionSatisfied ? "true" : "false";
       } catch (error) {
-        console.error("Error in setDefaultValueCondition:", error);
-        this.jsonRulesEngine.removeRule(defaultValueRule); // Cleanup rule
-        return "false";
+        console.error(`Error in ${conditionKey}:`, error);
+      } finally {
+        this.jsonRulesEngine.removeRule(defaultValueRule); // Ensure cleanup
       }
-    } else {
-      return "false"; // Default to false if condition is missing
     }
+  
+    return "false"; // Default return if no condition passes
   }
+  
   
   /**
    * @description This sets the top location hierachy,
