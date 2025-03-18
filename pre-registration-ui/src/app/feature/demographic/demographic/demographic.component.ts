@@ -1576,10 +1576,10 @@ isStepVisible(step: number): boolean {
     }
     
     if (selectedFieldId === appConstants.APPLICANT_PLACE_OF_RESIDENCE_YEARS_LIVED_FIELD) {
-      this.validateYearsLived(selectedFieldId);
+      this.validateYearsLived(selectedFieldId); 
   }
 
-    if (selectedFieldId === appConstants.DATE_OF_BIRTH_FIELD) {
+    if (selectedFieldId === appConstants.DATE_OF_BIRTH_FIELD || selectedFieldId === appConstants.DATE_OF_BIRTH_FIELD_COP) {
       this.validateYearsLived(appConstants.APPLICANT_PLACE_OF_RESIDENCE_YEARS_LIVED_FIELD);
     }
   }
