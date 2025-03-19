@@ -546,8 +546,14 @@ isStepVisible(step: number): boolean {
         const filtered = selectData.filter(
           (option) => option.valueName.toLowerCase().indexOf(search) === 0
         );
-        this.filteredSelectOptions[controlId].next(filtered.slice());
-        return;
+        // Remove duplicates extra value
+        const uniqueFiltered = filtered.filter(
+        (item, index, self) =>
+          index === self.findIndex((t) => t.valueName === item.valueName)
+      );
+
+      this.filteredSelectOptions[controlId].next(uniqueFiltered.slice());
+      return;
       }
     } else {
       this.filteredSelectOptions[controlId].next(
