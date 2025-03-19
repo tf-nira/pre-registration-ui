@@ -1449,7 +1449,7 @@ isStepVisible(step: number): boolean {
     
         if (calcAge > -1) {
           const referenceAge = this.userService === appConstants.USER_SERVICE.NEW ? this.currentAge : this.currentAgeCop;
-          if (referenceAge && (Number(referenceAge) <= Number(calcAge))) {
+          if (referenceAge && (Number(referenceAge) < Number(calcAge)+ 18)) {
             this.resetDOBFields(selectedFieldId);
           }
         }
@@ -1576,10 +1576,10 @@ isStepVisible(step: number): boolean {
     }
     
     if (selectedFieldId === appConstants.APPLICANT_PLACE_OF_RESIDENCE_YEARS_LIVED_FIELD) {
-      this.validateYearsLived(selectedFieldId);
+      this.validateYearsLived(selectedFieldId); 
   }
 
-    if (selectedFieldId === appConstants.DATE_OF_BIRTH_FIELD) {
+    if (selectedFieldId === appConstants.DATE_OF_BIRTH_FIELD || selectedFieldId === appConstants.DATE_OF_BIRTH_FIELD_COP) {
       this.validateYearsLived(appConstants.APPLICANT_PLACE_OF_RESIDENCE_YEARS_LIVED_FIELD);
     }
   }
