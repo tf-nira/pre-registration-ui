@@ -1449,7 +1449,7 @@ isStepVisible(step: number): boolean {
     
         if (calcAge > -1) {
           const referenceAge = this.userService === appConstants.USER_SERVICE.NEW ? this.currentAge : this.currentAgeCop;
-          if (referenceAge && (Number(referenceAge) <= Number(calcAge))) {
+          if (referenceAge && (Number(referenceAge) < Number(calcAge)+ 18)) {
             this.resetDOBFields(selectedFieldId);
           }
         }
