@@ -1470,6 +1470,12 @@ isStepVisible(step: number): boolean {
           const referenceAge = this.userService === appConstants.USER_SERVICE.NEW ? this.currentAge : this.currentAgeCop;
           if (referenceAge && (Number(referenceAge) < Number(calcAge)+ 18)) {
             this.resetDOBFields(selectedFieldId);
+            this.userForm.controls[selectedFieldId].setErrors({
+              customPattern: {
+                value: formattedDt,
+                msg: "The date must be at least 18 years after the Applicant's Date of Birth.",
+              }
+            });
           }
         }
       }
@@ -3383,5 +3389,5 @@ isStepVisible(step: number): boolean {
     return false;
   }
 
-  
+
 }
