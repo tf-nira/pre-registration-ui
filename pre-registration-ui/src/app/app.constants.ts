@@ -251,6 +251,24 @@ export const SPOUSE_DATE_OF_MARRIAGE = {
   THREE : "spouseThreeDateOfMarriage",
   FOUR : "spouseFourDateOfMarriage"
 };
+
+export const NIN = {
+  APPLICANT: "NIN",
+  FATHER: "fatherNIN",
+  MOTHER: "motherNIN",
+  GUARDIAN: "guardianNIN_AIN",
+  SPOUSE: "spouseNIN",
+  SPOUSE_TWO: "spouseTwoNIN",
+  SPOUSE_THREE: "spouseThreeNIN",
+  SPOUSE_FOUR: "spouseFourNIN",
+  CHILD: "childNIN",
+  CHILD_TWO: "childTwoNIN",
+  CHILD_THREE: "childThreeNIN",
+  CHILD_FOUR: "childFourNIN",
+  CHILD_FIVE: "childFiveNIN",
+  CHILD_SIX: "childSixNIN"
+};
+
 export const NOTIFICATION_OF_CHANGE = {
   userServiceTypeCop : "notificationOfChange",
   nameFields : "nocNameFields",
