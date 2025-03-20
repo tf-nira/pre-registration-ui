@@ -539,6 +539,15 @@
                             {{ field.labelName[userPrefLanguage] }}
                             {{demographiclabels.validation.requiredMessage}}
                           </mat-error>
+                          <mat-error class="primary-errors" *ngIf="
+                              !readOnlyMode && primaryuserForm &&
+                              userForm.get(field.id ) &&
+                              userForm.get(field.id ).hasError('ninDuplicate')">
+                            
+                              {{ demographiclabels.validation.InvalidMessage }} {{ field.labelName[userPrefLanguage] }}<br>
+                              {{ userForm.get(field.id)["errors"]["ninDuplicate"]["message"] }}<br>
+                            
+                            </mat-error>
                           <mat-error class="primary-errors" *ngIf="!readOnlyMode && primaryuserForm &&
                             userForm.get(field.id + '_' + dataCaptureLanguage) &&
                             userForm.get(field.id + '_' + dataCaptureLanguage).touched &&
@@ -1526,6 +1535,15 @@
                               userForm.get(field.id + '_' + dataCaptureLanguage).touched">
                               {{ field.labelName[userPrefLanguage] }}
                               {{demographiclabels.validation.requiredMessage}}
+                            </mat-error>
+                            <mat-error class="primary-errors" *ngIf="
+                              !readOnlyMode && primaryuserForm &&
+                              userForm.get(field.id ) &&
+                              userForm.get(field.id ).hasError('ninDuplicate')">
+                            
+                              {{ demographiclabels.validation.InvalidMessage }} {{ field.labelName[userPrefLanguage] }}<br>
+                              {{ userForm.get(field.id)["errors"]["ninDuplicate"]["message"] }}<br>
+                            
                             </mat-error>
                             <mat-error class="primary-errors" *ngIf="!readOnlyMode && primaryuserForm &&
                               userForm.get(field.id + '_' + dataCaptureLanguage) &&
@@ -3143,6 +3161,15 @@
                               {{ field.labelName[userPrefLanguage] }}
                               {{demographiclabels.validation.requiredMessage}}
                             </mat-error>
+                            <mat-error class="primary-errors" *ngIf="
+                              !readOnlyMode && primaryuserForm &&
+                              userForm.get(field.id ) &&
+                              userForm.get(field.id ).hasError('ninDuplicate')">
+                            
+                              {{ demographiclabels.validation.InvalidMessage }} {{ field.labelName[userPrefLanguage] }}<br>
+                              {{ userForm.get(field.id)["errors"]["ninDuplicate"]["message"] }}<br>
+                            
+                            </mat-error>
                             <mat-error class="primary-errors" *ngIf="!readOnlyMode && primaryuserForm &&
                               userForm.get(field.id + '_' + dataCaptureLanguage) &&
                               userForm.get(field.id + '_' + dataCaptureLanguage).touched &&
@@ -3398,6 +3425,15 @@
                               {{ field.labelName[userPrefLanguage] }}
                               {{demographiclabels.validation.requiredMessage}}
                             </mat-error>
+                            <mat-error class="primary-errors" *ngIf="
+                              !readOnlyMode && primaryuserForm &&
+                              userForm.get(field.id ) &&
+                              userForm.get(field.id ).hasError('ninDuplicate')">
+                            
+                              {{ demographiclabels.validation.InvalidMessage }} {{ field.labelName[userPrefLanguage] }}<br>
+                              {{ userForm.get(field.id)["errors"]["ninDuplicate"]["message"] }}<br>
+                            
+                            </mat-error>
                             <mat-error class="primary-errors" *ngIf="!readOnlyMode && primaryuserForm &&
                               userForm.get(field.id + '_' + dataCaptureLanguage) &&
                               userForm.get(field.id + '_' + dataCaptureLanguage).touched &&
@@ -3652,6 +3688,15 @@
                               userForm.get(field.id + '_' + dataCaptureLanguage).touched">
                               {{ field.labelName[userPrefLanguage] }}
                               {{demographiclabels.validation.requiredMessage}}
+                            </mat-error>
+                            <mat-error class="primary-errors" *ngIf="
+                              !readOnlyMode && primaryuserForm &&
+                              userForm.get(field.id ) &&
+                              userForm.get(field.id ).hasError('ninDuplicate')">
+                            
+                              {{ demographiclabels.validation.InvalidMessage }} {{ field.labelName[userPrefLanguage] }}<br>
+                              {{ userForm.get(field.id)["errors"]["ninDuplicate"]["message"] }}<br>
+                            
                             </mat-error>
                             <mat-error class="primary-errors" *ngIf="!readOnlyMode && primaryuserForm &&
                               userForm.get(field.id + '_' + dataCaptureLanguage) &&
@@ -3910,6 +3955,15 @@
                               userForm.get(field.id + '_' + dataCaptureLanguage).touched">
                               {{ field.labelName[userPrefLanguage] }}
                               {{demographiclabels.validation.requiredMessage}}
+                            </mat-error>
+                            <mat-error class="primary-errors" *ngIf="
+                              !readOnlyMode && primaryuserForm &&
+                              userForm.get(field.id ) &&
+                              userForm.get(field.id ).hasError('ninDuplicate')">
+                            
+                              {{ demographiclabels.validation.InvalidMessage }} {{ field.labelName[userPrefLanguage] }}<br>
+                              {{ userForm.get(field.id)["errors"]["ninDuplicate"]["message"] }}<br>
+                            
                             </mat-error>
                             <mat-error class="primary-errors" *ngIf="!readOnlyMode && primaryuserForm &&
                               userForm.get(field.id + '_' + dataCaptureLanguage) &&
@@ -4174,6 +4228,15 @@
                               userForm.get(field.id + '_' + dataCaptureLanguage).touched">
                               {{ field.labelName[userPrefLanguage] }}
                               {{demographiclabels.validation.requiredMessage}}
+                            </mat-error>
+                            <mat-error class="primary-errors" *ngIf="
+                              !readOnlyMode && primaryuserForm &&
+                              userForm.get(field.id ) &&
+                              userForm.get(field.id ).hasError('ninDuplicate')">
+                            
+                              {{ demographiclabels.validation.InvalidMessage }} {{ field.labelName[userPrefLanguage] }}<br>
+                              {{ userForm.get(field.id)["errors"]["ninDuplicate"]["message"] }}<br>
+                            
                             </mat-error>
                             <mat-error class="primary-errors" *ngIf="!readOnlyMode && primaryuserForm &&
                               userForm.get(field.id + '_' + dataCaptureLanguage) &&
@@ -4455,6 +4518,15 @@
                               {{ userForm.get(field.id)["errors"]["yearsLivedInvalid"]["message"] }}<br>
                               
                             </mat-error>
+                            <mat-error class="primary-errors" *ngIf="
+                              !readOnlyMode && primaryuserForm &&
+                              userForm.get(field.id ) &&
+                              userForm.get(field.id ).hasError('ninDuplicate')">
+                            
+                              {{ demographiclabels.validation.InvalidMessage }} {{ field.labelName[userPrefLanguage] }}<br>
+                              {{ userForm.get(field.id)["errors"]["ninDuplicate"]["message"] }}<br>
+                            
+                            </mat-error>
                             <mat-error class="primary-errors" *ngIf="!readOnlyMode && primaryuserForm &&
                               userForm.get(field.id + '_' + dataCaptureLanguage) &&
                               userForm.get(field.id + '_' + dataCaptureLanguage).touched &&
@@ -4697,6 +4769,15 @@
                                 {{ field.labelName[userPrefLanguage] }}
                                 {{demographiclabels.validation.requiredMessage}}
                               </mat-error>
+                              <mat-error class="primary-errors" *ngIf="
+                              !readOnlyMode && primaryuserForm &&
+                              userForm.get(field.id ) &&
+                              userForm.get(field.id ).hasError('ninDuplicate')">
+                            
+                              {{ demographiclabels.validation.InvalidMessage }} {{ field.labelName[userPrefLanguage] }}<br>
+                              {{ userForm.get(field.id)["errors"]["ninDuplicate"]["message"] }}<br>
+                            
+                            </mat-error>
                               <mat-error class="primary-errors" *ngIf="!readOnlyMode && primaryuserForm &&
                                             userForm.get(field.id) &&
                                             userForm.get(field.id).touched &&

@@ -206,6 +206,23 @@ isStepVisible(step: number): boolean {
     appConstants.SPOUSE_DATE_OF_MARRIAGE.THREE,
     appConstants.SPOUSE_DATE_OF_MARRIAGE.FOUR
   ];
+  ninList = [
+    appConstants.NIN.APPLICANT,
+    appConstants.NIN.FATHER,
+    appConstants.NIN.MOTHER,
+    appConstants.NIN.GUARDIAN,
+    appConstants.NIN.SPOUSE,
+    appConstants.NIN.SPOUSE_TWO,
+    appConstants.NIN.SPOUSE_THREE,
+    appConstants.NIN.SPOUSE_FOUR,
+    appConstants.NIN.CHILD,
+    appConstants.NIN.CHILD_TWO,
+    appConstants.NIN.CHILD_THREE,
+    appConstants.NIN.CHILD_FOUR,
+    appConstants.NIN.CHILD_FIVE,
+    appConstants.NIN.CHILD_SIX
+];
+  uniqueNin = {};
   //userServiceTypeCop: string = "";
   copAddName: boolean;
   copChangeNameOrder: boolean;
@@ -1293,6 +1310,7 @@ isStepVisible(step: number): boolean {
     if (this.initializationFlag == false && selectedFieldId == appConstants.userServiceType && this.initialdataModification != true) {
       for (const control of this.uiFields) {
         if (control.id != appConstants.userService && control.id != appConstants.userServiceType) {
+          this.uniqueNin = {};
           await this.resetHiddenField(control);
           await this.onChangeHandler(control.id);
         }
@@ -1301,6 +1319,7 @@ isStepVisible(step: number): boolean {
     if (this.initializationFlag == false && selectedFieldId == appConstants.userService && this.initialdataModification != true) {
       for (const control of this.uiFields) {
         if (control.id != appConstants.userService) {
+          this.uniqueNin = {};
           await this.resetHiddenField(control);
           await this.onChangeHandler(control.id);
         }
@@ -1457,6 +1476,12 @@ isStepVisible(step: number): boolean {
           const referenceAge = this.userService === appConstants.USER_SERVICE.NEW ? this.currentAge : this.currentAgeCop;
           if (referenceAge && (Number(referenceAge) < Number(calcAge)+ 18)) {
             this.resetDOBFields(selectedFieldId);
+            this.userForm.controls[selectedFieldId].setErrors({
+              customPattern: {
+                value: formattedDt,
+                msg: "The date must be at least 18 years after the Applicant's Date of Birth.",
+              }
+            });
           }
         }
       }
@@ -1587,6 +1612,27 @@ isStepVisible(step: number): boolean {
 
     if (selectedFieldId === appConstants.DATE_OF_BIRTH_FIELD || selectedFieldId === appConstants.DATE_OF_BIRTH_FIELD_COP) {
       this.validateYearsLived(appConstants.APPLICANT_PLACE_OF_RESIDENCE_YEARS_LIVED_FIELD);
+    }
+    if(this.ninList.includes(selectedFieldId)){
+      let NINValue = this.userForm.controls[selectedFieldId].value;
+      if(this.userForm.controls[selectedFieldId].value != ""){
+        if (this.userForm.controls[selectedFieldId].hasError('customPattern')) {
+          //console.log("NIN ERROR", this.userForm.controls[selectedFieldId].errors.customPattern.msg);
+        }
+        else{ 
+          let isDuplicate = this.isDuplicatedNIN(NINValue, selectedFieldId);
+          if (isDuplicate) {
+            this.userForm.controls[selectedFieldId].reset();
+            this.userForm.controls[selectedFieldId].setValue("");
+            this.userForm.controls[selectedFieldId].setErrors({
+              ninDuplicate: { message: "Duplicate NIN found" }
+            });
+          }
+          else {
+            this.userForm.controls[selectedFieldId].setErrors(null);
+          }
+        }
+      }
     }
   }
 
@@ -3328,6 +3374,26 @@ isStepVisible(step: number): boolean {
     }
   }
 
-  
-  
+  isDuplicatedNIN(NIN: string, field: string) {
+    if (!this.uniqueNin) {
+        this.uniqueNin = {};
+    }
+    if (this.uniqueNin[field]) {
+        if (this.uniqueNin[field] === NIN) {
+            return false;
+        }
+        if (Object.values(this.uniqueNin).includes(NIN)) {
+            return true;
+        }
+        this.uniqueNin[field] = NIN;
+        return false;
+    }
+    if (Object.values(this.uniqueNin).includes(NIN)) {
+        return true;
+    }
+    this.uniqueNin[field] = NIN;
+    return false;
+  }
+
+
 }
