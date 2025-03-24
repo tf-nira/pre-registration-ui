@@ -303,7 +303,11 @@ export class FileUploadComponent implements OnInit, OnDestroy {
   }
 
   onModification() {
-    if (
+    if (this.users[0].files &&
+      (!this.users[0].files.documentsMetaData || this.users[0].files.documentsMetaData.length === 0)) {
+      return
+    }
+    else if (
       this.users[0].files &&
       this.users[0].files.documentsMetaData[0].docCatCode &&
       this.users[0].files.documentsMetaData[0].docCatCode !== ""
@@ -583,7 +587,6 @@ export class FileUploadComponent implements OnInit, OnDestroy {
    * @memberof FileUploadComponent
    */
   async getDocumentCategories(applicantcode) {
-    debugger
     return new Promise((resolve) => {
       let applicantTypeCodes = applicantcode.split(","); // Supports multiple applicant codes
       let requests = applicantTypeCodes.map((code) =>
