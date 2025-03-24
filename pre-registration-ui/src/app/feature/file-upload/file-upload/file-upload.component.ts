@@ -556,7 +556,6 @@ export class FileUploadComponent implements OnInit, OnDestroy {
                   "applicantType",
                   response["response"].applicantType.applicantTypeCode
                 );
-                debugger
                 await this.getDocumentCategories(
                   response["response"].applicantType.applicantTypeCode
                 );
@@ -588,7 +587,6 @@ export class FileUploadComponent implements OnInit, OnDestroy {
    * @memberof FileUploadComponent
    */
   async getDocumentCategories(applicantcode) {
-    debugger
     return new Promise((resolve) => {
       let applicantTypeCodes = applicantcode.split(","); // Supports multiple applicant codes
       let requests = applicantTypeCodes.map((code) =>
