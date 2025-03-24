@@ -303,7 +303,11 @@ export class FileUploadComponent implements OnInit, OnDestroy {
   }
 
   onModification() {
-    if (
+    if (this.users[0].files &&
+      (!this.users[0].files.documentsMetaData || this.users[0].files.documentsMetaData.length === 0)) {
+      return
+    }
+    else if (
       this.users[0].files &&
       this.users[0].files.documentsMetaData[0].docCatCode &&
       this.users[0].files.documentsMetaData[0].docCatCode !== ""
@@ -552,6 +556,7 @@ export class FileUploadComponent implements OnInit, OnDestroy {
                   "applicantType",
                   response["response"].applicantType.applicantTypeCode
                 );
+                debugger
                 await this.getDocumentCategories(
                   response["response"].applicantType.applicantTypeCode
                 );
