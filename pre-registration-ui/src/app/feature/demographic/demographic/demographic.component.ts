@@ -1541,7 +1541,7 @@ isStepVisible(step: number): boolean {
             await this.processConditionalRequiredValidations(formIdentityData, subField);
           }
           //default value decision
-          if (subField.isVisible == true) {
+          if (subField.isVisible == true && this.initialdataModification != true) {
             let valueToSet;
             let selectedValue = null;
 
@@ -1552,7 +1552,7 @@ isStepVisible(step: number): boolean {
             ];
 
             for (let { conditionKey, valueKey } of conditions) {
-              if (subField.hasOwnProperty(conditionKey) && this.initialdataModification != true) {
+              if (subField.hasOwnProperty(conditionKey)) {
                 let result = await this.processConditionalDefaultValue(formIdentityData, subField, conditionKey); // Pass conditionKey
 
                 if (result === "true") {
@@ -1588,9 +1588,15 @@ isStepVisible(step: number): boolean {
               }
             } else {
               if (this.isControlInMultiLang(subField)) {
-                this.userForm.controls[fieldId + "_eng"].enable();
+                if (this.userForm.controls[fieldId + "_eng"].disabled) {
+                  this.userForm.controls[fieldId + "_eng"].enable();
+                  this.userForm.controls[fieldId + "_eng"].setValue("");
+                }
               } else {
-                this.userForm.controls[fieldId].enable();
+                if (this.userForm.controls[fieldId].disabled) {
+                  this.userForm.controls[fieldId].enable();
+                  this.userForm.controls[fieldId].setValue("");
+                }
               }
             }
           }
