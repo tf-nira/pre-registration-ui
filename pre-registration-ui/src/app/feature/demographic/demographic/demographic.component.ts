@@ -1048,6 +1048,13 @@ isStepVisible(step: number): boolean {
       let uiField = filtered[0];
       let msg = "";
       let isInvalid = false;
+      let countryCode = "";
+      if (uiField.id === appConstants.PHONE_FIELD) {
+        let countryCodeControl = control.root.get(appConstants.COUNTRY_CODE_FIELD);
+        if (countryCodeControl) {
+          countryCode = countryCodeControl.value;
+        }
+      }
       if (uiField.validators !== null && uiField.validators.length > 0) {
         uiField.validators.forEach((validatorItem) => {
           if (!isInvalid) {
@@ -1085,6 +1092,18 @@ isStepVisible(step: number): boolean {
                 if (inputDate > currentDate || applicantDOB <= inputDate) {
                   isInvalid = true;
                   msg = "The date must not be later than the Applicant's Date of Birth or a future date.";
+                }
+              }
+              else if (validatorItem.type === "phoneValidator") {
+                let regex: RegExp;
+                if (countryCode === "UGA") {
+                    regex = new RegExp(appConstants.UGA_PHONE_REGEX_PATTERN);
+                } else {
+                    regex = new RegExp(appConstants.PHONE_REGEX_PATTERN);
+                }
+                if (!regex.test(val)) {
+                    isInvalid = true;
+                    msg = "Invalid phone number format for Country Code";
                 }
               }
               else if (validatorItem.type === "regex") {
@@ -1593,10 +1612,7 @@ isStepVisible(step: number): boolean {
                   this.userForm.controls[fieldId + "_eng"].setValue("");
                 }
               } else {
-                if (this.userForm.controls[fieldId].disabled) {
-                  this.userForm.controls[fieldId].enable();
-                  this.userForm.controls[fieldId].setValue("");
-                }
+                this.userForm.controls[fieldId].enable();
               }
             }
           }
