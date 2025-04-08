@@ -3162,24 +3162,26 @@ isStepVisible(step: number): boolean {
    * @param {number} index
    * @memberof DemographicComponent
    */
-  openKeyboard(controlName: string, langCode: string) {
+  openKeyboard(controlName: string, langCode: string): void {
     let control: AbstractControl;
     let formControlName = controlName + "_" + langCode;
     let multiLangControls = [];
     let keyArr: any[] = Object.keys(this.userForm.controls);
     keyArr.forEach((key) => {
       this.uiFields.forEach((control) => {
-        this.dataCaptureLanguages.forEach((language, i) => {
-          if (
-            this.isControlInMultiLang(control) &&
-            !multiLangControls.includes(key)
-          ) {
-            const controlId = control.id + "_" + language;
-            if (controlId == key) {
-              multiLangControls.push(key);
+        if(control.isVisible) {
+          this.dataCaptureLanguages.forEach((language, i) => {
+            if (
+              this.isControlInMultiLang(control) &&
+              !multiLangControls.includes(key)
+            ) {
+              const controlId = control.id + "_" + language;
+              if (controlId == key) {
+                multiLangControls.push(key);
+              }
             }
-          }
         });
+      }
       });
     });
     let index = multiLangControls.indexOf(formControlName);
@@ -3200,6 +3202,7 @@ isStepVisible(step: number): boolean {
       }
       if (this.oldKeyBoardIndex == index && this.matKeyboardService.isOpened) {
         this.matKeyboardService.dismiss();
+          return;
       } else {
         let el: ElementRef;
         this.oldKeyBoardIndex = index;
