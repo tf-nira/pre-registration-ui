@@ -68,6 +68,7 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
   createdTime;
   requestBody: PRNRequestModel;
   applicantContactDetails = [];
+ payableService:string;
   constructor(
     private bookingService: BookingService,
     private dialog: MatDialog,
@@ -663,17 +664,19 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
     const nin = demographicData.NIN;
 
     const age:number = this.dataStorageService.calculateAge(demographicData.dateOfBirthCop);
-    //console.log(age);
-
-    
-  
+   // console.log(age);
+ 
       if (desiredService ===appConstants.USER_SERVICE.UPDATE){
-        if (demographicData.isErrorNameChange==="N"  || !("isErrorNameChange" in demographicData)){
+        if (
+          (!("isErrorNameChange" in demographicData) || demographicData.isErrorNameChange === "N") &&
+          (!("isErrorChangeOfDateOfBirth" in demographicData) || demographicData.isErrorChangeOfDateOfBirth === "N") &&
+          (!("isErrorChangeInPlaceOfResidence" in demographicData) || demographicData.isErrorChangeInPlaceOfResidence === "N")
+        ){
           
           if (age >= 16) {
             if ((demographicData.removingName === "Y" || demographicData.addingName === "Y" || demographicData.completeChangeofName === "Y" || demographicData.changeOfDateOfBirth === "Y" || demographicData.changeInPlaceOfResidence === "Y")) {
               this.requestBody = {
-                service: appConstants.TAX_HEADS.COP_NORMAL,
+                service: this.payableService=this.configService.getConfigByKey("nira.payable.servicecode.COP_NORMAL"),
                 NIN: nin,
 
                 fullName: surname + " " + demographicData.givenNameCop[0].value
@@ -689,9 +692,9 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
    }
   else if(desiredService ===appConstants.USER_SERVICE.REPLACEMENT){
           if(demographicData.userServiceTypeReplacement[0].value==="LOST"){
-  
+           
             this.requestBody = {
-              service: appConstants.TAX_HEADS.REPLACEMENT,
+              service:  this.payableService=this.configService.getConfigByKey("nira.payable.servicecode.REPLACEMENT"),
               NIN: nin !== undefined ? nin : null,
               fullName: surname+ " " +demographicData.givenNameCop[0].value
             };
@@ -701,12 +704,13 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
                }
           else if (demographicData.userServiceTypeReplacement[0].value==="DMG"){
             this.requestBody = {
-              service: appConstants.TAX_HEADS.DAMAGED_CARD ,
+              service: this.payableService=this.configService.getConfigByKey("nira.payable.servicecode.DAMAGED_CARD"),
               NIN: nin !== undefined ? nin : null,
 
               fullName: surname+ " " +demographicData.givenNameCop[0].value
 
             };
+            console.log("this is the request",this.requestBody);
              this.getPRNResponse();
           }
   } 
