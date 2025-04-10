@@ -68,7 +68,7 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
   createdTime;
   requestBody: PRNRequestModel;
   applicantContactDetails = [];
- payableService:string;
+ //payableService:string;
   constructor(
     private bookingService: BookingService,
     private dialog: MatDialog,
@@ -675,8 +675,9 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
           
           if (age >= 16) {
             if ((demographicData.removingName === "Y" || demographicData.addingName === "Y" || demographicData.completeChangeofName === "Y" || demographicData.changeOfDateOfBirth === "Y" || demographicData.changeInPlaceOfResidence === "Y")) {
+              const payableServiceCOP:string=this.configService.getConfigByKey("nira.payable.servicecode.COP_NORMAL");
               this.requestBody = {
-                service: this.payableService=this.configService.getConfigByKey("nira.payable.servicecode.COP_NORMAL"),
+                service: payableServiceCOP,
                 NIN: nin,
 
                 fullName: surname + " " + demographicData.givenNameCop[0].value
@@ -692,9 +693,9 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
    }
   else if(desiredService ===appConstants.USER_SERVICE.REPLACEMENT){
           if(demographicData.userServiceTypeReplacement[0].value==="LOST"){
-           
+           const payableServiceLost:string=this.configService.getConfigByKey("nira.payable.servicecode.REPLACEMENT");
             this.requestBody = {
-              service:  this.payableService=this.configService.getConfigByKey("nira.payable.servicecode.REPLACEMENT"),
+              service:  payableServiceLost,
               NIN: nin !== undefined ? nin : null,
               fullName: surname+ " " +demographicData.givenNameCop[0].value
             };
@@ -703,8 +704,9 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
               this.getPRNResponse();
                }
           else if (demographicData.userServiceTypeReplacement[0].value==="DMG"){
+            const payableServiceDamaged:string=this.configService.getConfigByKey("nira.payable.servicecode.DAMAGED_CARD");
             this.requestBody = {
-              service: this.payableService=this.configService.getConfigByKey("nira.payable.servicecode.DAMAGED_CARD"),
+              service: payableServiceDamaged,
               NIN: nin !== undefined ? nin : null,
 
               fullName: surname+ " " +demographicData.givenNameCop[0].value
