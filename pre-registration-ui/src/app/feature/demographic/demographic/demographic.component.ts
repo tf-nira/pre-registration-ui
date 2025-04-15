@@ -1101,7 +1101,7 @@ isStepVisible(step: number): boolean {
                 } else {
                     regex = new RegExp(appConstants.PHONE_REGEX_PATTERN);
                 }
-                if (!regex.test(val)) {
+                if (regex.test(val) == false) {
                     isInvalid = true;
                     msg = "Invalid phone number format for Country Code";
                 }
