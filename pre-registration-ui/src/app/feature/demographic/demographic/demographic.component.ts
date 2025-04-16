@@ -1612,7 +1612,10 @@ isStepVisible(step: number): boolean {
                   this.userForm.controls[fieldId + "_eng"].setValue("");
                 }
               } else {
-                this.userForm.controls[fieldId].enable();
+                if (this.userForm.controls[fieldId].disabled) {
+                  this.userForm.controls[fieldId].enable();
+                  this.userForm.controls[fieldId].setValue("");
+                }
               }
             }
           }
