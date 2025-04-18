@@ -1048,13 +1048,6 @@ isStepVisible(step: number): boolean {
       let uiField = filtered[0];
       let msg = "";
       let isInvalid = false;
-      let countryCode = "";
-      if (uiField.id === appConstants.PHONE_FIELD) {
-        let countryCodeControl = control.root.get(appConstants.COUNTRY_CODE_FIELD);
-        if (countryCodeControl) {
-          countryCode = countryCodeControl.value;
-        }
-      }
       if (uiField.validators !== null && uiField.validators.length > 0) {
         uiField.validators.forEach((validatorItem) => {
           if (!isInvalid) {
@@ -1092,18 +1085,6 @@ isStepVisible(step: number): boolean {
                 if (inputDate > currentDate || applicantDOB <= inputDate) {
                   isInvalid = true;
                   msg = "The date must not be later than the Applicant's Date of Birth or a future date.";
-                }
-              }
-              else if (validatorItem.type === "phoneValidator") {
-                let regex: RegExp;
-                if (countryCode === "UGA") {
-                    regex = new RegExp(appConstants.UGA_PHONE_REGEX_PATTERN);
-                } else {
-                    regex = new RegExp(appConstants.PHONE_REGEX_PATTERN);
-                }
-                if (!regex.test(val)) {
-                    isInvalid = true;
-                    msg = "Invalid phone number format for Country Code";
                 }
               }
               else if (validatorItem.type === "regex") {
@@ -1560,7 +1541,7 @@ isStepVisible(step: number): boolean {
             await this.processConditionalRequiredValidations(formIdentityData, subField);
           }
           //default value decision
-          if (subField.isVisible == true && this.initialdataModification != true) {
+          if (subField.isVisible == true && this.initialdataModification != true && (subField.hasOwnProperty("setDefaultValueCondition") || subField.hasOwnProperty("setDefaultValueCondition2"))) {
             let valueToSet;
             let selectedValue = null;
 
@@ -1625,6 +1606,10 @@ isStepVisible(step: number): boolean {
         }
       }
     }
+
+    if(selectedFieldId === appConstants.PHONE_FIELD || selectedFieldId === appConstants.COUNTRY_CODE_FIELD){
+      this.validatePhoneNumber(selectedFieldId);
+    }
     
     if (selectedFieldId && selectedFieldId.trim() !== "" && myFlag == false) {
       await this.processChangeActions(selectedFieldId).then(async () => {
@@ -1660,8 +1645,36 @@ isStepVisible(step: number): boolean {
       }
     }
   }
-
-
+  
+  validatePhoneNumber(fieldId: string) {
+    const phoneValue = this.userForm.controls[appConstants.PHONE_FIELD].value;
+    if(phoneValue){
+      let countryCode = "";
+      const control = this.userForm.get(fieldId);
+      if (fieldId === appConstants.PHONE_FIELD || fieldId === appConstants.COUNTRY_CODE_FIELD) {
+        let countryCodeControl = control.root.get(appConstants.COUNTRY_CODE_FIELD);
+        if (countryCodeControl) {
+          countryCode = countryCodeControl.value;
+        }
+      }
+      let regex: RegExp;
+      if (countryCode === "UGA") {
+        regex = new RegExp(appConstants.UGA_PHONE_REGEX_PATTERN);
+      } else {
+          regex = new RegExp(appConstants.PHONE_REGEX_PATTERN);
+      }
+      if (!regex.test(phoneValue)) {
+        this.userForm.controls[appConstants.PHONE_FIELD].setErrors({
+          customPattern: {
+            value: phoneValue,
+            msg: "Invalid phone number format for Country Code",
+          }
+        });
+      } else {
+        this.userForm.controls[appConstants.PHONE_FIELD].setErrors(null);
+      }
+    }          
+  }
   
   processShowHideFields = async (formIdentityData: any, subField?: any) => {
     return new Promise<void>((resolve, reject) => {
