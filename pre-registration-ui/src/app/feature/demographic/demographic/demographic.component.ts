@@ -1067,7 +1067,6 @@ isStepVisible(step: number): boolean {
                 }
               }
               else if (validatorItem.type === "minimumExpiry") {
-                debugger
                 let inputDate = new Date(val);
                 let existancyDate = new Date("2014-08-01");
                 existancyDate.setHours(0, 0, 0, 0); // Clear time for accurate comparison
@@ -1186,7 +1185,14 @@ isStepVisible(step: number): boolean {
           controlId
         );
         for (let parentLocation of possibleParentLocations) {
-          let locationCode = this.userForm.controls[`${parentLocation.id}`].value;
+          let locationCode = "";
+          if(this.userService == appConstants.USER_SERVICE.NEW && parentLocation.id == appConstants.PARISH_FIRSTID && controlId == appConstants.POLLING_STATION_NAME_ORIGIN){
+            locationCode = this.userForm.controls[appConstants.PARISH_NEW].value;
+          } else if (this.userService == appConstants.USER_SERVICE.FIRSTID && parentLocation.id == appConstants.PARISH_NEW && controlId == appConstants.POLLING_STATION_NAME_ORIGIN){
+            locationCode = this.userForm.controls[appConstants.PARISH_FIRSTID].value;
+          } else {
+            locationCode = this.userForm.controls[`${parentLocation.id}`].value;
+          }
           if (!locationCode) {
             _this.identityData.forEach((obj) => {
               if (obj.id == controlId) {
