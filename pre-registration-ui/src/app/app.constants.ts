@@ -292,3 +292,9 @@ export const COUNTRY_CODE_FIELD = 'CountryCode';
 export const DATE_OF_BIRTH_FIELD_COP = 'dateOfBirthCop';
 
 export const Tribe = 'Tribe';
+
+export const PARISH_NEW = 'applicantPlaceOfOriginParish';
+
+export const PARISH_FIRSTID = 'applicantPlaceOfOriginParish1';
+
+export const POLLING_STATION_NAME_ORIGIN = 'pollingStationNameOrigin';
