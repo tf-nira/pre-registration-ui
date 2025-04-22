@@ -1066,7 +1066,6 @@ isStepVisible(step: number): boolean {
                   msg = "The date must not be in the future.";
                 }
               } else if (validatorItem.type === "minimumExpiry") {
-                debugger
                 let inputDate = new Date(val);
                 let existancyDate = new Date("2014-08-01");
                 existancyDate.setHours(0, 0, 0, 0); // Clear time for accurate comparison
@@ -1208,7 +1207,6 @@ isStepVisible(step: number): boolean {
               }
             });
           }
-          debugger
           let promisesArr = await this.loadLocationData(locationCode, controlId,
             filtered.locationHierarchyName);
           Promise.all(promisesArr).then((values) => {
