@@ -1065,8 +1065,7 @@ isStepVisible(step: number): boolean {
                   isInvalid = true;
                   msg = "The date must not be in the future.";
                 }
-              }
-              else if (validatorItem.type === "minimumExpiry") {
+              } else if (validatorItem.type === "minimumExpiry") {
                 debugger
                 let inputDate = new Date(val);
                 let existancyDate = new Date("2014-08-01");
@@ -1075,8 +1074,7 @@ isStepVisible(step: number): boolean {
                   isInvalid = true;
                   msg = "The date is too old for expiry.";
                 }
-              }
-              else if (validatorItem.type === "beforeApplicantDOB") {
+              } else if (validatorItem.type === "beforeApplicantDOB") {
                 let inputDate = new Date(val);
                 let currentDate = new Date();
                 const dateOfBirthValue = this.userForm.controls[this.dateOfBirthFieldId].value;
@@ -1086,8 +1084,17 @@ isStepVisible(step: number): boolean {
                   isInvalid = true;
                   msg = "The date must not be later than the Applicant's Date of Birth or a future date.";
                 }
-              }
-              else if (validatorItem.type === "regex") {
+              } else if (validatorItem.type === "afterApplicantDOB") {
+                let inputDate = new Date(val);
+                let currentDate = new Date();
+                const dateOfBirthValue = this.userForm.controls[this.dateOfBirthFieldId].value;
+                const applicantDOB = new Date(dateOfBirthValue);
+                currentDate.setHours(0, 0, 0, 0); // Clear time for accurate comparison
+                if (inputDate > currentDate || applicantDOB >= inputDate) {
+                  isInvalid = true;
+                  msg = "The date must not be more than the Applicant's Date of Birth or a future date.";
+                }
+              } else if (validatorItem.type === "regex") {
                 let regex = new RegExp(validatorItem.validator);
                 if (regex.test(val) == false) {
                   isInvalid = true;
