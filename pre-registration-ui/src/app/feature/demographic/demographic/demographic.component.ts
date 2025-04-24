@@ -223,6 +223,7 @@ isStepVisible(step: number): boolean {
     appConstants.NIN.CHILD_SIX
 ];
   uniqueNin = {};
+  personalInformationCat_Cop : any;
   //userServiceTypeCop: string = "";
   copAddName: boolean;
   copChangeNameOrder: boolean;
@@ -1360,6 +1361,9 @@ isStepVisible(step: number): boolean {
     //if(selectedFieldId==appConstants.userServiceTypeCop){
       //this.userServiceTypeCop=this.userForm.controls[selectedFieldId].value;
     //}
+    if(selectedFieldId==appConstants.personalInformationCat){
+      this.personalInformationCat_Cop=this.userForm.controls[selectedFieldId].value;
+    }
     if(selectedFieldId==appConstants.copAddName){
       this.copAddName=this.userForm.controls[selectedFieldId].value;
     }
@@ -2719,7 +2723,6 @@ isStepVisible(step: number): boolean {
    * @memberof DemographicComponent
    */
   onSubmit() {
-    console.log("this.stateCtrl.value");
     if (this.readOnlyMode) {
       this.redirectUser();
     } else {
@@ -2738,8 +2741,6 @@ isStepVisible(step: number): boolean {
       if(this.userService==appConstants.USER_SERVICE.UPDATE){
         this.nameFieldsCopValidation();
       }
-      console.log(this.userForm.valid)
-
       console.log(this.filledFields);
       const filledFields = Object.keys(this.userForm.controls).filter(key => {
         return this.userForm.controls[key].value !== null && this.userForm.controls[key].value !== '';
@@ -3376,28 +3377,28 @@ isStepVisible(step: number): boolean {
     const nameFields = this.notificationOfChangeNameFields;
     const nameFieldsRemove = this.notificationOfChangeRemoveFields;
     //if (nameFieldsUserServiceCopArr.includes(this.userServiceTypeCop)) {
-    if (this.copAddName && this.userForm.valid) {
-      const hasValue = nameFields.some((field) => {
-        const namefieldCop = this.userForm.controls[field];
-        return namefieldCop && namefieldCop.value && namefieldCop.value.trim() !== "";
-      });
-
-      if (!hasValue) {
-        this.userForm.setErrors({ invalidForm: true });
+    if (this.personalInformationCat_Cop == true || this.personalInformationCat_Cop == "Y") {
+      if (this.copAddName && this.userForm.valid) {
+        const hasValue = nameFields.some((field) => {
+          const namefieldCop = this.userForm.controls[field];
+          return namefieldCop && namefieldCop.value && namefieldCop.value.trim() !== "";
+        });
+  
+        if (!hasValue) {
+          this.userForm.setErrors({ invalidForm: true });
+        }
       }
-    }
-    if (this.removingName && this.userForm.valid) {
-      const hasValidValue = nameFieldsRemove.some((field) => {
-        const removeFieldCop = this.userForm.controls[field];
-        return removeFieldCop && (removeFieldCop.value === true || removeFieldCop.value === "Y");
-      });
-    
-      if (!hasValidValue) {
-        this.userForm.setErrors({ invalidForm: true });
+      if (this.removingName && this.userForm.valid) {
+        const hasValidValue = nameFieldsRemove.some((field) => {
+          const removeFieldCop = this.userForm.controls[field];
+          return removeFieldCop && (removeFieldCop.value === true || removeFieldCop.value === "Y");
+        });
+      
+        if (!hasValidValue) {
+          this.userForm.setErrors({ invalidForm: true });
+        }
       }
-    }
-    
-    
+    } 
   }
 
   nameFieldsCopValidationError(): { control_name: string; error_name: string; error_value: boolean } | null {

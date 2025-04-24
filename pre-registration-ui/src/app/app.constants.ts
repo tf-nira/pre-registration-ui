@@ -216,6 +216,8 @@ export const userServiceType = "userServiceType";
 
 export const userServiceTypeCop = "userServiceTypeCop";
 
+export const personalInformationCat = "personalInformationCat";
+
 export const declaration = "declarationCheckBox";
 
 export const copAddName = "addingName";
