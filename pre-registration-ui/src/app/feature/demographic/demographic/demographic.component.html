@@ -5333,7 +5333,7 @@
                   Only required if the applicant age is below 18 years
                 </mat-panel-description>
                 <mat-panel-description *ngIf="isCopService()">
-                  Only required if the applicant age is below 16 years
+                  Only required if the applicant age is below 18 years
                 </mat-panel-description>
               </mat-expansion-panel-header>
           
@@ -6128,7 +6128,10 @@
                                 (change)="onChangeHandler(field.id);">
                               </mat-checkbox>&nbsp;&nbsp;
                               <span *ngFor="let lang of dataCaptureLanguages;index as langIndex">
-                                <span *ngIf="langIndex !== 0"> / </span>{{field.labelName[lang]}}
+                                <span *ngIf="langIndex !== 0"> / </span>
+                                <ng-container *ngIf="(!isReplacement()&&!isCopService())">{{field.labelName[lang]}}</ng-container>
+                                <ng-container *ngIf="isCopService()">{{field.labelNameCop[lang]}}</ng-container>
+                                <ng-container *ngIf="isReplacement()">{{field.labelNameLost[lang]}}</ng-container>
                               </span>
                             </span>
                           </ng-container>
