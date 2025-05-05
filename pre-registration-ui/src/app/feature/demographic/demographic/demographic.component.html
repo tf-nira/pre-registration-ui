@@ -4287,8 +4287,8 @@
                 <mat-panel-title>
                <b>Notification of Change:</b>
                 </mat-panel-title>
-                <mat-panel-description>
-                
+                <mat-panel-description *ngIf="isNameRemovalCop()">
+                  Removing a name: Select the name fields you want to remove.
                 </mat-panel-description>
                 
               </mat-expansion-panel-header>
@@ -4301,6 +4301,12 @@
                       <b *ngIf="field.SectionName === 'name' && this.copAddName">Adding a Name:</b>
                       <b *ngIf="field.SectionName === 'name' && this.copChangeNameOrder">Change of Order of Names:</b>
                       <b *ngIf="field.SectionName === 'name' && this.copCompleChange">Complete Change of Name:</b>
+                    </div>
+                    <div class="subsection-name" *ngIf="!this.copAddName && field.SectionNameRemoval && field.isVisible == true && field.renderID.startsWith('frm_3a_a1_C_surname') && isSurnameRemoval() ">
+                      <b *ngIf="(field.SectionNameRemoval === 'name' &&isSurnameRemoval())">Adding a Name:</b>
+                    </div>
+                    <div class="subsection-name" *ngIf="!this.copAddName && field.SectionNameRemoval && field.isVisible == true && field.renderID.startsWith('frm_3a_a1_C_givenName') && isGivenNameRemoval() && !isSurnameRemoval()">
+                      <b *ngIf="(field.SectionNameRemoval === 'name' &&isGivenNameRemoval()) && !isSurnameRemoval()">Adding a Name:</b>
                     </div>
                   </span>
                 <div class="rowContainer">
