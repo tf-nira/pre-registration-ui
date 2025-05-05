@@ -224,7 +224,8 @@ export const copAddName = "addingName";
 export const copChangeNameOrder = "changeOrderOfNames";
 export const copCompleChange = "completeChangeofName";
 export const removingName = "removingName";
-
+export const removesurname = "removesurname";
+export const removegivenName = "removegivenName";
 
 export const USER_SERVICE = {
   RENEWAL : "RENEWAL",

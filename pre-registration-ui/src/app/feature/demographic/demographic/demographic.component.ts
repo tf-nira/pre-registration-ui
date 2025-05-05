@@ -3372,6 +3372,26 @@ isStepVisible(step: number): boolean {
     return false;
   }
 
+  isSurnameRemoval(): boolean {
+    if (this.userForm.controls[appConstants.removesurname].value=== true || this.userForm.controls[appConstants.removesurname].value=== "Y") {
+      return true;
+    }
+    return false;
+  }
+
+  isGivenNameRemoval(): boolean {
+    if (this.userForm.controls[appConstants.removegivenName].value=== true || this.userForm.controls[appConstants.removegivenName].value=== "Y"){
+      return true;
+    }
+    return false;
+  }
+
+  isNameRemovalCop(): boolean {
+    if (this.userForm.controls[appConstants.removingName].value=== true || this.userForm.controls[appConstants.removingName].value=== "Y"){
+      return true;
+    }
+    return false;
+  }
   nameFieldsCopValidation() {
    // const nameFieldsUserServiceCopArr = this.notificationOfChangeServiceType;
     const nameFields = this.notificationOfChangeNameFields;
