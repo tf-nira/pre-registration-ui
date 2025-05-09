@@ -17,6 +17,7 @@ import { MatDialog } from "@angular/material";
 import { FilesModel } from "src/app/shared/models/demographic-model/files.model";
 import { LogService } from "src/app/shared/logger/log.service";
 import Utils from "src/app/app.util";
+import moment, { invalid } from "moment";
 import { Subscription } from "rxjs";
 import identityStubJson from "../../../../assets/identity-spec.json";
 import { myFlag, setMyFlag , Service} from  'src/app/shared/global-vars';
@@ -120,6 +121,7 @@ export class FileUploadComponent implements OnInit, OnDestroy {
   validationErrorCodes: any;
   jsonRulesEngine = new Engine();
   identityObjCopy:any;
+  serverDtFormat = "DD/MM/YYYY";
   constructor(
     private registration: RegistrationService,
     private dataStorageService: DataStorageService,
@@ -1245,6 +1247,10 @@ export class FileUploadComponent implements OnInit, OnDestroy {
   async processConditionalRequiredValidations(identityFormData, uiField) {
     return new Promise<void>((resolve, reject) => {
       let facts = {};
+      let dateOfBirth = identityFormData.identity.dateOfBirth;
+      identityFormData.identity.age = this.calculateAge(dateOfBirth);
+      let dateOfBirthCop = identityFormData.identity.dateOfBirthCop;
+      identityFormData.identity.ageCop = this.calculateAge(dateOfBirthCop);
       if (uiField && uiField.requiredCondition && uiField.requiredCondition != "") {
         let requiredRule = new Rule({
           conditions: uiField.requiredCondition,
@@ -1286,6 +1292,23 @@ export class FileUploadComponent implements OnInit, OnDestroy {
       }
     });
   }
+
+  calculateAge(dateStr: string): string | number {
+    const birthDate = moment(dateStr, this.serverDtFormat, true);
+    
+    if (birthDate.isValid()) {
+      const now = moment();
+      const years = now.diff(birthDate, 'years');
+      
+      if (years > 150 || years < 0) {
+        return "";
+      }
+      return years;
+    }
+  
+    return "";
+  }
+  
   /**
    *@description method to send the file to the server.
    *
