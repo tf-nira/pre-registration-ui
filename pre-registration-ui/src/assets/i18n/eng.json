@@ -800,7 +800,8 @@
       "action_modify_information": "Modify Information",
       "action_view_acknowledgement": "View Acknowledgement",
       "action_view_information": "View Information",
-      "data_capture_langs": "Data Capture Languages"
+      "data_capture_langs": "Data Capture Languages",
+      "text_service_type": "Service Type"
     },
     "discard": {
       "title_confirm": "Confirm",
