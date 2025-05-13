@@ -134,6 +134,10 @@
                     <td class="application-value">{{lang}}</td>
                   </span>
                 </tr>
+                <tr>
+                  <td class="column1">{{ "dashboard.card.text_service_type" | translate }}</td>
+                  <td class="application-value">{{ utils.getRedableServiceType(user.userService) }}</td>
+                </tr>
               </table>
             </div>
           </mat-card-content>

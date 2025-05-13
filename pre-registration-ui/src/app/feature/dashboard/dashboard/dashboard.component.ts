@@ -22,6 +22,7 @@ import { Subscription } from "rxjs";
 import { NotificationDtoModel } from "src/app/shared/models/notification-model/notification-dto.model";
 import { utf8Encode } from "@angular/compiler/src/util";
 
+
 import { myFlag, setMyFlag } from  'src/app/shared/global-vars';
 
 /**
@@ -71,6 +72,7 @@ export class DashBoardComponent implements OnInit, OnDestroy {
   maxLanguage: Number;
   isNavigateToDemographic = false;
   appStatusCodes = appConstants.APPLICATION_STATUS_CODES;
+  utils = Utils;
   /**
    * @description Creates an instance of DashBoardComponent.
    * @param {Router} router
@@ -366,6 +368,7 @@ export class DashBoardComponent implements OnInit, OnDestroy {
     }
     let dataCaptureLanguagesLabels = Utils.getLanguageLabels(JSON.stringify(dataAvailableLanguages), 
           localStorage.getItem(appConstants.LANGUAGE_CODE_VALUES));
+    let userService = applicantResponse["demographicMetadata"][appConstants.userService] || "-";
     const applicant: Applicant = {
       applicationID:
         applicantResponse[appConstants.DASHBOARD_RESPONSE_KEYS.applicant.preId],
@@ -397,7 +400,8 @@ export class DashBoardComponent implements OnInit, OnDestroy {
         applicantResponse["demographicMetadata"][
           appConstants.DASHBOARD_RESPONSE_KEYS.applicant.postalCode
         ],
-      dataCaptureLangs: dataCaptureLanguagesLabels    
+      dataCaptureLangs: dataCaptureLanguagesLabels ,
+      userService: userService   
     };
 
     return applicant;

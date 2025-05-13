@@ -296,4 +296,10 @@ export default class Utils {
     }
     return message;
   }
+
+  static getRedableServiceType(serviceType: string): string {
+    if(!serviceType || serviceType === '-') return '-';
+
+    return appConstants.SERVICE_TYPES[serviceType.toUpperCase()] || serviceType;
+  }
 }

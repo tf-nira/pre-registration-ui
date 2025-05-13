@@ -301,3 +301,11 @@ export const PARISH_NEW = 'applicantPlaceOfOriginParish';
 export const PARISH_FIRSTID = 'applicantPlaceOfOriginParish1';
 
 export const POLLING_STATION_NAME_ORIGIN = 'pollingStationNameOrigin';
+
+export const SERVICE_TYPES = {
+  NEW: 'New Registration',
+  RENEWAL: 'Renewal of Card',
+  LOST: 'Lost/ Replacement of Card',
+  UPDATE: 'Change of Particulars',
+  FIRSTID: 'Get First ID'
+};
