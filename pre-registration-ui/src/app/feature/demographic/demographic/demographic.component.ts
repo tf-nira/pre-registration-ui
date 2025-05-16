@@ -206,6 +206,17 @@ isStepVisible(step: number): boolean {
     appConstants.SPOUSE_DATE_OF_MARRIAGE.THREE,
     appConstants.SPOUSE_DATE_OF_MARRIAGE.FOUR
   ];
+
+  copFields = [
+    appConstants.COP_FIELDS.ADD_SPOUSE,
+    appConstants.COP_FIELDS.REMOVE_SPOUSE,
+    appConstants.COP_FIELDS.CITIZENSHIP_TYPE,
+    appConstants.COP_FIELDS.DATE_OF_BIRTH,
+    appConstants.COP_FIELDS.FATHER,
+    appConstants.COP_FIELDS.MOTHER,
+    appConstants.COP_FIELDS.PLACE_OF_ORIGIN
+  ];
+
   ninList = [
     appConstants.NIN.APPLICANT,
     appConstants.NIN.FATHER,
@@ -225,6 +236,7 @@ isStepVisible(step: number): boolean {
   uniqueNin = {};
   personalInformationCat_Cop : any;
   //userServiceTypeCop: string = "";
+  copIsCardRequired : String;
   copAddName: boolean;
   copChangeNameOrder: boolean;
   copCompleChange: boolean;
@@ -277,6 +289,7 @@ isStepVisible(step: number): boolean {
   dateOfBirthFieldIdCop = "";
   isNavigateToDemographic = false;
   isSubmitted = false;
+  cardChangeMessage: string | null = null;
   _moment = moment;
   @ViewChild("age") age: ElementRef;
   @ViewChild("ageCop") ageCop: ElementRef;
@@ -1367,6 +1380,9 @@ isStepVisible(step: number): boolean {
     if(selectedFieldId==appConstants.copAddName){
       this.copAddName=this.userForm.controls[selectedFieldId].value;
     }
+    if(selectedFieldId==appConstants.copIsCardRequired){
+      this.copIsCardRequired=this.userForm.controls[selectedFieldId].value;
+    }
     if(selectedFieldId==appConstants.copChangeNameOrder){
       this.copChangeNameOrder=this.userForm.controls[selectedFieldId].value;
     }
@@ -1561,7 +1577,7 @@ isStepVisible(step: number): boolean {
           if (subField.isVisible == true && this.initialdataModification != true && (subField.hasOwnProperty("setDefaultValueCondition") || subField.hasOwnProperty("setDefaultValueCondition2"))) {
             let valueToSet;
             let selectedValue = null;
-
+            
             // Iterate over possible condition-value pairs
             const conditions = [
               { conditionKey: "setDefaultValueCondition", valueKey: "setDefaultValue" },
@@ -1598,10 +1614,28 @@ isStepVisible(step: number): boolean {
 
               if (this.isControlInMultiLang(subField)) {
                 this.userForm.controls[fieldId + "_eng"].setValue(valueToSet);
-                this.userForm.controls[fieldId + "_eng"].disable();
+                if (this.copFields.includes(selectedFieldId)){
+                  const copValue = this.userForm.controls[selectedFieldId].value;
+                  if((this.userForm.controls[appConstants.COP_FIELDS.DATE_OF_BIRTH].value == "Y" || this.userForm.controls[appConstants.COP_FIELDS.DATE_OF_BIRTH].value == true) && this.currentAgeCop <= "15"){
+                    this.userForm.controls[fieldId + "_eng"].enable();
+                  } else if(copValue == "Y" || copValue == true){
+                    this.userForm.controls[fieldId + "_eng"].enable();
+                  }
+                } else {
+                  this.userForm.controls[fieldId + "_eng"].disable();
+                }
               } else {
                 this.userForm.controls[fieldId].setValue(valueToSet);
-                this.userForm.controls[fieldId].disable();
+                if (this.copFields.includes(selectedFieldId)){
+                  const copValue = this.userForm.controls[selectedFieldId].value;
+                  if((this.userForm.controls[appConstants.COP_FIELDS.DATE_OF_BIRTH].value == "Y" || this.userForm.controls[appConstants.COP_FIELDS.DATE_OF_BIRTH].value == true) && this.currentAgeCop <= "15"){
+                    this.userForm.controls[fieldId].enable();
+                  } else if(copValue == "Y" || copValue == true){
+                    this.userForm.controls[fieldId].enable();
+                  }
+                } else {
+                  this.userForm.controls[fieldId].disable();
+                }
               }
             } else {
               if (this.isControlInMultiLang(subField)) {
@@ -1623,6 +1657,15 @@ isStepVisible(step: number): boolean {
         }
       }
     }
+
+    const isAnyFieldYes = this.copFields.some(field => this.userForm.controls[field].value === "Y" || this.userForm.controls[field].value === true);
+    if (isAnyFieldYes && this.copIsCardRequired === 'Y') {
+      this.cardChangeMessage = "This is subject to card change charges";
+    } else {
+      this.cardChangeMessage = null;
+    }
+
+
 
     if(selectedFieldId === appConstants.PHONE_FIELD || selectedFieldId === appConstants.COUNTRY_CODE_FIELD){
       this.validatePhoneNumber(selectedFieldId);

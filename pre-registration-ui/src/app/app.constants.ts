@@ -220,12 +220,23 @@ export const personalInformationCat = "personalInformationCat";
 
 export const declaration = "declarationCheckBox";
 
+export const copIsCardRequired = "isCardRequired";
 export const copAddName = "addingName";
 export const copChangeNameOrder = "changeOrderOfNames";
 export const copCompleChange = "completeChangeofName";
 export const removingName = "removingName";
 export const removesurname = "removesurname";
 export const removegivenName = "removegivenName";
+
+export const COP_FIELDS = {
+  ADD_SPOUSE: "addSpouse",
+  REMOVE_SPOUSE: "removeSpouse",
+  MOTHER: "changeDetailsOfMother",
+  FATHER: "changeDetailsOfFather",
+  CITIZENSHIP_TYPE: "changeInCitizenshipType",
+  PLACE_OF_ORIGIN: "changeInPlaceOfOrigin",
+  DATE_OF_BIRTH: "changeOfDateOfBirth"
+};
 
 export const USER_SERVICE = {
   RENEWAL : "RENEWAL",
