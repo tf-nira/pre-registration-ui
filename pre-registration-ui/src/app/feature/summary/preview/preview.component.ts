@@ -758,10 +758,7 @@ export class PreviewComponent implements OnInit {
   }
 
   async navigateNext() {
-    if (this.isBookingRequiredFlag) {
-      await this.makeBooking();
-      this.bookingService.setSendNotification(true);
-    }
+    
     let url = Utils.getURL(this.router.url, "summary", 3);
     url = url + `/${this.preRegId}/acknowledgement`;
     const confirmationData = {
@@ -779,8 +776,12 @@ export class PreviewComponent implements OnInit {
         disableClose: true,
       })
       .afterClosed()
-      .subscribe((result) => {
+      .subscribe(async (result) => {
         if (result === true) {
+          if (this.isBookingRequiredFlag) {
+            await this.makeBooking();
+            this.bookingService.setSendNotification(true);
+          }
           this.router.navigateByUrl(url);
         } else {
           console.log('Cancellation aborted.');
