@@ -1621,8 +1621,10 @@ isStepVisible(step: number): boolean {
                   } else if(copValue == "Y" || copValue == true){
                     this.userForm.controls[fieldId + "_eng"].enable();
                   }
-                } else {
+                } else if(valueToSet != ""){
                   this.userForm.controls[fieldId + "_eng"].disable();
+                } else {
+                  this.userForm.controls[fieldId + "_eng"].enable();
                 }
               } else {
                 this.userForm.controls[fieldId].setValue(valueToSet);
@@ -1633,8 +1635,10 @@ isStepVisible(step: number): boolean {
                   } else if(copValue == "Y" || copValue == true){
                     this.userForm.controls[fieldId].enable();
                   }
-                } else {
+                } else if(valueToSet != ""){
                   this.userForm.controls[fieldId].disable();
+                } else {
+                  this.userForm.controls[fieldId].enable();
                 }
               }
             } else {
