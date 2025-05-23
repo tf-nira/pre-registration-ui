@@ -879,7 +879,7 @@ isStepVisible(step: number): boolean {
           this.identityData = identityJsonSpec["identity"];
 
           //LOCAL
-          // this.identityData = [];    
+           this.identityData = [];    
 
           let locationHeirarchiesFromJson = [
             ...identityJsonSpec["locationHierarchy"], 
@@ -889,8 +889,8 @@ isStepVisible(step: number): boolean {
             response[appConstants.RESPONSE]["idSchemaVersion"];
 
             //LOCAL
-            // const fieldDefinitions = await this.loadFieldDefinitions();
-            // this.identityData.push(...fieldDefinitions);
+            const fieldDefinitions = await this.loadFieldDefinitions();
+            this.identityData.push(...fieldDefinitions);
 
           if (Array.isArray(locationHeirarchiesFromJson[0])) {
             this.locationHeirarchies = locationHeirarchiesFromJson;
@@ -1773,6 +1773,8 @@ isStepVisible(step: number): boolean {
         this.jsonRulesEngine
           .run(formIdentityData)
           .then((results) => {
+            console.log(subField);
+            console.log(results);
             results.events.map((event) =>
               console.log(
                 "jsonRulesEngine for visibleConditions run successfully",
@@ -3419,20 +3421,6 @@ isStepVisible(step: number): boolean {
     return false;
   }
 
-  isSurnameRemoval(): boolean {
-    if (this.userForm.controls[appConstants.removesurname].value=== true || this.userForm.controls[appConstants.removesurname].value=== "Y") {
-      return true;
-    }
-    return false;
-  }
-
-  isGivenNameRemoval(): boolean {
-    if (this.userForm.controls[appConstants.removegivenName].value=== true || this.userForm.controls[appConstants.removegivenName].value=== "Y"){
-      return true;
-    }
-    return false;
-  }
-
   isNameRemovalCop(): boolean {
     if (this.userForm.controls[appConstants.removingName].value=== true || this.userForm.controls[appConstants.removingName].value=== "Y"){
       return true;
@@ -3455,16 +3443,17 @@ isStepVisible(step: number): boolean {
           this.userForm.setErrors({ invalidForm: true });
         }
       }
-      if (this.removingName && this.userForm.valid) {
-        const hasValidValue = nameFieldsRemove.some((field) => {
-          const removeFieldCop = this.userForm.controls[field];
-          return removeFieldCop && (removeFieldCop.value === true || removeFieldCop.value === "Y");
-        });
+      //no more remove a field validation as per new requirement
+      // if (this.removingName && this.userForm.valid) {
+      //   const hasValidValue = nameFieldsRemove.some((field) => {
+      //     const removeFieldCop = this.userForm.controls[field];
+      //     return removeFieldCop && (removeFieldCop.value === true || removeFieldCop.value === "Y");
+      //   });
       
-        if (!hasValidValue) {
-          this.userForm.setErrors({ invalidForm: true });
-        }
-      }
+      //   if (!hasValidValue) {
+      //     this.userForm.setErrors({ invalidForm: true });
+      //   }
+      // }
     } 
   }
 
