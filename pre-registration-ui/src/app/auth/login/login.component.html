@@ -20,6 +20,12 @@
       <span class="boldText"><b>{{ "login.sub_text" | translate }} </b></span>
       <span class="boldText"><b>{{ "login.sub_text_UID" | translate }}</b> </span>
     </div>
+    <div class="pinkText">
+      <div style="height: 1px;"></div>
+      <div style="font-weight: normal; font-size: 12px;">{{ "login.residing_out" | translate }}</div>
+      <div style="font-weight: normal; font-size: 12px;">{{ "login.residing_in" | translate }}</div>
+    </div>
+    
     <div>
       <div style="width: 38vw; max-width: 323px" [ngClass]="
           selectedLanguage !== 'ara'
@@ -79,6 +85,10 @@
           </button>
         </div>
 
+        <div class="pinkText">
+          <div style="height: 2px;"></div>
+          <div style="font-weight: normal; font-size: 12px;">{{ "login.Pre_web" | translate }}</div>
+           </div>
         <!-- <div *ngIf="showResend">
           <button
             mat-raised-button

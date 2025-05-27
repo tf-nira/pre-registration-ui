@@ -459,7 +459,7 @@ export class PreviewComponent implements OnInit {
         }
         const obj = {
           code: type.code,
-          name: type.description,
+          name: type.labelName.eng,
           fileName: file.length > 0 ? file[0].docName : undefined,
         };
         this.documentMapObject.push(obj);

@@ -140,7 +140,7 @@ body {
 }
 
 .wrapper {
-  background-image: url(../src/assets/background_login.jpg);
+  background-image: url(../src/assets/background_login.png);
   background-repeat: no-repeat;
   background-size: cover;
   background-position:center center;
