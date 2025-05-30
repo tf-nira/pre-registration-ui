@@ -609,8 +609,8 @@
   "login": {
     "text": "Uganda National ID Application",
     "sub_text": "Pre-Registration",
-    "residing_out":"If you are residing outside Uganda, please log in using your email address. ",
-    "residing_in":"If you are residing inside Uganda, please log in using your mobile number. ",
+    "residing_out":"If you are outside Uganda, please log in using your email address instead of mobile number. ",
+    "residing_in":"If you are inside Uganda, please log in using your mobile number instead of email address. ",
     "Pre_web":"Note: The Pre-Registration Portal is supported only on desktops or laptops. Please do not use mobile devices.",
     "sub_text_UID": "Portal",
     "label_email_num": "Enter your Email Address or Phone Number",

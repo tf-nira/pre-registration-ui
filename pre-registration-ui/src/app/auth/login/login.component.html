@@ -3,6 +3,19 @@
 </div>
 
 <div *ngIf="!showSpinner" class="wrapper" [dir]="dir">
+<div class="info-box-1">
+  <div class="info-section">
+    <p class="info-text">{{ "login.residing_out" | translate }}</p>
+    <p class="info-text">{{ "login.residing_in" | translate }}</p>
+  </div>
+  
+</div>
+<div class="info-box-2">
+  <div class="info-section">
+    <p class="info-text">{{ "login.Pre_web" | translate }}</p>
+  </div>
+</div>
+
   <div class="form_wrapper">
 
     <div class="heading">
@@ -19,11 +32,6 @@
     <div class="subHeading pinkText">
       <span class="boldText"><b>{{ "login.sub_text" | translate }} </b></span>
       <span class="boldText"><b>{{ "login.sub_text_UID" | translate }}</b> </span>
-    </div>
-    <div class="pinkText">
-      <div style="height: 1px;"></div>
-      <div style="font-weight: normal; font-size: 12px;">{{ "login.residing_out" | translate }}</div>
-      <div style="font-weight: normal; font-size: 12px;">{{ "login.residing_in" | translate }}</div>
     </div>
     
     <div>
@@ -85,10 +93,7 @@
           </button>
         </div>
 
-        <div class="pinkText">
-          <div style="height: 2px;"></div>
-          <div style="font-weight: normal; font-size: 12px;">{{ "login.Pre_web" | translate }}</div>
-           </div>
+        
         <!-- <div *ngIf="showResend">
           <button
             mat-raised-button
