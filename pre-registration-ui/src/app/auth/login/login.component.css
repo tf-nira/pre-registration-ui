@@ -35,10 +35,11 @@
   line-height: 1.6;
   height: 150;
   position: fixed;
-  bottom: 120px;
+  bottom: 110x;
   right: 50px;
   max-width: 500px;
 align-items: center;
+top:26%;
 
 }
 

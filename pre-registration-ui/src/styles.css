@@ -142,12 +142,55 @@ body {
 .wrapper {
   background-image: url(../src/assets/background_login.png);
   background-repeat: no-repeat;
-  background-size: cover;
-  background-position:center center;
-  height:84vh;
+  background-size: contain;
+  background-position:-30px center;
+  height:80vh;
   width:100%;
   align-items:flex-end;
 }
+
+
+.info-box-1 {
+  position: absolute;
+  left: 32.5%;
+  top: 45%; 
+  transform: translateY(-50%);
+  width: 35%;
+  max-width: 400px;
+  margin: 0;
+  padding: 1rem;
+  border: 1px solid #d9534f;
+  border-radius: 8px;
+  background-color: #fff5f5;
+}
+
+.info-box-2 {
+  position: absolute;
+  left: 32.5%;
+  top: 70%;
+  transform: translateY(-50%);
+  width: 35%;
+  max-width: 400px;
+  margin: 0;
+  padding: 1rem;
+  border: 1px solid #d9534f;
+  border-radius: 8px;
+  background-color: #fff5f5;
+}
+
+.info-section {
+  margin: 0.5rem 0;
+}
+
+.info-text {
+  font-size: 14px;
+  font-weight: 400;
+  color: #d9534f;
+  text-align: center;
+  margin: 0.25rem 0;
+}
+
+
 
 :host ::ng-deep .ng2-pdf-viewer-container {
   width: 100% !important;
