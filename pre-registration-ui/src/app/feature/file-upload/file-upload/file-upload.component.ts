@@ -425,14 +425,21 @@ export class FileUploadComponent implements OnInit, OnDestroy {
    *
    * @memberof FileUploadComponent
    */
+  // getFileSize() {
+  //   this.allowedFileSize =
+  //     (
+  //       this.config.getConfigByKey(
+  //         appConstants.CONFIG_KEYS.preregistration_document_alllowe_file_size
+  //       ) / 1000000
+  //     ).toString() + "mb";
+  // }
+
   getFileSize() {
-    this.allowedFileSize =
-      (
-        this.config.getConfigByKey(
-          appConstants.CONFIG_KEYS.preregistration_document_alllowe_file_size
-        ) / 1000000
-      ).toString() + "mb";
-  }
+  const bytes = this.config.getConfigByKey(
+    appConstants.CONFIG_KEYS.preregistration_document_alllowe_file_size
+  );
+  this.allowedFileSize = (bytes / (1024 * 1024)).toFixed(1) + " MB";
+}
 
   /**
    *
