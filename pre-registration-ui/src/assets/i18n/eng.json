@@ -1032,7 +1032,7 @@
     "PRE-REG-OTP-402": "Please regenerate OTP and try again after sometime",
     "PRE-REG-OTP-403": "OTP is invalid. Please provide correct OTP value",
     "PRE-REG-OTP-404": "Invalid Input Parameter - %s",
-    "PRE-REG-OTP-405": "Missing Input Parameter - %s",
+    "PRE-REG-OTP-405": "OTP could not be generated. Please try again in a moment.",
     "PRE-REG-OTP-406": "Input Data Validation Failed",
     "PRE-REG-OTP-407": "Token generation failed",
     "PRE-REG-OTP-408": "OTP has already been generated and sent to your email id / phone number. If you want a new OTP, please try again after sometime.",
