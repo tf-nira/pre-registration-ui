@@ -227,6 +227,8 @@ export const copCompleChange = "completeChangeofName";
 export const removingName = "removingName";
 export const removesurname = "removesurname";
 export const removegivenName = "removegivenName";
+export const addingNamesFromPreviousCertorDoc = "addingNamesFromPreviousCertorDoc";
+export const otherNameCorrections = "otherNameCorrections";
 
 export const COP_FIELDS = {
   ADD_SPOUSE: "addSpouse",

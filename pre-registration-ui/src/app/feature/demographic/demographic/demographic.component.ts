@@ -241,6 +241,8 @@ isStepVisible(step: number): boolean {
   copChangeNameOrder: boolean;
   copCompleChange: boolean;
   removingName: boolean;
+  addingNamesFromPreviousCertorDoc: boolean;
+  otherNameCorrections: boolean;
   notificationOfChangeServiceType = [];
   notificationOfChangeNameFields = [];
   notificationOfChangeRemoveFields = [];
@@ -1388,6 +1390,12 @@ isStepVisible(step: number): boolean {
     }
     if(selectedFieldId==appConstants.copCompleChange){
       this.copCompleChange=this.userForm.controls[selectedFieldId].value;
+    }
+    if(selectedFieldId==appConstants.addingNamesFromPreviousCertorDoc){
+      this.addingNamesFromPreviousCertorDoc=this.userForm.controls[selectedFieldId].value;
+    }
+    if(selectedFieldId==appConstants.otherNameCorrections){
+      this.otherNameCorrections=this.userForm.controls[selectedFieldId].value;
     }
     if(selectedFieldId==appConstants.removingName){
       this.removingName=this.userForm.controls[selectedFieldId].value;
@@ -3317,7 +3325,7 @@ isStepVisible(step: number): boolean {
     if (error) {
       let text;
       switch (error.error_name) {
-        case 'nameCopRequired': text = `Any one of the field in Adding/removing of Name is required!`; break;
+        case 'nameCopRequired': text = `Any one of the field in Adding a Name/Adding name from Old Docs/other of Name corrections is required!`; break;
         case 'required': text = `${error.control_name}(${error.section_name}) is required!`; break;
         case 'pattern': text = `${error.control_name} has wrong pattern!`; break;
         case 'email': text = `${error.control_name} has wrong email format!`; break;
@@ -3433,7 +3441,7 @@ isStepVisible(step: number): boolean {
     const nameFieldsRemove = this.notificationOfChangeRemoveFields;
     //if (nameFieldsUserServiceCopArr.includes(this.userServiceTypeCop)) {
     if (this.personalInformationCat_Cop == true || this.personalInformationCat_Cop == "Y") {
-      if (this.copAddName && this.userForm.valid) {
+      if ((this.copAddName || this.addingNamesFromPreviousCertorDoc || this.otherNameCorrections) && this.userForm.valid) {
         const hasValue = nameFields.some((field) => {
           const namefieldCop = this.userForm.controls[field];
           return namefieldCop && namefieldCop.value && namefieldCop.value.trim() !== "";
