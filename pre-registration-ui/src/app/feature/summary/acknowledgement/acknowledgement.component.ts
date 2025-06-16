@@ -674,7 +674,7 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
         ){
           
           if (age >= 16) {
-            if ((demographicData.removingName === "Y" || demographicData.addingName === "Y" || demographicData.completeChangeofName === "Y" || demographicData.changeOfDateOfBirth === "Y" || demographicData.changeInPlaceOfResidence === "Y")) {
+            if ((demographicData.removingName === "Y" || demographicData.addingName === "Y" || demographicData.completeChangeofName === "Y" || demographicData.changeOfDateOfBirth === "Y" || demographicData.changeInPlaceOfResidence === "Y" || demographicData.addingNamesFromPreviousCertorDoc === "Y")) {
               const payableServiceCOP:string=this.configService.getConfigByKey("nira.payable.servicecode.COP_NORMAL");
               this.requestBody = {
                 service: payableServiceCOP,
