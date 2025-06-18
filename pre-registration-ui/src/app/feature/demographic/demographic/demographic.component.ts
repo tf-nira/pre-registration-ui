@@ -214,7 +214,8 @@ isStepVisible(step: number): boolean {
     appConstants.COP_FIELDS.DATE_OF_BIRTH,
     appConstants.COP_FIELDS.FATHER,
     appConstants.COP_FIELDS.MOTHER,
-    appConstants.COP_FIELDS.PLACE_OF_ORIGIN
+    appConstants.COP_FIELDS.PLACE_OF_ORIGIN,
+    appConstants.COP_FIELDS.DATE_OF_BIRTH_COP
   ];
 
   ninList = [
@@ -236,7 +237,6 @@ isStepVisible(step: number): boolean {
   uniqueNin = {};
   personalInformationCat_Cop : any;
   //userServiceTypeCop: string = "";
-  copIsCardRequired : String;
   copAddName: boolean;
   copChangeNameOrder: boolean;
   copCompleChange: boolean;
@@ -1382,9 +1382,6 @@ isStepVisible(step: number): boolean {
     if(selectedFieldId==appConstants.copAddName){
       this.copAddName=this.userForm.controls[selectedFieldId].value;
     }
-    if(selectedFieldId==appConstants.copIsCardRequired){
-      this.copIsCardRequired=this.userForm.controls[selectedFieldId].value;
-    }
     if(selectedFieldId==appConstants.copChangeNameOrder){
       this.copChangeNameOrder=this.userForm.controls[selectedFieldId].value;
     }
@@ -1626,6 +1623,10 @@ isStepVisible(step: number): boolean {
                   const copValue = this.userForm.controls[selectedFieldId].value;
                   if((this.userForm.controls[appConstants.COP_FIELDS.DATE_OF_BIRTH].value == "Y" || this.userForm.controls[appConstants.COP_FIELDS.DATE_OF_BIRTH].value == true) && this.currentAgeCop <= "15"){
                     this.userForm.controls[fieldId + "_eng"].enable();
+                  } else if((this.userForm.controls[appConstants.COP_FIELDS.CITIZENSHIP_TYPE].value == "Y" || this.userForm.controls[appConstants.COP_FIELDS.CITIZENSHIP_TYPE].value == true) && this.currentAgeCop <= "15") {
+                    this.userForm.controls[fieldId + "_eng"].disable();
+                  } else if((this.userForm.controls[appConstants.COP_FIELDS.CITIZENSHIP_TYPE].value == "Y" || this.userForm.controls[appConstants.COP_FIELDS.CITIZENSHIP_TYPE].value == true) && this.currentAgeCop > "15") {
+                    this.userForm.controls[fieldId + "_eng"].enable();
                   } else if(copValue == "Y" || copValue == true){
                     this.userForm.controls[fieldId + "_eng"].enable();
                   }
@@ -1639,6 +1640,10 @@ isStepVisible(step: number): boolean {
                 if (this.copFields.includes(selectedFieldId)){
                   const copValue = this.userForm.controls[selectedFieldId].value;
                   if((this.userForm.controls[appConstants.COP_FIELDS.DATE_OF_BIRTH].value == "Y" || this.userForm.controls[appConstants.COP_FIELDS.DATE_OF_BIRTH].value == true) && this.currentAgeCop <= "15"){
+                    this.userForm.controls[fieldId].enable();
+                  } else if((this.userForm.controls[appConstants.COP_FIELDS.CITIZENSHIP_TYPE].value == "Y" || this.userForm.controls[appConstants.COP_FIELDS.CITIZENSHIP_TYPE].value == true) && this.currentAgeCop <= "15") {
+                    this.userForm.controls[fieldId].disable();
+                  } else if((this.userForm.controls[appConstants.COP_FIELDS.CITIZENSHIP_TYPE].value == "Y" || this.userForm.controls[appConstants.COP_FIELDS.CITIZENSHIP_TYPE].value == true) && this.currentAgeCop > "15") {
                     this.userForm.controls[fieldId].enable();
                   } else if(copValue == "Y" || copValue == true){
                     this.userForm.controls[fieldId].enable();
@@ -1671,7 +1676,9 @@ isStepVisible(step: number): boolean {
     }
 
     const isAnyFieldYes = this.copFields.some(field => this.userForm.controls[field].value === "Y" || this.userForm.controls[field].value === true);
-    if (isAnyFieldYes && this.copIsCardRequired === 'Y') {
+    const isCopCardRequiredControl = this.userForm.controls[appConstants.copIsCardRequired];
+
+    if (isAnyFieldYes && isCopCardRequiredControl && !isCopCardRequiredControl.disabled && isCopCardRequiredControl.value === 'Y') {
       this.cardChangeMessage = "This is subject to card change charges";
     } else {
       this.cardChangeMessage = null;
