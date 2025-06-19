@@ -1722,6 +1722,11 @@ isStepVisible(step: number): boolean {
           }
         }
       }
+      else{
+        if(this.uniqueNin[selectedFieldId]){
+          delete this.uniqueNin[selectedFieldId];
+        }
+      }
     }
   }
   

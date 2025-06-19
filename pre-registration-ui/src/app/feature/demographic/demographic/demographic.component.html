@@ -4665,7 +4665,7 @@
                               <mat-form-field appearance="legacy"
                                 [ngStyle]="dataCaptureLangsDir[i] == 'ltr'? {'text-align': 'left'} : {'text-align': 'right'}">
                                 <mat-label>
-                                  {{field.description}}
+                                  {{field.description}} <span *ngIf="field.required" class="required-annotation">*</span>
                                 </mat-label>
                                 <input matInput [formControlName]="field.id + '_' + dataCaptureLanguage"
                                   (change)="onChangeHandler(field.id)"
