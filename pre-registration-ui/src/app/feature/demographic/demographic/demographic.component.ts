@@ -1359,6 +1359,13 @@ isStepVisible(step: number): boolean {
         this.userForm.controls[selectedFieldId].disable();
       }
     }
+
+    if (selectedFieldId == appConstants.copIsCardRequired) {
+      if (this.dataModification == true) {
+        this.userForm.controls[selectedFieldId].disable();
+      }
+    }
+
     // if (this.initializationFlag == false && selectedFieldId == appConstants.userService && this.initialdataModification!=true) {
     //   for (const control of this.uiFields) {
     //     if (!(control.id == appConstants.userService)) {
