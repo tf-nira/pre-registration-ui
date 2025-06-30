@@ -283,7 +283,8 @@ export const NIN = {
   CHILD_THREE: "childThreeNIN",
   CHILD_FOUR: "childFourNIN",
   CHILD_FIVE: "childFiveNIN",
-  CHILD_SIX: "childSixNIN"
+  CHILD_SIX: "childSixNIN",
+  DECLARANT: "introducerNIN"
 };
 
 export const NOTIFICATION_OF_CHANGE = {
