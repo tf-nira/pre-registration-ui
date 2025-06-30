@@ -534,7 +534,7 @@ export class PreviewComponent implements OnInit {
 
   modifyDemographic() {
     // open dialog for confirming modify
-    const message = "Are you sure you want to modify your Bio data";
+    const message = "Are you sure you want to modify your Demographics data?";
     const ok_text = "YES, MODIFY";
     const no_text = "CANCEL";
     const body = {

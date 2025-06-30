@@ -227,6 +227,8 @@ export const copCompleChange = "completeChangeofName";
 export const removingName = "removingName";
 export const removesurname = "removesurname";
 export const removegivenName = "removegivenName";
+export const addingNamesFromPreviousCertorDoc = "addingNamesFromPreviousCertorDoc";
+export const otherNameCorrections = "otherNameCorrections";
 
 export const COP_FIELDS = {
   ADD_SPOUSE: "addSpouse",
@@ -235,7 +237,8 @@ export const COP_FIELDS = {
   FATHER: "changeDetailsOfFather",
   CITIZENSHIP_TYPE: "changeInCitizenshipType",
   PLACE_OF_ORIGIN: "changeInPlaceOfOrigin",
-  DATE_OF_BIRTH: "changeOfDateOfBirth"
+  DATE_OF_BIRTH: "changeOfDateOfBirth",
+  DATE_OF_BIRTH_COP: "dateOfBirthCop"
 };
 
 export const USER_SERVICE = {

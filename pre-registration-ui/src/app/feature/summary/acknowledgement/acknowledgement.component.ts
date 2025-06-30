@@ -183,7 +183,7 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
             if (!this.userService) {
               this.userService = demographicData["userService"];
             }
-            if(this.userService==appConstants.USER_SERVICE.UPDATE || this.userService==appConstants.USER_SERVICE.FIRSTID|| this.userService==appConstants.USER_SERVICE.REPLACEMENT){
+            if(this.userService==appConstants.USER_SERVICE.UPDATE || this.userService==appConstants.USER_SERVICE.FIRSTID|| this.userService==appConstants.USER_SERVICE.REPLACEMENT || this.userService==appConstants.USER_SERVICE.RENEWAL){
               this.name = appConstants.PRE_REGISTRATION_IDENTITY_NAME_COP;
             }
 
@@ -674,7 +674,7 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
         ){
           
           if (age >= 16) {
-            if ((demographicData.removingName === "Y" || demographicData.addingName === "Y" || demographicData.completeChangeofName === "Y" || demographicData.changeOfDateOfBirth === "Y" || demographicData.changeInPlaceOfResidence === "Y")) {
+            if ((demographicData.removingName === "Y" || demographicData.addingName === "Y" || demographicData.completeChangeofName === "Y" || demographicData.changeOfDateOfBirth === "Y" || demographicData.changeInPlaceOfResidence === "Y" || demographicData.addingNamesFromPreviousCertorDoc === "Y" || demographicData.changeInGender === "Y")) {
               const payableServiceCOP:string=this.configService.getConfigByKey("nira.payable.servicecode.COP_NORMAL");
               this.requestBody = {
                 service: payableServiceCOP,

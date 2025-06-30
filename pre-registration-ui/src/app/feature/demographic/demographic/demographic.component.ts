@@ -147,13 +147,13 @@ isStepVisible(step: number): boolean {
     case 0:
       return true; // Always visible
     case 1:
-      return this.isCopService() || this.isGetFirstId() || this.isReplacement();
+      return this.isCopService() || this.isGetFirstId() || this.isReplacement() || this.isRenewalService();
     case 2:
       return this.isCopService();
     case 3:
       return this.isCopService();
     case 4:
-      return !this.isCopService() && !this.isGetFirstId() && !this.isReplacement();
+      return !this.isCopService() && !this.isGetFirstId() && !this.isReplacement() && !this.isRenewalService();
     case 5:
       return !this.isCopService() && !this.isGetFirstId() && !this.isReplacement(); // Replace with actual condition
     case 6:
@@ -214,7 +214,8 @@ isStepVisible(step: number): boolean {
     appConstants.COP_FIELDS.DATE_OF_BIRTH,
     appConstants.COP_FIELDS.FATHER,
     appConstants.COP_FIELDS.MOTHER,
-    appConstants.COP_FIELDS.PLACE_OF_ORIGIN
+    appConstants.COP_FIELDS.PLACE_OF_ORIGIN,
+    appConstants.COP_FIELDS.DATE_OF_BIRTH_COP
   ];
 
   ninList = [
@@ -236,11 +237,12 @@ isStepVisible(step: number): boolean {
   uniqueNin = {};
   personalInformationCat_Cop : any;
   //userServiceTypeCop: string = "";
-  copIsCardRequired : String;
   copAddName: boolean;
   copChangeNameOrder: boolean;
   copCompleChange: boolean;
   removingName: boolean;
+  addingNamesFromPreviousCertorDoc: boolean;
+  otherNameCorrections: boolean;
   notificationOfChangeServiceType = [];
   notificationOfChangeNameFields = [];
   notificationOfChangeRemoveFields = [];
@@ -1357,6 +1359,13 @@ isStepVisible(step: number): boolean {
         this.userForm.controls[selectedFieldId].disable();
       }
     }
+
+    if (selectedFieldId == appConstants.copIsCardRequired) {
+      if (this.dataModification == true) {
+        this.userForm.controls[selectedFieldId].disable();
+      }
+    }
+
     // if (this.initializationFlag == false && selectedFieldId == appConstants.userService && this.initialdataModification!=true) {
     //   for (const control of this.uiFields) {
     //     if (!(control.id == appConstants.userService)) {
@@ -1380,14 +1389,17 @@ isStepVisible(step: number): boolean {
     if(selectedFieldId==appConstants.copAddName){
       this.copAddName=this.userForm.controls[selectedFieldId].value;
     }
-    if(selectedFieldId==appConstants.copIsCardRequired){
-      this.copIsCardRequired=this.userForm.controls[selectedFieldId].value;
-    }
     if(selectedFieldId==appConstants.copChangeNameOrder){
       this.copChangeNameOrder=this.userForm.controls[selectedFieldId].value;
     }
     if(selectedFieldId==appConstants.copCompleChange){
       this.copCompleChange=this.userForm.controls[selectedFieldId].value;
+    }
+    if(selectedFieldId==appConstants.addingNamesFromPreviousCertorDoc){
+      this.addingNamesFromPreviousCertorDoc=this.userForm.controls[selectedFieldId].value;
+    }
+    if(selectedFieldId==appConstants.otherNameCorrections){
+      this.otherNameCorrections=this.userForm.controls[selectedFieldId].value;
     }
     if(selectedFieldId==appConstants.removingName){
       this.removingName=this.userForm.controls[selectedFieldId].value;
@@ -1618,6 +1630,10 @@ isStepVisible(step: number): boolean {
                   const copValue = this.userForm.controls[selectedFieldId].value;
                   if((this.userForm.controls[appConstants.COP_FIELDS.DATE_OF_BIRTH].value == "Y" || this.userForm.controls[appConstants.COP_FIELDS.DATE_OF_BIRTH].value == true) && this.currentAgeCop <= "15"){
                     this.userForm.controls[fieldId + "_eng"].enable();
+                  } else if((this.userForm.controls[appConstants.COP_FIELDS.CITIZENSHIP_TYPE].value == "Y" || this.userForm.controls[appConstants.COP_FIELDS.CITIZENSHIP_TYPE].value == true) && this.currentAgeCop <= "15") {
+                    this.userForm.controls[fieldId + "_eng"].disable();
+                  } else if((this.userForm.controls[appConstants.COP_FIELDS.CITIZENSHIP_TYPE].value == "Y" || this.userForm.controls[appConstants.COP_FIELDS.CITIZENSHIP_TYPE].value == true) && this.currentAgeCop > "15") {
+                    this.userForm.controls[fieldId + "_eng"].enable();
                   } else if(copValue == "Y" || copValue == true){
                     this.userForm.controls[fieldId + "_eng"].enable();
                   }
@@ -1631,6 +1647,10 @@ isStepVisible(step: number): boolean {
                 if (this.copFields.includes(selectedFieldId)){
                   const copValue = this.userForm.controls[selectedFieldId].value;
                   if((this.userForm.controls[appConstants.COP_FIELDS.DATE_OF_BIRTH].value == "Y" || this.userForm.controls[appConstants.COP_FIELDS.DATE_OF_BIRTH].value == true) && this.currentAgeCop <= "15"){
+                    this.userForm.controls[fieldId].enable();
+                  } else if((this.userForm.controls[appConstants.COP_FIELDS.CITIZENSHIP_TYPE].value == "Y" || this.userForm.controls[appConstants.COP_FIELDS.CITIZENSHIP_TYPE].value == true) && this.currentAgeCop <= "15") {
+                    this.userForm.controls[fieldId].disable();
+                  } else if((this.userForm.controls[appConstants.COP_FIELDS.CITIZENSHIP_TYPE].value == "Y" || this.userForm.controls[appConstants.COP_FIELDS.CITIZENSHIP_TYPE].value == true) && this.currentAgeCop > "15") {
                     this.userForm.controls[fieldId].enable();
                   } else if(copValue == "Y" || copValue == true){
                     this.userForm.controls[fieldId].enable();
@@ -1663,7 +1683,9 @@ isStepVisible(step: number): boolean {
     }
 
     const isAnyFieldYes = this.copFields.some(field => this.userForm.controls[field].value === "Y" || this.userForm.controls[field].value === true);
-    if (isAnyFieldYes && this.copIsCardRequired === 'Y') {
+    const isCopCardRequiredControl = this.userForm.controls[appConstants.copIsCardRequired];
+
+    if (isAnyFieldYes && isCopCardRequiredControl && !isCopCardRequiredControl.disabled && isCopCardRequiredControl.value === 'Y') {
       this.cardChangeMessage = "This is subject to card change charges";
     } else {
       this.cardChangeMessage = null;
@@ -1705,6 +1727,11 @@ isStepVisible(step: number): boolean {
           else {
             this.userForm.controls[selectedFieldId].setErrors(null);
           }
+        }
+      }
+      else{
+        if(this.uniqueNin[selectedFieldId]){
+          delete this.uniqueNin[selectedFieldId];
         }
       }
     }
@@ -3317,7 +3344,7 @@ isStepVisible(step: number): boolean {
     if (error) {
       let text;
       switch (error.error_name) {
-        case 'nameCopRequired': text = `Any one of the field in Adding/removing of Name is required!`; break;
+        case 'nameCopRequired': text = `Any one of the field in Adding a Name/Adding name from Old Docs/other of Name corrections is required!`; break;
         case 'required': text = `${error.control_name}(${error.section_name}) is required!`; break;
         case 'pattern': text = `${error.control_name} has wrong pattern!`; break;
         case 'email': text = `${error.control_name} has wrong email format!`; break;
@@ -3433,7 +3460,7 @@ isStepVisible(step: number): boolean {
     const nameFieldsRemove = this.notificationOfChangeRemoveFields;
     //if (nameFieldsUserServiceCopArr.includes(this.userServiceTypeCop)) {
     if (this.personalInformationCat_Cop == true || this.personalInformationCat_Cop == "Y") {
-      if (this.copAddName && this.userForm.valid) {
+      if ((this.copAddName || this.addingNamesFromPreviousCertorDoc || this.otherNameCorrections) && this.userForm.valid) {
         const hasValue = nameFields.some((field) => {
           const namefieldCop = this.userForm.controls[field];
           return namefieldCop && namefieldCop.value && namefieldCop.value.trim() !== "";
