@@ -231,7 +231,8 @@ isStepVisible(step: number): boolean {
     appConstants.NIN.CHILD_THREE,
     appConstants.NIN.CHILD_FOUR,
     appConstants.NIN.CHILD_FIVE,
-    appConstants.NIN.CHILD_SIX
+    appConstants.NIN.CHILD_SIX,
+    appConstants.NIN.DECLARANT
 ];
   uniqueNin = {};
   personalInformationCat_Cop : any;
