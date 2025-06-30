@@ -211,10 +211,8 @@ isStepVisible(step: number): boolean {
     appConstants.COP_FIELDS.ADD_SPOUSE,
     appConstants.COP_FIELDS.REMOVE_SPOUSE,
     appConstants.COP_FIELDS.CITIZENSHIP_TYPE,
-    appConstants.COP_FIELDS.DATE_OF_BIRTH,
     appConstants.COP_FIELDS.FATHER,
     appConstants.COP_FIELDS.MOTHER,
-    appConstants.COP_FIELDS.PLACE_OF_ORIGIN,
     appConstants.COP_FIELDS.DATE_OF_BIRTH_COP
   ];
 

@@ -68,6 +68,13 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
   createdTime;
   requestBody: PRNRequestModel;
   applicantContactDetails = [];
+  serviceMap = {
+    "NEW": "New Registration",
+    "RENEWAL": "Renewal",
+    "UPDATE": "Change of Particulars/Change of Errors",
+    "LOST": "Lost/Replacement of Card",
+    "FIRSTID": "Get First ID"
+  };
  //payableService:string;
   constructor(
     private bookingService: BookingService,
@@ -162,6 +169,8 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
           const month = ('0' + (dateObj.getMonth() + 1)).slice(-2);
           const year = dateObj.getFullYear();
           this.ackDataItem["submissionDate"] = `${day}/${month}/${year}`;
+	  const serviceType = demographicData["userService"];
+          this.ackDataItem["userService"] = this.serviceMap[serviceType] || "";
           let applicationLanguages = Utils.getApplicationLangs(user["request"]);
           applicationLanguages = Utils.reorderLangsForUserPreferredLang(applicationLanguages, this.langCode);
           applicationLanguages.forEach(applicationLang => {
