@@ -236,6 +236,7 @@ export const COP_FIELDS = {
   MOTHER: "changeDetailsOfMother",
   FATHER: "changeDetailsOfFather",
   CITIZENSHIP_TYPE: "changeInCitizenshipType",
+  PLACE_OF_BIRTH:"changeInPlaceOfBirth",
   PLACE_OF_ORIGIN: "changeInPlaceOfOrigin",
   DATE_OF_BIRTH: "changeOfDateOfBirth",
   DATE_OF_BIRTH_COP: "dateOfBirthCop"
