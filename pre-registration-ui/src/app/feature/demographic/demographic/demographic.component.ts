@@ -1645,7 +1645,7 @@ isStepVisible(step: number): boolean {
                   } else if((this.userForm.controls[appConstants.COP_FIELDS.CITIZENSHIP_TYPE].value == "Y" || this.userForm.controls[appConstants.COP_FIELDS.CITIZENSHIP_TYPE].value == true)) {
                     this.userForm.controls[fieldId].enable();
                   }else if((this.userForm.controls[appConstants.COP_FIELDS.PLACE_OF_BIRTH].value == "Y" || this.userForm.controls[appConstants.COP_FIELDS.PLACE_OF_BIRTH].value == true)) {
-                    this.userForm.controls[fieldId].enable();
+                    this.userForm.controls[fieldId].disable();
                   } else if(copValue == "Y" || copValue == true){
                     this.userForm.controls[fieldId].enable();
                   }
