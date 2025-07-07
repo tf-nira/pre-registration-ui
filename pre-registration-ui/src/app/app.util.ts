@@ -291,7 +291,8 @@ export default class Utils {
     const phone = Utils.getConfigByKey(appConstants.CONFIG_KEYS.preregistration_contact_phone);
     //config[appConstants.CONFIG_KEYS.preregistration_contact_phone];
     if (!Utils.authenticationFailed(error)) {
-      message = message + errorlabels["contactInformation"][0] + email + errorlabels["contactInformation"][1] + phone;
+      message = message + errorlabels["contactInformation"][0] + email;
+      //+ errorlabels["contactInformation"][1] + phone;
       if (errorCode != "") {
         message = message + errorlabels["contactInformation"][2] + errorCode;
       }
