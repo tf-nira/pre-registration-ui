@@ -317,6 +317,7 @@ isStepVisible(step: number): boolean {
   changeActionsNamesArr = [];
   identitySchemaVersion = "";
   initializationFlag: boolean; 
+  natReg: boolean;
   identityObj: any = {};    
   newIdentityObj: any = {}; 
   showPRNField = false; 
@@ -719,6 +720,7 @@ isStepVisible(step: number): boolean {
     //load error related labels in user's login lang,
     //this is required to show errors from services
     this.dataModification = false;
+    this.natReg = false;
     this.dataStorageService
       .getI18NLanguageFiles(this.userPrefLanguage)
       .subscribe((response) => {
@@ -1490,8 +1492,12 @@ isStepVisible(step: number): boolean {
     if(selectedFieldId !="" && selectedFieldId==this.dateOfBirthFieldId){
       if(this.userServiceType==appConstants.USER_SERVICETYPE.BYNATURALISATION || this.userServiceType==appConstants.USER_SERVICETYPE.BYREGISTRATION){
         if(applicantAge<18 && applicantAge!=null){
+          this.natReg= true;
           this.resetDOBFields(selectedFieldId+"_dateCtrl");
           this.resetAgeFields(selectedFieldId);
+        }
+        else{
+          this.natReg= false;
         }
       } 
     }if(selectedFieldId !="" && selectedFieldId==this.dateOfBirthFieldIdCop){
@@ -3434,6 +3440,14 @@ isStepVisible(step: number): boolean {
     }
     return false;
   }
+
+  isnatReg(): boolean {
+    if (this.natReg == true) {
+      return true;
+    }
+    return false;
+  }
+
 
   isFemale(): boolean {
     if (this.gender === "FLE") {
