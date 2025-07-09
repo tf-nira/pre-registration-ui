@@ -1773,8 +1773,14 @@
                               <div class="mat-error ng-star-inserted user__dob__error" *ngIf="!readOnlyMode && primaryuserForm &&    
                                   userForm.get(field.id) &&
                                   (userForm.get(field.id).touched &&
-                                    userForm.get(field.id).hasError('incorrect'))" [dir]="userPrefLanguageDir">
+                                    userForm.get(field.id).hasError('incorrect') && !isnatReg())" [dir]="userPrefLanguageDir">
                                 {{demographiclabels.validation.DOB_validation}}
+                              </div>
+                              <div class="mat-error ng-star-inserted user__dob__error" *ngIf="!readOnlyMode && primaryuserForm &&    
+                                  userForm.get(field.id) &&
+                                  (userForm.get(field.id).touched &&
+                                    userForm.get(field.id).hasError('incorrect') && isnatReg())" [dir]="userPrefLanguageDir">
+                                Age should be 18 or above for this citizenship type
                               </div>
                             </span>
                           </ng-container>
