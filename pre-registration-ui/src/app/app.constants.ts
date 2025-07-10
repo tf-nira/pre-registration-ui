@@ -242,6 +242,20 @@ export const COP_FIELDS = {
   DATE_OF_BIRTH_COP: "dateOfBirthCop"
 };
 
+export const CARD_DISABLED = {
+  ADDING_NAME:"addingName",
+  REMOVING_NAME:"removingName",
+  ORDER_OF_NAME:"changeOrderOfNames",
+  COMPLETE_NAME:"completeChangeofName",
+  DATE_OF_BIRTH:"changeOfDateOfBirth",
+  CHANGE_IN_GENDER:"changeInGender",
+  PREVIOUS_DOCS:"addingNamesFromPreviousCertorDoc",
+  OTHER_NAME_CORRECTION:"otherNameCorrections",
+  RESIDENCE:"changeInPlaceOfResidence",
+  BIRTH:"changeInPlaceOfBirth",
+  ORIGIN:"changeInPlaceOfOrigin"
+};
+
 export const USER_SERVICE = {
   RENEWAL : "RENEWAL",
   UPDATE : "UPDATE",
