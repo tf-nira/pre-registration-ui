@@ -217,6 +217,20 @@ isStepVisible(step: number): boolean {
     appConstants.COP_FIELDS.PLACE_OF_BIRTH
   ];
 
+  cardDisableList=[
+    appConstants.CARD_DISABLED.ADDING_NAME,
+    appConstants.CARD_DISABLED.REMOVING_NAME,
+    appConstants.CARD_DISABLED.ORDER_OF_NAME,
+    appConstants.CARD_DISABLED.COMPLETE_NAME,
+    appConstants.CARD_DISABLED.DATE_OF_BIRTH,
+    appConstants.CARD_DISABLED.CHANGE_IN_GENDER,
+    appConstants.CARD_DISABLED.PREVIOUS_DOCS,
+    appConstants.CARD_DISABLED.OTHER_NAME_CORRECTION,
+    appConstants.CARD_DISABLED.RESIDENCE,
+    appConstants.CARD_DISABLED.BIRTH,
+    appConstants.CARD_DISABLED.ORIGIN
+  ];
+
   ninList = [
     appConstants.NIN.APPLICANT,
     appConstants.NIN.FATHER,
@@ -1541,6 +1555,14 @@ isStepVisible(step: number): boolean {
       if(this.dataModification){
         this.initialdataModification=false;
         setMyFlag(false);
+      }
+    }
+    if (this.initialdataModification && selectedFieldId == appConstants.copIsCardRequired && this.userService == appConstants.USER_SERVICE.UPDATE) {
+      const disable = this.cardDisableList.some(field =>
+        this.userForm.controls[field].value === 'Y'
+      );
+      if (disable) {
+        this.userForm.controls[selectedFieldId].disable();
       }
     }
     /** Execute processShowHideFields on first run to make all fields visible. */

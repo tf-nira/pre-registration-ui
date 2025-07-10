@@ -15,7 +15,7 @@ import { RequestModel } from "src/app/shared/models/request-model/RequestModel";
 import { BookingModel } from "src/app/feature/booking/center-selection/booking.model";
 import identityStubJson from "../../../../assets/identity-spec.json";
 import { BookingService } from "../../booking/booking.service";
-import {Service} from  'src/app/shared/global-vars';
+import {Service, myFlag, setMyFlag} from  'src/app/shared/global-vars';
 import { forkJoin } from 'rxjs';
 
 @Component({
@@ -549,6 +549,7 @@ export class PreviewComponent implements OnInit {
       .beforeClosed()
       .subscribe((res) => {
         if (res === true) {
+          setMyFlag(true);
           const url = Utils.getURL(this.router.url, "demographic", 3);
           localStorage.setItem(appConstants.MODIFY_USER_FROM_PREVIEW, "true");
           localStorage.setItem(appConstants.MODIFY_USER, "true");
