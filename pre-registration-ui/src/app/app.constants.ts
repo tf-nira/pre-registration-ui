@@ -220,6 +220,8 @@ export const personalInformationCat = "personalInformationCat";
 
 export const declaration = "declarationCheckBox";
 
+export const guardianRelationToApplicant = "guardianRelationToApplicant";
+
 export const copIsCardRequired = "isCardRequired";
 export const copAddName = "addingName";
 export const copChangeNameOrder = "changeOrderOfNames";
