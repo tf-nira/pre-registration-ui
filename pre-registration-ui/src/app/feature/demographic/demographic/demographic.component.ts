@@ -1126,7 +1126,7 @@ isStepVisible(step: number): boolean {
                 if (monthDiffapp < 0 || (monthDiffapp === 0 && dayDiffapp < 0)) {
                   ageapp--;
                 }
-                if (this.guardianRelationToApplicant != null && this.guardianRelationToApplicant == "Z1") {
+                if (this.guardianRelationToApplicant != null && this.guardianRelationToApplicant == "Z1" && this.userServiceType==appConstants.USER_SERVICETYPE.BYBIRTH) {
                   if (inputDate > currentDate || age < 18 || ageapp < 40) {
                     isInvalid = true;
                     msg = "When 'Other' is selected as the introducer type, the introducer must be at least 18 years old, the date must not be in the future, and the applicant must be 40 years or older.";
