@@ -200,6 +200,7 @@ isStepVisible(step: number): boolean {
   userService: string = "";
   gender: string = "";
   userServiceType: string = "";
+  guardianRelationToApplicant: string = "";
   marriageDates = [
     appConstants.SPOUSE_DATE_OF_MARRIAGE.ONE,
     appConstants.SPOUSE_DATE_OF_MARRIAGE.TWO,
@@ -1111,9 +1112,31 @@ isStepVisible(step: number): boolean {
                 const dateOfBirthValue = this.userForm.controls[this.dateOfBirthFieldId].value;
                 const applicantDOB = new Date(dateOfBirthValue);
                 currentDate.setHours(0, 0, 0, 0); // Clear time for accurate comparison
-                if (inputDate > currentDate || applicantDOB <= inputDate) {
-                  isInvalid = true;
-                  msg = "The date must not be later than the Applicant's Date of Birth or a future date.";
+                let age = currentDate.getFullYear() - inputDate.getFullYear();
+                let monthDiff = currentDate.getMonth() - inputDate.getMonth();
+                let dayDiff = currentDate.getDate() - inputDate.getDate();
+
+                let ageapp = currentDate.getFullYear() - applicantDOB.getFullYear();
+                let monthDiffapp = currentDate.getMonth() - applicantDOB.getMonth();
+                let dayDiffapp = currentDate.getDate() - applicantDOB.getDate();
+                // Adjust age if birthday hasn't occurred yet this year
+                if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) {
+                  age--;
+                }
+                if (monthDiffapp < 0 || (monthDiffapp === 0 && dayDiffapp < 0)) {
+                  ageapp--;
+                }
+                if (this.guardianRelationToApplicant != null && this.guardianRelationToApplicant == "Z1") {
+                  if (inputDate > currentDate || age < 18 || ageapp < 40) {
+                    isInvalid = true;
+                    msg = "When 'Other' is selected as the introducer type, the introducer must be at least 18 years old, the date must not be in the future, and the applicant must be 40 years or older.";
+                  }
+                }
+                else{
+                  if (inputDate > currentDate || applicantDOB <= inputDate) {
+                    isInvalid = true;
+                    msg = "The date must not be later than the Applicant's Date of Birth or a future date.";
+                  }
                 }
               } else if (validatorItem.type === "afterApplicantDOB") {
                 let inputDate = new Date(val);
@@ -1416,6 +1439,9 @@ isStepVisible(step: number): boolean {
     }
     if(selectedFieldId==appConstants.userServiceType){
       this.userServiceType=this.userForm.controls[selectedFieldId].value;
+    }
+    if(selectedFieldId==appConstants.guardianRelationToApplicant){
+      this.guardianRelationToApplicant=this.userForm.controls[selectedFieldId].value;
     }
     // Consent Declaration
     if (selectedFieldId && selectedFieldId.trim() !== "") {
