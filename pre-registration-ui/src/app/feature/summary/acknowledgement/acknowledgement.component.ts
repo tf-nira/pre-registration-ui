@@ -678,6 +678,7 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
       if (desiredService ===appConstants.USER_SERVICE.UPDATE){
         if (
           (!("isErrorNameChange" in demographicData) || demographicData.isErrorNameChange === "N") &&
+          (!("isErrorNameRemove" in demographicData) || demographicData.isErrorNameRemove === "N") &&
           (!("isErrorChangeOfDateOfBirth" in demographicData) || demographicData.isErrorChangeOfDateOfBirth === "N") &&
           (!("isErrorChangeInPlaceOfResidence" in demographicData) || demographicData.isErrorChangeInPlaceOfResidence === "N")
         ){
