@@ -2,10 +2,7 @@ import { addDisabledUiField } from  'src/app/shared/global-vars';
 const copyAndDisableIfFilled = async (context, args, uiField) => {
   if (args.length > 0) {
     let checkboxVal = context.userForm.controls[`${uiField.id}`].value;
-    const isFatherField = uiField && uiField.alignmentGroup === "Father's Details";
-    const isMotherField = uiField && uiField.alignmentGroup === "Mother's Details";
-    if (context.userService == "NEW" || context.userService == "FIRSTID" || context.userService == "UPDATE" && (isFatherField || isMotherField)) {
-      for (const arg of args) {
+    for (const arg of args) {
         let controlsArr = arg.split("=");
         if (controlsArr.length > 1) {
           let control1 = controlsArr[0],
@@ -69,7 +66,6 @@ const copyAndDisableIfFilled = async (context, args, uiField) => {
           }
         }
       }
-    }
   } else {
     console.log(
       "Invalid number of arguments sent to 'copyAndDisableIfFilled' changeAction."
