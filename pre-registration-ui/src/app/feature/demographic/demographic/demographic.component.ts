@@ -249,6 +249,13 @@ isStepVisible(step: number): boolean {
     appConstants.NIN.CHILD_SIX,
     appConstants.NIN.DECLARANT
 ];
+
+familyRoles = [
+  appConstants.FAMILY_ROLES.FATHER,
+  appConstants.FAMILY_ROLES.MOTHER,
+  appConstants.FAMILY_ROLES.DECLARANT,
+  appConstants.FAMILY_ROLES.GUARDIAN
+];
   uniqueNin = {};
   personalInformationCat_Cop : any;
   //userServiceTypeCop: string = "";
@@ -1399,6 +1406,13 @@ isStepVisible(step: number): boolean {
       }
     }
 
+    if(selectedFieldId == appConstants.Declarant){
+      if(this.dataModification!=true){
+        this.userForm.controls[appConstants.NIN.DECLARANT].reset();
+        this.userForm.controls[appConstants.NIN.DECLARANT].setValue("");
+      }
+    }
+
     // if (this.initializationFlag == false && selectedFieldId == appConstants.userService && this.initialdataModification!=true) {
     //   for (const control of this.uiFields) {
     //     if (!(control.id == appConstants.userService)) {
@@ -1763,7 +1777,8 @@ isStepVisible(step: number): boolean {
         if (this.userForm.controls[selectedFieldId].hasError('customPattern')) {
           //console.log("NIN ERROR", this.userForm.controls[selectedFieldId].errors.customPattern.msg);
         }
-        else{ 
+        else{
+          delete this.uniqueNin[selectedFieldId];
           let isDuplicate = this.isDuplicatedNIN(NINValue, selectedFieldId);
           if (isDuplicate) {
             this.userForm.controls[selectedFieldId].reset();
@@ -3568,26 +3583,68 @@ isStepVisible(step: number): boolean {
     }
   }
 
-  isDuplicatedNIN(NIN: string, field: string) {
+  isDuplicatedNIN(NIN: string, field: string): boolean {
     if (!this.uniqueNin) {
-        this.uniqueNin = {};
+      this.uniqueNin = {};
     }
+    let declarant: string | null = null;
+    declarant = this.userForm.controls[appConstants.Declarant].value;
+    
     if (this.uniqueNin[field]) {
-        if (this.uniqueNin[field] === NIN) {
-            return false;
-        }
-        if (Object.values(this.uniqueNin).includes(NIN)) {
-            return true;
-        }
-        this.uniqueNin[field] = NIN;
+      if (this.uniqueNin[field] === NIN) {
         return false;
+      }
+      for (const [key, ninValue] of Object.entries(this.uniqueNin)) {
+        if (key === field || !ninValue) {
+          continue;
+        }
+        if (ninValue === NIN) {
+          // Declarant NIN validation
+          if (this.familyRoles.includes(key) && this.familyRoles.includes(field)) {
+            const isFatherMatch = declarant === appConstants.Father && ((key === appConstants.NIN.FATHER && field === appConstants.NIN.DECLARANT) ||
+              (field === appConstants.NIN.FATHER && key === appConstants.NIN.DECLARANT));
+
+            const isMotherMatch = declarant === appConstants.Mother && ((key === appConstants.NIN.MOTHER && field === appConstants.NIN.DECLARANT) ||
+              (field === appConstants.NIN.MOTHER && key === appConstants.NIN.DECLARANT));
+
+            const isBloodRelativeMatch = declarant === appConstants.BloodRelative && ((key === appConstants.NIN.GUARDIAN && field === appConstants.NIN.DECLARANT) ||
+              (field === appConstants.NIN.GUARDIAN && key === appConstants.NIN.DECLARANT));
+
+            if (isFatherMatch || isMotherMatch || isBloodRelativeMatch) {
+              continue;
+            }
+          }
+          return true; // Duplicate found
+        }
+      }
+      this.uniqueNin[field] = NIN;
+      return false; // No duplication
     }
-    if (Object.values(this.uniqueNin).includes(NIN)) {
-        return true;
+
+    for (const [key, ninValue] of Object.entries(this.uniqueNin)) {
+      if (!ninValue) {
+        continue;
+      }
+      if (ninValue === NIN) {
+        if (this.familyRoles.includes(key) && this.familyRoles.includes(field)) {
+          const isFatherMatch = declarant === appConstants.Father && ((key === appConstants.FAMILY_ROLES.FATHER && field === appConstants.FAMILY_ROLES.DECLARANT) ||
+            (field === appConstants.FAMILY_ROLES.FATHER && key === appConstants.FAMILY_ROLES.DECLARANT));
+
+          const isMotherMatch = declarant === appConstants.Mother && ((key === appConstants.FAMILY_ROLES.MOTHER && field === appConstants.FAMILY_ROLES.DECLARANT) ||
+            (field === appConstants.FAMILY_ROLES.MOTHER && key === appConstants.FAMILY_ROLES.DECLARANT));
+
+          const isBloodRelativeMatch = declarant === appConstants.BloodRelative && ((key === appConstants.FAMILY_ROLES.GUARDIAN && field === appConstants.FAMILY_ROLES.DECLARANT) ||
+            (field === appConstants.FAMILY_ROLES.GUARDIAN && key === appConstants.FAMILY_ROLES.DECLARANT));
+
+          if (isFatherMatch || isMotherMatch || isBloodRelativeMatch) {
+            continue;
+          }
+        }
+        return true; // Duplicate found
+      }
     }
     this.uniqueNin[field] = NIN;
-    return false;
+    return false; // No duplication
   }
-
 
 }

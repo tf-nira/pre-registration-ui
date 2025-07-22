@@ -304,6 +304,13 @@ export const NIN = {
   DECLARANT: "introducerNIN"
 };
 
+export const FAMILY_ROLES ={
+  FATHER: "fatherNIN",
+  MOTHER: "motherNIN",
+  GUARDIAN: "guardianNIN_AIN",
+  DECLARANT: "introducerNIN"
+};
+
 export const NOTIFICATION_OF_CHANGE = {
   userServiceTypeCop : "notificationOfChange",
   nameFields : "nocNameFields",
@@ -327,6 +334,14 @@ export const COUNTRY_CODE_FIELD = 'CountryCode';
 export const DATE_OF_BIRTH_FIELD_COP = 'dateOfBirthCop';
 
 export const Tribe = 'Tribe';
+
+export const Father = 'Father';
+
+export const Mother = 'Mother';
+
+export const BloodRelative = 'BR';
+
+export const Declarant = 'declarant';
 
 export const PARISH_NEW = 'applicantPlaceOfOriginParish';
 
