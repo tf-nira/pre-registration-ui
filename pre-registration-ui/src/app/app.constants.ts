@@ -311,6 +311,19 @@ export const FAMILY_ROLES ={
   DECLARANT: "introducerNIN"
 };
 
+export const UGA_VALUE_FIELDS = {
+  RESIDENT_PLACE: 'residenceStatus',
+  BIRTH_PLACE: 'applicantBirthPlace',
+  ORIGIN_PLACE: 'applicantOriginPlace',
+  FATHER_RES_PLACE: 'fatherResidence',
+  FATHER_ORI_PLACE: 'fatherOrigin',
+  MOTHER_RES_PLACE: 'motherResidence',
+  MOTHER_ORI_PLACE: 'motherOrigin',
+  GUARDIAN_RES_PLACE: 'guardianResidence',
+  COUNTRYCODE_2: 'CountryCode2',
+  COUNTRYCODE: 'CountryCode'
+}
+
 export const NOTIFICATION_OF_CHANGE = {
   userServiceTypeCop : "notificationOfChange",
   nameFields : "nocNameFields",

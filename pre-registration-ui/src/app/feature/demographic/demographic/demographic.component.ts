@@ -250,6 +250,19 @@ isStepVisible(step: number): boolean {
     appConstants.NIN.DECLARANT
 ];
 
+UGA_Fields =[
+  appConstants.UGA_VALUE_FIELDS.RESIDENT_PLACE,
+  appConstants.UGA_VALUE_FIELDS.BIRTH_PLACE,
+  appConstants.UGA_VALUE_FIELDS.ORIGIN_PLACE,
+  appConstants.UGA_VALUE_FIELDS.FATHER_RES_PLACE,
+  appConstants.UGA_VALUE_FIELDS.FATHER_ORI_PLACE,
+  appConstants.UGA_VALUE_FIELDS.MOTHER_RES_PLACE,
+  appConstants.UGA_VALUE_FIELDS.MOTHER_ORI_PLACE,
+  appConstants.UGA_VALUE_FIELDS.GUARDIAN_RES_PLACE,
+  appConstants.UGA_VALUE_FIELDS.COUNTRYCODE_2,
+  appConstants.UGA_VALUE_FIELDS.COUNTRYCODE
+]
+
 familyRoles = [
   appConstants.FAMILY_ROLES.FATHER,
   appConstants.FAMILY_ROLES.MOTHER,
@@ -2250,8 +2263,48 @@ familyRoles = [
               this.dynamicFields.forEach((field) => {
                 dynamicField.forEach((res) => {
                   if (field.subType === res.name || field.id === res.name) {
-                    if(res.name==appConstants.Tribe){
-                      res.fieldVal.sort((a, b) => a.value.localeCompare(b.value));
+                    if (field.id != appConstants.userService && Array.isArray(res.fieldVal)) {
+                      const fieldName = res.name; // or res.id based on your field name
+                      const hasUGA = res.fieldVal.some((f) => f.code === 'UGA');
+                      const hasNone = res.fieldVal.some((f) => f.value? f.value.toLowerCase() === 'none' : '');
+
+                      res.fieldVal.sort((a, b) => {
+                        const code1 = a.code;
+                        const code2 = b.code;
+                        const value1 = a.value;
+                        const value2 = b.value;
+
+                        const isDisabilitiesField = fieldName === 'disabilities';
+
+                        const isNone1 = value1.toLowerCase() === 'none';
+                        const isNone2 = value2.toLowerCase() === 'none';
+
+                        const isOther1 = value1 != null && ('Other' == value1 || 'Others' == value1 || value1.startsWith('Other ('));
+                        const isOther2 = value2 != null && ('Other' == value2 || 'Others' == value2 || value2.startsWith('Other ('));
+    
+                        if (hasUGA && this.UGA_Fields.includes(fieldName)) {
+                          if (code1 === 'UGA') return -1;
+                          if (code2 === 'UGA') return 1;
+                        }
+
+                        if (isDisabilitiesField && hasNone && !hasUGA) {
+                          if (isNone1) return -1;
+                          if (isNone2) return 1;
+                        }
+
+                        if (!isDisabilitiesField) {
+                          if (isOther1 && !isOther2) return 1;
+                          if (!isOther1 && isOther2) return -1;
+
+                          if (isNone1 && !isNone2) return isOther2 ? -1 : 1;
+                          if (!isNone1 && isNone2) return isOther1 ? 1 : -1;
+                        }
+
+                        if (isNone1 && isNone2) return value1.localeCompare(value2);
+                        if (isOther1 && isOther2) return value1.localeCompare(value2);
+
+                        return code1.localeCompare(code2);
+                      });
                     }
                     this.populateSelectOptsDataArr(
                       field.id,
