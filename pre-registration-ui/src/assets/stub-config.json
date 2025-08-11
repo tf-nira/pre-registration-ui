@@ -12,7 +12,7 @@
   "preregistration.timespan.cancel": "24",
   "preregistration.identity.name": "fullName",
   "mosip.default.dob.month": "01",
-  "mosip.preregistration.auto.logout.timeout": "60",
+  "mosip.preregistration.auto.logout.timeout": "1",
   "preregistration.availability.noOfDays": "140",
   "mosip.kernel.otp.expiry-time": "180",
   "mosip.id.validation.identity.dateOfBirth": "^d{4}[-/s]?((((0[13578])|(1[02]))[-/s]?(([0-2][0-9])|(3[01])))|(((0[469])|(11))[-/s]?(([0-2][0-9])|(30)))|(02[-/s]?[0-2][0-9]))$",
