@@ -2718,11 +2718,10 @@ familyRoles = [
    */
   calculateAge(dateStr: string) {
     if (moment(dateStr, this.serverDtFormat, true).isValid()) {
-      const now = new Date();
-      const born = new Date(dateStr);
-      const years = Math.floor(
-        (now.getTime() - born.getTime()) / (365.25 * 24 * 60 * 60 * 1000)
-      );
+      const dob = moment(dateStr, this.serverDtFormat);
+      const now = moment(); // current date
+      const years = now.diff(dob, 'years'); // exact completed years
+
       if (years > 150 || years < 0) {
         return "";
       } else {
