@@ -791,14 +791,18 @@ export class PreviewComponent implements OnInit {
   }
 
   async makeBooking() {
+    const registration_center_id = Utils.getConfigByKey(appConstants.BOOKING_DETAIL.registration_center_id);
+    const appointment_date = Utils.getConfigByKey(appConstants.BOOKING_DETAIL.appointment_date);
+    const time_slot_from = Utils.getConfigByKey(appConstants.BOOKING_DETAIL.time_slot_from);
+    const time_slot_to = Utils.getConfigByKey(appConstants.BOOKING_DETAIL.time_slot_to);
     console.log("in make booking :: ")
     this.bookingDataList = [];
     const bookingData = new BookingModel(
       this.preRegId,
-      appConstants.BOOKING_DETAIL.registration_center_id,
-      appConstants.BOOKING_DETAIL.appointment_date,
-      appConstants.BOOKING_DETAIL.time_slot_from,
-      appConstants.BOOKING_DETAIL.time_slot_to
+      registration_center_id,
+      appointment_date,
+      time_slot_from,
+      time_slot_to
     );
     this.bookingDataList.push(bookingData);
     await this.bookingOperationRequest();
