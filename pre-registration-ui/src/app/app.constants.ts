@@ -202,10 +202,10 @@ export const FIELD_TYPE_STRING = "string";
 export const FIELD_TYPE_SIMPLE_TYPE = "simpleType";
 
 export const BOOKING_DETAIL = {
-  registration_center_id: '10045',
-  appointment_date: '2025-10-01',
-  time_slot_from: '09:30:00',
-  time_slot_to: '09:45:00'
+  registration_center_id: 'preregistration.booking.detail.center.id',
+  appointment_date: 'preregistration.booking.detail.appointment.date',
+  time_slot_from: 'preregistration.booking.detail.time.slot.from',
+  time_slot_to: 'preregistration.booking.detail.time.slot.to'
 };
 
 export const PRE_REGISTRATION_IDENTITY_NAME_COP = "surnameCop";
