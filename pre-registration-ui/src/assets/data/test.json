@@ -1,0 +1,125 @@
+{
+    "fact": "identity",
+    "operator": "equal",
+    "value": "NEWALIEN",
+    "path": "$.userService"
+},
+
+{
+    "all": [
+        {
+            "fact": "identity",
+            "operator": "equal",
+            "value": "NEWALIEN",
+            "path": "$.userService"
+        },
+        {
+            "fact": "identity",
+            "operator": "equal",
+            "value": "96",
+            "path": "$.profession.0.value"
+        }
+    ]
+}
+
+
+
+
+{
+        "id": "drivingLicenceNumber",
+        "renderID": "frm_3a_a1_drivingLicenceNumber",
+        "alignmentGroup": "Personal Information",
+        "description": "Enter Your Driving Licence Number",
+        "labelName": {
+            "eng": "Driving Licence Number"
+        },
+        "type": "string",
+        "controlType": "textbox",
+        "format": "none",
+        "fieldCategory": "none",
+        "inputRequired": true,
+        "validators": [
+            {
+                "type": "regex",
+                "validator": "^[a-zA-Z0-9]{0,60}$",
+                "arguments": []
+            }
+        ],
+        "required": false,
+        "visibleCondition": {
+            "any": [
+                {
+                    "fact": "identity",
+                    "operator": "equal",
+                    "value": "NEWALIEN",
+                    "path": "$.userService"
+                }
+            ]
+        }
+    },
+    {
+        "id": "taxIdentificationNumber",
+        "renderID": "frm_3a_a1_taxIdentificationNumber",
+        "alignmentGroup": "Personal Information",
+        "description": "Enter Your Tax Identification Number",
+        "labelName": {
+            "eng": "Tax Identification Number"
+        },
+        "type": "string",
+        "controlType": "textbox",
+        "format": "none",
+        "fieldCategory": "none",
+        "inputRequired": true,
+        "validators": [
+            {
+                "type": "regex",
+                "validator": "^[a-zA-Z0-9]{0,60}$",
+                "arguments": []
+            }
+        ],
+        "required": false,
+        "visibleCondition": {
+            "any": [
+                {
+                    "fact": "identity",
+                    "operator": "equal",
+                    "value": "NEWALIEN",
+                    "path": "$.userService"
+                }
+            ]
+        }
+    },
+
+
+    {
+        "id": "numberOfOtherSpousesAlien",
+        "renderID": "frm_3a_b6a_numberOfOtherSpousesAlien",
+        "alignmentGroup": "Spouse Details",
+        "description": "Enter the number of spouses you have",
+        "labelName": {
+            "eng": "Number of spouses you want to add"
+        },
+        "controlType": "textbox",
+        "type": "string",
+        "inputRequired": true,
+        "fieldCategory": "none",
+        "required": false,
+        "validators": [
+            {
+                "validator": "^[1-6]$",
+                "arguments": [],
+                "type": "regex"
+            }
+        ],
+        "required": false,
+        "visibleCondition": {
+            "any": [
+                {
+                    "fact": "identity",
+                    "operator": "equal",
+                    "value": "NEWALIEN",
+                    "path": "$.userService"
+                }
+            ]
+        }
+    },

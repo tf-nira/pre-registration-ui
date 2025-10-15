@@ -1602,7 +1602,7 @@
                 <mat-panel-title>
                   <b>Personal Information:</b>
                 </mat-panel-title>
-                <mat-panel-description>
+                <mat-panel-description *ngIf="!isNewAlien()">
                   Please note: Maiden name and any previous names will not appear on the card.
                 </mat-panel-description>
                 
@@ -2143,7 +2143,7 @@
               </mat-action-row>
             </mat-expansion-panel>
 
-            <mat-expansion-panel *ngIf="!isRenewalService() && !isCopService() && !isGetFirstId() && !isReplacement()" [expanded]="expStep === 6" (opened)="setStep(6)" hideToggle>
+            <mat-expansion-panel *ngIf="!isRenewalService() && !isCopService() && !isGetFirstId() && !isReplacement() && !isNewAlien()" [expanded]="expStep === 6" (opened)="setStep(6)" hideToggle>
               <mat-expansion-panel-header>
                 <mat-panel-title>
                   <b>Foundling Check:</b>                 
@@ -2451,8 +2451,11 @@
                 <mat-panel-title *ngIf="isNaturalization()">
                   <b>Citizenship Information:</b>
                 </mat-panel-title>
-                <mat-panel-title *ngIf="!isByBirth() && !isNaturalization()">
+                <mat-panel-title *ngIf="!isByBirth() && !isNaturalization() && !isNewAlien()">
                   <b>Place of Origin and Citizenship Information:</b>
+                </mat-panel-title>
+                <mat-panel-title *ngIf="isNewAlien()">
+                  <b>Passport and Citizeship Details:</b>
                 </mat-panel-title>
                 
               </mat-expansion-panel-header>
@@ -2710,7 +2713,7 @@
               </mat-action-row>
             </mat-expansion-panel>
             
-            <mat-expansion-panel *ngIf="!isRenewalService() && !isCopService() && !isGetFirstId() && !isReplacement()" [expanded]="expStep === 9" (opened)="setStep(9)" hideToggle>
+            <mat-expansion-panel *ngIf="!isRenewalService() && !isCopService() && !isGetFirstId() && !isReplacement() && !isNewAlien()" [expanded]="expStep === 9" (opened)="setStep(9)" hideToggle>
               <mat-expansion-panel-header>
                 <mat-panel-title>
                <b>Voters Information:</b>
@@ -2968,7 +2971,7 @@
               </mat-action-row>
             </mat-expansion-panel>
 
-            <mat-expansion-panel *ngIf="!isRenewalService() && !isCopService() && !isGetFirstId() && !isReplacement()" [expanded]="expStep === 10" (opened)="setStep(10)" hideToggle>
+            <mat-expansion-panel *ngIf="!isRenewalService() && !isCopService() && !isGetFirstId() && !isReplacement() " [expanded]="expStep === 10" (opened)="setStep(10)" hideToggle>
               <mat-expansion-panel-header>
                 <mat-panel-title>
                <b>Marital Status:</b>
@@ -3498,7 +3501,7 @@
               </mat-action-row>
             </mat-expansion-panel>
 
-            <mat-expansion-panel *ngIf="!isRenewalService()  && !isCopService() && !isGetFirstId() && !isReplacement()" [expanded]="expStep === 12" (opened)="setStep(12)" hideToggle>
+            <mat-expansion-panel *ngIf="!isRenewalService()  && !isCopService() && !isGetFirstId() && !isReplacement() && !isNewAlien()" [expanded]="expStep === 12" (opened)="setStep(12)" hideToggle>
               <mat-expansion-panel-header>
                 <mat-panel-title>
                <b>Father's Details:</b>
@@ -3762,7 +3765,7 @@
               </mat-action-row>
             </mat-expansion-panel>
 
-            <mat-expansion-panel *ngIf="!isRenewalService() && !isCopService() && !isGetFirstId() && !isReplacement()" [expanded]="expStep === 13" (opened)="setStep(13)" hideToggle>
+            <mat-expansion-panel *ngIf="!isRenewalService() && !isCopService() && !isGetFirstId() && !isReplacement() && !isNewAlien()" [expanded]="expStep === 13" (opened)="setStep(13)" hideToggle>
               <mat-expansion-panel-header>
                 <mat-panel-title>
                <b>Mother's Details</b>
@@ -4026,7 +4029,7 @@
               </mat-action-row>
             </mat-expansion-panel>
 
-            <mat-expansion-panel *ngIf="!isRenewalService() && !isCopService() && !isGetFirstId() && !isReplacement()" [expanded]="expStep === 14" (opened)="setStep(14)" hideToggle>
+            <mat-expansion-panel *ngIf="!isRenewalService() && !isCopService() && !isGetFirstId() && !isReplacement() && !isNewAlien()" [expanded]="expStep === 14" (opened)="setStep(14)" hideToggle>
               <mat-expansion-panel-header>
                 <mat-panel-title>
                <b>Blood Relative's/Introducer Details:</b>
@@ -5850,7 +5853,7 @@
                 <button mat-button color="primary" (click)="nextStep()">Next</button>
               </mat-action-row>
             </mat-expansion-panel>
-            <mat-expansion-panel *ngIf="!isRenewalService() && !isGetFirstId() && !isReplacement()" [expanded]="expStep === 18" (opened)="setStep(18)" hideToggle>
+            <mat-expansion-panel *ngIf="!isRenewalService() && !isGetFirstId() && !isReplacement() && !isNewAlien()" [expanded]="expStep === 18" (opened)="setStep(18)" hideToggle>
               <mat-expansion-panel-header>
                 <mat-panel-title>
                <b>Declarant's Details:</b>

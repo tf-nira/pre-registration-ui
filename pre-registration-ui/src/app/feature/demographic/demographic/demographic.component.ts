@@ -918,7 +918,7 @@ familyRoles = [
           this.identityData = identityJsonSpec["identity"];
 
           //LOCAL
-           //this.identityData = [];    
+           this.identityData = [];    
 
           let locationHeirarchiesFromJson = [
             ...identityJsonSpec["locationHierarchy"], 
@@ -928,8 +928,8 @@ familyRoles = [
             response[appConstants.RESPONSE]["idSchemaVersion"];
 
             //LOCAL
-            // const fieldDefinitions = await this.loadFieldDefinitions();
-            // this.identityData.push(...fieldDefinitions);
+             const fieldDefinitions = await this.loadFieldDefinitions();
+             this.identityData.push(...fieldDefinitions);
 
           if (Array.isArray(locationHeirarchiesFromJson[0])) {
             this.locationHeirarchies = locationHeirarchiesFromJson;
@@ -3537,6 +3537,13 @@ familyRoles = [
 
   isReplacement(): boolean {
     if (this.userService === appConstants.USER_SERVICE.REPLACEMENT) {
+      return true;
+    }
+    return false;
+  }
+
+  isNewAlien(): boolean {
+    if (this.userService === appConstants.USER_SERVICE.NEWALIEN) {
       return true;
     }
     return false;
