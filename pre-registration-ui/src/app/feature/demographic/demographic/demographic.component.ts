@@ -2002,6 +2002,7 @@ familyRoles = [
 
   
   processConditionalRequiredValidations(identityFormData, uiField) {
+    console.log("required called for field:", uiField.id);
     return new Promise<void>((resolve, reject) => {
       let facts = {};
       if (uiField && uiField.requiredCondition && uiField.requiredCondition != "") {
@@ -3543,7 +3544,7 @@ familyRoles = [
   }
 
   isNewAlien(): boolean {
-    if (this.userService === appConstants.USER_SERVICE.NEWALIEN) {
+    if (this.userService === appConstants.USER_SERVICE.ALIENNEW) {
       return true;
     }
     return false;

@@ -264,7 +264,7 @@ export const USER_SERVICE = {
   FIRSTID: "FIRSTID",
   REPLACEMENT: "LOST",
   NEW : "NEW",
-  NEWALIEN: "NEWALIEN"
+  ALIENNEW: "ALIENNEW"
 };
 
 export const TAX_HEADS = {

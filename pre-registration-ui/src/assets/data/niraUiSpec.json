@@ -758,6 +758,60 @@
             },
             {
                 "fieldId": "taxIdentificationNumber"
+            },
+            {
+                "fieldId": "numberOfOtherSpousesAlien"
+            },
+            {
+                "fieldId": "spouseName"
+            },
+            {
+                "fieldId": "spouseTwoName"
+            },
+            {
+                "fieldId": "spouseThreeName"
+            },
+            {
+                "fieldId": "spouseFourName"
+            },
+            {
+                "fieldId": "spouseFiveName"
+            },
+            {
+                "fieldId": "spouseSixName"
+            },
+            {
+                "fieldId": "citizenshipOrNationality"
+            },
+            {
+                "fieldId": "previousNationality"
+            },
+            {
+                "fieldId": "placeOfIssue"
+            },
+            {
+                "fieldId": "dateOfIssue"
+            },
+            {
+                "fieldId": "issuingAuthority"
+            },
+            {
+                "fieldId": "dateOfEntryInUganda"
+            },
+            {
+                "fieldId": "immigrationFacitityNo"
+            },
+            {
+                "fieldId": "facilityType"
+            },
+            {
+                "fieldId": "facilityTypeCategory"
+            },
+            {
+                "fieldId": "dateOfIssuance"
+            },
+            {
+                "fieldId": "dateOfExpiry"
             }
         ],
         "required": true
@@ -1467,6 +1521,17 @@
         "subType": null,
         "locationHierarchyLevel": null,
         "parentLocCode": null,
+        "setDefaultValueCondition": {
+            "any": [
+                {
+                    "fact": "identity",
+                    "operator": "equal",
+                    "value": "UPDATE",
+                    "path": "$.userService"
+                }
+            ]
+        },
+        "setDefaultValue": "Y",
         "fieldCategory": "none",
         "inputRequired": true,
         "validators": [],
@@ -2824,6 +2889,17 @@
             }
         ],
         "fieldType": "default",
+        "setDefaultValueCondition": {
+            "any": [
+                {
+                    "fact": "identity",
+                    "operator": "equal",
+                    "value": "UPDATE",
+                    "path": "$.userService"
+                }
+            ]
+        },
+        "setDefaultValue": "Y",
         "type": "string",
         "subType": null,
         "locationHierarchyLevel": null,
@@ -2839,22 +2915,6 @@
                     "operator": "equal",
                     "value": "UPDATE",
                     "path": "$.userService"
-                },
-                {
-                    "any": [
-                        {
-                            "fact": "identity",
-                            "operator": "equal",
-                            "value": true,
-                            "path": "$.placeOfResidenceCat"
-                        },
-                        {
-                            "fact": "identity",
-                            "operator": "equal",
-                            "value": "Y",
-                            "path": "$.placeOfResidenceCat"
-                        }
-                    ]
                 }
             ]
         },
@@ -3890,7 +3950,7 @@
                 {
                     "fact": "identity",
                     "operator": "equal",
-                    "value": "NEWALIEN",
+                    "value": "ALIENNEW",
                     "path": "$.userService"
                 }
             ]
@@ -3948,7 +4008,7 @@
                 {
                     "fact": "identity",
                     "operator": "equal",
-                    "value": "NEWALIEN",
+                    "value": "ALIENNEW",
                     "path": "$.userService"
                 }
             ]
@@ -4097,6 +4157,12 @@
             },
             {
                 "fieldId": "spouseFourMarriageCertificateNumber"
+            },
+            {
+                "fieldId": "numberOfOtherSpousesAlien"
+            },
+            {
+                "fieldId": "spouseName"
             }
         ]
     },
@@ -4378,7 +4444,7 @@
                 {
                     "fact": "identity",
                     "operator": "equal",
-                    "value": "NEWALIEN",
+                    "value": "ALIENNEW",
                     "path": "$.userService"
                 }
             ]
@@ -4841,7 +4907,7 @@
                 {
                     "fact": "identity",
                     "operator": "equal",
-                    "value": "NEWALIEN",
+                    "value": "ALIENNEW",
                     "path": "$.userService"
                 }
             ]
@@ -5419,7 +5485,7 @@
                 {
                     "fact": "identity",
                     "operator": "equal",
-                    "value": "NEWALIEN",
+                    "value": "ALIENNEW",
                     "path": "$.userService"
                 }
             ]
@@ -5477,7 +5543,7 @@
                 {
                     "fact": "identity",
                     "operator": "equal",
-                    "value": "NEWALIEN",
+                    "value": "ALIENNEW",
                     "path": "$.userService"
                 }
             ]
@@ -6076,6 +6142,27 @@
             },
             {
                 "fieldId": "isCardRequired"
+            },
+            {
+                "fieldId": "numberOfOtherSpousesAlien"
+            },
+            {
+                "fieldId": "spouseName"
+            },
+            {
+                "fieldId": "spouseTwoName"
+            },
+            {
+                "fieldId": "spouseThreeName"
+            },
+            {
+                "fieldId": "spouseFourName"
+            },
+            {
+                "fieldId": "spouseFiveName"
+            },
+            {
+                "fieldId": "spouseSixName"
             }
         ]
     },
@@ -7014,7 +7101,7 @@
                 {
                     "fact": "identity",
                     "operator": "equal",
-                    "value": "NEWALIEN",
+                    "value": "ALIENNEW",
                     "path": "$.userService"
                 }
             ]
@@ -7119,7 +7206,7 @@
                         {
                             "fact": "identity",
                             "operator": "equal",
-                            "value": "NEWALIEN",
+                            "value": "ALIENNEW",
                             "path": "$.userService"
                         },
                         {
@@ -7330,7 +7417,7 @@
                 {
                     "fact": "identity",
                     "operator": "equal",
-                    "value": "NEWALIEN",
+                    "value": "ALIENNEW",
                     "path": "$.userService"
                 }
             ]
@@ -7435,7 +7522,7 @@
                         {
                             "fact": "identity",
                             "operator": "equal",
-                            "value": "NEWALIEN",
+                            "value": "ALIENNEW",
                             "path": "$.userService"
                         },
                         {
@@ -7518,7 +7605,7 @@
                 {
                     "fact": "identity",
                     "operator": "equal",
-                    "value": "NEWALIEN",
+                    "value": "ALIENNEW",
                     "path": "$.userService"
                 }
             ]
@@ -7656,7 +7743,7 @@
                         {
                             "fact": "identity",
                             "operator": "equal",
-                            "value": "NEWALIEN",
+                            "value": "ALIENNEW",
                             "path": "$.userService"
                         },
                         {
@@ -7696,7 +7783,7 @@
                 {
                     "fact": "identity",
                     "operator": "equal",
-                    "value": "NEWALIEN",
+                    "value": "ALIENNEW",
                     "path": "$.userService"
                 }
             ]
@@ -7728,7 +7815,7 @@
                 {
                     "fact": "identity",
                     "operator": "equal",
-                    "value": "NEWALIEN",
+                    "value": "ALIENNEW",
                     "path": "$.userService"
                 }
             ]
@@ -8190,42 +8277,6 @@
                             "operator": "equal",
                             "value": "UPDATE",
                             "path": "$.userService"
-                        },
-                        {
-                            "any": [
-                                {
-                                    "fact": "identity",
-                                    "operator": "equal",
-                                    "value": true,
-                                    "path": "$.placeOfResidenceCat"
-                                },
-                                {
-                                    "fact": "identity",
-                                    "operator": "equal",
-                                    "value": "Y",
-                                    "path": "$.placeOfResidenceCat"
-                                }
-                            ]
-                        },
-                        {
-                            "any": [
-                                {
-                                    "any": [
-                                        {
-                                            "fact": "identity",
-                                            "operator": "equal",
-                                            "value": true,
-                                            "path": "$.changeInPlaceOfResidence"
-                                        },
-                                        {
-                                            "fact": "identity",
-                                            "operator": "equal",
-                                            "value": "Y",
-                                            "path": "$.changeInPlaceOfResidence"
-                                        }
-                                    ]
-                                }
-                            ]
                         }
                     ]
                 }
@@ -8258,42 +8309,6 @@
                             "operator": "equal",
                             "value": "UPDATE",
                             "path": "$.userService"
-                        },
-                        {
-                            "any": [
-                                {
-                                    "fact": "identity",
-                                    "operator": "equal",
-                                    "value": true,
-                                    "path": "$.placeOfResidenceCat"
-                                },
-                                {
-                                    "fact": "identity",
-                                    "operator": "equal",
-                                    "value": "Y",
-                                    "path": "$.placeOfResidenceCat"
-                                }
-                            ]
-                        },
-                        {
-                            "any": [
-                                {
-                                    "any": [
-                                        {
-                                            "fact": "identity",
-                                            "operator": "equal",
-                                            "value": true,
-                                            "path": "$.changeInPlaceOfResidence"
-                                        },
-                                        {
-                                            "fact": "identity",
-                                            "operator": "equal",
-                                            "value": "Y",
-                                            "path": "$.changeInPlaceOfResidence"
-                                        }
-                                    ]
-                                }
-                            ]
                         }
                     ]
                 }
@@ -8350,42 +8365,6 @@
                                             "operator": "equal",
                                             "value": "UPDATE",
                                             "path": "$.userService"
-                                        },
-                                        {
-                                            "any": [
-                                                {
-                                                    "fact": "identity",
-                                                    "operator": "equal",
-                                                    "value": true,
-                                                    "path": "$.placeOfResidenceCat"
-                                                },
-                                                {
-                                                    "fact": "identity",
-                                                    "operator": "equal",
-                                                    "value": "Y",
-                                                    "path": "$.placeOfResidenceCat"
-                                                }
-                                            ]
-                                        },
-                                        {
-                                            "any": [
-                                                {
-                                                    "any": [
-                                                        {
-                                                            "fact": "identity",
-                                                            "operator": "equal",
-                                                            "value": true,
-                                                            "path": "$.changeInPlaceOfResidence"
-                                                        },
-                                                        {
-                                                            "fact": "identity",
-                                                            "operator": "equal",
-                                                            "value": "Y",
-                                                            "path": "$.changeInPlaceOfResidence"
-                                                        }
-                                                    ]
-                                                }
-                                            ]
                                         }
                                     ]
                                 }
@@ -8506,42 +8485,6 @@
                                     "operator": "equal",
                                     "value": "UPDATE",
                                     "path": "$.userService"
-                                },
-                                {
-                                    "any": [
-                                        {
-                                            "fact": "identity",
-                                            "operator": "equal",
-                                            "value": true,
-                                            "path": "$.placeOfResidenceCat"
-                                        },
-                                        {
-                                            "fact": "identity",
-                                            "operator": "equal",
-                                            "value": "Y",
-                                            "path": "$.placeOfResidenceCat"
-                                        }
-                                    ]
-                                },
-                                {
-                                    "any": [
-                                        {
-                                            "any": [
-                                                {
-                                                    "fact": "identity",
-                                                    "operator": "equal",
-                                                    "value": true,
-                                                    "path": "$.changeInPlaceOfResidence"
-                                                },
-                                                {
-                                                    "fact": "identity",
-                                                    "operator": "equal",
-                                                    "value": "Y",
-                                                    "path": "$.changeInPlaceOfResidence"
-                                                }
-                                            ]
-                                        }
-                                    ]
                                 }
                             ]
                         },
@@ -8613,42 +8556,6 @@
                                     "operator": "equal",
                                     "value": "UPDATE",
                                     "path": "$.userService"
-                                },
-                                {
-                                    "any": [
-                                        {
-                                            "fact": "identity",
-                                            "operator": "equal",
-                                            "value": true,
-                                            "path": "$.placeOfResidenceCat"
-                                        },
-                                        {
-                                            "fact": "identity",
-                                            "operator": "equal",
-                                            "value": "Y",
-                                            "path": "$.placeOfResidenceCat"
-                                        }
-                                    ]
-                                },
-                                {
-                                    "any": [
-                                        {
-                                            "any": [
-                                                {
-                                                    "fact": "identity",
-                                                    "operator": "equal",
-                                                    "value": true,
-                                                    "path": "$.changeInPlaceOfResidence"
-                                                },
-                                                {
-                                                    "fact": "identity",
-                                                    "operator": "equal",
-                                                    "value": "Y",
-                                                    "path": "$.changeInPlaceOfResidence"
-                                                }
-                                            ]
-                                        }
-                                    ]
                                 }
                             ]
                         }
@@ -8730,46 +8637,10 @@
                             "path": "$.userService"
                         },
                         {
-                            "any": [
-                                {
-                                    "fact": "identity",
-                                    "operator": "equal",
-                                    "value": true,
-                                    "path": "$.placeOfResidenceCat"
-                                },
-                                {
-                                    "fact": "identity",
-                                    "operator": "equal",
-                                    "value": "Y",
-                                    "path": "$.placeOfResidenceCat"
-                                }
-                            ]
-                        },
-                        {
                             "fact": "identity",
                             "operator": "equal",
                             "value": "UGA",
                             "path": "$.residenceStatus[0].value"
-                        },
-                        {
-                            "any": [
-                                {
-                                    "any": [
-                                        {
-                                            "fact": "identity",
-                                            "operator": "equal",
-                                            "value": true,
-                                            "path": "$.changeInPlaceOfResidence"
-                                        },
-                                        {
-                                            "fact": "identity",
-                                            "operator": "equal",
-                                            "value": "Y",
-                                            "path": "$.changeInPlaceOfResidence"
-                                        }
-                                    ]
-                                }
-                            ]
                         }
                     ]
                 }
@@ -8802,46 +8673,10 @@
                             "path": "$.userService"
                         },
                         {
-                            "any": [
-                                {
-                                    "fact": "identity",
-                                    "operator": "equal",
-                                    "value": true,
-                                    "path": "$.placeOfResidenceCat"
-                                },
-                                {
-                                    "fact": "identity",
-                                    "operator": "equal",
-                                    "value": "Y",
-                                    "path": "$.placeOfResidenceCat"
-                                }
-                            ]
-                        },
-                        {
                             "fact": "identity",
                             "operator": "equal",
                             "value": "UGA",
                             "path": "$.residenceStatus[0].value"
-                        },
-                        {
-                            "any": [
-                                {
-                                    "any": [
-                                        {
-                                            "fact": "identity",
-                                            "operator": "equal",
-                                            "value": true,
-                                            "path": "$.changeInPlaceOfResidence"
-                                        },
-                                        {
-                                            "fact": "identity",
-                                            "operator": "equal",
-                                            "value": "Y",
-                                            "path": "$.changeInPlaceOfResidence"
-                                        }
-                                    ]
-                                }
-                            ]
                         }
                     ]
                 }
@@ -8913,53 +8748,17 @@
                             "path": "$.userService"
                         },
                         {
-                            "any": [
-                                {
-                                    "fact": "identity",
-                                    "operator": "equal",
-                                    "value": true,
-                                    "path": "$.placeOfResidenceCat"
-                                },
-                                {
-                                    "fact": "identity",
-                                    "operator": "equal",
-                                    "value": "Y",
-                                    "path": "$.placeOfResidenceCat"
-                                }
-                            ]
-                        },
-                        {
                             "fact": "identity",
                             "operator": "equal",
                             "value": "UGA",
                             "path": "$.residenceStatus[0].value"
-                        },
-                        {
-                            "any": [
-                                {
-                                    "any": [
-                                        {
-                                            "fact": "identity",
-                                            "operator": "equal",
-                                            "value": true,
-                                            "path": "$.changeInPlaceOfResidence"
-                                        },
-                                        {
-                                            "fact": "identity",
-                                            "operator": "equal",
-                                            "value": "Y",
-                                            "path": "$.changeInPlaceOfResidence"
-                                        }
-                                    ]
-                                }
-                            ]
                         }
                     ]
                 },
                 {
                     "fact": "identity",
                     "operator": "equal",
-                    "value": "NEWALIEN",
+                    "value": "ALIENNEW",
                     "path": "$.userService"
                 }
             ]
@@ -8991,53 +8790,17 @@
                             "path": "$.userService"
                         },
                         {
-                            "any": [
-                                {
-                                    "fact": "identity",
-                                    "operator": "equal",
-                                    "value": true,
-                                    "path": "$.placeOfResidenceCat"
-                                },
-                                {
-                                    "fact": "identity",
-                                    "operator": "equal",
-                                    "value": "Y",
-                                    "path": "$.placeOfResidenceCat"
-                                }
-                            ]
-                        },
-                        {
                             "fact": "identity",
                             "operator": "equal",
                             "value": "UGA",
                             "path": "$.residenceStatus[0].value"
-                        },
-                        {
-                            "any": [
-                                {
-                                    "any": [
-                                        {
-                                            "fact": "identity",
-                                            "operator": "equal",
-                                            "value": true,
-                                            "path": "$.changeInPlaceOfResidence"
-                                        },
-                                        {
-                                            "fact": "identity",
-                                            "operator": "equal",
-                                            "value": "Y",
-                                            "path": "$.changeInPlaceOfResidence"
-                                        }
-                                    ]
-                                }
-                            ]
                         }
                     ]
                 },
                 {
                     "fact": "identity",
                     "operator": "equal",
-                    "value": "NEWALIEN",
+                    "value": "ALIENNEW",
                     "path": "$.userService"
                 }
             ]
@@ -9090,53 +8853,17 @@
                             "path": "$.userService"
                         },
                         {
-                            "any": [
-                                {
-                                    "fact": "identity",
-                                    "operator": "equal",
-                                    "value": true,
-                                    "path": "$.placeOfResidenceCat"
-                                },
-                                {
-                                    "fact": "identity",
-                                    "operator": "equal",
-                                    "value": "Y",
-                                    "path": "$.placeOfResidenceCat"
-                                }
-                            ]
-                        },
-                        {
                             "fact": "identity",
                             "operator": "equal",
                             "value": "UGA",
                             "path": "$.residenceStatus[0].value"
-                        },
-                        {
-                            "any": [
-                                {
-                                    "any": [
-                                        {
-                                            "fact": "identity",
-                                            "operator": "equal",
-                                            "value": true,
-                                            "path": "$.changeInPlaceOfResidence"
-                                        },
-                                        {
-                                            "fact": "identity",
-                                            "operator": "equal",
-                                            "value": "Y",
-                                            "path": "$.changeInPlaceOfResidence"
-                                        }
-                                    ]
-                                }
-                            ]
                         }
                     ]
                 },
                 {
                     "fact": "identity",
                     "operator": "equal",
-                    "value": "NEWALIEN",
+                    "value": "ALIENNEW",
                     "path": "$.userService"
                 }
             ]
@@ -9168,53 +8895,17 @@
                             "path": "$.userService"
                         },
                         {
-                            "any": [
-                                {
-                                    "fact": "identity",
-                                    "operator": "equal",
-                                    "value": true,
-                                    "path": "$.placeOfResidenceCat"
-                                },
-                                {
-                                    "fact": "identity",
-                                    "operator": "equal",
-                                    "value": "Y",
-                                    "path": "$.placeOfResidenceCat"
-                                }
-                            ]
-                        },
-                        {
                             "fact": "identity",
                             "operator": "equal",
                             "value": "UGA",
                             "path": "$.residenceStatus[0].value"
-                        },
-                        {
-                            "any": [
-                                {
-                                    "any": [
-                                        {
-                                            "fact": "identity",
-                                            "operator": "equal",
-                                            "value": true,
-                                            "path": "$.changeInPlaceOfResidence"
-                                        },
-                                        {
-                                            "fact": "identity",
-                                            "operator": "equal",
-                                            "value": "Y",
-                                            "path": "$.changeInPlaceOfResidence"
-                                        }
-                                    ]
-                                }
-                            ]
                         }
                     ]
                 },
                 {
                     "fact": "identity",
                     "operator": "equal",
-                    "value": "NEWALIEN",
+                    "value": "ALIENNEW",
                     "path": "$.userService"
                 }
             ]
@@ -9272,53 +8963,17 @@
                             "path": "$.userService"
                         },
                         {
-                            "any": [
-                                {
-                                    "fact": "identity",
-                                    "operator": "equal",
-                                    "value": true,
-                                    "path": "$.placeOfResidenceCat"
-                                },
-                                {
-                                    "fact": "identity",
-                                    "operator": "equal",
-                                    "value": "Y",
-                                    "path": "$.placeOfResidenceCat"
-                                }
-                            ]
-                        },
-                        {
                             "fact": "identity",
                             "operator": "equal",
                             "value": "UGA",
                             "path": "$.residenceStatus[0].value"
-                        },
-                        {
-                            "any": [
-                                {
-                                    "any": [
-                                        {
-                                            "fact": "identity",
-                                            "operator": "equal",
-                                            "value": true,
-                                            "path": "$.changeInPlaceOfResidence"
-                                        },
-                                        {
-                                            "fact": "identity",
-                                            "operator": "equal",
-                                            "value": "Y",
-                                            "path": "$.changeInPlaceOfResidence"
-                                        }
-                                    ]
-                                }
-                            ]
                         }
                     ]
                 },
                 {
                     "fact": "identity",
                     "operator": "equal",
-                    "value": "NEWALIEN",
+                    "value": "ALIENNEW",
                     "path": "$.userService"
                 }
             ]
@@ -9350,53 +9005,17 @@
                             "path": "$.userService"
                         },
                         {
-                            "any": [
-                                {
-                                    "fact": "identity",
-                                    "operator": "equal",
-                                    "value": true,
-                                    "path": "$.placeOfResidenceCat"
-                                },
-                                {
-                                    "fact": "identity",
-                                    "operator": "equal",
-                                    "value": "Y",
-                                    "path": "$.placeOfResidenceCat"
-                                }
-                            ]
-                        },
-                        {
                             "fact": "identity",
                             "operator": "equal",
                             "value": "UGA",
                             "path": "$.residenceStatus[0].value"
-                        },
-                        {
-                            "any": [
-                                {
-                                    "any": [
-                                        {
-                                            "fact": "identity",
-                                            "operator": "equal",
-                                            "value": true,
-                                            "path": "$.changeInPlaceOfResidence"
-                                        },
-                                        {
-                                            "fact": "identity",
-                                            "operator": "equal",
-                                            "value": "Y",
-                                            "path": "$.changeInPlaceOfResidence"
-                                        }
-                                    ]
-                                }
-                            ]
                         }
                     ]
                 },
                 {
                     "fact": "identity",
                     "operator": "equal",
-                    "value": "NEWALIEN",
+                    "value": "ALIENNEW",
                     "path": "$.userService"
                 }
             ]
@@ -9449,53 +9068,17 @@
                             "path": "$.userService"
                         },
                         {
-                            "any": [
-                                {
-                                    "fact": "identity",
-                                    "operator": "equal",
-                                    "value": true,
-                                    "path": "$.placeOfResidenceCat"
-                                },
-                                {
-                                    "fact": "identity",
-                                    "operator": "equal",
-                                    "value": "Y",
-                                    "path": "$.placeOfResidenceCat"
-                                }
-                            ]
-                        },
-                        {
                             "fact": "identity",
                             "operator": "equal",
                             "value": "UGA",
                             "path": "$.residenceStatus[0].value"
-                        },
-                        {
-                            "any": [
-                                {
-                                    "any": [
-                                        {
-                                            "fact": "identity",
-                                            "operator": "equal",
-                                            "value": true,
-                                            "path": "$.changeInPlaceOfResidence"
-                                        },
-                                        {
-                                            "fact": "identity",
-                                            "operator": "equal",
-                                            "value": "Y",
-                                            "path": "$.changeInPlaceOfResidence"
-                                        }
-                                    ]
-                                }
-                            ]
                         }
                     ]
                 },
                 {
                     "fact": "identity",
                     "operator": "equal",
-                    "value": "NEWALIEN",
+                    "value": "ALIENNEW",
                     "path": "$.userService"
                 }
             ]
@@ -9527,53 +9110,17 @@
                             "path": "$.userService"
                         },
                         {
-                            "any": [
-                                {
-                                    "fact": "identity",
-                                    "operator": "equal",
-                                    "value": true,
-                                    "path": "$.placeOfResidenceCat"
-                                },
-                                {
-                                    "fact": "identity",
-                                    "operator": "equal",
-                                    "value": "Y",
-                                    "path": "$.placeOfResidenceCat"
-                                }
-                            ]
-                        },
-                        {
                             "fact": "identity",
                             "operator": "equal",
                             "value": "UGA",
                             "path": "$.residenceStatus[0].value"
-                        },
-                        {
-                            "any": [
-                                {
-                                    "any": [
-                                        {
-                                            "fact": "identity",
-                                            "operator": "equal",
-                                            "value": true,
-                                            "path": "$.changeInPlaceOfResidence"
-                                        },
-                                        {
-                                            "fact": "identity",
-                                            "operator": "equal",
-                                            "value": "Y",
-                                            "path": "$.changeInPlaceOfResidence"
-                                        }
-                                    ]
-                                }
-                            ]
                         }
                     ]
                 },
                 {
                     "fact": "identity",
                     "operator": "equal",
-                    "value": "NEWALIEN",
+                    "value": "ALIENNEW",
                     "path": "$.userService"
                 }
             ]
@@ -9626,53 +9173,17 @@
                             "path": "$.userService"
                         },
                         {
-                            "any": [
-                                {
-                                    "fact": "identity",
-                                    "operator": "equal",
-                                    "value": true,
-                                    "path": "$.placeOfResidenceCat"
-                                },
-                                {
-                                    "fact": "identity",
-                                    "operator": "equal",
-                                    "value": "Y",
-                                    "path": "$.placeOfResidenceCat"
-                                }
-                            ]
-                        },
-                        {
                             "fact": "identity",
                             "operator": "equal",
                             "value": "UGA",
                             "path": "$.residenceStatus[0].value"
-                        },
-                        {
-                            "any": [
-                                {
-                                    "any": [
-                                        {
-                                            "fact": "identity",
-                                            "operator": "equal",
-                                            "value": true,
-                                            "path": "$.changeInPlaceOfResidence"
-                                        },
-                                        {
-                                            "fact": "identity",
-                                            "operator": "equal",
-                                            "value": "Y",
-                                            "path": "$.changeInPlaceOfResidence"
-                                        }
-                                    ]
-                                }
-                            ]
                         }
                     ]
                 },
                 {
                     "fact": "identity",
                     "operator": "equal",
-                    "value": "NEWALIEN",
+                    "value": "ALIENNEW",
                     "path": "$.userService"
                 }
             ]
@@ -9704,53 +9215,17 @@
                             "path": "$.userService"
                         },
                         {
-                            "any": [
-                                {
-                                    "fact": "identity",
-                                    "operator": "equal",
-                                    "value": true,
-                                    "path": "$.placeOfResidenceCat"
-                                },
-                                {
-                                    "fact": "identity",
-                                    "operator": "equal",
-                                    "value": "Y",
-                                    "path": "$.placeOfResidenceCat"
-                                }
-                            ]
-                        },
-                        {
                             "fact": "identity",
                             "operator": "equal",
                             "value": "UGA",
                             "path": "$.residenceStatus[0].value"
-                        },
-                        {
-                            "any": [
-                                {
-                                    "any": [
-                                        {
-                                            "fact": "identity",
-                                            "operator": "equal",
-                                            "value": true,
-                                            "path": "$.changeInPlaceOfResidence"
-                                        },
-                                        {
-                                            "fact": "identity",
-                                            "operator": "equal",
-                                            "value": "Y",
-                                            "path": "$.changeInPlaceOfResidence"
-                                        }
-                                    ]
-                                }
-                            ]
                         }
                     ]
                 },
                 {
                     "fact": "identity",
                     "operator": "equal",
-                    "value": "NEWALIEN",
+                    "value": "ALIENNEW",
                     "path": "$.userService"
                 }
             ]
@@ -9806,46 +9281,10 @@
                             "path": "$.userService"
                         },
                         {
-                            "any": [
-                                {
-                                    "fact": "identity",
-                                    "operator": "equal",
-                                    "value": true,
-                                    "path": "$.placeOfResidenceCat"
-                                },
-                                {
-                                    "fact": "identity",
-                                    "operator": "equal",
-                                    "value": "Y",
-                                    "path": "$.placeOfResidenceCat"
-                                }
-                            ]
-                        },
-                        {
                             "fact": "identity",
                             "operator": "equal",
                             "value": "UGA",
                             "path": "$.residenceStatus[0].value"
-                        },
-                        {
-                            "any": [
-                                {
-                                    "any": [
-                                        {
-                                            "fact": "identity",
-                                            "operator": "equal",
-                                            "value": true,
-                                            "path": "$.changeInPlaceOfResidence"
-                                        },
-                                        {
-                                            "fact": "identity",
-                                            "operator": "equal",
-                                            "value": "Y",
-                                            "path": "$.changeInPlaceOfResidence"
-                                        }
-                                    ]
-                                }
-                            ]
                         }
                     ]
                 }
@@ -9918,46 +9357,10 @@
                             "path": "$.userService"
                         },
                         {
-                            "any": [
-                                {
-                                    "fact": "identity",
-                                    "operator": "equal",
-                                    "value": true,
-                                    "path": "$.placeOfResidenceCat"
-                                },
-                                {
-                                    "fact": "identity",
-                                    "operator": "equal",
-                                    "value": "Y",
-                                    "path": "$.placeOfResidenceCat"
-                                }
-                            ]
-                        },
-                        {
                             "fact": "identity",
                             "operator": "equal",
                             "value": "UGA",
                             "path": "$.residenceStatus[0].value"
-                        },
-                        {
-                            "any": [
-                                {
-                                    "any": [
-                                        {
-                                            "fact": "identity",
-                                            "operator": "equal",
-                                            "value": true,
-                                            "path": "$.changeInPlaceOfResidence"
-                                        },
-                                        {
-                                            "fact": "identity",
-                                            "operator": "equal",
-                                            "value": "Y",
-                                            "path": "$.changeInPlaceOfResidence"
-                                        }
-                                    ]
-                                }
-                            ]
                         }
                     ]
                 }
@@ -10017,42 +9420,6 @@
                                     "operator": "equal",
                                     "value": "UPDATE",
                                     "path": "$.userService"
-                                },
-                                {
-                                    "any": [
-                                        {
-                                            "fact": "identity",
-                                            "operator": "equal",
-                                            "value": true,
-                                            "path": "$.placeOfResidenceCat"
-                                        },
-                                        {
-                                            "fact": "identity",
-                                            "operator": "equal",
-                                            "value": "Y",
-                                            "path": "$.placeOfResidenceCat"
-                                        }
-                                    ]
-                                },
-                                {
-                                    "any": [
-                                        {
-                                            "any": [
-                                                {
-                                                    "fact": "identity",
-                                                    "operator": "equal",
-                                                    "value": true,
-                                                    "path": "$.changeInPlaceOfResidence"
-                                                },
-                                                {
-                                                    "fact": "identity",
-                                                    "operator": "equal",
-                                                    "value": "Y",
-                                                    "path": "$.changeInPlaceOfResidence"
-                                                }
-                                            ]
-                                        }
-                                    ]
                                 }
                             ]
                         }
@@ -10111,42 +9478,6 @@
                                     "operator": "equal",
                                     "value": "UPDATE",
                                     "path": "$.userService"
-                                },
-                                {
-                                    "any": [
-                                        {
-                                            "fact": "identity",
-                                            "operator": "equal",
-                                            "value": true,
-                                            "path": "$.placeOfResidenceCat"
-                                        },
-                                        {
-                                            "fact": "identity",
-                                            "operator": "equal",
-                                            "value": "Y",
-                                            "path": "$.placeOfResidenceCat"
-                                        }
-                                    ]
-                                },
-                                {
-                                    "any": [
-                                        {
-                                            "any": [
-                                                {
-                                                    "fact": "identity",
-                                                    "operator": "equal",
-                                                    "value": true,
-                                                    "path": "$.changeInPlaceOfResidence"
-                                                },
-                                                {
-                                                    "fact": "identity",
-                                                    "operator": "equal",
-                                                    "value": "Y",
-                                                    "path": "$.changeInPlaceOfResidence"
-                                                }
-                                            ]
-                                        }
-                                    ]
                                 }
                             ]
                         }
@@ -10206,42 +9537,6 @@
                                     "operator": "equal",
                                     "value": "UPDATE",
                                     "path": "$.userService"
-                                },
-                                {
-                                    "any": [
-                                        {
-                                            "fact": "identity",
-                                            "operator": "equal",
-                                            "value": true,
-                                            "path": "$.placeOfResidenceCat"
-                                        },
-                                        {
-                                            "fact": "identity",
-                                            "operator": "equal",
-                                            "value": "Y",
-                                            "path": "$.placeOfResidenceCat"
-                                        }
-                                    ]
-                                },
-                                {
-                                    "any": [
-                                        {
-                                            "any": [
-                                                {
-                                                    "fact": "identity",
-                                                    "operator": "equal",
-                                                    "value": true,
-                                                    "path": "$.changeInPlaceOfResidence"
-                                                },
-                                                {
-                                                    "fact": "identity",
-                                                    "operator": "equal",
-                                                    "value": "Y",
-                                                    "path": "$.changeInPlaceOfResidence"
-                                                }
-                                            ]
-                                        }
-                                    ]
                                 }
                             ]
                         }
@@ -10851,7 +10146,7 @@
                 {
                     "fact": "identity",
                     "operator": "equal",
-                    "value": "NEWALIEN",
+                    "value": "ALIENNEW",
                     "path": "$.userService"
                 }
             ]
@@ -10975,7 +10270,7 @@
                 {
                     "fact": "identity",
                     "operator": "equal",
-                    "value": "NEWALIEN",
+                    "value": "ALIENNEW",
                     "path": "$.userService"
                 }
             ]
@@ -11325,7 +10620,7 @@
                 {
                     "fact": "identity",
                     "operator": "equal",
-                    "value": "NEWALIEN",
+                    "value": "ALIENNEW",
                     "path": "$.userService"
                 }
             ]
@@ -11557,7 +10852,7 @@
                 {
                     "fact": "identity",
                     "operator": "equal",
-                    "value": "NEWALIEN",
+                    "value": "ALIENNEW",
                     "path": "$.userService"
                 },
                 {
@@ -11934,7 +11229,7 @@
                 {
                     "fact": "identity",
                     "operator": "equal",
-                    "value": "NEWALIEN",
+                    "value": "ALIENNEW",
                     "path": "$.userService"
                 }
             ]
@@ -12182,7 +11477,7 @@
                 {
                     "fact": "identity",
                     "operator": "equal",
-                    "value": "NEWALIEN",
+                    "value": "ALIENNEW",
                     "path": "$.userService"
                 }
             ]
@@ -12430,7 +11725,7 @@
                 {
                     "fact": "identity",
                     "operator": "equal",
-                    "value": "NEWALIEN",
+                    "value": "ALIENNEW",
                     "path": "$.userService"
                 }
             ]
@@ -12678,7 +11973,7 @@
                 {
                     "fact": "identity",
                     "operator": "equal",
-                    "value": "NEWALIEN",
+                    "value": "ALIENNEW",
                     "path": "$.userService"
                 }
             ]
@@ -12926,7 +12221,7 @@
                 {
                     "fact": "identity",
                     "operator": "equal",
-                    "value": "NEWALIEN",
+                    "value": "ALIENNEW",
                     "path": "$.userService"
                 }
             ]
@@ -13130,7 +12425,7 @@
                         {
                             "fact": "identity",
                             "operator": "notEqual",
-                            "value": "NEWALIEN",
+                            "value": "ALIENNEW",
                             "path": "$.userService"
                         },
                         {
@@ -14322,6 +13617,12 @@
                                     ]
                                 }
                             ]
+                        },
+                        {
+                            "fact": "identity",
+                            "operator": "equal",
+                            "value": "ALIENNEW",
+                            "path": "$.userService"
                         }
                     ]
                 }
@@ -14426,6 +13727,12 @@
                                     ]
                                 }
                             ]
+                        },
+                        {
+                            "fact": "identity",
+                            "operator": "equal",
+                            "value": "ALIENNEW",
+                            "path": "$.userService"
                         }
                     ]
                 }
@@ -14552,6 +13859,12 @@
                                     ]
                                 }
                             ]
+                        },
+                        {
+                            "fact": "identity",
+                            "operator": "equal",
+                            "value": "ALIENNEW",
+                            "path": "$.userService"
                         }
                     ]
                 }
@@ -16586,6 +15899,72 @@
         }
     },
     {
+        "id": "citizenshipOrNationality",
+        "renderID": "frm_alien_pass_citizenshipOrNationality",
+        "alignmentGroup": "Passport Details",
+        "description": "Choose Your Citizenship or Nationality",
+        "labelName": {
+            "eng": "Citizenship or Nationality"
+        },
+        "controlType": "dropdown",
+        "fieldType": "dynamic",
+        "subType": "maritalStatus",
+        "type": "simpleType",
+        "inputRequired": true,
+        "fieldCategory": "kyc",
+        "validators": [],
+        "required": false,
+        "requiredCondition": {
+            "all": [
+                {
+                    "fact": "identity",
+                    "operator": "equal",
+                    "value": "ALIENNEW",
+                    "path": "$.userService"
+                }
+            ]
+        },
+        "visibleCondition": {
+            "all": [
+                {
+                    "fact": "identity",
+                    "operator": "equal",
+                    "value": "ALIENNEW",
+                    "path": "$.userService"
+                }
+            ]
+        },
+        "dependentFields": []
+    },
+    {
+        "id": "previousNationality",
+        "renderID": "frm_alien_pass_previousNationality",
+        "alignmentGroup": "Passport Details",
+        "description": "Choose Your Previous Nationality",
+        "labelName": {
+            "eng": "Previous Nationality"
+        },
+        "controlType": "dropdown",
+        "fieldType": "dynamic",
+        "subType": "maritalStatus",
+        "type": "simpleType",
+        "inputRequired": true,
+        "fieldCategory": "kyc",
+        "validators": [],
+        "required": false,
+        "visibleCondition": {
+            "all": [
+                {
+                    "fact": "identity",
+                    "operator": "equal",
+                    "value": "ALIENNEW",
+                    "path": "$.userService"
+                }
+            ]
+        },
+        "dependentFields": []
+    },
+    {
         "id": "applicantPassportNumber",
         "renderID": "frm_3a_a4_passportNumber",
         "SectionName": "Passport Details",
@@ -16605,6 +15984,16 @@
                 "arguments": []
             }
         ],
+        "requiredCondition": {
+            "any": [
+                {
+                    "fact": "identity",
+                    "operator": "equal",
+                    "value": "ALIENNEW",
+                    "path": "$.userService"
+                }
+            ]
+        },
         "visibleCondition": {
             "any": [
                 {
@@ -16612,10 +16001,357 @@
                     "operator": "equal",
                     "value": "NEW",
                     "path": "$.userService"
+                },
+                {
+                    "fact": "identity",
+                    "operator": "equal",
+                    "value": "ALIENNEW",
+                    "path": "$.userService"
                 }
             ]
         },
         "required": false
+    },
+    {
+        "id": "placeOfIssue",
+        "renderID": "frm_alien_pass_placeOfIssue",
+        "alignmentGroup": "Passport Details",
+        "description": " Enter your Place of Issue",
+        "labelName": {
+            "eng": "Place of Issue"
+        },
+        "controlType": "textbox",
+        "inputRequired": true,
+        "fieldCategory": "none",
+        "type": "simpleType",
+        "validators": [
+            {
+                "type": "regex",
+                "validator": "^[\\s\\S]{3,200}$",
+                "arguments": []
+            }
+        ],
+        "required": false,
+        "requiredCondition": {
+            "all": [
+                {
+                    "fact": "identity",
+                    "operator": "equal",
+                    "value": "ALIENNEW",
+                    "path": "$.userService"
+                }
+            ]
+        },
+        "visibleCondition": {
+            "all": [
+                {
+                    "fact": "identity",
+                    "operator": "equal",
+                    "value": "ALIENNEW",
+                    "path": "$.userService"
+                }
+            ]
+        }
+    },
+    {
+        "id": "dateOfIssue",
+        "renderID": "frm_alien_pass_dateOfIssue",
+        "alignmentGroup": "Passport Details",
+        "labelName": {
+            "eng": "Date of Issue"
+        },
+        "controlType": "date",
+        "type": "string",
+        "inputRequired": true,
+        "fieldCategory": "kyc",
+        "validators": [
+            {
+                "type": "nonFutureDate"
+            }
+        ],
+        "required": false,
+        "requiredCondition": {
+            "all": [
+                {
+                    "fact": "identity",
+                    "operator": "equal",
+                    "value": "ALIENNEW",
+                    "path": "$.userService"
+                }
+            ]
+        },
+        "visibleCondition": {
+            "all": [
+                {
+                    "fact": "identity",
+                    "operator": "equal",
+                    "value": "ALIENNEW",
+                    "path": "$.userService"
+                }
+            ]
+        }
+    },
+    {
+        "id": "issuingAuthority",
+        "renderID": "frm_alien_pass_issuingAuthority",
+        "alignmentGroup": "Passport Details",
+        "description": " Enter Issuing Authority",
+        "labelName": {
+            "eng": "Issuing Authority"
+        },
+        "controlType": "textbox",
+        "inputRequired": true,
+        "fieldCategory": "none",
+        "type": "simpleType",
+        "validators": [
+            {
+                "type": "regex",
+                "validator": "^[\\s\\S]{3,200}$",
+                "arguments": []
+            }
+        ],
+        "required": false,
+        "requiredCondition": {
+            "all": [
+                {
+                    "fact": "identity",
+                    "operator": "equal",
+                    "value": "ALIENNEW",
+                    "path": "$.userService"
+                }
+            ]
+        },
+        "visibleCondition": {
+            "all": [
+                {
+                    "fact": "identity",
+                    "operator": "equal",
+                    "value": "ALIENNEW",
+                    "path": "$.userService"
+                }
+            ]
+        }
+    },
+    {
+        "id": "dateOfEntryInUganda",
+        "renderID": "frm_ima_a4_immigration_dateOfEntryInUganda",
+        "alignmentGroup": "Immigration Details",
+        "labelName": {
+            "eng": "Date of Entry in Uganda"
+        },
+        "controlType": "date",
+        "type": "string",
+        "inputRequired": true,
+        "fieldCategory": "kyc",
+        "validators": [
+            {
+                "type": "nonFutureDate"
+            }
+        ],
+        "required": false,
+        "visibleCondition": {
+            "all": [
+                {
+                    "fact": "identity",
+                    "operator": "equal",
+                    "value": "ALIENNEW",
+                    "path": "$.userService"
+                }
+            ]
+        }
+    },
+    {
+        "id": "immigrationFacitityNo",
+        "renderID": "frm_ima_a4_immigration_immigrationFacitityNo",
+        "alignmentGroup": "Immigration Details",
+        "description": " Enter Immigration Facility No",
+        "labelName": {
+            "eng": "Immigration Facility No"
+        },
+        "controlType": "textbox",
+        "inputRequired": true,
+        "fieldCategory": "none",
+        "type": "simpleType",
+        "validators": [
+            {
+                "type": "regex",
+                "validator": "^[\\s\\S]{3,200}$",
+                "arguments": []
+            }
+        ],
+        "required": false,
+        "requiredCondition": {
+            "all": [
+                {
+                    "fact": "identity",
+                    "operator": "equal",
+                    "value": "ALIENNEW",
+                    "path": "$.userService"
+                }
+            ]
+        },
+        "visibleCondition": {
+            "all": [
+                {
+                    "fact": "identity",
+                    "operator": "equal",
+                    "value": "ALIENNEW",
+                    "path": "$.userService"
+                }
+            ]
+        }
+    },
+    {
+        "id": "facilityType",
+        "renderID": "frm_ima_a4_immigration_facilityType",
+        "alignmentGroup": "Immigration Details",
+        "description": "Choose Your Facility Type",
+        "labelName": {
+            "eng": "Facility Type"
+        },
+        "controlType": "dropdown",
+        "fieldType": "dynamic",
+        "subType": "maritalStatus",
+        "type": "simpleType",
+        "inputRequired": true,
+        "fieldCategory": "kyc",
+        "validators": [],
+        "required": false,
+        "requiredCondition": {
+            "all": [
+                {
+                    "fact": "identity",
+                    "operator": "equal",
+                    "value": "ALIENNEW",
+                    "path": "$.userService"
+                }
+            ]
+        },
+        "visibleCondition": {
+            "all": [
+                {
+                    "fact": "identity",
+                    "operator": "equal",
+                    "value": "ALIENNEW",
+                    "path": "$.userService"
+                }
+            ]
+        },
+        "dependentFields": []
+    },
+    {
+        "id": "facilityTypeCategory",
+        "renderID": "frm_ima_a4_immigration_facilityTypeCategory",
+        "alignmentGroup": "Immigration Details",
+        "description": "Choose Your Facility Type Category",
+        "labelName": {
+            "eng": "Facility Type Category"
+        },
+        "controlType": "dropdown",
+        "fieldType": "dynamic",
+        "subType": "maritalStatus",
+        "type": "simpleType",
+        "inputRequired": true,
+        "fieldCategory": "kyc",
+        "validators": [],
+        "required": false,
+        "requiredCondition": {
+            "all": [
+                {
+                    "fact": "identity",
+                    "operator": "equal",
+                    "value": "ALIENNEW",
+                    "path": "$.userService"
+                }
+            ]
+        },
+        "visibleCondition": {
+            "all": [
+                {
+                    "fact": "identity",
+                    "operator": "equal",
+                    "value": "ALIENNEW",
+                    "path": "$.userService"
+                }
+            ]
+        },
+        "dependentFields": []
+    },
+    {
+        "id": "dateOfIssuance",
+        "renderID": "frm_ima_a4_immigration_dateOfIssuance",
+        "alignmentGroup": "Immigration Details",
+        "labelName": {
+            "eng": "Date of Issuance"
+        },
+        "controlType": "date",
+        "type": "string",
+        "inputRequired": true,
+        "fieldCategory": "kyc",
+        "validators": [
+            {
+                "type": "nonFutureDate"
+            }
+        ],
+        "required": false,
+        "requiredCondition": {
+            "all": [
+                {
+                    "fact": "identity",
+                    "operator": "equal",
+                    "value": "ALIENNEW",
+                    "path": "$.userService"
+                }
+            ]
+        },
+        "visibleCondition": {
+            "all": [
+                {
+                    "fact": "identity",
+                    "operator": "equal",
+                    "value": "ALIENNEW",
+                    "path": "$.userService"
+                }
+            ]
+        }
+    },
+    {
+        "id": "dateOfExpiry",
+        "renderID": "frm_ima_a4_immigration_dateOfExpiry",
+        "alignmentGroup": "Immigration Details",
+        "labelName": {
+            "eng": "Date of Expiry"
+        },
+        "controlType": "date",
+        "type": "string",
+        "inputRequired": true,
+        "fieldCategory": "kyc",
+        "validators": [
+            {
+                "type": "nonFutureDate"
+            }
+        ],
+        "required": false,
+        "requiredCondition": {
+            "all": [
+                {
+                    "fact": "identity",
+                    "operator": "equal",
+                    "value": "ALIENNEW",
+                    "path": "$.userService"
+                }
+            ]
+        },
+        "visibleCondition": {
+            "all": [
+                {
+                    "fact": "identity",
+                    "operator": "equal",
+                    "value": "ALIENNEW",
+                    "path": "$.userService"
+                }
+            ]
+        }
     },
     {
         "id": "applicantPassportFileNumber",
@@ -18284,8 +18020,587 @@
             },
             {
                 "fieldId": "spouseFourMarriageCertificateNumber"
+            },
+            {
+                "fieldId": "numberOfOtherSpousesAlien"
             }
         ]
+    },
+    {
+        "id": "numberOfOtherSpousesAlien",
+        "renderID": "frm_3a_b6a_numberOfOtherSpousesAlien",
+        "alignmentGroup": "Spouse Details",
+        "description": "Enter the number of spouses you have",
+        "labelName": {
+            "eng": "Number of spouses you want to add"
+        },
+        "controlType": "textbox",
+        "type": "string",
+        "inputRequired": true,
+        "fieldCategory": "none",
+        "setDefaultValue": "1",
+        "setDefaultValueCondition": {
+            "any": [
+                {
+                    "all": [
+                        {
+                            "fact": "identity",
+                            "operator": "equal",
+                            "value": "ALIENNEW",
+                            "path": "$.userService"
+                        },
+                        {
+                            "fact": "identity",
+                            "operator": "equal",
+                            "value": "FLE",
+                            "path": "$.gender.0.value"
+                        },
+                        {
+                            "fact": "identity",
+                            "operator": "greaterThanInclusive",
+                            "value": 18,
+                            "path": "$.age"
+                        },
+                        {
+                            "any": [
+                                {
+                                    "fact": "identity",
+                                    "operator": "equal",
+                                    "value": "102",
+                                    "path": "$.maritalStatus.0.value"
+                                },
+                                {
+                                    "fact": "identity",
+                                    "operator": "equal",
+                                    "value": "103",
+                                    "path": "$.maritalStatus.0.value"
+                                },
+                                {
+                                    "fact": "identity",
+                                    "operator": "equal",
+                                    "value": "104",
+                                    "path": "$.maritalStatus.0.value"
+                                },
+                                {
+                                    "fact": "identity",
+                                    "operator": "equal",
+                                    "value": "105",
+                                    "path": "$.maritalStatus.0.value"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        "required": false,
+        "validators": [
+            {
+                "validator": "^[1-6]$",
+                "arguments": [],
+                "type": "regex"
+            }
+        ],
+        "visibleCondition": {
+            "any": [
+                {
+                    "all": [
+                        {
+                            "fact": "identity",
+                            "operator": "equal",
+                            "value": "ALIENNEW",
+                            "path": "$.userService"
+                        },
+                        {
+                            "fact": "identity",
+                            "operator": "greaterThanInclusive",
+                            "value": 18,
+                            "path": "$.age"
+                        },
+                        {
+                            "any": [
+                                {
+                                    "fact": "identity",
+                                    "operator": "equal",
+                                    "value": "102",
+                                    "path": "$.maritalStatus.0.value"
+                                },
+                                {
+                                    "fact": "identity",
+                                    "operator": "equal",
+                                    "value": "103",
+                                    "path": "$.maritalStatus.0.value"
+                                },
+                                {
+                                    "fact": "identity",
+                                    "operator": "equal",
+                                    "value": "104",
+                                    "path": "$.maritalStatus.0.value"
+                                },
+                                {
+                                    "fact": "identity",
+                                    "operator": "equal",
+                                    "value": "105",
+                                    "path": "$.maritalStatus.0.value"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        "dependentFields": [
+            {
+                "fieldId": "spouseName"
+            },
+            {
+                "fieldId": "spouseTwoName"
+            },
+            {
+                "fieldId": "spouseThreeName"
+            },
+            {
+                "fieldId": "spouseFourName"
+            },
+            {
+                "fieldId": "spouseFiveName"
+            },
+            {
+                "fieldId": "spouseSixName"
+            }
+        ]
+    },
+    {
+        "id": "spouseName",
+        "renderID": "frm_3a_b6a_spouseName",
+        "SectionName": "Spouse 1 Details",
+        "alignmentGroup": "Spouse 1 Details",
+        "description": "Enter Your Spouse Name",
+        "labelName": {
+            "eng": "Spouse Name"
+        },
+        "controlType": "textbox",
+        "type": "simpleType",
+        "inputRequired": true,
+        "fieldCategory": "kyc",
+        "validators": [
+            {
+                "type": "regex",
+                "validator": "^(?=.{2,200}$)[A-Za-z]+(?:[ '-][A-Za-z]+)*$",
+                "arguments": []
+            }
+        ],
+        "required": false,
+        "visibleCondition": {
+            "all": [
+                {
+                    "any": [
+                        {
+                            "all": [
+                                {
+                                    "fact": "identity",
+                                    "operator": "equal",
+                                    "value": "ALIENNEW",
+                                    "path": "$.userService"
+                                },
+                                {
+                                    "fact": "identity",
+                                    "operator": "greaterThan",
+                                    "value": 17,
+                                    "path": "$.age"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "any": [
+                        {
+                            "fact": "identity",
+                            "operator": "equal",
+                            "value": "1",
+                            "path": "$.numberOfOtherSpousesAlien"
+                        },
+                        {
+                            "fact": "identity",
+                            "operator": "equal",
+                            "value": "2",
+                            "path": "$.numberOfOtherSpousesAlien"
+                        },
+                        {
+                            "fact": "identity",
+                            "operator": "equal",
+                            "value": "3",
+                            "path": "$.numberOfOtherSpousesAlien"
+                        },
+                        {
+                            "fact": "identity",
+                            "operator": "equal",
+                            "value": "4",
+                            "path": "$.numberOfOtherSpousesAlien"
+                        },
+                        {
+                            "fact": "identity",
+                            "operator": "equal",
+                            "value": "5",
+                            "path": "$.numberOfOtherSpousesAlien"
+                        },
+                        {
+                            "fact": "identity",
+                            "operator": "equal",
+                            "value": "6",
+                            "path": "$.numberOfOtherSpousesAlien"
+                        },
+                        {
+                            "fact": "identity",
+                            "operator": "equal",
+                            "value": "FLE",
+                            "path": "$.gender.0.value"
+                        }
+                    ]
+                }
+            ]
+        }
+    },
+    {
+        "id": "spouseTwoName",
+        "renderID": "frm_3a_b6a_spouseName",
+        "SectionName": "Spouse 2 Details",
+        "alignmentGroup": "Spouse 2 Details",
+        "description": "Enter Your Spouse Name",
+        "labelName": {
+            "eng": "Spouse Name"
+        },
+        "controlType": "textbox",
+        "type": "simpleType",
+        "inputRequired": true,
+        "fieldCategory": "kyc",
+        "validators": [
+            {
+                "type": "regex",
+                "validator": "^(?=.{2,200}$)[A-Za-z]+(?:[ '-][A-Za-z]+)*$",
+                "arguments": []
+            }
+        ],
+        "required": false,
+        "visibleCondition": {
+            "all": [
+                {
+                    "any": [
+                        {
+                            "all": [
+                                {
+                                    "fact": "identity",
+                                    "operator": "equal",
+                                    "value": "ALIENNEW",
+                                    "path": "$.userService"
+                                },
+                                {
+                                    "fact": "identity",
+                                    "operator": "greaterThan",
+                                    "value": 17,
+                                    "path": "$.age"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "any": [
+                        {
+                            "fact": "identity",
+                            "operator": "equal",
+                            "value": "2",
+                            "path": "$.numberOfOtherSpousesAlien"
+                        },
+                        {
+                            "fact": "identity",
+                            "operator": "equal",
+                            "value": "3",
+                            "path": "$.numberOfOtherSpousesAlien"
+                        },
+                        {
+                            "fact": "identity",
+                            "operator": "equal",
+                            "value": "4",
+                            "path": "$.numberOfOtherSpousesAlien"
+                        },
+                        {
+                            "fact": "identity",
+                            "operator": "equal",
+                            "value": "5",
+                            "path": "$.numberOfOtherSpousesAlien"
+                        },
+                        {
+                            "fact": "identity",
+                            "operator": "equal",
+                            "value": "6",
+                            "path": "$.numberOfOtherSpousesAlien"
+                        }
+                    ]
+                }
+            ]
+        }
+    },
+    {
+        "id": "spouseThreeName",
+        "renderID": "frm_3a_b6a_spouseName",
+        "SectionName": "Spouse 3 Details",
+        "alignmentGroup": "Spouse 3 Details",
+        "description": "Enter Your Spouse Name",
+        "labelName": {
+            "eng": "Spouse Name"
+        },
+        "controlType": "textbox",
+        "type": "simpleType",
+        "inputRequired": true,
+        "fieldCategory": "kyc",
+        "validators": [
+            {
+                "type": "regex",
+                "validator": "^(?=.{2,200}$)[A-Za-z]+(?:[ '-][A-Za-z]+)*$",
+                "arguments": []
+            }
+        ],
+        "required": false,
+        "visibleCondition": {
+            "all": [
+                {
+                    "any": [
+                        {
+                            "all": [
+                                {
+                                    "fact": "identity",
+                                    "operator": "equal",
+                                    "value": "ALIENNEW",
+                                    "path": "$.userService"
+                                },
+                                {
+                                    "fact": "identity",
+                                    "operator": "greaterThan",
+                                    "value": 17,
+                                    "path": "$.age"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "any": [
+                        {
+                            "fact": "identity",
+                            "operator": "equal",
+                            "value": "3",
+                            "path": "$.numberOfOtherSpousesAlien"
+                        },
+                        {
+                            "fact": "identity",
+                            "operator": "equal",
+                            "value": "4",
+                            "path": "$.numberOfOtherSpousesAlien"
+                        },
+                        {
+                            "fact": "identity",
+                            "operator": "equal",
+                            "value": "5",
+                            "path": "$.numberOfOtherSpousesAlien"
+                        },
+                        {
+                            "fact": "identity",
+                            "operator": "equal",
+                            "value": "6",
+                            "path": "$.numberOfOtherSpousesAlien"
+                        }
+                    ]
+                }
+            ]
+        }
+    },
+    {
+        "id": "spouseFourName",
+        "renderID": "frm_3a_b6a_spouseName",
+        "SectionName": "Spouse 4 Details",
+        "alignmentGroup": "Spouse 4 Details",
+        "description": "Enter Your Spouse Name",
+        "labelName": {
+            "eng": "Spouse Name"
+        },
+        "controlType": "textbox",
+        "type": "simpleType",
+        "inputRequired": true,
+        "fieldCategory": "kyc",
+        "validators": [
+            {
+                "type": "regex",
+                "validator": "^(?=.{2,200}$)[A-Za-z]+(?:[ '-][A-Za-z]+)*$",
+                "arguments": []
+            }
+        ],
+        "required": false,
+        "visibleCondition": {
+            "all": [
+                {
+                    "any": [
+                        {
+                            "all": [
+                                {
+                                    "fact": "identity",
+                                    "operator": "equal",
+                                    "value": "ALIENNEW",
+                                    "path": "$.userService"
+                                },
+                                {
+                                    "fact": "identity",
+                                    "operator": "greaterThan",
+                                    "value": 17,
+                                    "path": "$.age"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "any": [
+                        {
+                            "fact": "identity",
+                            "operator": "equal",
+                            "value": "4",
+                            "path": "$.numberOfOtherSpousesAlien"
+                        },
+                        {
+                            "fact": "identity",
+                            "operator": "equal",
+                            "value": "5",
+                            "path": "$.numberOfOtherSpousesAlien"
+                        },
+                        {
+                            "fact": "identity",
+                            "operator": "equal",
+                            "value": "6",
+                            "path": "$.numberOfOtherSpousesAlien"
+                        }
+                    ]
+                }
+            ]
+        }
+    },
+    {
+        "id": "spouseFiveName",
+        "renderID": "frm_3a_b6a_spouseName",
+        "SectionName": "Spouse 5 Details",
+        "alignmentGroup": "Spouse 5 Details",
+        "description": "Enter Your Spouse Name",
+        "labelName": {
+            "eng": "Spouse Name"
+        },
+        "controlType": "textbox",
+        "type": "simpleType",
+        "inputRequired": true,
+        "fieldCategory": "kyc",
+        "validators": [
+            {
+                "type": "regex",
+                "validator": "^(?=.{2,200}$)[A-Za-z]+(?:[ '-][A-Za-z]+)*$",
+                "arguments": []
+            }
+        ],
+        "required": false,
+        "visibleCondition": {
+            "all": [
+                {
+                    "any": [
+                        {
+                            "all": [
+                                {
+                                    "fact": "identity",
+                                    "operator": "equal",
+                                    "value": "ALIENNEW",
+                                    "path": "$.userService"
+                                },
+                                {
+                                    "fact": "identity",
+                                    "operator": "greaterThan",
+                                    "value": 17,
+                                    "path": "$.age"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "any": [
+                        {
+                            "fact": "identity",
+                            "operator": "equal",
+                            "value": "5",
+                            "path": "$.numberOfOtherSpousesAlien"
+                        },
+                        {
+                            "fact": "identity",
+                            "operator": "equal",
+                            "value": "6",
+                            "path": "$.numberOfOtherSpousesAlien"
+                        }
+                    ]
+                }
+            ]
+        }
+    },
+    {
+        "id": "spouseSixName",
+        "renderID": "frm_3a_b6a_spouseName",
+        "SectionName": "Spouse 6 Details",
+        "alignmentGroup": "Spouse 6 Details",
+        "description": "Enter Your Spouse Name",
+        "labelName": {
+            "eng": "Spouse Name"
+        },
+        "controlType": "textbox",
+        "type": "simpleType",
+        "inputRequired": true,
+        "fieldCategory": "kyc",
+        "validators": [
+            {
+                "type": "regex",
+                "validator": "^(?=.{2,200}$)[A-Za-z]+(?:[ '-][A-Za-z]+)*$",
+                "arguments": []
+            }
+        ],
+        "required": false,
+        "visibleCondition": {
+            "all": [
+                {
+                    "any": [
+                        {
+                            "all": [
+                                {
+                                    "fact": "identity",
+                                    "operator": "equal",
+                                    "value": "ALIENNEW",
+                                    "path": "$.userService"
+                                },
+                                {
+                                    "fact": "identity",
+                                    "operator": "greaterThan",
+                                    "value": 17,
+                                    "path": "$.age"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "any": [
+                        {
+                            "fact": "identity",
+                            "operator": "equal",
+                            "value": "6",
+                            "path": "$.numberOfOtherSpousesAlien"
+                        }
+                    ]
+                }
+            ]
+        }
     },
     {
         "id": "numberOfOtherSpouses",
@@ -50859,18 +51174,38 @@
             }
         ],
         "visibleCondition": {
-            "all": [
+            "any": [
                 {
-                    "fact": "identity",
-                    "operator": "equal",
-                    "value": "NEW",
-                    "path": "$.userService"
+                    "all": [
+                        {
+                            "fact": "identity",
+                            "operator": "equal",
+                            "value": "NEW",
+                            "path": "$.userService"
+                        },
+                        {
+                            "fact": "identity",
+                            "operator": "greaterThanInclusive",
+                            "value": 12,
+                            "path": "$.age"
+                        }
+                    ]
                 },
                 {
-                    "fact": "identity",
-                    "operator": "greaterThanInclusive",
-                    "value": 12,
-                    "path": "$.age"
+                    "all": [
+                        {
+                            "fact": "identity",
+                            "operator": "equal",
+                            "value": "ALIENNEW",
+                            "path": "$.userService"
+                        },
+                        {
+                            "fact": "identity",
+                            "operator": "greaterThanInclusive",
+                            "value": 12,
+                            "path": "$.age"
+                        }
+                    ]
                 }
             ]
         },
@@ -58098,22 +58433,6 @@
                                     "operator": "greaterThan",
                                     "value": 15,
                                     "path": "$.ageCop"
-                                },
-                                {
-                                    "any": [
-                                        {
-                                            "fact": "identity",
-                                            "operator": "equal",
-                                            "value": true,
-                                            "path": "$.changeInPlaceOfResidence"
-                                        },
-                                        {
-                                            "fact": "identity",
-                                            "operator": "equal",
-                                            "value": "Y",
-                                            "path": "$.changeInPlaceOfResidence"
-                                        }
-                                    ]
                                 }
                             ]
                         },
@@ -58353,22 +58672,6 @@
                                     "operator": "lessThan",
                                     "value": 16,
                                     "path": "$.ageCop"
-                                },
-                                {
-                                    "any": [
-                                        {
-                                            "fact": "identity",
-                                            "operator": "equal",
-                                            "value": true,
-                                            "path": "$.changeInPlaceOfResidence"
-                                        },
-                                        {
-                                            "fact": "identity",
-                                            "operator": "equal",
-                                            "value": "Y",
-                                            "path": "$.changeInPlaceOfResidence"
-                                        }
-                                    ]
                                 }
                             ]
                         },
@@ -62798,7 +63101,7 @@
                 {
                     "fact": "identity",
                     "operator": "equal",
-                    "value": "NEWALIEN",
+                    "value": "ALIENNEW",
                     "path": "$.userService"
                 }
             ]
