@@ -2147,7 +2147,6 @@ familyRoles = [
         let parentLocCode = null;
         let locationHierarchyName = null;
         this.identityData.forEach((obj) => {
-          debugger
           if (
             obj.inputRequired === true &&
             obj.controlType !== null &&
