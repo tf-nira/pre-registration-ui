@@ -2010,7 +2010,6 @@ familyRoles = [
 
   
   processConditionalRequiredValidations(identityFormData, uiField) {
-    console.log("required called for field:", uiField.id);
     return new Promise<void>((resolve, reject) => {
       let facts = {};
       if (uiField && uiField.requiredCondition && uiField.requiredCondition != "") {
