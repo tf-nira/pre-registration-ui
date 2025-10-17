@@ -1,11 +1,10 @@
-
 <div class="spinner" *ngIf="!primaryuserForm && !hasError">
   <mat-spinner></mat-spinner>
 </div>
 
 <div>
   <div class="wrapper">
-  
+
     <div class="user" *ngIf="primaryuserForm">
       <header>{{demographiclabels.title}}
         <span>
@@ -24,8 +23,8 @@
       <p></p>
       <span class="readOnly" *ngIf="readOnlyMode">( {{demographiclabels.read_only_message}} )</span>
       <hr class="hrBlack" />
-      <hr class="hrYellow"> 
-      <hr class="hrRed"/>
+      <hr class="hrYellow">
+      <hr class="hrRed" />
       <div class="user_container_single_form" *ngIf="primaryuserForm">
         <form [formGroup]="userForm" class="user__form">
 
@@ -287,18 +286,20 @@
             </mat-action-row>
           </mat-expansion-panel>
 
-          <mat-expansion-panel *ngIf="isCopService() || isGetFirstId() || isReplacement() || isRenewalService()" [expanded]="expStep === 1" (opened)="setStep(1)" hideToggle>
+          <mat-expansion-panel *ngIf="isCopService() || isGetFirstId() || isReplacement() || isRenewalService()"
+            [expanded]="expStep === 1" (opened)="setStep(1)" hideToggle>
             <mat-expansion-panel-header>
               <mat-panel-title>
                 <b>Personal Information:</b>
               </mat-panel-title>
-              
+
             </mat-expansion-panel-header>
-        
+
             <span *ngFor="let alignmentGroup of alignmentGroups">
               <div class="rowContainer">
                 <span *ngFor="let field of uiFieldsForAlignmentGroups[alignmentGroup]; index as uiFieldIndex">
-                  <div class="fieldContainer" *ngIf=" isCopService() && field.isVisible == true && (field.renderID.startsWith('frm_3a_a9') || field.renderID.startsWith('frm_3a_a1_RewewNINI') || field.renderID.startsWith('frm_3a_a1I_countryCode') || field.renderID.startsWith('frm_3a_a1I_contact') ||  field.renderID.startsWith('frm_3a_a1I_homePhoneNo')  || field.renderID.startsWith('frm_3a_a1Iemail'))">
+                  <div class="fieldContainer"
+                    *ngIf=" isCopService() && field.isVisible == true && (field.renderID.startsWith('frm_3a_a9') || field.renderID.startsWith('frm_3a_a1_RewewNINI') || field.renderID.startsWith('frm_3a_a1I_countryCode') || field.renderID.startsWith('frm_3a_a1I_contact') ||  field.renderID.startsWith('frm_3a_a1I_homePhoneNo')  || field.renderID.startsWith('frm_3a_a1Iemail'))">
                     <div class="fieldHeader" [ngStyle]="field.headerStyle">
                       <!-- Create container header with label in user's login lang -->
                       <mat-label>{{field.labelName[userPrefLanguage]}} : </mat-label>
@@ -434,8 +435,7 @@
                                   <mat-label>{{localeDtFormat}}</mat-label>
                                   <input matInput [formControlName]="field.id + '_dateCtrl'"
                                     placeholder="{{localeDtFormat}}"
-                                    (dateChange)="onDOBChange(field.id);onChangeHandler(field.id);"
-                                    [matDatepicker]="dp"
+                                    (dateChange)="onDOBChange(field.id);onChangeHandler(field.id);" [matDatepicker]="dp"
                                     [max]="maxDate" />
                                   <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
                                   <mat-datepicker #dp></mat-datepicker>
@@ -448,8 +448,7 @@
                                 <mat-form-field appearance="legacy">
                                   <input type="number" class="form-control" matInput [value]="currentAge" #age
                                     [disabled]="readOnlyMode" placeholder="{{ 'demographic.label_age' | translate }}"
-                                    (change)="onAgeChange(field.id);onChangeHandler(field.id);"
-                                    [min]="0">
+                                    (change)="onAgeChange(field.id);onChangeHandler(field.id);" [min]="0">
                                 </mat-form-field>
                                 <div class="user__age--years">
                                   {{ "demographic.text_years" | translate }}
@@ -473,9 +472,8 @@
                                   <mat-label>{{localeDtFormat}}</mat-label>
                                   <input matInput [formControlName]="field.id + '_dateCtrl'"
                                     placeholder="{{localeDtFormat}}"
-                                    (dateChange)="onDOBChange(field.id);onChangeHandler(field.id);"
-                                    [matDatepicker]="dp" 
-                                    [max]="maxDate"/>
+                                    (dateChange)="onDOBChange(field.id);onChangeHandler(field.id);" [matDatepicker]="dp"
+                                    [max]="maxDate" />
                                   <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
                                   <mat-datepicker #dp></mat-datepicker>
                                 </mat-form-field>
@@ -487,8 +485,7 @@
                                 <mat-form-field appearance="legacy">
                                   <input type="number" class="form-control" matInput [value]="currentAgeCop" #ageCop
                                     [disabled]="readOnlyMode" placeholder="{{ 'demographic.label_age' | translate }}"
-                                    (change)="onAgeChange(field.id);onChangeHandler(field.id);"
-                                    [min]="0">
+                                    (change)="onAgeChange(field.id);onChangeHandler(field.id);" [min]="0">
                                 </mat-form-field>
                                 <div class="user__age--years">
                                   {{ "demographic.text_years" | translate }}
@@ -525,7 +522,8 @@
                               <mat-label>
                                 {{field.labelName[dataCaptureLanguage]}}
                               </mat-label>
-                              <input matInput [formControlName]="field.id" (change)="onChangeHandler(field.id)" #input />
+                              <input matInput [formControlName]="field.id" (change)="onChangeHandler(field.id)"
+                                #input />
                             </mat-form-field>
                           </span>
                         </ng-container>
@@ -543,18 +541,20 @@
                               !readOnlyMode && primaryuserForm &&
                               userForm.get(field.id ) &&
                               userForm.get(field.id ).hasError('ninDuplicate')">
-                            
-                              {{ demographiclabels.validation.InvalidMessage }} {{ field.labelName[userPrefLanguage] }}<br>
-                              {{ userForm.get(field.id)["errors"]["ninDuplicate"]["message"] }}<br>
-                            
-                            </mat-error>
+
+                            {{ demographiclabels.validation.InvalidMessage }} {{ field.labelName[userPrefLanguage]
+                            }}<br>
+                            {{ userForm.get(field.id)["errors"]["ninDuplicate"]["message"] }}<br>
+
+                          </mat-error>
                           <mat-error class="primary-errors" *ngIf="!readOnlyMode && primaryuserForm &&
                             userForm.get(field.id + '_' + dataCaptureLanguage) &&
                             userForm.get(field.id + '_' + dataCaptureLanguage).touched &&
                             userForm.get(field.id + '_' + dataCaptureLanguage).dirty &&
                             userForm.get(field.id + '_' + dataCaptureLanguage).hasError('customPattern')">
                             {{ field.labelName[userPrefLanguage] }} {{ demographiclabels.validation.InvalidMessage}}<br>
-                            {{ userForm.get(field.id + '_' + dataCaptureLanguage)["errors"]["customPattern"]["msg"] }}<br>
+                            {{ userForm.get(field.id + '_' + dataCaptureLanguage)["errors"]["customPattern"]["msg"]
+                            }}<br>
                           </mat-error>
                         </span>
                         <span *ngIf="field.controlType === 'ageDate' || field.controlType === 'ageDateCop'|| field.controlType === 'date' 
@@ -575,7 +575,8 @@
                             userForm.get(field.id).touched &&
                             userForm.get(field.id).dirty &&
                             userForm.get(field.id).hasError('customPattern')">
-                              {{ field.labelName[userPrefLanguage] }} {{ demographiclabels.validation.InvalidMessage}}<br>
+                              {{ field.labelName[userPrefLanguage] }} {{
+                              demographiclabels.validation.InvalidMessage}}<br>
                               {{ userForm.get(field.id)["errors"]["customPattern"]["msg"] }}<br>
                             </mat-error>
                           </span>
@@ -583,7 +584,8 @@
                       </span>
                     </div>
                   </div>
-                  <div class="fieldContainer" *ngIf=" isReplacement() && field.isVisible == true && (field.renderID.startsWith('frm_3a_a9') || field.renderID.startsWith('frm_3a_a1I_countryCode') || field.renderID.startsWith('frm_3a_a1I_contact') ||  field.renderID.startsWith('frm_3a_a1I_homePhoneNo')  || field.renderID.startsWith('frm_3a_a1Iemail'))">
+                  <div class="fieldContainer"
+                    *ngIf=" isReplacement() && field.isVisible == true && (field.renderID.startsWith('frm_3a_a9') || field.renderID.startsWith('frm_3a_a1I_countryCode') || field.renderID.startsWith('frm_3a_a1I_contact') ||  field.renderID.startsWith('frm_3a_a1I_homePhoneNo')  || field.renderID.startsWith('frm_3a_a1Iemail'))">
                     <div class="fieldHeader" [ngStyle]="field.headerStyle">
                       <!-- Create container header with label in user's login lang -->
                       <mat-label>{{field.labelName[userPrefLanguage]}} : </mat-label>
@@ -756,9 +758,8 @@
                                   <mat-label>{{localeDtFormat}}</mat-label>
                                   <input matInput [formControlName]="field.id + '_dateCtrl'"
                                     placeholder="{{localeDtFormat}}"
-                                    (dateChange)="onDOBChange(field.id);onChangeHandler(field.id);"
-                                    [matDatepicker]="dp" 
-                                    [max]="maxDate"/>
+                                    (dateChange)="onDOBChange(field.id);onChangeHandler(field.id);" [matDatepicker]="dp"
+                                    [max]="maxDate" />
                                   <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
                                   <mat-datepicker #dp></mat-datepicker>
                                 </mat-form-field>
@@ -770,8 +771,7 @@
                                 <mat-form-field appearance="legacy">
                                   <input type="number" class="form-control" matInput [value]="currentAgeCop" #ageCop
                                     [disabled]="readOnlyMode" placeholder="{{ 'demographic.label_age' | translate }}"
-                                    (change)="onAgeChange(field.id);onChangeHandler(field.id);"
-                                    [min]="0">
+                                    (change)="onAgeChange(field.id);onChangeHandler(field.id);" [min]="0">
                                 </mat-form-field>
                                 <div class="user__age--years">
                                   {{ "demographic.text_years" | translate }}
@@ -808,7 +808,8 @@
                               <mat-label>
                                 {{field.labelName[dataCaptureLanguage]}}
                               </mat-label>
-                              <input matInput [formControlName]="field.id" (change)="onChangeHandler(field.id)" #input />
+                              <input matInput [formControlName]="field.id" (change)="onChangeHandler(field.id)"
+                                #input />
                             </mat-form-field>
                           </span>
                         </ng-container>
@@ -828,7 +829,8 @@
                             userForm.get(field.id + '_' + dataCaptureLanguage).dirty &&
                             userForm.get(field.id + '_' + dataCaptureLanguage).hasError('customPattern')">
                             {{ field.labelName[userPrefLanguage] }} {{ demographiclabels.validation.InvalidMessage}}<br>
-                            {{ userForm.get(field.id + '_' + dataCaptureLanguage)["errors"]["customPattern"]["msg"] }}<br>
+                            {{ userForm.get(field.id + '_' + dataCaptureLanguage)["errors"]["customPattern"]["msg"]
+                            }}<br>
                           </mat-error>
                         </span>
                         <span *ngIf="field.controlType === 'ageDate' || field.controlType === 'ageDateCop'|| field.controlType === 'date' 
@@ -849,7 +851,8 @@
                             userForm.get(field.id).touched &&
                             userForm.get(field.id).dirty &&
                             userForm.get(field.id).hasError('customPattern')">
-                              {{ field.labelName[userPrefLanguage] }} {{ demographiclabels.validation.InvalidMessage}}<br>
+                              {{ field.labelName[userPrefLanguage] }} {{
+                              demographiclabels.validation.InvalidMessage}}<br>
                               {{ userForm.get(field.id)["errors"]["customPattern"]["msg"] }}<br>
                             </mat-error>
                           </span>
@@ -857,7 +860,8 @@
                       </span>
                     </div>
                   </div>
-                  <div class="fieldContainer" *ngIf=" isGetFirstId() && field.isVisible == true && (field.renderID.startsWith('frm_3a_a9') || field.renderID.startsWith('frm_3a_a1_RewewNINI') || field.renderID.startsWith('frm_3a_gfid'))">
+                  <div class="fieldContainer"
+                    *ngIf=" isGetFirstId() && field.isVisible == true && (field.renderID.startsWith('frm_3a_a9') || field.renderID.startsWith('frm_3a_a1_RewewNINI') || field.renderID.startsWith('frm_3a_gfid'))">
                     <div class="fieldHeader" [ngStyle]="field.headerStyle">
                       <!-- Create container header with label in user's login lang -->
                       <mat-label>{{field.labelName[userPrefLanguage]}} : </mat-label>
@@ -993,9 +997,8 @@
                                   <mat-label>{{localeDtFormat}}</mat-label>
                                   <input matInput [formControlName]="field.id + '_dateCtrl'"
                                     placeholder="{{localeDtFormat}}"
-                                    (dateChange)="onDOBChange(field.id);onChangeHandler(field.id);"
-                                    [matDatepicker]="dp" 
-                                    [max]="maxDate"/>
+                                    (dateChange)="onDOBChange(field.id);onChangeHandler(field.id);" [matDatepicker]="dp"
+                                    [max]="maxDate" />
                                   <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
                                   <mat-datepicker #dp></mat-datepicker>
                                 </mat-form-field>
@@ -1007,8 +1010,7 @@
                                 <mat-form-field appearance="legacy">
                                   <input type="number" class="form-control" matInput [value]="currentAge" #age
                                     [disabled]="readOnlyMode" placeholder="{{ 'demographic.label_age' | translate }}"
-                                    (change)="onAgeChange(field.id);onChangeHandler(field.id);"
-                                    [min]="0">
+                                    (change)="onAgeChange(field.id);onChangeHandler(field.id);" [min]="0">
                                 </mat-form-field>
                                 <div class="user__age--years">
                                   {{ "demographic.text_years" | translate }}
@@ -1033,9 +1035,8 @@
                                   <mat-label>{{localeDtFormat}}</mat-label>
                                   <input matInput [formControlName]="field.id + '_dateCtrl'"
                                     placeholder="{{localeDtFormat}}"
-                                    (dateChange)="onDOBChange(field.id);onChangeHandler(field.id);"
-                                    [matDatepicker]="dp" 
-                                    [max]="maxDate"/>
+                                    (dateChange)="onDOBChange(field.id);onChangeHandler(field.id);" [matDatepicker]="dp"
+                                    [max]="maxDate" />
                                   <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
                                   <mat-datepicker #dp></mat-datepicker>
                                 </mat-form-field>
@@ -1047,8 +1048,7 @@
                                 <mat-form-field appearance="legacy">
                                   <input type="number" class="form-control" matInput [value]="currentAgeCop" #ageCop
                                     [disabled]="readOnlyMode" placeholder="{{ 'demographic.label_age' | translate }}"
-                                    (change)="onAgeChange(field.id);onChangeHandler(field.id);"
-                                    [min]="0">
+                                    (change)="onAgeChange(field.id);onChangeHandler(field.id);" [min]="0">
                                 </mat-form-field>
                                 <div class="user__age--years">
                                   {{ "demographic.text_years" | translate }}
@@ -1085,7 +1085,8 @@
                               <mat-label>
                                 {{field.labelName[dataCaptureLanguage]}}
                               </mat-label>
-                              <input matInput [formControlName]="field.id" (change)="onChangeHandler(field.id)" #input />
+                              <input matInput [formControlName]="field.id" (change)="onChangeHandler(field.id)"
+                                #input />
                             </mat-form-field>
                           </span>
                         </ng-container>
@@ -1105,7 +1106,8 @@
                             userForm.get(field.id + '_' + dataCaptureLanguage).dirty &&
                             userForm.get(field.id + '_' + dataCaptureLanguage).hasError('customPattern')">
                             {{ field.labelName[userPrefLanguage] }} {{ demographiclabels.validation.InvalidMessage}}<br>
-                            {{ userForm.get(field.id + '_' + dataCaptureLanguage)["errors"]["customPattern"]["msg"] }}<br>
+                            {{ userForm.get(field.id + '_' + dataCaptureLanguage)["errors"]["customPattern"]["msg"]
+                            }}<br>
                           </mat-error>
                         </span>
                         <span *ngIf="field.controlType === 'ageDate' || field.controlType === 'ageDateCop'|| field.controlType === 'date' 
@@ -1126,7 +1128,8 @@
                             userForm.get(field.id).touched &&
                             userForm.get(field.id).dirty &&
                             userForm.get(field.id).hasError('customPattern')">
-                              {{ field.labelName[userPrefLanguage] }} {{ demographiclabels.validation.InvalidMessage}}<br>
+                              {{ field.labelName[userPrefLanguage] }} {{
+                              demographiclabels.validation.InvalidMessage}}<br>
                               {{ userForm.get(field.id)["errors"]["customPattern"]["msg"] }}<br>
                             </mat-error>
                           </span>
@@ -1134,7 +1137,8 @@
                       </span>
                     </div>
                   </div>
-                  <div class="fieldContainer" *ngIf=" isRenewalService() && field.isVisible == true && (field.renderID.startsWith('frm_3a_a9') || field.renderID.startsWith('frm_3a_a1_RewewNINI') || field.renderID.startsWith('frm_3a_a1I_countryCode') || field.renderID.startsWith('frm_3a_a1I_contact') ||  field.renderID.startsWith('frm_3a_a1I_homePhoneNo')  || field.renderID.startsWith('frm_3a_a1Iemail') || field.renderID.startsWith('frm_3a_a1_ninExpiryDate'))">
+                  <div class="fieldContainer"
+                    *ngIf=" isRenewalService() && field.isVisible == true && (field.renderID.startsWith('frm_3a_a9') || field.renderID.startsWith('frm_3a_a1_RewewNINI') || field.renderID.startsWith('frm_3a_a1I_countryCode') || field.renderID.startsWith('frm_3a_a1I_contact') ||  field.renderID.startsWith('frm_3a_a1I_homePhoneNo')  || field.renderID.startsWith('frm_3a_a1Iemail') || field.renderID.startsWith('frm_3a_a1_ninExpiryDate'))">
                     <div class="fieldHeader" [ngStyle]="field.headerStyle">
                       <!-- Create container header with label in user's login lang -->
                       <mat-label>{{field.labelName[userPrefLanguage]}} : </mat-label>
@@ -1270,9 +1274,8 @@
                                   <mat-label>{{localeDtFormat}}</mat-label>
                                   <input matInput [formControlName]="field.id + '_dateCtrl'"
                                     placeholder="{{localeDtFormat}}"
-                                    (dateChange)="onDOBChange(field.id);onChangeHandler(field.id);"
-                                    [matDatepicker]="dp" 
-                                    [max]="maxDate"/>
+                                    (dateChange)="onDOBChange(field.id);onChangeHandler(field.id);" [matDatepicker]="dp"
+                                    [max]="maxDate" />
                                   <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
                                   <mat-datepicker #dp></mat-datepicker>
                                 </mat-form-field>
@@ -1284,8 +1287,7 @@
                                 <mat-form-field appearance="legacy">
                                   <input type="number" class="form-control" matInput [value]="currentAge" #age
                                     [disabled]="readOnlyMode" placeholder="{{ 'demographic.label_age' | translate }}"
-                                    (change)="onAgeChange(field.id);onChangeHandler(field.id);"
-                                    [min]="0">
+                                    (change)="onAgeChange(field.id);onChangeHandler(field.id);" [min]="0">
                                 </mat-form-field>
                                 <div class="user__age--years">
                                   {{ "demographic.text_years" | translate }}
@@ -1310,9 +1312,8 @@
                                   <mat-label>{{localeDtFormat}}</mat-label>
                                   <input matInput [formControlName]="field.id + '_dateCtrl'"
                                     placeholder="{{localeDtFormat}}"
-                                    (dateChange)="onDOBChange(field.id);onChangeHandler(field.id);"
-                                    [matDatepicker]="dp" 
-                                    [max]="maxDate"/>
+                                    (dateChange)="onDOBChange(field.id);onChangeHandler(field.id);" [matDatepicker]="dp"
+                                    [max]="maxDate" />
                                   <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
                                   <mat-datepicker #dp></mat-datepicker>
                                 </mat-form-field>
@@ -1324,8 +1325,7 @@
                                 <mat-form-field appearance="legacy">
                                   <input type="number" class="form-control" matInput [value]="currentAgeCop" #ageCop
                                     [disabled]="readOnlyMode" placeholder="{{ 'demographic.label_age' | translate }}"
-                                    (change)="onAgeChange(field.id);onChangeHandler(field.id);"
-                                    [min]="0">
+                                    (change)="onAgeChange(field.id);onChangeHandler(field.id);" [min]="0">
                                 </mat-form-field>
                                 <div class="user__age--years">
                                   {{ "demographic.text_years" | translate }}
@@ -1362,7 +1362,8 @@
                               <mat-label>
                                 {{field.labelName[dataCaptureLanguage]}}
                               </mat-label>
-                              <input matInput [formControlName]="field.id" (change)="onChangeHandler(field.id)" #input />
+                              <input matInput [formControlName]="field.id" (change)="onChangeHandler(field.id)"
+                                #input />
                             </mat-form-field>
                           </span>
                         </ng-container>
@@ -1382,7 +1383,8 @@
                             userForm.get(field.id + '_' + dataCaptureLanguage).dirty &&
                             userForm.get(field.id + '_' + dataCaptureLanguage).hasError('customPattern')">
                             {{ field.labelName[userPrefLanguage] }} {{ demographiclabels.validation.InvalidMessage}}<br>
-                            {{ userForm.get(field.id + '_' + dataCaptureLanguage)["errors"]["customPattern"]["msg"] }}<br>
+                            {{ userForm.get(field.id + '_' + dataCaptureLanguage)["errors"]["customPattern"]["msg"]
+                            }}<br>
                           </mat-error>
                         </span>
                         <span *ngIf="field.controlType === 'ageDate' || field.controlType === 'ageDateCop'|| field.controlType === 'date' 
@@ -1403,7 +1405,8 @@
                             userForm.get(field.id).touched &&
                             userForm.get(field.id).dirty &&
                             userForm.get(field.id).hasError('customPattern')">
-                              {{ field.labelName[userPrefLanguage] }} {{ demographiclabels.validation.InvalidMessage}}<br>
+                              {{ field.labelName[userPrefLanguage] }} {{
+                              demographiclabels.validation.InvalidMessage}}<br>
                               {{ userForm.get(field.id)["errors"]["customPattern"]["msg"] }}<br>
                             </mat-error>
                           </span>
@@ -1432,7 +1435,7 @@
                 <span *ngFor="let field of uiFieldsForAlignmentGroups[alignmentGroup]; index as uiFieldIndex">
                   <div class="fieldContainer"
                     *ngIf="field.isVisible == true && (field.renderID.startsWith('frm_3a_copcat') )">
-                    
+
                     <div class="fieldContent" [ngStyle]="field.containerStyle">
                       <!-- Create form fields to capture data in all chosen dataCaptureLanguages -->
                       <span *ngFor="let dataCaptureLanguage of dataCaptureLanguages;index as i">
@@ -1449,14 +1452,12 @@
                         </ng-container>
                         <ng-container *ngIf="field.controlType === 'button'">
                           <div class="buttonContainer">
-                            <button 
-                              class="toggleButton" 
-                              [class.active]="userForm.get(field.id)?.value" 
+                            <button class="toggleButton" [class.active]="userForm.get(field.id)?.value"
                               (click)="toggleUserButton(field.id)">
                               {{ field.labelName[dataCaptureLanguage] }}
                             </button>
                           </div>
-                        </ng-container>                        
+                        </ng-container>
                         <ng-container *ngIf="field.controlType === 'textbox' && field.type !== 'string'">
                           <div *ngIf="!readOnlyMode" [dir]="dataCaptureLangsDir[i]">
                             <mat-form-field appearance="legacy"
@@ -1512,7 +1513,8 @@
             </mat-expansion-panel-header>
             <span *ngFor="let alignmentGroup of alignmentGroups">
               <span *ngFor="let field of uiFieldsForAlignmentGroups[alignmentGroup]; index as uiFieldIndex">
-                <div class="subsection-name" *ngIf="field.SectionName && field.isVisible == true && field.renderID.startsWith('frm_3a_copoptions')">
+                <div class="subsection-name"
+                  *ngIf="field.SectionName && field.isVisible == true && field.renderID.startsWith('frm_3a_copoptions')">
                   <b>{{field.SectionName}}:</b>
                 </div>
               </span>
@@ -1520,7 +1522,7 @@
                 <span *ngFor="let field of uiFieldsForAlignmentGroups[alignmentGroup]; index as uiFieldIndex">
                   <div class="fieldContainer"
                     *ngIf="field.isVisible == true && (field.renderID.startsWith('frm_3a_copoptions') )">
-                    
+
                     <div>
                       <!-- Create form fields to capture data in all chosen dataCaptureLanguages -->
                       <span *ngFor="let dataCaptureLanguage of dataCaptureLanguages;index as i">
@@ -1538,17 +1540,15 @@
                         <ng-container *ngIf="field.controlType === 'button'">
                           <span *ngIf="i == 0" [dir]="dataCaptureLangsDir[i]">
                             <div class="buttonContainer">
-                              <mat-button-toggle
-                              class="toggleButton"
-                              [class.active]="userForm.get(field.id)?.value"
-                              [class.disabled]="userForm.get(field.id)?.disabled"
-                              [disabled]="userForm.get(field.id)?.disabled"
-                              (click)="toggleUserButton(field.id); onChangeHandler(field.id);">
+                              <mat-button-toggle class="toggleButton" [class.active]="userForm.get(field.id)?.value"
+                                [class.disabled]="userForm.get(field.id)?.disabled"
+                                [disabled]="userForm.get(field.id)?.disabled"
+                                (click)="toggleUserButton(field.id); onChangeHandler(field.id);">
                                 {{ field.labelName[dataCaptureLanguage] }}
-                            </mat-button-toggle>
+                              </mat-button-toggle>
                             </div>
                           </span>
-                        </ng-container>                        
+                        </ng-container>
                         <ng-container *ngIf="field.controlType === 'textbox' && field.type !== 'string'">
                           <div *ngIf="!readOnlyMode" [dir]="dataCaptureLangsDir[i]">
                             <mat-form-field appearance="legacy"
@@ -1596,8 +1596,9 @@
             </mat-action-row>
           </mat-expansion-panel>
 
-          <mat-accordion  class="example-headers-align">
-            <mat-expansion-panel *ngIf="!isCopService() && !isGetFirstId() && !isReplacement() && !isRenewalService()"  [expanded]="expStep === 4" (opened)="setStep(4)" hideToggle>
+          <mat-accordion class="example-headers-align">
+            <mat-expansion-panel *ngIf="!isCopService() && !isGetFirstId() && !isReplacement() && !isRenewalService()"
+              [expanded]="expStep === 4" (opened)="setStep(4)" hideToggle>
               <mat-expansion-panel-header>
                 <mat-panel-title>
                   <b>Personal Information:</b>
@@ -1605,13 +1606,14 @@
                 <mat-panel-description *ngIf="!isNewAlien()">
                   Please note: Maiden name and any previous names will not appear on the card.
                 </mat-panel-description>
-                
+
               </mat-expansion-panel-header>
-          
+
               <span *ngFor="let alignmentGroup of alignmentGroups">
                 <div class="rowContainer">
                   <span *ngFor="let field of uiFieldsForAlignmentGroups[alignmentGroup]; index as uiFieldIndex">
-                    <div class="fieldContainer" *ngIf="field.isVisible == true && field.renderID.startsWith('frm_3a_a1')">
+                    <div class="fieldContainer"
+                      *ngIf="field.isVisible == true && field.renderID.startsWith('frm_3a_a1')">
                       <div class="fieldHeader" [ngStyle]="field.headerStyle">
                         <!-- Create container header with label in user's login lang -->
                         <mat-label>{{field.labelName[userPrefLanguage]}} : </mat-label>
@@ -1748,8 +1750,7 @@
                                     <input matInput [formControlName]="field.id + '_dateCtrl'"
                                       placeholder="{{localeDtFormat}}"
                                       (dateChange)="onDOBChange(field.id);onChangeHandler(field.id);"
-                                      [matDatepicker]="dp" 
-                                      [max]="maxDate"/>
+                                      [matDatepicker]="dp" [max]="maxDate" />
                                     <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
                                     <mat-datepicker #dp></mat-datepicker>
                                   </mat-form-field>
@@ -1761,8 +1762,7 @@
                                   <mat-form-field appearance="legacy">
                                     <input type="number" class="form-control" matInput [value]="currentAge" #age
                                       [disabled]="readOnlyMode" placeholder="{{ 'demographic.label_age' | translate }}"
-                                      (change)="onAgeChange(field.id);onChangeHandler(field.id);"
-                                      [min]="0">
+                                      (change)="onAgeChange(field.id);onChangeHandler(field.id);" [min]="0">
                                   </mat-form-field>
                                   <div class="user__age--years">
                                     {{ "demographic.text_years" | translate }}
@@ -1773,13 +1773,15 @@
                               <div class="mat-error ng-star-inserted user__dob__error" *ngIf="!readOnlyMode && primaryuserForm &&    
                                   userForm.get(field.id) &&
                                   (userForm.get(field.id).touched &&
-                                    userForm.get(field.id).hasError('incorrect') && !isnatReg())" [dir]="userPrefLanguageDir">
+                                    userForm.get(field.id).hasError('incorrect') && !isnatReg())"
+                                [dir]="userPrefLanguageDir">
                                 {{demographiclabels.validation.DOB_validation}}
                               </div>
                               <div class="mat-error ng-star-inserted user__dob__error" *ngIf="!readOnlyMode && primaryuserForm &&    
                                   userForm.get(field.id) &&
                                   (userForm.get(field.id).touched &&
-                                    userForm.get(field.id).hasError('incorrect') && isnatReg())" [dir]="userPrefLanguageDir">
+                                    userForm.get(field.id).hasError('incorrect') && isnatReg())"
+                                [dir]="userPrefLanguageDir">
                                 Age should be 18 or above for this citizenship type
                               </div>
                             </span>
@@ -1805,7 +1807,8 @@
                                 <mat-label>
                                   {{field.labelName[dataCaptureLanguage]}}
                                 </mat-label>
-                                <input matInput [formControlName]="field.id" (change)="onChangeHandler(field.id)" #input />
+                                <input matInput [formControlName]="field.id" (change)="onChangeHandler(field.id)"
+                                  #input />
                               </mat-form-field>
                             </span>
                           </ng-container>
@@ -1823,18 +1826,21 @@
                               !readOnlyMode && primaryuserForm &&
                               userForm.get(field.id ) &&
                               userForm.get(field.id ).hasError('ninDuplicate')">
-                            
-                              {{ demographiclabels.validation.InvalidMessage }} {{ field.labelName[userPrefLanguage] }}<br>
+
+                              {{ demographiclabels.validation.InvalidMessage }} {{ field.labelName[userPrefLanguage]
+                              }}<br>
                               {{ userForm.get(field.id)["errors"]["ninDuplicate"]["message"] }}<br>
-                            
+
                             </mat-error>
                             <mat-error class="primary-errors" *ngIf="!readOnlyMode && primaryuserForm &&
                               userForm.get(field.id + '_' + dataCaptureLanguage) &&
                               userForm.get(field.id + '_' + dataCaptureLanguage).touched &&
                               userForm.get(field.id + '_' + dataCaptureLanguage).dirty &&
                               userForm.get(field.id + '_' + dataCaptureLanguage).hasError('customPattern')">
-                              {{ demographiclabels.validation.InvalidMessage}} {{ field.labelName[userPrefLanguage] }} <br>
-                              {{ userForm.get(field.id + '_' + dataCaptureLanguage)["errors"]["customPattern"]["msg"] }}<br>
+                              {{ demographiclabels.validation.InvalidMessage}} {{ field.labelName[userPrefLanguage] }}
+                              <br>
+                              {{ userForm.get(field.id + '_' + dataCaptureLanguage)["errors"]["customPattern"]["msg"]
+                              }}<br>
                             </mat-error>
                           </span>
                           <span *ngIf="field.controlType === 'ageDate' || field.controlType === 'date' 
@@ -1855,7 +1861,8 @@
                               userForm.get(field.id).touched &&
                               userForm.get(field.id).dirty &&
                               userForm.get(field.id).hasError('customPattern')">
-                              {{ demographiclabels.validation.InvalidMessage}} {{ field.labelName[userPrefLanguage] }} <br>
+                                {{ demographiclabels.validation.InvalidMessage}} {{ field.labelName[userPrefLanguage] }}
+                                <br>
                                 {{ userForm.get(field.id)["errors"]["customPattern"]["msg"] }}<br>
                               </mat-error>
                             </span>
@@ -1872,21 +1879,23 @@
               </mat-action-row>
             </mat-expansion-panel>
 
-            
-            
-          
-            <mat-expansion-panel *ngIf="!isCopService() && !isGetFirstId() && !isReplacement()" [expanded]="expStep === 5" (opened)="setStep(5)" hideToggle>
+
+
+
+            <mat-expansion-panel *ngIf="!isCopService() && !isGetFirstId() && !isReplacement()"
+              [expanded]="expStep === 5" (opened)="setStep(5)" hideToggle>
               <mat-expansion-panel-header>
                 <mat-panel-title>
                   <b>Place Of Residence:</b>
                 </mat-panel-title>
-               
-              
+
+
               </mat-expansion-panel-header>
               <span *ngFor="let alignmentGroup of alignmentGroups">
                 <div class="rowContainer">
                   <span *ngFor="let field of uiFieldsForAlignmentGroups[alignmentGroup]; index as uiFieldIndex">
-                    <div class="fieldContainer" *ngIf="field.isVisible == true && field.renderID.startsWith('frm_3a_a2')">
+                    <div class="fieldContainer"
+                      *ngIf="field.isVisible == true && field.renderID.startsWith('frm_3a_a2')">
                       <div class="fieldHeader" [ngStyle]="field.headerStyle">
                         <!-- Create container header with label in user's login lang -->
                         <mat-label>{{field.labelName[userPrefLanguage]}} : </mat-label>
@@ -2010,14 +2019,14 @@
                                     </span>
                                   </span>
                                 </div>
-                              </span>                              
+                              </span>
                             </span>
                           </ng-container>
                           <!-- Add Age Date fields-->
                           <ng-container *ngIf="field.controlType === 'ageDate'">
                             <span *ngIf="i == 0">
                               <div class="user__age-or-date" [dir]="dataCaptureLangsDir[i]">
-                                <div class="user__date">                                  
+                                <div class="user__date">
                                   <mat-form-field appearance="legacy">
                                     <mat-label>{{localeDtFormat}}</mat-label>
                                     <input matInput [formControlName]="field.id + '_dateCtrl'"
@@ -2072,7 +2081,8 @@
                                 <mat-label>
                                   {{field.labelName[dataCaptureLanguage]}}
                                 </mat-label>
-                                <input matInput [formControlName]="field.id" (change)="onChangeHandler(field.id)" #input />
+                                <input matInput [formControlName]="field.id" (change)="onChangeHandler(field.id)"
+                                  #input />
                               </mat-form-field>
                             </span>
                           </ng-container>
@@ -2091,19 +2101,21 @@
                               userForm.get(field.id + '_' + dataCaptureLanguage).touched &&
                               userForm.get(field.id + '_' + dataCaptureLanguage).dirty &&
                               userForm.get(field.id + '_' + dataCaptureLanguage).hasError('customPattern')">
-                              {{ demographiclabels.validation.InvalidMessage}} {{ field.labelName[userPrefLanguage] }}<br>
-                              {{ userForm.get(field.id + '_' + dataCaptureLanguage)["errors"]["customPattern"]["msg"] }}<br>
+                              {{ demographiclabels.validation.InvalidMessage}} {{ field.labelName[userPrefLanguage]
+                              }}<br>
+                              {{ userForm.get(field.id + '_' + dataCaptureLanguage)["errors"]["customPattern"]["msg"]
+                              }}<br>
                             </mat-error>
                             <!-- ERROR HANDLING FOR YEARS LIVED INVALID -->
                             <mat-error class="primary-errors" *ngIf="
                                                         !readOnlyMode && primaryuserForm &&
                                                         userForm.get(field.id ) &&
-                                                        userForm.get(field.id ).hasError('yearsLivedInvalid')"
-                              >
-                            
-                              {{ demographiclabels.validation.InvalidMessage }} {{ field.labelName[userPrefLanguage] }}<br>
+                                                        userForm.get(field.id ).hasError('yearsLivedInvalid')">
+
+                              {{ demographiclabels.validation.InvalidMessage }} {{ field.labelName[userPrefLanguage]
+                              }}<br>
                               {{ userForm.get(field.id)["errors"]["yearsLivedInvalid"]["message"] }}<br>
-                              
+
                             </mat-error>
                           </span>
                           <span *ngIf="field.controlType === 'ageDate' || field.controlType === 'date' 
@@ -2124,7 +2136,8 @@
                               userForm.get(field.id).touched &&
                               userForm.get(field.id).dirty &&
                               userForm.get(field.id).hasError('customPattern')">
-                              {{ demographiclabels.validation.InvalidMessage}} {{ field.labelName[userPrefLanguage] }}<br>
+                                {{ demographiclabels.validation.InvalidMessage}} {{ field.labelName[userPrefLanguage]
+                                }}<br>
                                 {{ userForm.get(field.id)["errors"]["customPattern"]["msg"] }}<br>
                               </mat-error>
                             </span>
@@ -2136,29 +2149,32 @@
                 </div>
               </span>
 
-          
+
               <mat-action-row>
                 <button mat-button color="warn" (click)="prevStep()">Previous</button>
                 <button mat-button color="primary" (click)="nextStep()">Next</button>
               </mat-action-row>
             </mat-expansion-panel>
 
-            <mat-expansion-panel *ngIf="!isRenewalService() && !isCopService() && !isGetFirstId() && !isReplacement() && !isNewAlien()" [expanded]="expStep === 6" (opened)="setStep(6)" hideToggle>
+            <mat-expansion-panel
+              *ngIf="!isRenewalService() && !isCopService() && !isGetFirstId() && !isReplacement() && !isNewAlien()"
+              [expanded]="expStep === 6" (opened)="setStep(6)" hideToggle>
               <mat-expansion-panel-header>
                 <mat-panel-title>
-                  <b>Foundling Check:</b>                 
-                
+                  <b>Foundling Check:</b>
+
                 </mat-panel-title>
                 <mat-panel-description>
                   child/Adult with unknown birth, origin and parentage details
                 </mat-panel-description>
               </mat-expansion-panel-header>
-            
+
               <span *ngFor="let alignmentGroup of alignmentGroups">
                 <div class="rowContainer">
                   <span *ngFor="let field of uiFieldsForAlignmentGroups[alignmentGroup]; index as uiFieldIndex">
-            
-                    <div class="fieldContainer" *ngIf="field.isVisible == true && field.renderID === 'frm_3afc_c7_Found_child'"> 
+
+                    <div class="fieldContainer"
+                      *ngIf="field.isVisible == true && field.renderID === 'frm_3afc_c7_Found_child'">
                       <div class="fieldHeader" [ngStyle]="field.headerStyle">
                         <mat-checkbox [formControlName]="field.id" (change)="onChangeHandler(field.id)">
                           <span *ngFor="let lang of dataCaptureLanguages;index as langIndex">
@@ -2166,11 +2182,12 @@
                           </span>
                         </mat-checkbox>
                         <span *ngIf="field.required" class="required-annotation"></span>
-                        
+
                         <span *ngIf="field.required" class="required-annotation">*</span>
                       </div>
                       <div class="fieldContent" [ngStyle]="field.containerStyle">
-                        <span *ngIf="!readOnlyMode && primaryuserForm && userForm.get(field.id) && userForm.get(field.id).hasError('required') && userForm.get(field.id).touched">
+                        <span
+                          *ngIf="!readOnlyMode && primaryuserForm && userForm.get(field.id) && userForm.get(field.id).hasError('required') && userForm.get(field.id).touched">
                           <mat-error class="primary-errors">
                             {{ field.labelName[userPrefLanguage] }} {{demographiclabels.validation.requiredMessage}}
                           </mat-error>
@@ -2180,25 +2197,27 @@
                   </span>
                 </div>
               </span>
-            
+
               <mat-action-row>
                 <button mat-button color="warn" (click)="prevStep()">Previous</button>
                 <button mat-button color="primary" (click)="nextStep()">Next</button>
               </mat-action-row>
             </mat-expansion-panel>
-          
-            <mat-expansion-panel *ngIf="!isRenewalService() && !isCopService() && !isGetFirstId() && !isReplacement()" [expanded]="expStep === 7" (opened)="setStep(7)" hideToggle>
+
+            <mat-expansion-panel *ngIf="!isRenewalService() && !isCopService() && !isGetFirstId() && !isReplacement()"
+              [expanded]="expStep === 7" (opened)="setStep(7)" hideToggle>
               <mat-expansion-panel-header>
                 <mat-panel-title>
-               <b>Place Of Birth:</b>
+                  <b>Place Of Birth:</b>
                 </mat-panel-title>
-                
+
               </mat-expansion-panel-header>
-          
+
               <span *ngFor="let alignmentGroup of alignmentGroups">
                 <div class="rowContainer">
                   <span *ngFor="let field of uiFieldsForAlignmentGroups[alignmentGroup]; index as uiFieldIndex">
-                    <div class="fieldContainer" *ngIf="field.isVisible == true && field.renderID.startsWith('frm_3a_a3')">
+                    <div class="fieldContainer"
+                      *ngIf="field.isVisible == true && field.renderID.startsWith('frm_3a_a3')">
                       <div class="fieldHeader" [ngStyle]="field.headerStyle">
                         <!-- Create container header with label in user's login lang -->
                         <mat-label>{{field.labelName[userPrefLanguage]}} : </mat-label>
@@ -2322,14 +2341,14 @@
                                     </span>
                                   </span>
                                 </div>
-                              </span>                              
+                              </span>
                             </span>
                           </ng-container>
                           <!-- Add Age Date fields-->
                           <ng-container *ngIf="field.controlType === 'ageDate'">
                             <span *ngIf="i == 0">
                               <div class="user__age-or-date" [dir]="dataCaptureLangsDir[i]">
-                                <div class="user__date">                                  
+                                <div class="user__date">
                                   <mat-form-field appearance="legacy">
                                     <mat-label>{{localeDtFormat}}</mat-label>
                                     <input matInput [formControlName]="field.id + '_dateCtrl'"
@@ -2384,7 +2403,8 @@
                                 <mat-label>
                                   {{field.labelName[dataCaptureLanguage]}}
                                 </mat-label>
-                                <input matInput [formControlName]="field.id" (change)="onChangeHandler(field.id)" #input />
+                                <input matInput [formControlName]="field.id" (change)="onChangeHandler(field.id)"
+                                  #input />
                               </mat-form-field>
                             </span>
                           </ng-container>
@@ -2403,8 +2423,10 @@
                               userForm.get(field.id + '_' + dataCaptureLanguage).touched &&
                               userForm.get(field.id + '_' + dataCaptureLanguage).dirty &&
                               userForm.get(field.id + '_' + dataCaptureLanguage).hasError('customPattern')">
-                              {{ demographiclabels.validation.InvalidMessage}} {{ field.labelName[userPrefLanguage] }}<br>
-                              {{ userForm.get(field.id + '_' + dataCaptureLanguage)["errors"]["customPattern"]["msg"] }}<br>
+                              {{ demographiclabels.validation.InvalidMessage}} {{ field.labelName[userPrefLanguage]
+                              }}<br>
+                              {{ userForm.get(field.id + '_' + dataCaptureLanguage)["errors"]["customPattern"]["msg"]
+                              }}<br>
                             </mat-error>
                           </span>
                           <span *ngIf="field.controlType === 'ageDate' || field.controlType === 'date' 
@@ -2425,7 +2447,8 @@
                               userForm.get(field.id).touched &&
                               userForm.get(field.id).dirty &&
                               userForm.get(field.id).hasError('customPattern')">
-                              {{ demographiclabels.validation.InvalidMessage}} {{ field.labelName[userPrefLanguage] }}<br>
+                                {{ demographiclabels.validation.InvalidMessage}} {{ field.labelName[userPrefLanguage]
+                                }}<br>
                                 {{ userForm.get(field.id)["errors"]["customPattern"]["msg"] }}<br>
                               </mat-error>
                             </span>
@@ -2436,14 +2459,15 @@
                   </span>
                 </div>
               </span>
-          
+
               <mat-action-row>
                 <button mat-button color="warn" (click)="prevStep()">Previous</button>
                 <button mat-button color="primary" (click)="nextStep()">Next</button>
               </mat-action-row>
             </mat-expansion-panel>
 
-            <mat-expansion-panel *ngIf="!isRenewalService() && !isCopService() && !isGetFirstId() && !isReplacement()" [expanded]="expStep === 8" (opened)="setStep(8)" hideToggle>
+            <mat-expansion-panel *ngIf="!isRenewalService() && !isCopService() && !isGetFirstId() && !isReplacement()"
+              [expanded]="expStep === 8" (opened)="setStep(8)" hideToggle>
               <mat-expansion-panel-header>
                 <mat-panel-title *ngIf="isByBirth()">
                   <b>Place of Origin and Passport Information:</b>
@@ -2457,18 +2481,20 @@
                 <mat-panel-title *ngIf="isNewAlien()">
                   <b>Place of Origin</b>
                 </mat-panel-title>
-                
+
               </mat-expansion-panel-header>
-          
+
               <span *ngFor="let alignmentGroup of alignmentGroups">
                 <span *ngFor="let field of uiFieldsForAlignmentGroups[alignmentGroup]; index as uiFieldIndex">
-                  <div class="subsection-name" *ngIf="field.SectionName && field.isVisible == true && field.renderID.startsWith('frm_3a_a4') && (!isNewAlien()) ">
+                  <div class="subsection-name"
+                    *ngIf="field.SectionName && field.isVisible == true && field.renderID.startsWith('frm_3a_a4') && (!isNewAlien()) ">
                     <b>{{field.SectionName}}:</b>
                   </div>
                 </span>
                 <div class="rowContainer">
                   <span *ngFor="let field of uiFieldsForAlignmentGroups[alignmentGroup]; index as uiFieldIndex">
-                    <div class="fieldContainer" *ngIf="field.isVisible == true && field.renderID.startsWith('frm_3a_a4') && (!field.renderID.startsWith('frm_3a_a4_passportNumber')||!isNewAlien())">
+                    <div class="fieldContainer"
+                      *ngIf="field.isVisible == true && field.renderID.startsWith('frm_3a_a4') && (!field.renderID.startsWith('frm_3a_a4_passportNumber')||!isNewAlien())">
                       <div class="fieldHeader" [ngStyle]="field.headerStyle">
                         <!-- Create container header with label in user's login lang -->
                         <mat-label>{{field.labelName[userPrefLanguage]}} : </mat-label>
@@ -2592,14 +2618,14 @@
                                     </span>
                                   </span>
                                 </div>
-                              </span>                              
+                              </span>
                             </span>
                           </ng-container>
                           <!-- Add Age Date fields-->
                           <ng-container *ngIf="field.controlType === 'ageDate' ">
                             <span *ngIf="i == 0">
                               <div class="user__age-or-date" [dir]="dataCaptureLangsDir[i]">
-                                <div class="user__date">                                  
+                                <div class="user__date">
                                   <mat-form-field appearance="legacy">
                                     <mat-label>{{localeDtFormat}}</mat-label>
                                     <input matInput [formControlName]="field.id + '_dateCtrl'"
@@ -2654,7 +2680,8 @@
                                 <mat-label>
                                   {{field.labelName[dataCaptureLanguage]}}
                                 </mat-label>
-                                <input matInput [formControlName]="field.id" (change)="onChangeHandler(field.id)" #input />
+                                <input matInput [formControlName]="field.id" (change)="onChangeHandler(field.id)"
+                                  #input />
                               </mat-form-field>
                             </span>
                           </ng-container>
@@ -2673,8 +2700,10 @@
                               userForm.get(field.id + '_' + dataCaptureLanguage).touched &&
                               userForm.get(field.id + '_' + dataCaptureLanguage).dirty &&
                               userForm.get(field.id + '_' + dataCaptureLanguage).hasError('customPattern')">
-                              {{ demographiclabels.validation.InvalidMessage}} {{ field.labelName[userPrefLanguage] }}<br>
-                              {{ userForm.get(field.id + '_' + dataCaptureLanguage)["errors"]["customPattern"]["msg"] }}<br>
+                              {{ demographiclabels.validation.InvalidMessage}} {{ field.labelName[userPrefLanguage]
+                              }}<br>
+                              {{ userForm.get(field.id + '_' + dataCaptureLanguage)["errors"]["customPattern"]["msg"]
+                              }}<br>
                             </mat-error>
                           </span>
                           <span *ngIf="field.controlType === 'ageDate' || field.controlType === 'date' 
@@ -2695,7 +2724,8 @@
                               userForm.get(field.id).touched &&
                               userForm.get(field.id).dirty &&
                               userForm.get(field.id).hasError('customPattern')">
-                              {{ demographiclabels.validation.InvalidMessage}} {{ field.labelName[userPrefLanguage] }}<br>
+                                {{ demographiclabels.validation.InvalidMessage}} {{ field.labelName[userPrefLanguage]
+                                }}<br>
                                 {{ userForm.get(field.id)["errors"]["customPattern"]["msg"] }}<br>
                               </mat-error>
                             </span>
@@ -2706,27 +2736,30 @@
                   </span>
                 </div>
               </span>
-          
+
               <mat-action-row>
                 <button mat-button color="warn" (click)="prevStep()">Previous</button>
                 <button mat-button color="primary" (click)="nextStep()">Next</button>
               </mat-action-row>
             </mat-expansion-panel>
-            
-            <mat-expansion-panel *ngIf="!isRenewalService() && !isCopService() && !isGetFirstId() && !isReplacement() && !isNewAlien()" [expanded]="expStep === 9" (opened)="setStep(9)" hideToggle>
+
+            <mat-expansion-panel
+              *ngIf="!isRenewalService() && !isCopService() && !isGetFirstId() && !isReplacement() && !isNewAlien()"
+              [expanded]="expStep === 9" (opened)="setStep(9)" hideToggle>
               <mat-expansion-panel-header>
                 <mat-panel-title>
-               <b>Voters Information:</b>
+                  <b>Voters Information:</b>
                 </mat-panel-title>
                 <mat-panel-description>
                   Only filled if the applicant age is 16 and above.
-                </mat-panel-description>          
+                </mat-panel-description>
               </mat-expansion-panel-header>
-          
+
               <span *ngFor="let alignmentGroup of alignmentGroups">
                 <div class="rowContainer">
                   <span *ngFor="let field of uiFieldsForAlignmentGroups[alignmentGroup]; index as uiFieldIndex">
-                    <div class="fieldContainer" *ngIf="field.isVisible == true && field.renderID.startsWith('frm_3a_b5')">
+                    <div class="fieldContainer"
+                      *ngIf="field.isVisible == true && field.renderID.startsWith('frm_3a_b5')">
                       <div class="fieldHeader" [ngStyle]="field.headerStyle">
                         <!-- Create container header with label in user's login lang -->
                         <mat-label>{{field.labelName[userPrefLanguage]}} : </mat-label>
@@ -2850,14 +2883,14 @@
                                     </span>
                                   </span>
                                 </div>
-                              </span>                              
+                              </span>
                             </span>
                           </ng-container>
                           <!-- Add Age Date fields-->
                           <ng-container *ngIf="field.controlType === 'ageDate'">
                             <span *ngIf="i == 0">
                               <div class="user__age-or-date" [dir]="dataCaptureLangsDir[i]">
-                                <div class="user__date">                                  
+                                <div class="user__date">
                                   <mat-form-field appearance="legacy">
                                     <mat-label>{{localeDtFormat}}</mat-label>
                                     <input matInput [formControlName]="field.id + '_dateCtrl'"
@@ -2912,7 +2945,8 @@
                                 <mat-label>
                                   {{field.labelName[dataCaptureLanguage]}}
                                 </mat-label>
-                                <input matInput [formControlName]="field.id" (change)="onChangeHandler(field.id)" #input />
+                                <input matInput [formControlName]="field.id" (change)="onChangeHandler(field.id)"
+                                  #input />
                               </mat-form-field>
                             </span>
                           </ng-container>
@@ -2931,8 +2965,10 @@
                               userForm.get(field.id + '_' + dataCaptureLanguage).touched &&
                               userForm.get(field.id + '_' + dataCaptureLanguage).dirty &&
                               userForm.get(field.id + '_' + dataCaptureLanguage).hasError('customPattern')">
-                              {{ demographiclabels.validation.InvalidMessage}} {{ field.labelName[userPrefLanguage] }}<br>
-                              {{ userForm.get(field.id + '_' + dataCaptureLanguage)["errors"]["customPattern"]["msg"] }}<br>
+                              {{ demographiclabels.validation.InvalidMessage}} {{ field.labelName[userPrefLanguage]
+                              }}<br>
+                              {{ userForm.get(field.id + '_' + dataCaptureLanguage)["errors"]["customPattern"]["msg"]
+                              }}<br>
                             </mat-error>
                           </span>
                           <span *ngIf="field.controlType === 'ageDate' || field.controlType === 'date' 
@@ -2953,7 +2989,8 @@
                               userForm.get(field.id).touched &&
                               userForm.get(field.id).dirty &&
                               userForm.get(field.id).hasError('customPattern')">
-                              {{ demographiclabels.validation.InvalidMessage}} {{ field.labelName[userPrefLanguage] }}<br>
+                                {{ demographiclabels.validation.InvalidMessage}} {{ field.labelName[userPrefLanguage]
+                                }}<br>
                                 {{ userForm.get(field.id)["errors"]["customPattern"]["msg"] }}<br>
                               </mat-error>
                             </span>
@@ -2964,25 +3001,26 @@
                   </span>
                 </div>
               </span>
-          
+
               <mat-action-row>
                 <button mat-button color="warn" (click)="prevStep()">Previous</button>
                 <button mat-button color="primary" (click)="nextStep()">Next</button>
               </mat-action-row>
             </mat-expansion-panel>
 
-             <mat-expansion-panel *ngIf="isNewAlien()" [expanded]="expStep === 10" (opened)="setStep(10)" hideToggle>
+            <mat-expansion-panel *ngIf="isNewAlien()" [expanded]="expStep === 10" (opened)="setStep(10)" hideToggle>
               <mat-expansion-panel-header>
-                <mat-panel-title >
+                <mat-panel-title>
                   <b>Details of Employer/ School</b>
                 </mat-panel-title>
-                
+
               </mat-expansion-panel-header>
-          
+
               <span *ngFor="let alignmentGroup of alignmentGroups">
                 <div class="rowContainer">
                   <span *ngFor="let field of uiFieldsForAlignmentGroups[alignmentGroup]; index as uiFieldIndex">
-                    <div class="fieldContainer" *ngIf="field.isVisible == true && field.renderID.startsWith('frm_empa_a4_dofemp')">
+                    <div class="fieldContainer"
+                      *ngIf="field.isVisible == true && field.renderID.startsWith('frm_empa_a4_dofemp')">
                       <div class="fieldHeader" [ngStyle]="field.headerStyle">
                         <!-- Create container header with label in user's login lang -->
                         <mat-label>{{field.labelName[userPrefLanguage]}} : </mat-label>
@@ -3106,14 +3144,14 @@
                                     </span>
                                   </span>
                                 </div>
-                              </span>                              
+                              </span>
                             </span>
                           </ng-container>
                           <!-- Add Age Date fields-->
                           <ng-container *ngIf="field.controlType === 'ageDate' ">
                             <span *ngIf="i == 0">
                               <div class="user__age-or-date" [dir]="dataCaptureLangsDir[i]">
-                                <div class="user__date">                                  
+                                <div class="user__date">
                                   <mat-form-field appearance="legacy">
                                     <mat-label>{{localeDtFormat}}</mat-label>
                                     <input matInput [formControlName]="field.id + '_dateCtrl'"
@@ -3168,7 +3206,8 @@
                                 <mat-label>
                                   {{field.labelName[dataCaptureLanguage]}}
                                 </mat-label>
-                                <input matInput [formControlName]="field.id" (change)="onChangeHandler(field.id)" #input />
+                                <input matInput [formControlName]="field.id" (change)="onChangeHandler(field.id)"
+                                  #input />
                               </mat-form-field>
                             </span>
                           </ng-container>
@@ -3187,8 +3226,10 @@
                               userForm.get(field.id + '_' + dataCaptureLanguage).touched &&
                               userForm.get(field.id + '_' + dataCaptureLanguage).dirty &&
                               userForm.get(field.id + '_' + dataCaptureLanguage).hasError('customPattern')">
-                              {{ demographiclabels.validation.InvalidMessage}} {{ field.labelName[userPrefLanguage] }}<br>
-                              {{ userForm.get(field.id + '_' + dataCaptureLanguage)["errors"]["customPattern"]["msg"] }}<br>
+                              {{ demographiclabels.validation.InvalidMessage}} {{ field.labelName[userPrefLanguage]
+                              }}<br>
+                              {{ userForm.get(field.id + '_' + dataCaptureLanguage)["errors"]["customPattern"]["msg"]
+                              }}<br>
                             </mat-error>
                           </span>
                           <span *ngIf="field.controlType === 'ageDate' || field.controlType === 'date' 
@@ -3209,7 +3250,8 @@
                               userForm.get(field.id).touched &&
                               userForm.get(field.id).dirty &&
                               userForm.get(field.id).hasError('customPattern')">
-                              {{ demographiclabels.validation.InvalidMessage}} {{ field.labelName[userPrefLanguage] }}<br>
+                                {{ demographiclabels.validation.InvalidMessage}} {{ field.labelName[userPrefLanguage]
+                                }}<br>
                                 {{ userForm.get(field.id)["errors"]["customPattern"]["msg"] }}<br>
                               </mat-error>
                             </span>
@@ -3220,25 +3262,27 @@
                   </span>
                 </div>
               </span>
-          
+
               <mat-action-row>
                 <button mat-button color="warn" (click)="prevStep()">Previous</button>
                 <button mat-button color="primary" (click)="nextStep()">Next</button>
               </mat-action-row>
             </mat-expansion-panel>
 
-            <mat-expansion-panel *ngIf="!isRenewalService() && !isCopService() && !isGetFirstId() && !isReplacement() " [expanded]="expStep === 11" (opened)="setStep(11)" hideToggle>
+            <mat-expansion-panel *ngIf="!isRenewalService() && !isCopService() && !isGetFirstId() && !isReplacement() "
+              [expanded]="expStep === 11" (opened)="setStep(11)" hideToggle>
               <mat-expansion-panel-header>
                 <mat-panel-title>
-               <b>Marital Status:</b>
+                  <b>Marital Status:</b>
                 </mat-panel-title>
-                
+
               </mat-expansion-panel-header>
-          
+
               <span *ngFor="let alignmentGroup of alignmentGroups">
                 <div class="rowContainer">
                   <span *ngFor="let field of uiFieldsForAlignmentGroups[alignmentGroup]; index as uiFieldIndex">
-                    <div class="fieldContainer" *ngIf="field.isVisible == true && field.renderID.startsWith('frm_3a_b_6')">
+                    <div class="fieldContainer"
+                      *ngIf="field.isVisible == true && field.renderID.startsWith('frm_3a_b_6')">
                       <div class="fieldHeader" [ngStyle]="field.headerStyle">
                         <!-- Create container header with label in user's login lang -->
                         <mat-label>{{field.labelName[userPrefLanguage]}} : </mat-label>
@@ -3362,14 +3406,14 @@
                                     </span>
                                   </span>
                                 </div>
-                              </span>                              
+                              </span>
                             </span>
                           </ng-container>
                           <!-- Add Age Date fields-->
                           <ng-container *ngIf="field.controlType === 'ageDate'">
                             <span *ngIf="i == 0">
                               <div class="user__age-or-date" [dir]="dataCaptureLangsDir[i]">
-                                <div class="user__date">                                  
+                                <div class="user__date">
                                   <mat-form-field appearance="legacy">
                                     <mat-label>{{localeDtFormat}}</mat-label>
                                     <input matInput [formControlName]="field.id + '_dateCtrl'"
@@ -3424,7 +3468,8 @@
                                 <mat-label>
                                   {{field.labelName[dataCaptureLanguage]}}
                                 </mat-label>
-                                <input matInput [formControlName]="field.id" (change)="onChangeHandler(field.id)" #input />
+                                <input matInput [formControlName]="field.id" (change)="onChangeHandler(field.id)"
+                                  #input />
                               </mat-form-field>
                             </span>
                           </ng-container>
@@ -3443,8 +3488,10 @@
                               userForm.get(field.id + '_' + dataCaptureLanguage).touched &&
                               userForm.get(field.id + '_' + dataCaptureLanguage).dirty &&
                               userForm.get(field.id + '_' + dataCaptureLanguage).hasError('customPattern')">
-                              {{ demographiclabels.validation.InvalidMessage}} {{ field.labelName[userPrefLanguage] }}<br>
-                              {{ userForm.get(field.id + '_' + dataCaptureLanguage)["errors"]["customPattern"]["msg"] }}<br>
+                              {{ demographiclabels.validation.InvalidMessage}} {{ field.labelName[userPrefLanguage]
+                              }}<br>
+                              {{ userForm.get(field.id + '_' + dataCaptureLanguage)["errors"]["customPattern"]["msg"]
+                              }}<br>
                             </mat-error>
                           </span>
                           <span *ngIf="field.controlType === 'ageDate' || field.controlType === 'date' 
@@ -3465,7 +3512,8 @@
                               userForm.get(field.id).touched &&
                               userForm.get(field.id).dirty &&
                               userForm.get(field.id).hasError('customPattern')">
-                                {{ demographiclabels.validation.InvalidMessage}} {{ field.labelName[userPrefLanguage] }}<br>
+                                {{ demographiclabels.validation.InvalidMessage}} {{ field.labelName[userPrefLanguage]
+                                }}<br>
                                 {{ userForm.get(field.id)["errors"]["customPattern"]["msg"] }}<br>
                               </mat-error>
                             </span>
@@ -3476,7 +3524,7 @@
                   </span>
                 </div>
               </span>
-          
+
               <mat-action-row>
                 <button mat-button color="warn" (click)="prevStep()">Previous</button>
                 <button mat-button color="primary" (click)="nextStep()">Next</button>
@@ -3485,26 +3533,29 @@
 
 
 
-            <mat-expansion-panel *ngIf="!isRenewalService() && !isCopService() && !isGetFirstId() && !isReplacement()" [expanded]="expStep === 12" (opened)="setStep(12)" hideToggle>
+            <mat-expansion-panel *ngIf="!isRenewalService() && !isCopService() && !isGetFirstId() && !isReplacement()"
+              [expanded]="expStep === 12" (opened)="setStep(12)" hideToggle>
               <mat-expansion-panel-header>
                 <mat-panel-title>
-               <b>Spouse Details:</b>
+                  <b>Spouse Details:</b>
                 </mat-panel-title>
                 <mat-panel-description>
                   Note: Male applicants can add up to 4 spouses, while female applicants can add 1 spouse.
                 </mat-panel-description>
-                
+
               </mat-expansion-panel-header>
-          
+
               <span *ngFor="let alignmentGroup of alignmentGroups">
                 <span *ngFor="let field of uiFieldsForAlignmentGroups[alignmentGroup]; index as uiFieldIndex">
-                  <div class="subsection-name" *ngIf="field.SectionName && field.isVisible == true && field.renderID.startsWith('frm_3a_b6a') && !isFemale()">
+                  <div class="subsection-name"
+                    *ngIf="field.SectionName && field.isVisible == true && field.renderID.startsWith('frm_3a_b6a') && !isFemale()">
                     <b>{{field.SectionName}}:</b>
                   </div>
                 </span>
                 <div class="rowContainer">
                   <span *ngFor="let field of uiFieldsForAlignmentGroups[alignmentGroup]; index as uiFieldIndex">
-                    <div class="fieldContainer" *ngIf="field.isVisible == true && field.renderID.startsWith('frm_3a_b6a')">
+                    <div class="fieldContainer"
+                      *ngIf="field.isVisible == true && field.renderID.startsWith('frm_3a_b6a')">
                       <div class="fieldHeader" [ngStyle]="field.headerStyle">
                         <mat-label>{{field.labelName[userPrefLanguage]}} : </mat-label>
                         <span *ngIf="field.required" class="required-annotation">*</span>
@@ -3563,7 +3614,7 @@
                           <ng-container *ngIf="field.controlType === 'button'">
                             <span *ngIf="i == 0" [dir]="dataCaptureLangsDir[i]">
                               <mat-button-toggle-group class="btn_grp" [formControlName]="field.id"
-                              (change)="onChangeHandler(field.id);">
+                                (change)="onChangeHandler(field.id);">
                                 <ng-container *ngFor="let button of selectOptionsDataArray[field.id]">
                                   <span *ngIf="button.languageCode === dataCaptureLanguage">
                                     <mat-button-toggle class="btn_grp mat-button-toggle" value="{{button.valueCode}}"
@@ -3627,14 +3678,14 @@
                                     </span>
                                   </span>
                                 </div>
-                              </span>                              
+                              </span>
                             </span>
                           </ng-container>
                           <!-- Add Age Date fields-->
                           <ng-container *ngIf="field.controlType === 'ageDate'">
                             <span *ngIf="i == 0">
                               <div class="user__age-or-date" [dir]="dataCaptureLangsDir[i]">
-                                <div class="user__date">                                  
+                                <div class="user__date">
                                   <mat-form-field appearance="legacy">
                                     <mat-label>{{localeDtFormat}}</mat-label>
                                     <input matInput [formControlName]="field.id + '_dateCtrl'"
@@ -3689,7 +3740,8 @@
                                 <mat-label>
                                   {{field.labelName[dataCaptureLanguage]}}
                                 </mat-label>
-                                <input matInput [formControlName]="field.id" (change)="onChangeHandler(field.id)" #input />
+                                <input matInput [formControlName]="field.id" (change)="onChangeHandler(field.id)"
+                                  #input />
                               </mat-form-field>
                             </span>
                           </ng-container>
@@ -3707,18 +3759,21 @@
                               !readOnlyMode && primaryuserForm &&
                               userForm.get(field.id ) &&
                               userForm.get(field.id ).hasError('ninDuplicate')">
-                            
-                              {{ demographiclabels.validation.InvalidMessage }} {{ field.labelName[userPrefLanguage] }}<br>
+
+                              {{ demographiclabels.validation.InvalidMessage }} {{ field.labelName[userPrefLanguage]
+                              }}<br>
                               {{ userForm.get(field.id)["errors"]["ninDuplicate"]["message"] }}<br>
-                            
+
                             </mat-error>
                             <mat-error class="primary-errors" *ngIf="!readOnlyMode && primaryuserForm &&
                               userForm.get(field.id + '_' + dataCaptureLanguage) &&
                               userForm.get(field.id + '_' + dataCaptureLanguage).touched &&
                               userForm.get(field.id + '_' + dataCaptureLanguage).dirty &&
                               userForm.get(field.id + '_' + dataCaptureLanguage).hasError('customPattern')">
-                              {{ demographiclabels.validation.InvalidMessage}} {{ field.labelName[userPrefLanguage] }}<br>
-                              {{ userForm.get(field.id + '_' + dataCaptureLanguage)["errors"]["customPattern"]["msg"] }}<br>
+                              {{ demographiclabels.validation.InvalidMessage}} {{ field.labelName[userPrefLanguage]
+                              }}<br>
+                              {{ userForm.get(field.id + '_' + dataCaptureLanguage)["errors"]["customPattern"]["msg"]
+                              }}<br>
                             </mat-error>
                           </span>
                           <span *ngIf="field.controlType === 'ageDate' || field.controlType === 'date' 
@@ -3739,7 +3794,8 @@
                               userForm.get(field.id).touched &&
                               userForm.get(field.id).dirty &&
                               userForm.get(field.id).hasError('customPattern')">
-                                {{ demographiclabels.validation.InvalidMessage}} {{ field.labelName[userPrefLanguage] }}<br>
+                                {{ demographiclabels.validation.InvalidMessage}} {{ field.labelName[userPrefLanguage]
+                                }}<br>
                                 {{ userForm.get(field.id)["errors"]["customPattern"]["msg"] }}<br>
                               </mat-error>
                             </span>
@@ -3750,24 +3806,27 @@
                   </span>
                 </div>
               </span>
-          
+
               <mat-action-row>
                 <button mat-button color="warn" (click)="prevStep()">Previous</button>
                 <button mat-button color="primary" (click)="nextStep()">Next</button>
               </mat-action-row>
             </mat-expansion-panel>
 
-            <mat-expansion-panel *ngIf="!isRenewalService()  && !isCopService() && !isGetFirstId() && !isReplacement() && !isNewAlien()" [expanded]="expStep === 13" (opened)="setStep(13)" hideToggle>
+            <mat-expansion-panel
+              *ngIf="!isRenewalService()  && !isCopService() && !isGetFirstId() && !isReplacement() && !isNewAlien()"
+              [expanded]="expStep === 13" (opened)="setStep(13)" hideToggle>
               <mat-expansion-panel-header>
                 <mat-panel-title>
-               <b>Father's Details:</b>
+                  <b>Father's Details:</b>
                 </mat-panel-title>
               </mat-expansion-panel-header>
-          
+
               <span *ngFor="let alignmentGroup of alignmentGroups">
                 <div class="rowContainer">
                   <span *ngFor="let field of uiFieldsForAlignmentGroups[alignmentGroup]; index as uiFieldIndex">
-                    <div class="fieldContainer" *ngIf="field.isVisible == true && field.renderID.startsWith('frm_3a_c7')">
+                    <div class="fieldContainer"
+                      *ngIf="field.isVisible == true && field.renderID.startsWith('frm_3a_c7')">
                       <div class="fieldHeader" [ngStyle]="field.headerStyle">
                         <!-- Create container header with label in user's login lang -->
                         <mat-label>{{field.labelName[userPrefLanguage]}} : </mat-label>
@@ -3891,14 +3950,14 @@
                                     </span>
                                   </span>
                                 </div>
-                              </span>                              
+                              </span>
                             </span>
                           </ng-container>
                           <!-- Add Age Date fields-->
                           <ng-container *ngIf="field.controlType === 'ageDate'">
                             <span *ngIf="i == 0">
                               <div class="user__age-or-date" [dir]="dataCaptureLangsDir[i]">
-                                <div class="user__date">                                
+                                <div class="user__date">
                                   <mat-form-field appearance="legacy">
                                     <mat-label>{{localeDtFormat}}</mat-label>
                                     <input matInput [formControlName]="field.id + '_dateCtrl'"
@@ -3953,7 +4012,8 @@
                                 <mat-label>
                                   {{field.labelName[dataCaptureLanguage]}}
                                 </mat-label>
-                                <input matInput [formControlName]="field.id" (change)="onChangeHandler(field.id)" #input />
+                                <input matInput [formControlName]="field.id" (change)="onChangeHandler(field.id)"
+                                  #input />
                               </mat-form-field>
                             </span>
                           </ng-container>
@@ -3971,18 +4031,21 @@
                               !readOnlyMode && primaryuserForm &&
                               userForm.get(field.id ) &&
                               userForm.get(field.id ).hasError('ninDuplicate')">
-                            
-                              {{ demographiclabels.validation.InvalidMessage }} {{ field.labelName[userPrefLanguage] }}<br>
+
+                              {{ demographiclabels.validation.InvalidMessage }} {{ field.labelName[userPrefLanguage]
+                              }}<br>
                               {{ userForm.get(field.id)["errors"]["ninDuplicate"]["message"] }}<br>
-                            
+
                             </mat-error>
                             <mat-error class="primary-errors" *ngIf="!readOnlyMode && primaryuserForm &&
                               userForm.get(field.id + '_' + dataCaptureLanguage) &&
                               userForm.get(field.id + '_' + dataCaptureLanguage).touched &&
                               userForm.get(field.id + '_' + dataCaptureLanguage).dirty &&
                               userForm.get(field.id + '_' + dataCaptureLanguage).hasError('customPattern')">
-                              {{ demographiclabels.validation.InvalidMessage}} {{ field.labelName[userPrefLanguage] }}<br>
-                              {{ userForm.get(field.id + '_' + dataCaptureLanguage)["errors"]["customPattern"]["msg"] }}<br>
+                              {{ demographiclabels.validation.InvalidMessage}} {{ field.labelName[userPrefLanguage]
+                              }}<br>
+                              {{ userForm.get(field.id + '_' + dataCaptureLanguage)["errors"]["customPattern"]["msg"]
+                              }}<br>
                             </mat-error>
                           </span>
                           <span *ngIf="field.controlType === 'ageDate' || field.controlType === 'date' 
@@ -4003,7 +4066,8 @@
                               userForm.get(field.id).touched &&
                               userForm.get(field.id).dirty &&
                               userForm.get(field.id).hasError('customPattern')">
-                              {{ demographiclabels.validation.InvalidMessage}} {{ field.labelName[userPrefLanguage] }}<br>
+                                {{ demographiclabels.validation.InvalidMessage}} {{ field.labelName[userPrefLanguage]
+                                }}<br>
                                 {{ userForm.get(field.id)["errors"]["customPattern"]["msg"] }}<br>
                               </mat-error>
                             </span>
@@ -4014,24 +4078,27 @@
                   </span>
                 </div>
               </span>
-          
+
               <mat-action-row>
                 <button mat-button color="warn" (click)="prevStep()">Previous</button>
                 <button mat-button color="primary" (click)="nextStep()">Next</button>
               </mat-action-row>
             </mat-expansion-panel>
 
-            <mat-expansion-panel *ngIf="!isRenewalService() && !isCopService() && !isGetFirstId() && !isReplacement() && !isNewAlien()" [expanded]="expStep === 14" (opened)="setStep(14)" hideToggle>
+            <mat-expansion-panel
+              *ngIf="!isRenewalService() && !isCopService() && !isGetFirstId() && !isReplacement() && !isNewAlien()"
+              [expanded]="expStep === 14" (opened)="setStep(14)" hideToggle>
               <mat-expansion-panel-header>
                 <mat-panel-title>
-               <b>Mother's Details</b>
+                  <b>Mother's Details</b>
                 </mat-panel-title>
               </mat-expansion-panel-header>
-          
+
               <span *ngFor="let alignmentGroup of alignmentGroups">
                 <div class="rowContainer">
                   <span *ngFor="let field of uiFieldsForAlignmentGroups[alignmentGroup]; index as uiFieldIndex">
-                    <div class="fieldContainer" *ngIf="field.isVisible == true && field.renderID.startsWith('frm_3a_c8')">
+                    <div class="fieldContainer"
+                      *ngIf="field.isVisible == true && field.renderID.startsWith('frm_3a_c8')">
                       <div class="fieldHeader" [ngStyle]="field.headerStyle">
                         <!-- Create container header with label in user's login lang -->
                         <mat-label>{{field.labelName[userPrefLanguage]}} : </mat-label>
@@ -4155,14 +4222,14 @@
                                     </span>
                                   </span>
                                 </div>
-                              </span>                        
+                              </span>
                             </span>
                           </ng-container>
                           <!-- Add Age Date fields-->
                           <ng-container *ngIf="field.controlType === 'ageDate'">
                             <span *ngIf="i == 0">
                               <div class="user__age-or-date" [dir]="dataCaptureLangsDir[i]">
-                                <div class="user__date">                                  
+                                <div class="user__date">
                                   <mat-form-field appearance="legacy">
                                     <mat-label>{{localeDtFormat}}</mat-label>
                                     <input matInput [formControlName]="field.id + '_dateCtrl'"
@@ -4217,7 +4284,8 @@
                                 <mat-label>
                                   {{field.labelName[dataCaptureLanguage]}}
                                 </mat-label>
-                                <input matInput [formControlName]="field.id" (change)="onChangeHandler(field.id)" #input />
+                                <input matInput [formControlName]="field.id" (change)="onChangeHandler(field.id)"
+                                  #input />
                               </mat-form-field>
                             </span>
                           </ng-container>
@@ -4235,18 +4303,21 @@
                               !readOnlyMode && primaryuserForm &&
                               userForm.get(field.id ) &&
                               userForm.get(field.id ).hasError('ninDuplicate')">
-                            
-                              {{ demographiclabels.validation.InvalidMessage }} {{ field.labelName[userPrefLanguage] }}<br>
+
+                              {{ demographiclabels.validation.InvalidMessage }} {{ field.labelName[userPrefLanguage]
+                              }}<br>
                               {{ userForm.get(field.id)["errors"]["ninDuplicate"]["message"] }}<br>
-                            
+
                             </mat-error>
                             <mat-error class="primary-errors" *ngIf="!readOnlyMode && primaryuserForm &&
                               userForm.get(field.id + '_' + dataCaptureLanguage) &&
                               userForm.get(field.id + '_' + dataCaptureLanguage).touched &&
                               userForm.get(field.id + '_' + dataCaptureLanguage).dirty &&
                               userForm.get(field.id + '_' + dataCaptureLanguage).hasError('customPattern')">
-                              {{ demographiclabels.validation.InvalidMessage}} {{ field.labelName[userPrefLanguage] }}<br>
-                              {{ userForm.get(field.id + '_' + dataCaptureLanguage)["errors"]["customPattern"]["msg"] }}<br>
+                              {{ demographiclabels.validation.InvalidMessage}} {{ field.labelName[userPrefLanguage]
+                              }}<br>
+                              {{ userForm.get(field.id + '_' + dataCaptureLanguage)["errors"]["customPattern"]["msg"]
+                              }}<br>
                             </mat-error>
                           </span>
                           <span *ngIf="field.controlType === 'ageDate' || field.controlType === 'date' 
@@ -4267,7 +4338,8 @@
                               userForm.get(field.id).touched &&
                               userForm.get(field.id).dirty &&
                               userForm.get(field.id).hasError('customPattern')">
-                              {{ demographiclabels.validation.InvalidMessage}} {{ field.labelName[userPrefLanguage] }}<br>
+                                {{ demographiclabels.validation.InvalidMessage}} {{ field.labelName[userPrefLanguage]
+                                }}<br>
                                 {{ userForm.get(field.id)["errors"]["customPattern"]["msg"] }}<br>
                               </mat-error>
                             </span>
@@ -4278,17 +4350,19 @@
                   </span>
                 </div>
               </span>
-          
+
               <mat-action-row>
                 <button mat-button color="warn" (click)="prevStep()">Previous</button>
                 <button mat-button color="primary" (click)="nextStep()">Next</button>
               </mat-action-row>
             </mat-expansion-panel>
 
-            <mat-expansion-panel *ngIf="!isRenewalService() && !isCopService() && !isGetFirstId() && !isReplacement() && !isNewAlien()" [expanded]="expStep === 15" (opened)="setStep(15)" hideToggle>
+            <mat-expansion-panel
+              *ngIf="!isRenewalService() && !isCopService() && !isGetFirstId() && !isReplacement() && !isNewAlien()"
+              [expanded]="expStep === 15" (opened)="setStep(15)" hideToggle>
               <mat-expansion-panel-header>
                 <mat-panel-title>
-               <b>Blood Relative's/Introducer Details:</b>
+                  <b>Blood Relative's/Introducer Details:</b>
                 </mat-panel-title>
                 <mat-panel-description>
                   Only filled if you don't have either Mother's or Father's valid NIN.<br>
@@ -4296,11 +4370,12 @@
                 </mat-panel-description>
 
               </mat-expansion-panel-header>
-          
+
               <span *ngFor="let alignmentGroup of alignmentGroups">
                 <div class="rowContainer">
                   <span *ngFor="let field of uiFieldsForAlignmentGroups[alignmentGroup]; index as uiFieldIndex">
-                    <div class="fieldContainer" *ngIf="field.isVisible == true && field.renderID.startsWith('frm_3a_c9')">
+                    <div class="fieldContainer"
+                      *ngIf="field.isVisible == true && field.renderID.startsWith('frm_3a_c9')">
                       <div class="fieldHeader" [ngStyle]="field.headerStyle">
                         <!-- Create container header with label in user's login lang -->
                         <mat-label>{{field.labelName[userPrefLanguage]}} : </mat-label>
@@ -4424,14 +4499,14 @@
                                     </span>
                                   </span>
                                 </div>
-                              </span>                              
+                              </span>
                             </span>
                           </ng-container>
                           <!-- Add Age Date fields-->
                           <ng-container *ngIf="field.controlType === 'ageDate'">
                             <span *ngIf="i == 0">
                               <div class="user__age-or-date" [dir]="dataCaptureLangsDir[i]">
-                                <div class="user__date">                                  
+                                <div class="user__date">
                                   <mat-form-field appearance="legacy">
                                     <mat-label>{{localeDtFormat}}</mat-label>
                                     <input matInput [formControlName]="field.id + '_dateCtrl'"
@@ -4486,7 +4561,8 @@
                                 <mat-label>
                                   {{field.labelName[dataCaptureLanguage]}}
                                 </mat-label>
-                                <input matInput [formControlName]="field.id" (change)="onChangeHandler(field.id)" #input />
+                                <input matInput [formControlName]="field.id" (change)="onChangeHandler(field.id)"
+                                  #input />
                               </mat-form-field>
                             </span>
                           </ng-container>
@@ -4504,18 +4580,21 @@
                               !readOnlyMode && primaryuserForm &&
                               userForm.get(field.id ) &&
                               userForm.get(field.id ).hasError('ninDuplicate')">
-                            
-                              {{ demographiclabels.validation.InvalidMessage }} {{ field.labelName[userPrefLanguage] }}<br>
+
+                              {{ demographiclabels.validation.InvalidMessage }} {{ field.labelName[userPrefLanguage]
+                              }}<br>
                               {{ userForm.get(field.id)["errors"]["ninDuplicate"]["message"] }}<br>
-                            
+
                             </mat-error>
                             <mat-error class="primary-errors" *ngIf="!readOnlyMode && primaryuserForm &&
                               userForm.get(field.id + '_' + dataCaptureLanguage) &&
                               userForm.get(field.id + '_' + dataCaptureLanguage).touched &&
                               userForm.get(field.id + '_' + dataCaptureLanguage).dirty &&
                               userForm.get(field.id + '_' + dataCaptureLanguage).hasError('customPattern')">
-                              {{ demographiclabels.validation.InvalidMessage}} {{ field.labelName[userPrefLanguage] }}<br>
-                              {{ userForm.get(field.id + '_' + dataCaptureLanguage)["errors"]["customPattern"]["msg"] }}<br>
+                              {{ demographiclabels.validation.InvalidMessage}} {{ field.labelName[userPrefLanguage]
+                              }}<br>
+                              {{ userForm.get(field.id + '_' + dataCaptureLanguage)["errors"]["customPattern"]["msg"]
+                              }}<br>
                             </mat-error>
                           </span>
                           <span *ngIf="field.controlType === 'ageDate' || field.controlType === 'date' 
@@ -4536,7 +4615,8 @@
                               userForm.get(field.id).touched &&
                               userForm.get(field.id).dirty &&
                               userForm.get(field.id).hasError('customPattern')">
-                              {{ demographiclabels.validation.InvalidMessage}} {{ field.labelName[userPrefLanguage] }}<br>
+                                {{ demographiclabels.validation.InvalidMessage}} {{ field.labelName[userPrefLanguage]
+                                }}<br>
                                 {{ userForm.get(field.id)["errors"]["customPattern"]["msg"] }}<br>
                               </mat-error>
                             </span>
@@ -4547,35 +4627,38 @@
                   </span>
                 </div>
               </span>
-          
+
               <mat-action-row>
                 <button mat-button color="warn" (click)="prevStep()">Previous</button>
                 <button mat-button color="primary" (click)="nextStep()">Next</button>
               </mat-action-row>
             </mat-expansion-panel>
 
-            <mat-expansion-panel *ngIf="!isRenewalService() && !isCopService() && !isGetFirstId() && !isReplacement()" [expanded]="expStep === 16" (opened)="setStep(16)" hideToggle>
+            <mat-expansion-panel *ngIf="!isRenewalService() && !isCopService() && !isGetFirstId() && !isReplacement()"
+              [expanded]="expStep === 16" (opened)="setStep(16)" hideToggle>
               <mat-expansion-panel-header>
                 <mat-panel-title>
-               <b>Particulars of Applicant’s Children :</b>
+                  <b>Particulars of Applicant’s Children :</b>
                 </mat-panel-title>
                 <mat-panel-description>
                   Maximum of 6 children can be added
                 </mat-panel-description>
-                
+
               </mat-expansion-panel-header>
-          
+
               <span *ngFor="let alignmentGroup of alignmentGroups">
                 <span *ngFor="let field of uiFieldsForAlignmentGroups[alignmentGroup]; index as uiFieldIndex">
-                  <div class="subsection-name" *ngIf="field.SectionName && field.isVisible == true && field.renderID.startsWith('frm_3a_e1')">
+                  <div class="subsection-name"
+                    *ngIf="field.SectionName && field.isVisible == true && field.renderID.startsWith('frm_3a_e1')">
                     <b>{{field.SectionName}}:</b>
                   </div>
                 </span>
                 <div class="rowContainer">
                   <span *ngFor="let field of uiFieldsForAlignmentGroups[alignmentGroup]; index as uiFieldIndex">
-                    <div class="fieldContainer" *ngIf="field.isVisible == true && field.renderID.startsWith('frm_3a_e1')">
+                    <div class="fieldContainer"
+                      *ngIf="field.isVisible == true && field.renderID.startsWith('frm_3a_e1')">
                       <div class="fieldHeader" [ngStyle]="field.headerStyle">
-                        
+
                         <mat-label>{{field.labelName[userPrefLanguage]}} : </mat-label>
                         <span *ngIf="field.required" class="required-annotation">*</span>
                       </div>
@@ -4633,7 +4716,7 @@
                           <ng-container *ngIf="field.controlType === 'button'">
                             <span *ngIf="i == 0" [dir]="dataCaptureLangsDir[i]">
                               <mat-button-toggle-group class="btn_grp" [formControlName]="field.id"
-                              (change)="onChangeHandler(field.id);">
+                                (change)="onChangeHandler(field.id);">
                                 <ng-container *ngFor="let button of selectOptionsDataArray[field.id]">
                                   <span *ngIf="button.languageCode === dataCaptureLanguage">
                                     <mat-button-toggle class="btn_grp mat-button-toggle" value="{{button.valueCode}}"
@@ -4697,14 +4780,14 @@
                                     </span>
                                   </span>
                                 </div>
-                              </span>                              
+                              </span>
                             </span>
                           </ng-container>
                           <!-- Add Age Date fields-->
                           <ng-container *ngIf="field.controlType === 'ageDate'">
                             <span *ngIf="i == 0">
                               <div class="user__age-or-date" [dir]="dataCaptureLangsDir[i]">
-                                <div class="user__date">                                  
+                                <div class="user__date">
                                   <mat-form-field appearance="legacy">
                                     <mat-label>{{localeDtFormat}}</mat-label>
                                     <input matInput [formControlName]="field.id + '_dateCtrl'"
@@ -4759,7 +4842,8 @@
                                 <mat-label>
                                   {{field.labelName[dataCaptureLanguage]}}
                                 </mat-label>
-                                <input matInput [formControlName]="field.id" (change)="onChangeHandler(field.id)" #input />
+                                <input matInput [formControlName]="field.id" (change)="onChangeHandler(field.id)"
+                                  #input />
                               </mat-form-field>
                             </span>
                           </ng-container>
@@ -4777,18 +4861,21 @@
                               !readOnlyMode && primaryuserForm &&
                               userForm.get(field.id ) &&
                               userForm.get(field.id ).hasError('ninDuplicate')">
-                            
-                              {{ demographiclabels.validation.InvalidMessage }} {{ field.labelName[userPrefLanguage] }}<br>
+
+                              {{ demographiclabels.validation.InvalidMessage }} {{ field.labelName[userPrefLanguage]
+                              }}<br>
                               {{ userForm.get(field.id)["errors"]["ninDuplicate"]["message"] }}<br>
-                            
+
                             </mat-error>
                             <mat-error class="primary-errors" *ngIf="!readOnlyMode && primaryuserForm &&
                               userForm.get(field.id + '_' + dataCaptureLanguage) &&
                               userForm.get(field.id + '_' + dataCaptureLanguage).touched &&
                               userForm.get(field.id + '_' + dataCaptureLanguage).dirty &&
                               userForm.get(field.id + '_' + dataCaptureLanguage).hasError('customPattern')">
-                              {{ demographiclabels.validation.InvalidMessage}} {{ field.labelName[userPrefLanguage] }}<br>
-                              {{ userForm.get(field.id + '_' + dataCaptureLanguage)["errors"]["customPattern"]["msg"] }}<br>
+                              {{ demographiclabels.validation.InvalidMessage}} {{ field.labelName[userPrefLanguage]
+                              }}<br>
+                              {{ userForm.get(field.id + '_' + dataCaptureLanguage)["errors"]["customPattern"]["msg"]
+                              }}<br>
                             </mat-error>
                           </span>
                           <span *ngIf="field.controlType === 'ageDate' || field.controlType === 'date' 
@@ -4809,7 +4896,8 @@
                               userForm.get(field.id).touched &&
                               userForm.get(field.id).dirty &&
                               userForm.get(field.id).hasError('customPattern')">
-                              {{ demographiclabels.validation.InvalidMessage}} {{ field.labelName[userPrefLanguage] }}<br>
+                                {{ demographiclabels.validation.InvalidMessage}} {{ field.labelName[userPrefLanguage]
+                                }}<br>
                                 {{ userForm.get(field.id)["errors"]["customPattern"]["msg"] }}<br>
                               </mat-error>
                             </span>
@@ -4820,7 +4908,7 @@
                   </span>
                 </div>
               </span>
-          
+
               <mat-action-row>
                 <button mat-button color="warn" (click)="prevStep()">Previous</button>
                 <button mat-button color="primary" (click)="nextStep()">Next</button>
@@ -4829,33 +4917,37 @@
             <mat-expansion-panel *ngIf="isCopService()" [expanded]="expStep === 17" (opened)="setStep(17)" hideToggle>
               <mat-expansion-panel-header>
                 <mat-panel-title>
-               <b>Notification of Change:</b>
+                  <b>Notification of Change:</b>
                 </mat-panel-title>
                 <!-- <mat-panel-description *ngIf="isNameRemovalCop()">
                   Removing a name: Select the name fields you want to remove.
                 </mat-panel-description> -->
-                
+
               </mat-expansion-panel-header>
-          
+
               <span *ngFor="let alignmentGroup of alignmentGroups">
-                  <span *ngFor="let field of uiFieldsForAlignmentGroups[alignmentGroup]; index as uiFieldIndex">
-                    <div class="subsection-name" *ngIf="field.SectionName && field.isVisible == true && (field.renderID.startsWith('frm_3a_a1_C_') ||field.renderID.startsWith('frm_3a_a2') || field.renderID.startsWith('frm_3a_a4_') || field.renderID.startsWith('frm_3a_c7_C') || field.renderID.startsWith('frm_3a_c8_C_') || field.renderID.startsWith('frm_3a_a3') || field.renderID.startsWith('frm_3a_b5') || field.renderID.startsWith('frm_isErrorOccurredbyNIRA') || field.renderID.startsWith('frm_3a_b6a'))">
-                      <b *ngIf="field.SectionName !== 'name' && !field.SectionName.startsWith('Spouse')">{{ field.SectionName }}:</b>
-                      <b *ngIf="field.SectionName.startsWith('Spouse')">Add {{ field.SectionName }}:</b>
-                      <b *ngIf="field.SectionName === 'name' && this.copAddName">Adding a Name:</b>
-                      <b *ngIf="field.SectionName === 'name' && this.removingName">Removing a Name:</b>
-                      <b *ngIf="field.SectionName === 'name' && this.copChangeNameOrder">Change of Order of Names:</b>
-                      <b *ngIf="field.SectionName === 'name' && this.copCompleChange">Complete Change of Name:</b>
-                      <b *ngIf="field.SectionName === 'name' && this.addingNamesFromPreviousCertorDoc">Adding Names from Pre-2016 Birth Cert. or Pre-2014 Passport/Academic Docs:</b>
-                      <b *ngIf="field.SectionName === 'name' && this.otherNameCorrections">Other Name Corrections:</b>
-                      <!-- <b *ngIf="field.SectionName && field.renderID.startsWith('frm_3a_a1_sex')">{{field.SectionName}}:</b> -->
-                    </div>
-                  </span>
+                <span *ngFor="let field of uiFieldsForAlignmentGroups[alignmentGroup]; index as uiFieldIndex">
+                  <div class="subsection-name"
+                    *ngIf="field.SectionName && field.isVisible == true && (field.renderID.startsWith('frm_3a_a1_C_') ||field.renderID.startsWith('frm_3a_a2') || field.renderID.startsWith('frm_3a_a4_') || field.renderID.startsWith('frm_3a_c7_C') || field.renderID.startsWith('frm_3a_c8_C_') || field.renderID.startsWith('frm_3a_a3') || field.renderID.startsWith('frm_3a_b5') || field.renderID.startsWith('frm_isErrorOccurredbyNIRA') || field.renderID.startsWith('frm_3a_b6a'))">
+                    <b *ngIf="field.SectionName !== 'name' && !field.SectionName.startsWith('Spouse')">{{
+                      field.SectionName }}:</b>
+                    <b *ngIf="field.SectionName.startsWith('Spouse')">Add {{ field.SectionName }}:</b>
+                    <b *ngIf="field.SectionName === 'name' && this.copAddName">Adding a Name:</b>
+                    <b *ngIf="field.SectionName === 'name' && this.removingName">Removing a Name:</b>
+                    <b *ngIf="field.SectionName === 'name' && this.copChangeNameOrder">Change of Order of Names:</b>
+                    <b *ngIf="field.SectionName === 'name' && this.copCompleChange">Complete Change of Name:</b>
+                    <b *ngIf="field.SectionName === 'name' && this.addingNamesFromPreviousCertorDoc">Adding Names from
+                      Pre-2016 Birth Cert. or Pre-2014 Passport/Academic Docs:</b>
+                    <b *ngIf="field.SectionName === 'name' && this.otherNameCorrections">Other Name Corrections:</b>
+                    <!-- <b *ngIf="field.SectionName && field.renderID.startsWith('frm_3a_a1_sex')">{{field.SectionName}}:</b> -->
+                  </div>
+                </span>
                 <div class="rowContainer">
                   <span *ngFor="let field of uiFieldsForAlignmentGroups[alignmentGroup]; index as uiFieldIndex">
-                    <div class="fieldContainer" *ngIf="field.isVisible == true && !field.renderID.startsWith('frm_3a_a1_C_dateOfBirth') && (field.renderID.startsWith('frm_3a_a1_C_') ||field.renderID.startsWith('frm_3a_a2') || field.renderID.startsWith('frm_3a_a4_') || field.renderID.startsWith('frm_3a_c7_C') || field.renderID.startsWith('frm_3a_c8_C_') || field.renderID.startsWith('frm_3a_a3') || field.renderID.startsWith('frm_3a_b5') || field.renderID.startsWith('frm_3a_b6a')) ">
+                    <div class="fieldContainer"
+                      *ngIf="field.isVisible == true && !field.renderID.startsWith('frm_3a_a1_C_dateOfBirth') && (field.renderID.startsWith('frm_3a_a1_C_') ||field.renderID.startsWith('frm_3a_a2') || field.renderID.startsWith('frm_3a_a4_') || field.renderID.startsWith('frm_3a_c7_C') || field.renderID.startsWith('frm_3a_c8_C_') || field.renderID.startsWith('frm_3a_a3') || field.renderID.startsWith('frm_3a_b5') || field.renderID.startsWith('frm_3a_b6a')) ">
                       <div class="fieldHeader" [ngStyle]="field.headerStyle">
-                        
+
                         <mat-label>{{field.labelName[userPrefLanguage]}} : </mat-label>
                         <span *ngIf="field.required" class="required-annotation">*</span>
                       </div>
@@ -4913,7 +5005,7 @@
                           <ng-container *ngIf="field.controlType === 'button'">
                             <span *ngIf="i == 0" [dir]="dataCaptureLangsDir[i]">
                               <mat-button-toggle-group class="btn_grp" [formControlName]="field.id"
-                              (change)="onChangeHandler(field.id);">
+                                (change)="onChangeHandler(field.id);">
                                 <ng-container *ngFor="let button of selectOptionsDataArray[field.id]">
                                   <span *ngIf="button.languageCode === dataCaptureLanguage">
                                     <mat-button-toggle class="btn_grp mat-button-toggle" value="{{button.valueCode}}"
@@ -4977,21 +5069,20 @@
                                     </span>
                                   </span>
                                 </div>
-                              </span>                      
+                              </span>
                             </span>
                           </ng-container>
                           <!-- Add Age Date fields-->
                           <ng-container *ngIf="field.controlType === 'ageDate'">
                             <span *ngIf="i == 0">
                               <div class="user__age-or-date" [dir]="dataCaptureLangsDir[i]">
-                                <div class="user__date">                                  
+                                <div class="user__date">
                                   <mat-form-field appearance="legacy">
                                     <mat-label>{{localeDtFormat}}</mat-label>
                                     <input matInput [formControlName]="field.id + '_dateCtrl'"
                                       placeholder="{{localeDtFormat}}"
                                       (dateChange)="onDOBChange(field.id);onChangeHandler(field.id);"
-                                      [matDatepicker]="dp" 
-                                      [max]="maxDate"/>
+                                      [matDatepicker]="dp" [max]="maxDate" />
                                     <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
                                     <mat-datepicker #dp></mat-datepicker>
                                   </mat-form-field>
@@ -5003,8 +5094,7 @@
                                   <mat-form-field appearance="legacy">
                                     <input type="number" class="form-control" matInput [value]="currentAge" #age
                                       [disabled]="readOnlyMode" placeholder="{{ 'demographic.label_age' | translate }}"
-                                      (change)="onAgeChange(field.id);onChangeHandler(field.id);"
-                                      [min]="0">
+                                      (change)="onAgeChange(field.id);onChangeHandler(field.id);" [min]="0">
                                   </mat-form-field>
                                   <div class="user__age--years">
                                     {{ "demographic.text_years" | translate }}
@@ -5041,7 +5131,8 @@
                                 <mat-label>
                                   {{field.labelName[dataCaptureLanguage]}}
                                 </mat-label>
-                                <input matInput [formControlName]="field.id" (change)="onChangeHandler(field.id)" #input />
+                                <input matInput [formControlName]="field.id" (change)="onChangeHandler(field.id)"
+                                  #input />
                               </mat-form-field>
                             </span>
                           </ng-container>
@@ -5059,29 +5150,32 @@
                             <mat-error class="primary-errors" *ngIf="
                                                         !readOnlyMode && primaryuserForm &&
                                                         userForm.get(field.id ) &&
-                                                        userForm.get(field.id ).hasError('yearsLivedInvalid')"
-                              >
-                            
-                              {{ demographiclabels.validation.InvalidMessage }} {{ field.labelName[userPrefLanguage] }}<br>
+                                                        userForm.get(field.id ).hasError('yearsLivedInvalid')">
+
+                              {{ demographiclabels.validation.InvalidMessage }} {{ field.labelName[userPrefLanguage]
+                              }}<br>
                               {{ userForm.get(field.id)["errors"]["yearsLivedInvalid"]["message"] }}<br>
-                              
+
                             </mat-error>
                             <mat-error class="primary-errors" *ngIf="
                               !readOnlyMode && primaryuserForm &&
                               userForm.get(field.id ) &&
                               userForm.get(field.id ).hasError('ninDuplicate')">
-                            
-                              {{ demographiclabels.validation.InvalidMessage }} {{ field.labelName[userPrefLanguage] }}<br>
+
+                              {{ demographiclabels.validation.InvalidMessage }} {{ field.labelName[userPrefLanguage]
+                              }}<br>
                               {{ userForm.get(field.id)["errors"]["ninDuplicate"]["message"] }}<br>
-                            
+
                             </mat-error>
                             <mat-error class="primary-errors" *ngIf="!readOnlyMode && primaryuserForm &&
                               userForm.get(field.id + '_' + dataCaptureLanguage) &&
                               userForm.get(field.id + '_' + dataCaptureLanguage).touched &&
                               userForm.get(field.id + '_' + dataCaptureLanguage).dirty &&
                               userForm.get(field.id + '_' + dataCaptureLanguage).hasError('customPattern')">
-                              {{ field.labelName[userPrefLanguage] }} {{ demographiclabels.validation.InvalidMessage}}<br>
-                              {{ userForm.get(field.id + '_' + dataCaptureLanguage)["errors"]["customPattern"]["msg"] }}<br>
+                              {{ field.labelName[userPrefLanguage] }} {{
+                              demographiclabels.validation.InvalidMessage}}<br>
+                              {{ userForm.get(field.id + '_' + dataCaptureLanguage)["errors"]["customPattern"]["msg"]
+                              }}<br>
                             </mat-error>
                           </span>
                           <span *ngIf="field.controlType === 'ageDate' || field.controlType === 'date' 
@@ -5102,7 +5196,8 @@
                               userForm.get(field.id).touched &&
                               userForm.get(field.id).dirty &&
                               userForm.get(field.id).hasError('customPattern')">
-                                {{ field.labelName[userPrefLanguage] }} {{ demographiclabels.validation.InvalidMessage}}<br>
+                                {{ field.labelName[userPrefLanguage] }} {{
+                                demographiclabels.validation.InvalidMessage}}<br>
                                 {{ userForm.get(field.id)["errors"]["customPattern"]["msg"] }}<br>
                               </mat-error>
                             </span>
@@ -5116,7 +5211,7 @@
                   <span *ngFor="let field of uiFieldsForAlignmentGroups[alignmentGroup]; index as uiFieldIndex">
                     <div class="fieldContainer"
                       *ngIf="field.isVisible == true && (field.renderID.startsWith('frm_isErrorOccurredbyNIRA') )">
-                      
+
                       <div class="fieldContent" [ngStyle]="field.containerStyle">
                         <!-- Create form fields to capture data in all chosen dataCaptureLanguages -->
                         <span *ngFor="let dataCaptureLanguage of dataCaptureLanguages;index as i">
@@ -5135,18 +5230,19 @@
                             <div style="display: flex; justify-content: space-between; align-items: center;">
                               <!-- Left Side: Description -->
                               <span *ngIf="i == 0" [dir]="dataCaptureLangsDir[i]" style="flex: 1; text-align: left;">
-                                {{ field.labelName[userPrefLanguage] }} <span *ngIf="field.required" class="required-annotation">*</span>
+                                {{ field.labelName[userPrefLanguage] }} <span *ngIf="field.required"
+                                  class="required-annotation">*</span>
                               </span>
-                          
+
                               <!-- Right Side: Dropdown Selection -->
-                              <mat-form-field appearance="legacy" 
+                              <mat-form-field appearance="legacy"
                                 [ngStyle]="dataCaptureLangsDir[i] == 'ltr' ? {'text-align': 'left'} : {'text-align': 'right'}"
                                 style="flex: 2; margin-left: 10px;">
                                 <!-- Placeholder for Dropdown -->
                                 <mat-label>
                                   {{ field.description }}
                                 </mat-label>
-                                
+
                                 <mat-select formControlName="{{ field.id }}"
                                   (focus)="!readOnlyMode ? dropdownApiCall(field.id) : ''"
                                   (blur)="onChangeHandler(field.id);" #singleSelect>
@@ -5174,7 +5270,7 @@
                                 </mat-select>
                               </mat-form-field>
                             </div>
-                          
+
                             <!-- Additional Display for Selected Option in Other Languages -->
                             <p></p>
                             <span *ngIf="field.type !== 'string' && dataCaptureLanguages.length > 1">
@@ -5190,26 +5286,25 @@
                               </div>
                             </span>
                           </ng-container>
-                          
-                          
-                          
-                          
+
+
+
+
                           <ng-container *ngIf="field.controlType === 'button'">
                             <div class="buttonContainer">
-                              <button 
-                                class="toggleButton" 
-                                [class.active]="userForm.get(field.id)?.value" 
+                              <button class="toggleButton" [class.active]="userForm.get(field.id)?.value"
                                 (click)="toggleUserButton(field.id)">
                                 {{ field.labelName[dataCaptureLanguage] }}
                               </button>
                             </div>
-                          </ng-container>                        
+                          </ng-container>
                           <ng-container *ngIf="field.controlType === 'textbox' && field.type !== 'string'">
                             <div *ngIf="!readOnlyMode" [dir]="dataCaptureLangsDir[i]">
                               <mat-form-field appearance="legacy"
                                 [ngStyle]="dataCaptureLangsDir[i] == 'ltr'? {'text-align': 'left'} : {'text-align': 'right'}">
                                 <mat-label>
-                                  {{field.description}} <span *ngIf="field.required" class="required-annotation">*</span>
+                                  {{field.description}} <span *ngIf="field.required"
+                                    class="required-annotation">*</span>
                                 </mat-label>
                                 <input matInput [formControlName]="field.id + '_' + dataCaptureLanguage"
                                   (change)="onChangeHandler(field.id)"
@@ -5272,9 +5367,10 @@
                                 <div class="user__date">
                                   <mat-form-field appearance="legacy">
                                     <mat-label>{{localeDtFormat}}</mat-label>
-                                    <input matInput [formControlName]="field.id + '_dateCtrl'" placeholder="{{localeDtFormat}}"
-                                      (dateChange)="onDOBChange(field.id);onChangeHandler(field.id);" [matDatepicker]="dp" 
-                                      [max]="maxDate"/>
+                                    <input matInput [formControlName]="field.id + '_dateCtrl'"
+                                      placeholder="{{localeDtFormat}}"
+                                      (dateChange)="onDOBChange(field.id);onChangeHandler(field.id);"
+                                      [matDatepicker]="dp" [max]="maxDate" />
                                     <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
                                     <mat-datepicker #dp></mat-datepicker>
                                   </mat-form-field>
@@ -5286,8 +5382,7 @@
                                   <mat-form-field appearance="legacy">
                                     <input type="number" class="form-control" matInput [value]="currentAge" #age
                                       [disabled]="readOnlyMode" placeholder="{{ 'demographic.label_age' | translate }}"
-                                      (change)="onAgeChange(field.id);onChangeHandler(field.id);"
-                                      [min]="0">
+                                      (change)="onAgeChange(field.id);onChangeHandler(field.id);" [min]="0">
                                   </mat-form-field>
                                   <div class="user__age--years">
                                     {{ "demographic.text_years" | translate }}
@@ -5298,7 +5393,8 @@
                               <div class="mat-error ng-star-inserted user__dob__error" *ngIf="!readOnlyMode && primaryuserForm &&    
                                                 userForm.get(field.id) &&
                                                 (userForm.get(field.id).touched &&
-                                                  userForm.get(field.id).hasError('incorrect'))" [dir]="userPrefLanguageDir">
+                                                  userForm.get(field.id).hasError('incorrect'))"
+                                [dir]="userPrefLanguageDir">
                                 {{demographiclabels.validation.DOB_validation}}
                               </div>
                             </span>
@@ -5321,17 +5417,19 @@
                               !readOnlyMode && primaryuserForm &&
                               userForm.get(field.id ) &&
                               userForm.get(field.id ).hasError('ninDuplicate')">
-                            
-                              {{ demographiclabels.validation.InvalidMessage }} {{ field.labelName[userPrefLanguage] }}<br>
-                              {{ userForm.get(field.id)["errors"]["ninDuplicate"]["message"] }}<br>
-                            
-                            </mat-error>
+
+                                {{ demographiclabels.validation.InvalidMessage }} {{ field.labelName[userPrefLanguage]
+                                }}<br>
+                                {{ userForm.get(field.id)["errors"]["ninDuplicate"]["message"] }}<br>
+
+                              </mat-error>
                               <mat-error class="primary-errors" *ngIf="!readOnlyMode && primaryuserForm &&
                                             userForm.get(field.id) &&
                                             userForm.get(field.id).touched &&
                                             userForm.get(field.id).dirty &&
                                             userForm.get(field.id).hasError('customPattern')">
-                                {{ demographiclabels.validation.InvalidMessage}} {{ field.labelName[userPrefLanguage] }} <br>
+                                {{ demographiclabels.validation.InvalidMessage}} {{ field.labelName[userPrefLanguage] }}
+                                <br>
                                 {{ userForm.get(field.id)["errors"]["customPattern"]["msg"] }}<br>
                               </mat-error>
                             </span>
@@ -5345,7 +5443,7 @@
                   <span *ngFor="let field of uiFieldsForAlignmentGroupsCop[copAlignmentGroup]; index as uiFieldIndex">
                     <div class="fieldContainer"
                       *ngIf="field.isVisible == true && (field.renderID.startsWith('frm_isBirthErrorOccurredbyNIRA') )">
-                      
+
                       <div class="fieldContent" [ngStyle]="field.containerStyle">
                         <!-- Create form fields to capture data in all chosen dataCaptureLanguages -->
                         <span *ngFor="let dataCaptureLanguage of dataCaptureLanguages;index as i">
@@ -5366,16 +5464,16 @@
                               <span *ngIf="i == 0" [dir]="dataCaptureLangsDir[i]" style="flex: 1; text-align: left;">
                                 {{ field.labelName[userPrefLanguage] }}
                               </span>
-                          
+
                               <!-- Right Side: Dropdown Selection -->
-                              <mat-form-field appearance="legacy" 
+                              <mat-form-field appearance="legacy"
                                 [ngStyle]="dataCaptureLangsDir[i] == 'ltr' ? {'text-align': 'left'} : {'text-align': 'right'}"
                                 style="flex: 2; margin-left: 10px;">
                                 <!-- Placeholder for Dropdown -->
                                 <mat-label>
                                   {{ field.description }}
                                 </mat-label>
-                                
+
                                 <mat-select formControlName="{{ field.id }}"
                                   (focus)="!readOnlyMode ? dropdownApiCall(field.id) : ''"
                                   (blur)="onChangeHandler(field.id);" #singleSelect>
@@ -5403,7 +5501,7 @@
                                 </mat-select>
                               </mat-form-field>
                             </div>
-                          
+
                             <!-- Additional Display for Selected Option in Other Languages -->
                             <p></p>
                             <span *ngIf="field.type !== 'string' && dataCaptureLanguages.length > 1">
@@ -5419,20 +5517,18 @@
                               </div>
                             </span>
                           </ng-container>
-                          
-                          
-                          
-                          
+
+
+
+
                           <ng-container *ngIf="field.controlType === 'button'">
                             <div class="buttonContainer">
-                              <button 
-                                class="toggleButton" 
-                                [class.active]="userForm.get(field.id)?.value" 
+                              <button class="toggleButton" [class.active]="userForm.get(field.id)?.value"
                                 (click)="toggleUserButton(field.id)">
                                 {{ field.labelName[dataCaptureLanguage] }}
                               </button>
                             </div>
-                          </ng-container>                        
+                          </ng-container>
                           <ng-container *ngIf="field.controlType === 'textbox' && field.type !== 'string'">
                             <div *ngIf="!readOnlyMode" [dir]="dataCaptureLangsDir[i]">
                               <mat-form-field appearance="legacy"
@@ -5537,7 +5633,7 @@
                                     </span>
                                   </span>
                                 </div>
-                              </span>                      
+                              </span>
                             </span>
                           </ng-container>
                           <!-- Error handling for various types -->
@@ -5558,17 +5654,19 @@
                               !readOnlyMode && primaryuserForm &&
                               userForm.get(field.id ) &&
                               userForm.get(field.id ).hasError('ninDuplicate')">
-                            
-                              {{ demographiclabels.validation.InvalidMessage }} {{ field.labelName[userPrefLanguage] }}<br>
-                              {{ userForm.get(field.id)["errors"]["ninDuplicate"]["message"] }}<br>
-                            
-                            </mat-error>
+
+                                {{ demographiclabels.validation.InvalidMessage }} {{ field.labelName[userPrefLanguage]
+                                }}<br>
+                                {{ userForm.get(field.id)["errors"]["ninDuplicate"]["message"] }}<br>
+
+                              </mat-error>
                               <mat-error class="primary-errors" *ngIf="!readOnlyMode && primaryuserForm &&
                                             userForm.get(field.id) &&
                                             userForm.get(field.id).touched &&
                                             userForm.get(field.id).dirty &&
                                             userForm.get(field.id).hasError('customPattern')">
-                                {{ demographiclabels.validation.InvalidMessage}} {{ field.labelName[userPrefLanguage] }} <br>
+                                {{ demographiclabels.validation.InvalidMessage}} {{ field.labelName[userPrefLanguage] }}
+                                <br>
                                 {{ userForm.get(field.id)["errors"]["customPattern"]["msg"] }}<br>
                               </mat-error>
                             </span>
@@ -5582,7 +5680,7 @@
                   <span *ngFor="let field of uiFieldsForAlignmentGroupsCop[copAlignmentGroup]; index as uiFieldIndex">
                     <div class="fieldContainer"
                       *ngIf="field.isVisible == true && (field.renderID.startsWith('frm_isGenderErrorOccurredbyNIRA') )">
-                      
+
                       <div class="fieldContent" [ngStyle]="field.containerStyle">
                         <!-- Create form fields to capture data in all chosen dataCaptureLanguages -->
                         <span *ngFor="let dataCaptureLanguage of dataCaptureLanguages;index as i">
@@ -5603,16 +5701,16 @@
                               <span *ngIf="i == 0" [dir]="dataCaptureLangsDir[i]" style="flex: 1; text-align: left;">
                                 {{ field.labelName[userPrefLanguage] }}
                               </span>
-                          
+
                               <!-- Right Side: Dropdown Selection -->
-                              <mat-form-field appearance="legacy" 
+                              <mat-form-field appearance="legacy"
                                 [ngStyle]="dataCaptureLangsDir[i] == 'ltr' ? {'text-align': 'left'} : {'text-align': 'right'}"
                                 style="flex: 2; margin-left: 10px;">
                                 <!-- Placeholder for Dropdown -->
                                 <mat-label>
                                   {{ field.description }}
                                 </mat-label>
-                                
+
                                 <mat-select formControlName="{{ field.id }}"
                                   (focus)="!readOnlyMode ? dropdownApiCall(field.id) : ''"
                                   (blur)="onChangeHandler(field.id);" #singleSelect>
@@ -5640,7 +5738,7 @@
                                 </mat-select>
                               </mat-form-field>
                             </div>
-                          
+
                             <!-- Additional Display for Selected Option in Other Languages -->
                             <p></p>
                             <span *ngIf="field.type !== 'string' && dataCaptureLanguages.length > 1">
@@ -5656,20 +5754,18 @@
                               </div>
                             </span>
                           </ng-container>
-                          
-                          
-                          
-                          
+
+
+
+
                           <ng-container *ngIf="field.controlType === 'button'">
                             <div class="buttonContainer">
-                              <button 
-                                class="toggleButton" 
-                                [class.active]="userForm.get(field.id)?.value" 
+                              <button class="toggleButton" [class.active]="userForm.get(field.id)?.value"
                                 (click)="toggleUserButton(field.id)">
                                 {{ field.labelName[dataCaptureLanguage] }}
                               </button>
                             </div>
-                          </ng-container>                        
+                          </ng-container>
                           <ng-container *ngIf="field.controlType === 'textbox' && field.type !== 'string'">
                             <div *ngIf="!readOnlyMode" [dir]="dataCaptureLangsDir[i]">
                               <mat-form-field appearance="legacy"
@@ -5711,7 +5807,7 @@
                   </span>
                 </div>
               </span>
-          
+
               <mat-action-row>
                 <button mat-button color="warn" (click)="prevStep()">Previous</button>
                 <button mat-button color="primary" (click)="nextStep()">Next</button>
@@ -5720,20 +5816,20 @@
             <mat-expansion-panel *ngIf="isReplacement()" [expanded]="expStep === 18" (opened)="setStep(18)" hideToggle>
               <mat-expansion-panel-header>
                 <mat-panel-title>
-               <b>National ID Number:</b>
+                  <b>National ID Number:</b>
                 </mat-panel-title>
                 <mat-panel-description>
-                
+
                 </mat-panel-description>
-                
+
               </mat-expansion-panel-header>
-          
+
               <span *ngFor="let alignmentGroup of alignmentGroups">
                 <div class="columnContainer">
                   <span *ngFor="let field of uiFieldsForAlignmentGroups[alignmentGroup]; index as uiFieldIndex">
                     <div class="fieldContainer"
                       *ngIf="field.isVisible == true && (field.renderID.startsWith('frm_idNumberKnown') )">
-                      
+
                       <div class="fieldContent" [ngStyle]="field.containerStyle">
                         <!-- Create form fields to capture data in all chosen dataCaptureLanguages -->
                         <span *ngFor="let dataCaptureLanguage of dataCaptureLanguages;index as i">
@@ -5756,16 +5852,16 @@
                               </span>
                               <span *ngIf="field.required" class="required-annotation">*</span>
                               <!-- testing asterik -->
-                          
+
                               <!-- Right Side: Dropdown Selection -->
-                              <mat-form-field appearance="legacy" 
+                              <mat-form-field appearance="legacy"
                                 [ngStyle]="dataCaptureLangsDir[i] == 'ltr' ? {'text-align': 'left'} : {'text-align': 'right'}"
                                 style="flex: 2; margin-left: 10px;">
                                 <!-- Placeholder for Dropdown -->
                                 <mat-label>
                                   {{ field.description }}
                                 </mat-label>
-                                
+
                                 <mat-select formControlName="{{ field.id }}"
                                   (focus)="!readOnlyMode ? dropdownApiCall(field.id) : ''"
                                   (blur)="onChangeHandler(field.id);" #singleSelect>
@@ -5793,7 +5889,7 @@
                                 </mat-select>
                               </mat-form-field>
                             </div>
-                          
+
                             <!-- Additional Display for Selected Option in Other Languages -->
                             <p></p>
                             <span *ngIf="field.type !== 'string' && dataCaptureLanguages.length > 1">
@@ -5809,20 +5905,18 @@
                               </div>
                             </span>
                           </ng-container>
-                          
-                          
-                          
-                          
+
+
+
+
                           <ng-container *ngIf="field.controlType === 'button'">
                             <div class="buttonContainer">
-                              <button 
-                                class="toggleButton" 
-                                [class.active]="userForm.get(field.id)?.value" 
+                              <button class="toggleButton" [class.active]="userForm.get(field.id)?.value"
                                 (click)="toggleUserButton(field.id)">
                                 {{ field.labelName[dataCaptureLanguage] }}
                               </button>
                             </div>
-                          </ng-container>                        
+                          </ng-container>
                           <ng-container *ngIf="field.controlType === 'textbox' && field.type !== 'string'">
                             <div *ngIf="!readOnlyMode" [dir]="dataCaptureLangsDir[i]">
                               <mat-form-field appearance="legacy"
@@ -5865,9 +5959,10 @@
                 </div>
                 <div class="rowContainer">
                   <span *ngFor="let field of uiFieldsForAlignmentGroups[alignmentGroup]; index as uiFieldIndex">
-                    <div class="fieldContainer" *ngIf="field.isVisible == true && (field.renderID.startsWith('frm_3a_a1_RewewNINI'))">
+                    <div class="fieldContainer"
+                      *ngIf="field.isVisible == true && (field.renderID.startsWith('frm_3a_a1_RewewNINI'))">
                       <div class="fieldHeader" [ngStyle]="field.headerStyle">
-                        
+
                         <mat-label>{{field.labelName[userPrefLanguage]}} : </mat-label>
                         <span *ngIf="field.required" class="required-annotation">*</span>
                       </div>
@@ -5925,7 +6020,7 @@
                           <ng-container *ngIf="field.controlType === 'button'">
                             <span *ngIf="i == 0" [dir]="dataCaptureLangsDir[i]">
                               <mat-button-toggle-group class="btn_grp" [formControlName]="field.id"
-                              (change)="onChangeHandler(field.id);">
+                                (change)="onChangeHandler(field.id);">
                                 <ng-container *ngFor="let button of selectOptionsDataArray[field.id]">
                                   <span *ngIf="button.languageCode === dataCaptureLanguage">
                                     <mat-button-toggle class="btn_grp mat-button-toggle" value="{{button.valueCode}}"
@@ -5989,14 +6084,14 @@
                                     </span>
                                   </span>
                                 </div>
-                              </span>                      
+                              </span>
                             </span>
                           </ng-container>
                           <!-- Add Age Date fields-->
                           <ng-container *ngIf="field.controlType === 'ageDate'">
                             <span *ngIf="i == 0">
                               <div class="user__age-or-date" [dir]="dataCaptureLangsDir[i]">
-                                <div class="user__date">                                  
+                                <div class="user__date">
                                   <mat-form-field appearance="legacy">
                                     <mat-label>{{localeDtFormat}}</mat-label>
                                     <input matInput [formControlName]="field.id + '_dateCtrl'"
@@ -6051,7 +6146,8 @@
                                 <mat-label>
                                   {{field.labelName[dataCaptureLanguage]}}
                                 </mat-label>
-                                <input matInput [formControlName]="field.id" (change)="onChangeHandler(field.id)" #input />
+                                <input matInput [formControlName]="field.id" (change)="onChangeHandler(field.id)"
+                                  #input />
                               </mat-form-field>
                             </span>
                           </ng-container>
@@ -6070,8 +6166,10 @@
                               userForm.get(field.id + '_' + dataCaptureLanguage).touched &&
                               userForm.get(field.id + '_' + dataCaptureLanguage).dirty &&
                               userForm.get(field.id + '_' + dataCaptureLanguage).hasError('customPattern')">
-                              {{ field.labelName[userPrefLanguage] }} {{ demographiclabels.validation.InvalidMessage}}<br>
-                              {{ userForm.get(field.id + '_' + dataCaptureLanguage)["errors"]["customPattern"]["msg"] }}<br>
+                              {{ field.labelName[userPrefLanguage] }} {{
+                              demographiclabels.validation.InvalidMessage}}<br>
+                              {{ userForm.get(field.id + '_' + dataCaptureLanguage)["errors"]["customPattern"]["msg"]
+                              }}<br>
                             </mat-error>
                           </span>
                           <span *ngIf="field.controlType === 'ageDate' || field.controlType === 'date' 
@@ -6092,7 +6190,8 @@
                               userForm.get(field.id).touched &&
                               userForm.get(field.id).dirty &&
                               userForm.get(field.id).hasError('customPattern')">
-                                {{ field.labelName[userPrefLanguage] }} {{ demographiclabels.validation.InvalidMessage}}<br>
+                                {{ field.labelName[userPrefLanguage] }} {{
+                                demographiclabels.validation.InvalidMessage}}<br>
                                 {{ userForm.get(field.id)["errors"]["customPattern"]["msg"] }}<br>
                               </mat-error>
                             </span>
@@ -6103,29 +6202,32 @@
                   </span>
                 </div>
               </span>
-          
+
               <mat-action-row>
                 <button mat-button color="warn" (click)="prevStep()">Previous</button>
                 <button mat-button color="primary" (click)="nextStep()">Next</button>
               </mat-action-row>
             </mat-expansion-panel>
-            <mat-expansion-panel *ngIf="!isRenewalService() && !isGetFirstId() && !isReplacement() && !isNewAlien()" [expanded]="expStep === 19" (opened)="setStep(19)" hideToggle>
+            <mat-expansion-panel *ngIf="!isRenewalService() && !isGetFirstId() && !isReplacement() && !isNewAlien()"
+              [expanded]="expStep === 19" (opened)="setStep(19)" hideToggle>
               <mat-expansion-panel-header>
                 <mat-panel-title>
-               <b>Declarant's Details:</b>
+                  <b>Declarant's Details:</b>
                 </mat-panel-title>
-                <mat-panel-description *ngIf="!isRenewalService() && !isCopService() && !isGetFirstId() && !isReplacement()">
+                <mat-panel-description
+                  *ngIf="!isRenewalService() && !isCopService() && !isGetFirstId() && !isReplacement()">
                   Only required if the applicant age is below 18 years
                 </mat-panel-description>
                 <mat-panel-description *ngIf="isCopService()">
                   Only required if the applicant age is below 18 years
                 </mat-panel-description>
               </mat-expansion-panel-header>
-          
+
               <span *ngFor="let alignmentGroup of alignmentGroups">
                 <div class="rowContainer">
                   <span *ngFor="let field of uiFieldsForAlignmentGroups[alignmentGroup]; index as uiFieldIndex">
-                    <div class="fieldContainer" *ngIf="field.isVisible == true && field.renderID.startsWith('frm_3a_d1')">
+                    <div class="fieldContainer"
+                      *ngIf="field.isVisible == true && field.renderID.startsWith('frm_3a_d1')">
                       <div class="fieldHeader" [ngStyle]="field.headerStyle">
                         <!-- Create container header with label in user's login lang -->
                         <mat-label>{{field.labelName[userPrefLanguage]}} : </mat-label>
@@ -6249,14 +6351,14 @@
                                     </span>
                                   </span>
                                 </div>
-                              </span>                              
+                              </span>
                             </span>
                           </ng-container>
                           <!-- Add Age Date fields-->
                           <ng-container *ngIf="field.controlType === 'ageDate'">
                             <span *ngIf="i == 0">
                               <div class="user__age-or-date" [dir]="dataCaptureLangsDir[i]">
-                                <div class="user__date">                                  
+                                <div class="user__date">
                                   <mat-form-field appearance="legacy">
                                     <mat-label>{{localeDtFormat}}</mat-label>
                                     <input matInput [formControlName]="field.id + '_dateCtrl'"
@@ -6311,7 +6413,8 @@
                                 <mat-label>
                                   {{field.labelName[dataCaptureLanguage]}}
                                 </mat-label>
-                                <input matInput [formControlName]="field.id" (change)="onChangeHandler(field.id)" #input />
+                                <input matInput [formControlName]="field.id" (change)="onChangeHandler(field.id)"
+                                  #input />
                               </mat-form-field>
                             </span>
                           </ng-container>
@@ -6330,8 +6433,10 @@
                               userForm.get(field.id + '_' + dataCaptureLanguage).touched &&
                               userForm.get(field.id + '_' + dataCaptureLanguage).dirty &&
                               userForm.get(field.id + '_' + dataCaptureLanguage).hasError('customPattern')">
-                              {{ demographiclabels.validation.InvalidMessage}} {{ field.labelName[userPrefLanguage] }}<br>
-                              {{ userForm.get(field.id + '_' + dataCaptureLanguage)["errors"]["customPattern"]["msg"] }}<br>
+                              {{ demographiclabels.validation.InvalidMessage}} {{ field.labelName[userPrefLanguage]
+                              }}<br>
+                              {{ userForm.get(field.id + '_' + dataCaptureLanguage)["errors"]["customPattern"]["msg"]
+                              }}<br>
                             </mat-error>
                           </span>
                           <span *ngIf="field.controlType === 'ageDate' || field.controlType === 'date' 
@@ -6352,7 +6457,8 @@
                               userForm.get(field.id).touched &&
                               userForm.get(field.id).dirty &&
                               userForm.get(field.id).hasError('customPattern')">
-                              {{ demographiclabels.validation.InvalidMessage}} {{ field.labelName[userPrefLanguage] }}<br>
+                                {{ demographiclabels.validation.InvalidMessage}} {{ field.labelName[userPrefLanguage]
+                                }}<br>
                                 {{ userForm.get(field.id)["errors"]["customPattern"]["msg"] }}<br>
                               </mat-error>
                             </span>
@@ -6363,7 +6469,7 @@
                   </span>
                 </div>
               </span>
-          
+
               <mat-action-row>
                 <button mat-button color="warn" (click)="prevStep()">Previous</button>
                 <button mat-button color="primary" (click)="nextStep()">Next</button>
@@ -6373,18 +6479,19 @@
             <mat-expansion-panel *ngIf="isCopService()" [expanded]="expStep === 20" (opened)="setStep(20)" hideToggle>
               <mat-expansion-panel-header>
                 <mat-panel-title>
-                  <b>Require a new Card:</b> 
+                  <b>Require a new Card:</b>
                 </mat-panel-title>
                 <mat-panel-description>
                   A new card is mandatory for changes that affect the details displayed on the physical ID card
                 </mat-panel-description>
               </mat-expansion-panel-header>
-            
+
               <span *ngFor="let alignmentGroup of alignmentGroups">
                 <div class="rowContainer">
                   <span *ngFor="let field of uiFieldsForAlignmentGroups[alignmentGroup]; index as uiFieldIndex">
-            
-                    <div class="fieldContainer" *ngIf="field.isVisible == true && field.renderID === 'frm_700a_a3_isCardRequired'"> 
+
+                    <div class="fieldContainer"
+                      *ngIf="field.isVisible == true && field.renderID === 'frm_700a_a3_isCardRequired'">
                       <div class="fieldHeader" [ngStyle]="field.headerStyle">
                         <!-- Create container header with label in user's login lang -->
                         <mat-label>{{field.labelName[userPrefLanguage]}} : </mat-label>
@@ -6393,7 +6500,7 @@
                       <div class="fieldContent" [ngStyle]="field.containerStyle">
                         <!-- Create form fields to capture data in all chosen dataCaptureLanguages -->
                         <span *ngFor="let dataCaptureLanguage of dataCaptureLanguages;index as i">
-                        <!-- Add Dropdown Options in  only one language on mouse over other lang are shown-->
+                          <!-- Add Dropdown Options in  only one language on mouse over other lang are shown-->
                           <ng-container *ngIf="field.controlType === 'dropdown'">
                             <span *ngIf="i == 0" [dir]="dataCaptureLangsDir[i]">
                               <mat-form-field appearance="legacy"
@@ -6426,9 +6533,9 @@
                               </mat-form-field>
                               <div *ngIf="cardChangeMessage" class="card-change-warning">
                                 <mat-icon color="warn" style="vertical-align: middle;">info</mat-icon>
-                                  <span style="color: #df3636; font-weight: 500; margin-left: 8px;">
-                                    {{ cardChangeMessage }}
-                                  </span>
+                                <span style="color: #df3636; font-weight: 500; margin-left: 8px;">
+                                  {{ cardChangeMessage }}
+                                </span>
                               </div>
                               <p></p>
                               <span *ngIf="field.type !== 'string' && dataCaptureLanguages.length > 1">
@@ -6441,7 +6548,7 @@
                                     </span>
                                   </span>
                                 </div>
-                              </span>                              
+                              </span>
                             </span>
                           </ng-container>
                           <span *ngIf="field.controlType === 'textbox'" [dir]="userPrefLanguageDir">
@@ -6458,8 +6565,10 @@
                               userForm.get(field.id + '_' + dataCaptureLanguage).touched &&
                               userForm.get(field.id + '_' + dataCaptureLanguage).dirty &&
                               userForm.get(field.id + '_' + dataCaptureLanguage).hasError('customPattern')">
-                              {{ field.labelName[userPrefLanguage] }} {{ demographiclabels.validation.InvalidMessage}}<br>
-                              {{ userForm.get(field.id + '_' + dataCaptureLanguage)["errors"]["customPattern"]["msg"] }}<br>
+                              {{ field.labelName[userPrefLanguage] }} {{
+                              demographiclabels.validation.InvalidMessage}}<br>
+                              {{ userForm.get(field.id + '_' + dataCaptureLanguage)["errors"]["customPattern"]["msg"]
+                              }}<br>
                             </mat-error>
                           </span>
                           <span *ngIf="field.controlType === 'ageDate' || field.controlType === 'date' 
@@ -6480,7 +6589,8 @@
                               userForm.get(field.id).touched &&
                               userForm.get(field.id).dirty &&
                               userForm.get(field.id).hasError('customPattern')">
-                                {{ field.labelName[userPrefLanguage] }} {{ demographiclabels.validation.InvalidMessage}}<br>
+                                {{ field.labelName[userPrefLanguage] }} {{
+                                demographiclabels.validation.InvalidMessage}}<br>
                                 {{ userForm.get(field.id)["errors"]["customPattern"]["msg"] }}<br>
                               </mat-error>
                             </span>
@@ -6491,26 +6601,28 @@
                   </span>
                 </div>
               </span>
-            
+
               <mat-action-row>
                 <button mat-button color="warn" (click)="prevStep()">Previous</button>
                 <button mat-button color="primary" (click)="nextStep()">Next</button>
               </mat-action-row>
             </mat-expansion-panel>
-            <mat-expansion-panel *ngIf="isCopService() && isRenewalService()" [expanded]="expStep === 21" (opened)="setStep(21)" hideToggle>
+            <mat-expansion-panel *ngIf="isCopService() && isRenewalService()" [expanded]="expStep === 21"
+              (opened)="setStep(21)" hideToggle>
               <mat-expansion-panel-header>
                 <mat-panel-title>
-                  <b>Error Occurred by NIRA:</b> 
+                  <b>Error Occurred by NIRA:</b>
                 </mat-panel-title>
                 <mat-panel-description>
                 </mat-panel-description>
               </mat-expansion-panel-header>
-            
+
               <span *ngFor="let alignmentGroup of alignmentGroups">
                 <div class="rowContainer">
                   <span *ngFor="let field of uiFieldsForAlignmentGroups[alignmentGroup]; index as uiFieldIndex">
-            
-                    <div class="fieldContainer" *ngIf="field.isVisible == true && field.renderID === 'frm_700a_a8_isErrorOccurredbyNIRA'"> 
+
+                    <div class="fieldContainer"
+                      *ngIf="field.isVisible == true && field.renderID === 'frm_700a_a8_isErrorOccurredbyNIRA'">
                       <div class="fieldHeader" [ngStyle]="field.headerStyle">
                         <!-- Create container header with label in user's login lang -->
                         <mat-label>{{field.labelName[userPrefLanguage]}} : </mat-label>
@@ -6519,7 +6631,7 @@
                       <div class="fieldContent" [ngStyle]="field.containerStyle">
                         <!-- Create form fields to capture data in all chosen dataCaptureLanguages -->
                         <span *ngFor="let dataCaptureLanguage of dataCaptureLanguages;index as i">
-                        <!-- Add Dropdown Options in  only one language on mouse over other lang are shown-->
+                          <!-- Add Dropdown Options in  only one language on mouse over other lang are shown-->
                           <ng-container *ngIf="field.controlType === 'dropdown'">
                             <span *ngIf="i == 0" [dir]="dataCaptureLangsDir[i]">
                               <mat-form-field appearance="legacy"
@@ -6561,7 +6673,7 @@
                                     </span>
                                   </span>
                                 </div>
-                              </span>                              
+                              </span>
                             </span>
                           </ng-container>
                           <span *ngIf="field.controlType === 'textbox'" [dir]="userPrefLanguageDir">
@@ -6578,8 +6690,10 @@
                               userForm.get(field.id + '_' + dataCaptureLanguage).touched &&
                               userForm.get(field.id + '_' + dataCaptureLanguage).dirty &&
                               userForm.get(field.id + '_' + dataCaptureLanguage).hasError('customPattern')">
-                              {{ field.labelName[userPrefLanguage] }} {{ demographiclabels.validation.InvalidMessage}}<br>
-                              {{ userForm.get(field.id + '_' + dataCaptureLanguage)["errors"]["customPattern"]["msg"] }}<br>
+                              {{ field.labelName[userPrefLanguage] }} {{
+                              demographiclabels.validation.InvalidMessage}}<br>
+                              {{ userForm.get(field.id + '_' + dataCaptureLanguage)["errors"]["customPattern"]["msg"]
+                              }}<br>
                             </mat-error>
                           </span>
                           <span *ngIf="field.controlType === 'ageDate' || field.controlType === 'date' 
@@ -6600,7 +6714,8 @@
                               userForm.get(field.id).touched &&
                               userForm.get(field.id).dirty &&
                               userForm.get(field.id).hasError('customPattern')">
-                                {{ field.labelName[userPrefLanguage] }} {{ demographiclabels.validation.InvalidMessage}}<br>
+                                {{ field.labelName[userPrefLanguage] }} {{
+                                demographiclabels.validation.InvalidMessage}}<br>
                                 {{ userForm.get(field.id)["errors"]["customPattern"]["msg"] }}<br>
                               </mat-error>
                             </span>
@@ -6611,7 +6726,7 @@
                   </span>
                 </div>
               </span>
-            
+
               <mat-action-row>
                 <button mat-button color="warn" (click)="prevStep()">Previous</button>
                 <button mat-button color="primary" (click)="nextStep()">Next</button>
@@ -6621,14 +6736,15 @@
             <mat-expansion-panel *ngIf="isGetFirstId()" [expanded]="expStep === 22" (opened)="setStep(22)" hideToggle>
               <mat-expansion-panel-header>
                 <mat-panel-title>
-               <b>Information to be Updated:</b>
+                  <b>Information to be Updated:</b>
                 </mat-panel-title>
               </mat-expansion-panel-header>
-          
+
               <span *ngFor="let alignmentGroup of alignmentGroups">
                 <span *ngFor="let field of uiFieldsForAlignmentGroups[alignmentGroup]; index as uiFieldIndex">
 
-                  <div class="subsection-name" *ngIf="field.SectionName && field.isVisible == true && (field.renderID.startsWith('frm_3a_a1_o') || field.renderID.startsWith('frm_3a_a1I') || field.renderID.startsWith('frm_3a_a2') || field.renderID.startsWith('frm_3a_b5'))">
+                  <div class="subsection-name"
+                    *ngIf="field.SectionName && field.isVisible == true && (field.renderID.startsWith('frm_3a_a1_o') || field.renderID.startsWith('frm_3a_a1I') || field.renderID.startsWith('frm_3a_a2') || field.renderID.startsWith('frm_3a_b5'))">
 
                     <b>{{field.SectionName}}:</b>
                   </div>
@@ -6636,7 +6752,8 @@
                 <div class="rowContainer">
                   <span *ngFor="let field of uiFieldsForAlignmentGroups[alignmentGroup]; index as uiFieldIndex">
 
-                    <div class="fieldContainer" *ngIf="field.isVisible == true && (field.renderID.startsWith('frm_3a_a1_o') || field.renderID.startsWith('frm_3a_a1I') || field.renderID.startsWith('frm_3a_a2') || field.renderID.startsWith('frm_3a_b5'))">
+                    <div class="fieldContainer"
+                      *ngIf="field.isVisible == true && (field.renderID.startsWith('frm_3a_a1_o') || field.renderID.startsWith('frm_3a_a1I') || field.renderID.startsWith('frm_3a_a2') || field.renderID.startsWith('frm_3a_b5'))">
 
                       <div class="fieldHeader" [ngStyle]="field.headerStyle">
                         <!-- Create container header with label in user's login lang -->
@@ -6761,14 +6878,14 @@
                                     </span>
                                   </span>
                                 </div>
-                              </span>                              
+                              </span>
                             </span>
                           </ng-container>
                           <!-- Add Age Date fields-->
                           <ng-container *ngIf="field.controlType === 'ageDate'">
                             <span *ngIf="i == 0">
                               <div class="user__age-or-date" [dir]="dataCaptureLangsDir[i]">
-                                <div class="user__date">                                
+                                <div class="user__date">
                                   <mat-form-field appearance="legacy">
                                     <mat-label>{{localeDtFormat}}</mat-label>
                                     <input matInput [formControlName]="field.id + '_dateCtrl'"
@@ -6823,7 +6940,8 @@
                                 <mat-label>
                                   {{field.labelName[dataCaptureLanguage]}}
                                 </mat-label>
-                                <input matInput [formControlName]="field.id" (change)="onChangeHandler(field.id)" #input />
+                                <input matInput [formControlName]="field.id" (change)="onChangeHandler(field.id)"
+                                  #input />
                               </mat-form-field>
                             </span>
                           </ng-container>
@@ -6841,20 +6959,22 @@
                             <mat-error class="primary-errors" *ngIf="
                                                         !readOnlyMode && primaryuserForm &&
                                                         userForm.get(field.id ) &&
-                                                        userForm.get(field.id ).hasError('yearsLivedInvalid')"
-                              >
-                            
-                              {{ demographiclabels.validation.InvalidMessage }} {{ field.labelName[userPrefLanguage] }}<br>
+                                                        userForm.get(field.id ).hasError('yearsLivedInvalid')">
+
+                              {{ demographiclabels.validation.InvalidMessage }} {{ field.labelName[userPrefLanguage]
+                              }}<br>
                               {{ userForm.get(field.id)["errors"]["yearsLivedInvalid"]["message"] }}<br>
-                              
+
                             </mat-error>
                             <mat-error class="primary-errors" *ngIf="!readOnlyMode && primaryuserForm &&
                               userForm.get(field.id + '_' + dataCaptureLanguage) &&
                               userForm.get(field.id + '_' + dataCaptureLanguage).touched &&
                               userForm.get(field.id + '_' + dataCaptureLanguage).dirty &&
                               userForm.get(field.id + '_' + dataCaptureLanguage).hasError('customPattern')">
-                              {{ demographiclabels.validation.InvalidMessage}} {{ field.labelName[userPrefLanguage] }}<br>
-                              {{ userForm.get(field.id + '_' + dataCaptureLanguage)["errors"]["customPattern"]["msg"] }}<br>
+                              {{ demographiclabels.validation.InvalidMessage}} {{ field.labelName[userPrefLanguage]
+                              }}<br>
+                              {{ userForm.get(field.id + '_' + dataCaptureLanguage)["errors"]["customPattern"]["msg"]
+                              }}<br>
                             </mat-error>
                           </span>
                           <span *ngIf="field.controlType === 'ageDate' || field.controlType === 'date' 
@@ -6875,7 +6995,8 @@
                               userForm.get(field.id).touched &&
                               userForm.get(field.id).dirty &&
                               userForm.get(field.id).hasError('customPattern')">
-                              {{ demographiclabels.validation.InvalidMessage}} {{ field.labelName[userPrefLanguage] }}<br>
+                                {{ demographiclabels.validation.InvalidMessage}} {{ field.labelName[userPrefLanguage]
+                                }}<br>
                                 {{ userForm.get(field.id)["errors"]["customPattern"]["msg"] }}<br>
                               </mat-error>
                             </span>
@@ -6886,25 +7007,26 @@
                   </span>
                 </div>
               </span>
-          
+
               <mat-action-row>
                 <button mat-button color="warn" (click)="prevStep()">Previous</button>
                 <button mat-button color="primary" (click)="nextStep()">Next</button>
               </mat-action-row>
             </mat-expansion-panel>
-            
+
             <mat-expansion-panel *ngIf="isNewAlien()" [expanded]="expStep === 23" (opened)="setStep(23)" hideToggle>
               <mat-expansion-panel-header>
-                <mat-panel-title >
+                <mat-panel-title>
                   <b>Passport and Citizeship Details</b>
                 </mat-panel-title>
-                
+
               </mat-expansion-panel-header>
-          
+
               <span *ngFor="let alignmentGroup of alignmentGroups">
                 <div class="rowContainer">
                   <span *ngFor="let field of uiFieldsForAlignmentGroups[alignmentGroup]; index as uiFieldIndex">
-                    <div class="fieldContainer" *ngIf="field.isVisible == true && (field.renderID.startsWith('frm_3a_a4_passportNumber')|| field.renderID.startsWith('frm_alien_pass'))">
+                    <div class="fieldContainer"
+                      *ngIf="field.isVisible == true && (field.renderID.startsWith('frm_3a_a4_passportNumber')|| field.renderID.startsWith('frm_alien_pass'))">
                       <div class="fieldHeader" [ngStyle]="field.headerStyle">
                         <!-- Create container header with label in user's login lang -->
                         <mat-label>{{field.labelName[userPrefLanguage]}} : </mat-label>
@@ -7028,14 +7150,14 @@
                                     </span>
                                   </span>
                                 </div>
-                              </span>                              
+                              </span>
                             </span>
                           </ng-container>
                           <!-- Add Age Date fields-->
                           <ng-container *ngIf="field.controlType === 'ageDate' ">
                             <span *ngIf="i == 0">
                               <div class="user__age-or-date" [dir]="dataCaptureLangsDir[i]">
-                                <div class="user__date">                                  
+                                <div class="user__date">
                                   <mat-form-field appearance="legacy">
                                     <mat-label>{{localeDtFormat}}</mat-label>
                                     <input matInput [formControlName]="field.id + '_dateCtrl'"
@@ -7090,7 +7212,8 @@
                                 <mat-label>
                                   {{field.labelName[dataCaptureLanguage]}}
                                 </mat-label>
-                                <input matInput [formControlName]="field.id" (change)="onChangeHandler(field.id)" #input />
+                                <input matInput [formControlName]="field.id" (change)="onChangeHandler(field.id)"
+                                  #input />
                               </mat-form-field>
                             </span>
                           </ng-container>
@@ -7109,8 +7232,10 @@
                               userForm.get(field.id + '_' + dataCaptureLanguage).touched &&
                               userForm.get(field.id + '_' + dataCaptureLanguage).dirty &&
                               userForm.get(field.id + '_' + dataCaptureLanguage).hasError('customPattern')">
-                              {{ demographiclabels.validation.InvalidMessage}} {{ field.labelName[userPrefLanguage] }}<br>
-                              {{ userForm.get(field.id + '_' + dataCaptureLanguage)["errors"]["customPattern"]["msg"] }}<br>
+                              {{ demographiclabels.validation.InvalidMessage}} {{ field.labelName[userPrefLanguage]
+                              }}<br>
+                              {{ userForm.get(field.id + '_' + dataCaptureLanguage)["errors"]["customPattern"]["msg"]
+                              }}<br>
                             </mat-error>
                           </span>
                           <span *ngIf="field.controlType === 'ageDate' || field.controlType === 'date' 
@@ -7131,7 +7256,8 @@
                               userForm.get(field.id).touched &&
                               userForm.get(field.id).dirty &&
                               userForm.get(field.id).hasError('customPattern')">
-                              {{ demographiclabels.validation.InvalidMessage}} {{ field.labelName[userPrefLanguage] }}<br>
+                                {{ demographiclabels.validation.InvalidMessage}} {{ field.labelName[userPrefLanguage]
+                                }}<br>
                                 {{ userForm.get(field.id)["errors"]["customPattern"]["msg"] }}<br>
                               </mat-error>
                             </span>
@@ -7142,7 +7268,7 @@
                   </span>
                 </div>
               </span>
-          
+
               <mat-action-row>
                 <button mat-button color="warn" (click)="prevStep()">Previous</button>
                 <button mat-button color="primary" (click)="nextStep()">Next</button>
@@ -7151,16 +7277,17 @@
 
             <mat-expansion-panel *ngIf="isNewAlien()" [expanded]="expStep === 24" (opened)="setStep(24)" hideToggle>
               <mat-expansion-panel-header>
-                <mat-panel-title >
+                <mat-panel-title>
                   <b>Immigration Details</b>
                 </mat-panel-title>
-                
+
               </mat-expansion-panel-header>
-          
+
               <span *ngFor="let alignmentGroup of alignmentGroups">
                 <div class="rowContainer">
                   <span *ngFor="let field of uiFieldsForAlignmentGroups[alignmentGroup]; index as uiFieldIndex">
-                    <div class="fieldContainer" *ngIf="field.isVisible == true && field.renderID.startsWith('frm_ima_a4_immigration')">
+                    <div class="fieldContainer"
+                      *ngIf="field.isVisible == true && field.renderID.startsWith('frm_ima_a4_immigration')">
                       <div class="fieldHeader" [ngStyle]="field.headerStyle">
                         <!-- Create container header with label in user's login lang -->
                         <mat-label>{{field.labelName[userPrefLanguage]}} : </mat-label>
@@ -7284,14 +7411,14 @@
                                     </span>
                                   </span>
                                 </div>
-                              </span>                              
+                              </span>
                             </span>
                           </ng-container>
                           <!-- Add Age Date fields-->
                           <ng-container *ngIf="field.controlType === 'ageDate' ">
                             <span *ngIf="i == 0">
                               <div class="user__age-or-date" [dir]="dataCaptureLangsDir[i]">
-                                <div class="user__date">                                  
+                                <div class="user__date">
                                   <mat-form-field appearance="legacy">
                                     <mat-label>{{localeDtFormat}}</mat-label>
                                     <input matInput [formControlName]="field.id + '_dateCtrl'"
@@ -7346,7 +7473,8 @@
                                 <mat-label>
                                   {{field.labelName[dataCaptureLanguage]}}
                                 </mat-label>
-                                <input matInput [formControlName]="field.id" (change)="onChangeHandler(field.id)" #input />
+                                <input matInput [formControlName]="field.id" (change)="onChangeHandler(field.id)"
+                                  #input />
                               </mat-form-field>
                             </span>
                           </ng-container>
@@ -7365,8 +7493,10 @@
                               userForm.get(field.id + '_' + dataCaptureLanguage).touched &&
                               userForm.get(field.id + '_' + dataCaptureLanguage).dirty &&
                               userForm.get(field.id + '_' + dataCaptureLanguage).hasError('customPattern')">
-                              {{ demographiclabels.validation.InvalidMessage}} {{ field.labelName[userPrefLanguage] }}<br>
-                              {{ userForm.get(field.id + '_' + dataCaptureLanguage)["errors"]["customPattern"]["msg"] }}<br>
+                              {{ demographiclabels.validation.InvalidMessage}} {{ field.labelName[userPrefLanguage]
+                              }}<br>
+                              {{ userForm.get(field.id + '_' + dataCaptureLanguage)["errors"]["customPattern"]["msg"]
+                              }}<br>
                             </mat-error>
                           </span>
                           <span *ngIf="field.controlType === 'ageDate' || field.controlType === 'date' 
@@ -7387,7 +7517,8 @@
                               userForm.get(field.id).touched &&
                               userForm.get(field.id).dirty &&
                               userForm.get(field.id).hasError('customPattern')">
-                              {{ demographiclabels.validation.InvalidMessage}} {{ field.labelName[userPrefLanguage] }}<br>
+                                {{ demographiclabels.validation.InvalidMessage}} {{ field.labelName[userPrefLanguage]
+                                }}<br>
                                 {{ userForm.get(field.id)["errors"]["customPattern"]["msg"] }}<br>
                               </mat-error>
                             </span>
@@ -7398,7 +7529,7 @@
                   </span>
                 </div>
               </span>
-          
+
               <mat-action-row>
                 <button mat-button color="warn" (click)="prevStep()">Previous</button>
                 <button mat-button color="primary" (click)="nextStep()">Next</button>
@@ -7407,16 +7538,17 @@
 
             <mat-expansion-panel *ngIf="isNewAlien()" [expanded]="expStep === 25" (opened)="setStep(25)" hideToggle>
               <mat-expansion-panel-header>
-                <mat-panel-title >
+                <mat-panel-title>
                   <b>Linked to</b>
                 </mat-panel-title>
-                
+
               </mat-expansion-panel-header>
-          
+
               <span *ngFor="let alignmentGroup of alignmentGroups">
                 <div class="rowContainer">
                   <span *ngFor="let field of uiFieldsForAlignmentGroups[alignmentGroup]; index as uiFieldIndex">
-                    <div class="fieldContainer" *ngIf="field.isVisible == true && field.renderID.startsWith('frm_ima_a4_linkedto')">
+                    <div class="fieldContainer"
+                      *ngIf="field.isVisible == true && field.renderID.startsWith('frm_ima_a4_linkedto')">
                       <div class="fieldHeader" [ngStyle]="field.headerStyle">
                         <!-- Create container header with label in user's login lang -->
                         <mat-label>{{field.labelName[userPrefLanguage]}} : </mat-label>
@@ -7540,14 +7672,14 @@
                                     </span>
                                   </span>
                                 </div>
-                              </span>                              
+                              </span>
                             </span>
                           </ng-container>
                           <!-- Add Age Date fields-->
                           <ng-container *ngIf="field.controlType === 'ageDate' ">
                             <span *ngIf="i == 0">
                               <div class="user__age-or-date" [dir]="dataCaptureLangsDir[i]">
-                                <div class="user__date">                                  
+                                <div class="user__date">
                                   <mat-form-field appearance="legacy">
                                     <mat-label>{{localeDtFormat}}</mat-label>
                                     <input matInput [formControlName]="field.id + '_dateCtrl'"
@@ -7602,7 +7734,8 @@
                                 <mat-label>
                                   {{field.labelName[dataCaptureLanguage]}}
                                 </mat-label>
-                                <input matInput [formControlName]="field.id" (change)="onChangeHandler(field.id)" #input />
+                                <input matInput [formControlName]="field.id" (change)="onChangeHandler(field.id)"
+                                  #input />
                               </mat-form-field>
                             </span>
                           </ng-container>
@@ -7621,8 +7754,10 @@
                               userForm.get(field.id + '_' + dataCaptureLanguage).touched &&
                               userForm.get(field.id + '_' + dataCaptureLanguage).dirty &&
                               userForm.get(field.id + '_' + dataCaptureLanguage).hasError('customPattern')">
-                              {{ demographiclabels.validation.InvalidMessage}} {{ field.labelName[userPrefLanguage] }}<br>
-                              {{ userForm.get(field.id + '_' + dataCaptureLanguage)["errors"]["customPattern"]["msg"] }}<br>
+                              {{ demographiclabels.validation.InvalidMessage}} {{ field.labelName[userPrefLanguage]
+                              }}<br>
+                              {{ userForm.get(field.id + '_' + dataCaptureLanguage)["errors"]["customPattern"]["msg"]
+                              }}<br>
                             </mat-error>
                           </span>
                           <span *ngIf="field.controlType === 'ageDate' || field.controlType === 'date' 
@@ -7643,7 +7778,8 @@
                               userForm.get(field.id).touched &&
                               userForm.get(field.id).dirty &&
                               userForm.get(field.id).hasError('customPattern')">
-                              {{ demographiclabels.validation.InvalidMessage}} {{ field.labelName[userPrefLanguage] }}<br>
+                                {{ demographiclabels.validation.InvalidMessage}} {{ field.labelName[userPrefLanguage]
+                                }}<br>
                                 {{ userForm.get(field.id)["errors"]["customPattern"]["msg"] }}<br>
                               </mat-error>
                             </span>
@@ -7654,7 +7790,7 @@
                   </span>
                 </div>
               </span>
-          
+
               <mat-action-row>
                 <button mat-button color="warn" (click)="prevStep()">Previous</button>
                 <button mat-button color="primary" (click)="nextStep()">Next</button>
@@ -7669,14 +7805,14 @@
                 <mat-panel-description>
                 </mat-panel-description>
               </mat-expansion-panel-header>
-            
+
               <span *ngFor="let alignmentGroup of alignmentGroups">
                 <div class="columnContainer">
                   <span *ngFor="let field of uiFieldsForAlignmentGroups[alignmentGroup]; index as uiFieldIndex">
                     <div class="fieldContainer"
                       *ngIf="field.isVisible == true && (field.renderID.startsWith('frm_700a_a3_declarationCheckBox') )">
-                      
-                      <div >
+
+                      <div>
                         <!-- Create form fields to capture data in all chosen dataCaptureLanguages -->
                         <span *ngFor="let dataCaptureLanguage of dataCaptureLanguages;index as i">
                           <!-- Add CheckBox only once, but show Labels in all dataCaptureLanguages -->
@@ -7687,7 +7823,8 @@
                               </mat-checkbox>&nbsp;&nbsp;
                               <span *ngFor="let lang of dataCaptureLanguages;index as langIndex">
                                 <span *ngIf="langIndex !== 0"> / </span>
-                                <ng-container *ngIf="(!isReplacement()&&!isCopService())">{{field.labelName[lang]}}</ng-container>
+                                <ng-container
+                                  *ngIf="(!isReplacement()&&!isCopService())">{{field.labelName[lang]}}</ng-container>
                                 <ng-container *ngIf="isCopService()">{{field.labelNameCop[lang]}}</ng-container>
                                 <ng-container *ngIf="isReplacement()">{{field.labelNameLost[lang]}}</ng-container>
                               </span>
@@ -7699,12 +7836,12 @@
                   </span>
                 </div>
               </span>
-            
+
               <mat-action-row>
                 <button mat-button color="warn" (click)="prevStep()">Previous</button>
               </mat-action-row>
             </mat-expansion-panel>
-            
+
 
           </mat-accordion>
 
@@ -7715,7 +7852,7 @@
   <div class="user__buttons" *ngIf="primaryuserForm">
     <div class="displayError" *ngIf="!userForm.valid && isSubmitted">
       {{getValidationErrorMessages()}}
-</div>
+    </div>
     <button *ngIf="!showPreviewButton" class="user__btn" type="button" [disabled]="!dataUploadComplete"
       (click)="onSubmit()">
       {{demographiclabels.action_continue}}
@@ -7724,6 +7861,6 @@
       (click)="onSubmit()">
       {{demographiclabels.action_preview}}
     </button>
-    
+
   </div>
 </div>
