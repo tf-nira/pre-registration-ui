@@ -155,40 +155,48 @@ isStepVisible(step: number): boolean {
     case 4:
       return !this.isCopService() && !this.isGetFirstId() && !this.isReplacement() && !this.isRenewalService();
     case 5:
-      return !this.isCopService() && !this.isGetFirstId() && !this.isReplacement(); // Replace with actual condition
+      return !this.isCopService() && !this.isGetFirstId() && !this.isReplacement();
     case 6:
-      return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement();
+      return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement() && !this.isNewAlien();
     case 7:
       return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement();
     case 8:
       return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement();
     case 9:
-      return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement();
+      return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement() && !this.isNewAlien();
     case 10:
-      return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement();
+      return this.isNewAlien();
     case 11:
       return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement();
     case 12:
-      return !this.isRenewalService()  && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement();
+      return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement();
     case 13:
-      return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement();
+        return !this.isRenewalService()  && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement() && !this.isNewAlien();
     case 14:
-      return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement();
+      return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement() && !this.isNewAlien();
     case 15:
-      return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement();
+      return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement() && !this.isNewAlien();
     case 16:
-      return this.isCopService();
+      return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement();
     case 17:
-      return this.isReplacement();
-    case 18:
-      return !this.isRenewalService() && !this.isGetFirstId() && !this.isReplacement();
-    case 19:
       return this.isCopService();
+    case 18:
+      return this.isReplacement();
+    case 19:
+      return !this.isRenewalService() && !this.isGetFirstId() && !this.isReplacement() && !this.isNewAlien();
     case 20:
-      return this.isCopService() && this.isRenewalService();
+      return this.isCopService();
     case 21:
-      return this.isGetFirstId();
+      return this.isCopService() && this.isRenewalService();
     case 22:
+      return this.isGetFirstId();
+    case 23:
+      return this.isNewAlien();
+    case 24:
+      return this.isNewAlien();
+    case 25:
+      return this.isNewAlien();
+    case 26:
       return true;
     default:
       return false;
@@ -928,8 +936,8 @@ familyRoles = [
             response[appConstants.RESPONSE]["idSchemaVersion"];
 
             //LOCAL
-            // const fieldDefinitions = await this.loadFieldDefinitions();
-            // this.identityData.push(...fieldDefinitions);
+            //  const fieldDefinitions = await this.loadFieldDefinitions();
+            //  this.identityData.push(...fieldDefinitions);
 
           if (Array.isArray(locationHeirarchiesFromJson[0])) {
             this.locationHeirarchies = locationHeirarchiesFromJson;
@@ -3537,6 +3545,13 @@ familyRoles = [
 
   isReplacement(): boolean {
     if (this.userService === appConstants.USER_SERVICE.REPLACEMENT) {
+      return true;
+    }
+    return false;
+  }
+
+  isNewAlien(): boolean {
+    if (this.userService === appConstants.USER_SERVICE.ALIENNEW) {
       return true;
     }
     return false;

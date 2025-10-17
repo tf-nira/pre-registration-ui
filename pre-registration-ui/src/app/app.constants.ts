@@ -263,7 +263,8 @@ export const USER_SERVICE = {
   UPDATE : "UPDATE",
   FIRSTID: "FIRSTID",
   REPLACEMENT: "LOST",
-  NEW : "NEW"
+  NEW : "NEW",
+  ALIENNEW: "ALIENNEW"
 };
 
 export const TAX_HEADS = {
