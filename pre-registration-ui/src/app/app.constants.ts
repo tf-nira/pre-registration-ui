@@ -368,5 +368,6 @@ export const SERVICE_TYPES = {
   RENEWAL: 'Renewal of Card',
   LOST: 'Lost/ Replacement of Card',
   UPDATE: 'Change of Particulars',
-  FIRSTID: 'Get First ID'
+  FIRSTID: 'Get First ID',
+  ALIENNEW: 'Alien New Registration'
 };
