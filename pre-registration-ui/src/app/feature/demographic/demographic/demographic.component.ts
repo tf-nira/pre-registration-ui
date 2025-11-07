@@ -124,7 +124,7 @@ export class DemographicComponent extends FormDeactivateGuardService
   // }
 ////
 nextStep() {
-  let maxSteps = 23; // Set the total number of steps
+  let maxSteps = 26; // Set the total number of steps
   do {
     this.expStep++;
   } while (
@@ -147,43 +147,43 @@ isStepVisible(step: number): boolean {
     case 0:
       return true; // Always visible
     case 1:
-      return this.isCopService() || this.isGetFirstId() || this.isReplacement() || this.isRenewalService();
+      return this.isCopService() || this.isGetFirstId() || this.isReplacement() || this.isRenewalService() || this.isRenewalAlien();
     case 2:
       return this.isCopService();
     case 3:
       return this.isCopService();
     case 4:
-      return !this.isCopService() && !this.isGetFirstId() && !this.isReplacement() && !this.isRenewalService();
+      return !this.isCopService() && !this.isGetFirstId() && !this.isReplacement() && !this.isRenewalService() && !this.isRenewalAlien;
     case 5:
       return !this.isCopService() && !this.isGetFirstId() && !this.isReplacement();
     case 6:
-      return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement() && !this.isNewAlien();
+      return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement() && !this.isNewAlien() && !this.isRenewalAlien();
     case 7:
-      return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement();
+      return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement() && !this.isRenewalAlien();
     case 8:
-      return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement();
+      return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement() && !this.isRenewalAlien();
     case 9:
-      return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement() && !this.isNewAlien();
+      return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement() && !this.isNewAlien() && !this.isRenewalAlien();
     case 10:
-      return this.isNewAlien();
+      return this.isNewAlien() || this.isRenewalAlien();
     case 11:
-      return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement();
+      return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement() ;
     case 12:
-      return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement();
+      return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement() && !this.isRenewalAlien();
     case 13:
-        return !this.isRenewalService()  && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement() && !this.isNewAlien();
+        return !this.isRenewalService()  && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement() && !this.isNewAlien() && !this.isRenewalAlien();
     case 14:
-      return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement() && !this.isNewAlien();
+      return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement() && !this.isNewAlien() && !this.isRenewalAlien();
     case 15:
-      return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement() && !this.isNewAlien();
+      return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement() && !this.isNewAlien() && !this.isRenewalAlien();
     case 16:
-      return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement();
+      return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement() && !this.isRenewalAlien();
     case 17:
       return this.isCopService();
     case 18:
       return this.isReplacement();
     case 19:
-      return !this.isRenewalService() && !this.isGetFirstId() && !this.isReplacement() && !this.isNewAlien();
+      return !this.isRenewalService() && !this.isGetFirstId() && !this.isReplacement() && !this.isNewAlien() && !this.isRenewalAlien();
     case 20:
       return this.isCopService();
     case 21:
@@ -191,9 +191,9 @@ isStepVisible(step: number): boolean {
     case 22:
       return this.isGetFirstId();
     case 23:
-      return this.isNewAlien();
+      return this.isNewAlien() || this.isRenewalAlien();
     case 24:
-      return this.isNewAlien();
+      return this.isNewAlien() || this.isRenewalAlien();
     case 25:
       return this.isNewAlien();
     case 26:
@@ -926,7 +926,7 @@ familyRoles = [
           this.identityData = identityJsonSpec["identity"];
 
           //LOCAL
-           //this.identityData = [];    
+          //this.identityData = [];    
 
           let locationHeirarchiesFromJson = [
             ...identityJsonSpec["locationHierarchy"], 
@@ -936,8 +936,8 @@ familyRoles = [
             response[appConstants.RESPONSE]["idSchemaVersion"];
 
             //LOCAL
-            //  const fieldDefinitions = await this.loadFieldDefinitions();
-            //  this.identityData.push(...fieldDefinitions);
+            //const fieldDefinitions = await this.loadFieldDefinitions();
+            //this.identityData.push(...fieldDefinitions);
 
           if (Array.isArray(locationHeirarchiesFromJson[0])) {
             this.locationHeirarchies = locationHeirarchiesFromJson;
@@ -1486,6 +1486,7 @@ familyRoles = [
           if (this.isConsentMessage) this.consentDeclaration();
         }
         this.userService = this.userForm.controls[selectedFieldId].value;
+        console.log("User Service set to: " + this.userService);
         setService(this.userService);
       }
     }
@@ -3552,6 +3553,12 @@ familyRoles = [
 
   isNewAlien(): boolean {
     if (this.userService === appConstants.USER_SERVICE.ALIENNEW) {
+      return true;
+    }
+    return false;
+  }
+  isRenewalAlien(): boolean {
+    if (this.userService === appConstants.USER_SERVICE.ALIENRENEWAL) {
       return true;
     }
     return false;

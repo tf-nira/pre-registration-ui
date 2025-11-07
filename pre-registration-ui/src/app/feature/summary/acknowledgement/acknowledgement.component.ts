@@ -74,7 +74,8 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
     "UPDATE": "Change of Particulars/Change of Errors",
     "LOST": "Lost/Replacement of Card",
     "FIRSTID": "Get First ID",
-    "ALIENNEW": 'Alien New Registration'
+    "ALIENNEW": 'Alien New Registration',
+    "ALIENRENEWAL": 'Renewal of Alien'
   };
  //payableService:string;
   constructor(
