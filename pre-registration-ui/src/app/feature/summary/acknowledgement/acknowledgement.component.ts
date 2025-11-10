@@ -75,7 +75,8 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
     "LOST": "Lost/Replacement of Card",
     "FIRSTID": "Get First ID",
     "ALIENNEW": 'Alien New Registration',
-    "ALIENRENEWAL": 'Renewal of Alien'
+    "ALIENRENEWAL": 'Renewal of Alien',
+    "ALIENLOST": 'Replacement of Alien'
   };
  //payableService:string;
   constructor(
@@ -194,7 +195,7 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
             if (!this.userService) {
               this.userService = demographicData["userService"];
             }
-            if(this.userService==appConstants.USER_SERVICE.UPDATE || this.userService==appConstants.USER_SERVICE.FIRSTID|| this.userService==appConstants.USER_SERVICE.REPLACEMENT || this.userService==appConstants.USER_SERVICE.RENEWAL || this.userService==appConstants.USER_SERVICE.ALIENRENEWAL){
+            if(this.userService==appConstants.USER_SERVICE.UPDATE || this.userService==appConstants.USER_SERVICE.FIRSTID|| this.userService==appConstants.USER_SERVICE.REPLACEMENT || this.userService==appConstants.USER_SERVICE.RENEWAL || this.userService==appConstants.USER_SERVICE.ALIENRENEWAL || this.userService==appConstants.USER_SERVICE.ALIENLOST){
               this.name = appConstants.PRE_REGISTRATION_IDENTITY_NAME_COP;
             }
 

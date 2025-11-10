@@ -147,43 +147,43 @@ isStepVisible(step: number): boolean {
     case 0:
       return true; // Always visible
     case 1:
-      return this.isCopService() || this.isGetFirstId() || this.isReplacement() || this.isRenewalService() || this.isRenewalAlien();
+      return this.isCopService() || this.isGetFirstId() || this.isReplacement() || this.isRenewalService() || this.isRenewalAlien() || this.isReplacementAlien();
     case 2:
       return this.isCopService();
     case 3:
       return this.isCopService();
     case 4:
-      return !this.isCopService() && !this.isGetFirstId() && !this.isReplacement() && !this.isRenewalService() && !this.isRenewalAlien;
+      return !this.isCopService() && !this.isGetFirstId() && !this.isReplacement() && !this.isRenewalService() && !this.isRenewalAlien && !this.isReplacementAlien();
     case 5:
       return !this.isCopService() && !this.isGetFirstId() && !this.isReplacement();
     case 6:
-      return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement() && !this.isNewAlien() && !this.isRenewalAlien();
+      return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement() && !this.isNewAlien() && !this.isRenewalAlien() && !this.isReplacementAlien();
     case 7:
-      return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement() && !this.isRenewalAlien();
+      return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement() && !this.isRenewalAlien() && !this.isReplacementAlien();
     case 8:
-      return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement() && !this.isRenewalAlien();
+      return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement() && !this.isRenewalAlien() && !this.isReplacementAlien();
     case 9:
-      return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement() && !this.isNewAlien() && !this.isRenewalAlien();
+      return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement() && !this.isNewAlien() && !this.isRenewalAlien() && !this.isReplacementAlien();
     case 10:
-      return this.isNewAlien() || this.isRenewalAlien();
+      return this.isNewAlien() || this.isRenewalAlien() || this.isReplacementAlien();
     case 11:
       return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement() ;
     case 12:
-      return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement() && !this.isRenewalAlien();
+      return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement() && !this.isRenewalAlien() && !this.isReplacementAlien();
     case 13:
-        return !this.isRenewalService()  && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement() && !this.isNewAlien() && !this.isRenewalAlien();
+        return !this.isRenewalService()  && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement() && !this.isNewAlien() && !this.isRenewalAlien() && !this.isReplacementAlien();
     case 14:
-      return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement() && !this.isNewAlien() && !this.isRenewalAlien();
+      return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement() && !this.isNewAlien() && !this.isRenewalAlien() && !this.isReplacementAlien();
     case 15:
-      return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement() && !this.isNewAlien() && !this.isRenewalAlien();
+      return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement() && !this.isNewAlien() && !this.isRenewalAlien() && !this.isReplacementAlien();
     case 16:
-      return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement() && !this.isRenewalAlien();
+      return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement() && !this.isRenewalAlien() && !this.isReplacementAlien();
     case 17:
       return this.isCopService();
     case 18:
       return this.isReplacement();
     case 19:
-      return !this.isRenewalService() && !this.isGetFirstId() && !this.isReplacement() && !this.isNewAlien() && !this.isRenewalAlien();
+      return !this.isRenewalService() && !this.isGetFirstId() && !this.isReplacement() && !this.isNewAlien() && !this.isRenewalAlien() && !this.isReplacementAlien();
     case 20:
       return this.isCopService();
     case 21:
@@ -191,9 +191,9 @@ isStepVisible(step: number): boolean {
     case 22:
       return this.isGetFirstId();
     case 23:
-      return this.isNewAlien() || this.isRenewalAlien();
+      return this.isNewAlien() || this.isRenewalAlien() || this.isReplacementAlien();
     case 24:
-      return this.isNewAlien() || this.isRenewalAlien();
+      return this.isNewAlien() || this.isRenewalAlien() || this.isReplacementAlien();
     case 25:
       return this.isNewAlien();
     case 26:
@@ -3559,6 +3559,13 @@ familyRoles = [
   }
   isRenewalAlien(): boolean {
     if (this.userService === appConstants.USER_SERVICE.ALIENRENEWAL) {
+      return true;
+    }
+    return false;
+  }
+
+  isReplacementAlien(): boolean {
+    if (this.userService === appConstants.USER_SERVICE.ALIENLOST) {
       return true;
     }
     return false;
