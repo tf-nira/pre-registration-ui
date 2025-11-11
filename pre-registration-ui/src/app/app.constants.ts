@@ -265,7 +265,8 @@ export const USER_SERVICE = {
   REPLACEMENT: "LOST",
   NEW : "NEW",
   ALIENNEW: "ALIENNEW",
-  ALIENRENEWAL: "ALIENRENEWAL"
+  ALIENRENEWAL: "ALIENRENEWAL",
+  ALIENLOST:"ALIENLOST"
 };
 
 export const TAX_HEADS = {
@@ -371,5 +372,6 @@ export const SERVICE_TYPES = {
   UPDATE: 'Change of Particulars',
   FIRSTID: 'Get First ID',
   ALIENNEW: 'Alien New Registration',
-  ALIENRENEWAL: 'Renewal of Alien'
+  ALIENRENEWAL: 'Renewal of Alien',
+  ALIENLOST: 'Replacement of Alien'
 };
