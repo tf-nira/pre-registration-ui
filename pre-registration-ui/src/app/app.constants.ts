@@ -375,3 +375,9 @@ export const SERVICE_TYPES = {
   ALIENRENEWAL: 'Renewal of Alien',
   ALIENLOST: 'Replacement of Alien'
 };
+
+export const onFacilityTypeChange = {
+  facilityType: 'facilityType',
+  facilityTypeCategory: 'facilityTypeCategory',
+  facilityTypeSubCategory: 'facilityTypeSubCategory'
+};

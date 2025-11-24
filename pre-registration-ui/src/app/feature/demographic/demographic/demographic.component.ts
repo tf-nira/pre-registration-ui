@@ -153,7 +153,7 @@ isStepVisible(step: number): boolean {
     case 3:
       return this.isCopService();
     case 4:
-      return !this.isCopService() && !this.isGetFirstId() && !this.isReplacement() && !this.isRenewalService() && !this.isRenewalAlien && !this.isReplacementAlien();
+      return !this.isCopService() && !this.isGetFirstId() && !this.isReplacement() && !this.isRenewalService() && !this.isRenewalAlien() && !this.isReplacementAlien();
     case 5:
       return !this.isCopService() && !this.isGetFirstId() && !this.isReplacement();
     case 6:
@@ -1819,6 +1819,10 @@ familyRoles = [
           delete this.uniqueNin[selectedFieldId];
         }
       }
+    }
+
+    if(selectedFieldId === appConstants.onFacilityTypeChange.facilityType){
+      this.onFacilityTypeChange(selectedFieldId);
     }
   }
   
@@ -3726,6 +3730,63 @@ familyRoles = [
     }
     this.uniqueNin[field] = NIN;
     return false; // No duplication
+  }
+
+
+  private filterAndEmit(key: string, requiredPrefix: string): void {
+    const fullDataArray: CodeValueModal[] = this.selectOptionsDataArray[key];
+    const targetSubject = this.filteredSelectOptions[key];
+
+    if (!fullDataArray || fullDataArray.length === 0) {
+      console.warn(`Full data array for ${key} is empty or undefined.`);
+      if (targetSubject) {
+        targetSubject.next([]);
+      }
+      return;
+    }
+
+    const filteredData: CodeValueModal[] = fullDataArray.filter(option =>
+      option.valueCode.startsWith(requiredPrefix)
+    );
+
+    if (targetSubject) {
+      targetSubject.next(filteredData);
+    } else {
+      console.error(`Subject for ${key} not found.`);
+    }
+  }
+
+
+  onFacilityTypeChange(selectedFieldId: string) {
+    const categoryKey = appConstants.onFacilityTypeChange.facilityTypeCategory;
+    const subCategoryKey = appConstants.onFacilityTypeChange.facilityTypeSubCategory;
+
+    const dependentKeys = [categoryKey, subCategoryKey];
+    const filterPrefixMap: { [key: string]: string } = {
+      "FT01": 'ENTRY',
+      "FT02": 'STUDENT',
+      "FT03": 'DP',
+      "FT04": 'IRP',
+      "FT05": 'SP',
+      "FT06": 'COR'
+    };
+
+    dependentKeys.forEach(key => {
+      const control = this.userForm.controls[key];
+      control.reset();
+      control.setValue("");
+    });
+
+    const selectedControl: FormControl = this.userForm.controls[selectedFieldId] as FormControl;
+    const selectedValue = selectedControl.value;
+    const requiredPrefix = filterPrefixMap[selectedValue];
+
+    if (requiredPrefix) {
+      dependentKeys.forEach(key => {
+        this.filterAndEmit(key, requiredPrefix);
+      });
+
+    }
   }
 
 }
