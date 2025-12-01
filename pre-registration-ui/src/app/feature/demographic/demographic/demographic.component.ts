@@ -1566,7 +1566,7 @@ familyRoles = [
     }
 
     if(selectedFieldId !="" && selectedFieldId==this.dateOfBirthFieldId){
-      if(this.userServiceType==appConstants.USER_SERVICETYPE.BYNATURALISATION || this.userServiceType==appConstants.USER_SERVICETYPE.BYREGISTRATION){
+      if(this.userServiceType==appConstants.USER_SERVICETYPE.BYNATURALISATION || this.userServiceType==appConstants.USER_SERVICETYPE.BYREGISTRATION || this.userServiceType==appConstants.USER_SERVICETYPE.DUALCITIZENSHIP){
         if(applicantAge<18 && applicantAge!=null){
           this.natReg= true;
           this.resetDOBFields(selectedFieldId+"_dateCtrl");
