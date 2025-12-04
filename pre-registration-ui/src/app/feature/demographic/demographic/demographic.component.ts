@@ -1121,12 +1121,34 @@ familyRoles = [
               if (validatorItem.type === "nonFutureDate") {
                 let inputDate = new Date(val);
                 let currentDate = new Date();
-                currentDate.setHours(0, 0, 0, 0); // Clear time for accurate comparison
+                currentDate.setHours(0, 0, 0, 0); 
                 if (inputDate > currentDate) {
                   isInvalid = true;
                   msg = "The date must not be in the future.";
                 }
-              } else if (validatorItem.type === "minimumExpiry") {
+              } else if (validatorItem.type === "futureDate") {
+                let inputDate = new Date(val);
+                let currentDate = new Date();
+                currentDate.setHours(0, 0, 0, 0); 
+                if (inputDate <= currentDate) {
+                  isInvalid = true;
+                  msg = "The date must  be in the future.";
+                }
+              } else if (validatorItem.type === "customExpiryDate") {
+                let inputDate = new Date(val);
+                inputDate.setHours(0, 0, 0, 0);
+
+                let currentDate = new Date();
+                currentDate.setHours(0, 0, 0, 0);
+                let minAllowedDate = new Date(currentDate);
+                minAllowedDate.setDate(minAllowedDate.getDate() - 90);
+
+                if (inputDate > minAllowedDate) {
+                  isInvalid = true;
+                  msg = "The date must be at least 90 days older than today.";
+                }
+              }
+              else if (validatorItem.type === "minimumExpiry") {
                 let inputDate = new Date(val);
                 let existancyDate = new Date("2014-08-01");
                 existancyDate.setHours(0, 0, 0, 0); // Clear time for accurate comparison
