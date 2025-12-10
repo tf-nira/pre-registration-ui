@@ -263,7 +263,10 @@ export const USER_SERVICE = {
   UPDATE : "UPDATE",
   FIRSTID: "FIRSTID",
   REPLACEMENT: "LOST",
-  NEW : "NEW"
+  NEW : "NEW",
+  ALIENNEW: "ALIENNEW",
+  ALIENRENEWAL: "ALIENRENEWAL",
+  ALIENLOST:"ALIENLOST"
 };
 
 export const TAX_HEADS = {
@@ -368,5 +371,14 @@ export const SERVICE_TYPES = {
   RENEWAL: 'Renewal of Card',
   LOST: 'Lost/ Replacement of Card',
   UPDATE: 'Change of Particulars',
-  FIRSTID: 'Get First ID'
+  FIRSTID: 'Get First ID',
+  ALIENNEW: 'Alien New Registration',
+  ALIENRENEWAL: 'Renewal of Alien',
+  ALIENLOST: 'Replacement of Alien'
+};
+
+export const onFacilityTypeChange = {
+  facilityType: 'facilityType',
+  facilityTypeCategory: 'facilityTypeCategory',
+  facilityTypeSubCategory: 'facilityTypeSubCategory'
 };
