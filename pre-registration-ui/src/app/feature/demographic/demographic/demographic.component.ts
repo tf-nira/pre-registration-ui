@@ -124,7 +124,7 @@ export class DemographicComponent extends FormDeactivateGuardService
   // }
 ////
 nextStep() {
-  let maxSteps = 23; // Set the total number of steps
+  let maxSteps = 26; // Set the total number of steps
   do {
     this.expStep++;
   } while (
@@ -147,48 +147,56 @@ isStepVisible(step: number): boolean {
     case 0:
       return true; // Always visible
     case 1:
-      return this.isCopService() || this.isGetFirstId() || this.isReplacement() || this.isRenewalService();
+      return this.isCopService() || this.isGetFirstId() || this.isReplacement() || this.isRenewalService() || this.isRenewalAlien() || this.isReplacementAlien();
     case 2:
       return this.isCopService();
     case 3:
       return this.isCopService();
     case 4:
-      return !this.isCopService() && !this.isGetFirstId() && !this.isReplacement() && !this.isRenewalService();
+      return !this.isCopService() && !this.isGetFirstId() && !this.isReplacement() && !this.isRenewalService() && !this.isRenewalAlien() && !this.isReplacementAlien();
     case 5:
-      return !this.isCopService() && !this.isGetFirstId() && !this.isReplacement(); // Replace with actual condition
+      return !this.isCopService() && !this.isGetFirstId() && !this.isReplacement();
     case 6:
-      return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement();
+      return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement() && !this.isNewAlien() && !this.isRenewalAlien() && !this.isReplacementAlien();
     case 7:
-      return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement();
+      return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement() && !this.isRenewalAlien() && !this.isReplacementAlien();
     case 8:
-      return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement();
+      return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement() && !this.isRenewalAlien() && !this.isReplacementAlien();
     case 9:
-      return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement();
+      return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement() && !this.isNewAlien() && !this.isRenewalAlien() && !this.isReplacementAlien();
     case 10:
-      return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement();
+      return this.isNewAlien() || this.isRenewalAlien() || this.isReplacementAlien();
     case 11:
-      return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement();
+      return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement() ;
     case 12:
-      return !this.isRenewalService()  && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement();
+      return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement() && !this.isRenewalAlien() && !this.isReplacementAlien();
     case 13:
-      return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement();
+        return !this.isRenewalService()  && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement() && !this.isNewAlien() && !this.isRenewalAlien() && !this.isReplacementAlien();
     case 14:
-      return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement();
+      return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement() && !this.isNewAlien() && !this.isRenewalAlien() && !this.isReplacementAlien();
     case 15:
-      return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement();
+      return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement() && !this.isNewAlien() && !this.isRenewalAlien() && !this.isReplacementAlien();
     case 16:
-      return this.isCopService();
+      return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement() && !this.isRenewalAlien() && !this.isReplacementAlien();
     case 17:
-      return this.isReplacement();
-    case 18:
-      return !this.isRenewalService() && !this.isGetFirstId() && !this.isReplacement();
-    case 19:
       return this.isCopService();
+    case 18:
+      return this.isReplacement();
+    case 19:
+      return !this.isRenewalService() && !this.isGetFirstId() && !this.isReplacement() && !this.isNewAlien() && !this.isRenewalAlien() && !this.isReplacementAlien();
     case 20:
-      return this.isCopService() && this.isRenewalService();
+      return this.isCopService();
     case 21:
-      return this.isGetFirstId();
+      return this.isCopService() && this.isRenewalService();
     case 22:
+      return this.isGetFirstId();
+    case 23:
+      return this.isNewAlien() || this.isRenewalAlien() || this.isReplacementAlien();
+    case 24:
+      return this.isNewAlien() || this.isRenewalAlien() || this.isReplacementAlien();
+    case 25:
+      return this.isNewAlien();
+    case 26:
       return true;
     default:
       return false;
@@ -918,7 +926,7 @@ familyRoles = [
           this.identityData = identityJsonSpec["identity"];
 
           //LOCAL
-           //this.identityData = [];    
+          //this.identityData = [];    
 
           let locationHeirarchiesFromJson = [
             ...identityJsonSpec["locationHierarchy"], 
@@ -928,8 +936,8 @@ familyRoles = [
             response[appConstants.RESPONSE]["idSchemaVersion"];
 
             //LOCAL
-            // const fieldDefinitions = await this.loadFieldDefinitions();
-            // this.identityData.push(...fieldDefinitions);
+            //const fieldDefinitions = await this.loadFieldDefinitions();
+            //this.identityData.push(...fieldDefinitions);
 
           if (Array.isArray(locationHeirarchiesFromJson[0])) {
             this.locationHeirarchies = locationHeirarchiesFromJson;
@@ -1113,12 +1121,34 @@ familyRoles = [
               if (validatorItem.type === "nonFutureDate") {
                 let inputDate = new Date(val);
                 let currentDate = new Date();
-                currentDate.setHours(0, 0, 0, 0); // Clear time for accurate comparison
+                currentDate.setHours(0, 0, 0, 0); 
                 if (inputDate > currentDate) {
                   isInvalid = true;
                   msg = "The date must not be in the future.";
                 }
-              } else if (validatorItem.type === "minimumExpiry") {
+              } else if (validatorItem.type === "futureDate") {
+                let inputDate = new Date(val);
+                let currentDate = new Date();
+                currentDate.setHours(0, 0, 0, 0); 
+                if (inputDate <= currentDate) {
+                  isInvalid = true;
+                  msg = "The date must  be in the future.";
+                }
+              } else if (validatorItem.type === "customExpiryDate") {
+                let inputDate = new Date(val);
+                inputDate.setHours(0, 0, 0, 0);
+
+                let currentDate = new Date();
+                currentDate.setHours(0, 0, 0, 0);
+                let minAllowedDate = new Date(currentDate);
+                minAllowedDate.setDate(minAllowedDate.getDate() - 90);
+
+                if (inputDate > minAllowedDate) {
+                  isInvalid = true;
+                  msg = "The date must be at least 90 days older than today.";
+                }
+              }
+              else if (validatorItem.type === "minimumExpiry") {
                 let inputDate = new Date(val);
                 let existancyDate = new Date("2014-08-01");
                 existancyDate.setHours(0, 0, 0, 0); // Clear time for accurate comparison
@@ -1478,6 +1508,7 @@ familyRoles = [
           if (this.isConsentMessage) this.consentDeclaration();
         }
         this.userService = this.userForm.controls[selectedFieldId].value;
+        console.log("User Service set to: " + this.userService);
         setService(this.userService);
       }
     }
@@ -1810,6 +1841,10 @@ familyRoles = [
           delete this.uniqueNin[selectedFieldId];
         }
       }
+    }
+
+    if(selectedFieldId === appConstants.onFacilityTypeChange.facilityType){
+      this.onFacilityTypeChange(selectedFieldId);
     }
   }
   
@@ -3542,6 +3577,26 @@ familyRoles = [
     return false;
   }
 
+  isNewAlien(): boolean {
+    if (this.userService === appConstants.USER_SERVICE.ALIENNEW) {
+      return true;
+    }
+    return false;
+  }
+  isRenewalAlien(): boolean {
+    if (this.userService === appConstants.USER_SERVICE.ALIENRENEWAL) {
+      return true;
+    }
+    return false;
+  }
+
+  isReplacementAlien(): boolean {
+    if (this.userService === appConstants.USER_SERVICE.ALIENLOST) {
+      return true;
+    }
+    return false;
+  }
+
   isByBirth(): boolean {
     if (this.userServiceType === appConstants.USER_SERVICETYPE.BYBIRTH) {
       return true;
@@ -3697,6 +3752,63 @@ familyRoles = [
     }
     this.uniqueNin[field] = NIN;
     return false; // No duplication
+  }
+
+
+  private filterAndEmit(key: string, requiredPrefix: string): void {
+    const fullDataArray: CodeValueModal[] = this.selectOptionsDataArray[key];
+    const targetSubject = this.filteredSelectOptions[key];
+
+    if (!fullDataArray || fullDataArray.length === 0) {
+      console.warn(`Full data array for ${key} is empty or undefined.`);
+      if (targetSubject) {
+        targetSubject.next([]);
+      }
+      return;
+    }
+
+    const filteredData: CodeValueModal[] = fullDataArray.filter(option =>
+      option.valueCode.startsWith(requiredPrefix)
+    );
+
+    if (targetSubject) {
+      targetSubject.next(filteredData);
+    } else {
+      console.error(`Subject for ${key} not found.`);
+    }
+  }
+
+
+  onFacilityTypeChange(selectedFieldId: string) {
+    const categoryKey = appConstants.onFacilityTypeChange.facilityTypeCategory;
+    const subCategoryKey = appConstants.onFacilityTypeChange.facilityTypeSubCategory;
+
+    const dependentKeys = [categoryKey, subCategoryKey];
+    const filterPrefixMap: { [key: string]: string } = {
+      "FT01": 'ENTRY',
+      "FT02": 'STUDENT',
+      "FT03": 'DP',
+      "FT04": 'IRP',
+      "FT05": 'SP',
+      "FT06": 'COR'
+    };
+
+    dependentKeys.forEach(key => {
+      const control = this.userForm.controls[key];
+      control.reset();
+      control.setValue("");
+    });
+
+    const selectedControl: FormControl = this.userForm.controls[selectedFieldId] as FormControl;
+    const selectedValue = selectedControl.value;
+    const requiredPrefix = filterPrefixMap[selectedValue];
+
+    if (requiredPrefix) {
+      dependentKeys.forEach(key => {
+        this.filterAndEmit(key, requiredPrefix);
+      });
+
+    }
   }
 
 }
