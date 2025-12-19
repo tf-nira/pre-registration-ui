@@ -2244,12 +2244,14 @@ familyRoles = [
                     response[appConstants.RESPONSE][
                       appConstants.DEMOGRAPHIC_RESPONSE_KEYS.locations
                     ].forEach((element) => {
-                      let codeValueModal: CodeValueModal = {
-                        valueCode: element.code,
-                        valueName: element.name,
-                        languageCode: element.langCode,
-                      };
-                      this.selectOptionsDataArray[`${fieldName}`].push(codeValueModal);
+                      if (!isNaN(Number(element.code))) {
+                        let codeValueModal: CodeValueModal = {
+                          valueCode: element.code,
+                          valueName: element.name,
+                          languageCode: element.langCode,
+                        };
+                        this.selectOptionsDataArray[`${fieldName}`].push(codeValueModal);
+                      }
                     });
                   }
                   resolve(true);
