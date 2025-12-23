@@ -178,6 +178,7 @@ export class TimeSelectionComponent
       const nameList: NameList = {
         preRegId: "",
         fullName: "",
+        givenName: "",
         regDto: "",
         status: "",
         registrationCenter: "",
