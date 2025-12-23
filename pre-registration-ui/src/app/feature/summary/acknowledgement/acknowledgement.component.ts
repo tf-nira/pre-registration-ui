@@ -65,6 +65,7 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
   langCode;
   textDir = localStorage.getItem("dir");
   name = "";
+  givenName = "";
   createdTime;
   requestBody: PRNRequestModel;
   applicantContactDetails = [];
@@ -180,6 +181,7 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
             const nameListObj: NameList = {
               preRegId: "",
               fullName: "",
+			  givenName: "",
               regDto: "",
               status: "",
               registrationCenter: "",
@@ -207,6 +209,22 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
                 }
               });
             }
+
+			if(this.userService==appConstants.USER_SERVICE.UPDATE || this.userService==appConstants.USER_SERVICE.FIRSTID|| this.userService==appConstants.USER_SERVICE.REPLACEMENT || this.userService==appConstants.USER_SERVICE.RENEWAL || this.userService==appConstants.USER_SERVICE.ALIENRENEWAL || this.userService==appConstants.USER_SERVICE.ALIENLOST){
+              this.givenName = appConstants.PRE_REGISTRATION_ACK_IDENTITY_NAME_COP;
+            } else {
+              this.givenName = appConstants.PRE_REGISTRATION_ACK_IDENTITY_NAME;
+            }
+
+            if (demographicData[this.givenName]) {
+              let nameValues = demographicData[this.givenName];
+              nameValues.forEach(nameVal => {
+                if (nameVal["language"] == applicationLang) {
+                  nameListObj.givenName = nameVal["value"];
+                }
+              });
+            }
+			  
             if (demographicData["postalCode"]) {
               nameListObj.postalCode = demographicData["postalCode"];
             }
@@ -328,12 +346,11 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
         appLangCode = [];
 
       this.ackDataItem["preRegId"] = prid;
-      this.ackDataItem["Suname"] =
-        this.usersInfoArr[0].fullName;
 
       this.usersInfoArr.forEach(userInfo => {
         if (userInfo.preRegId == prid) {
           this.ackDataItem["qrCodeBlob"] = userInfo.qrCodeBlob;
+			this.ackDataItem["Suname"] = userInfo.givenName;
           const labels = userInfo.labelDetails[0];
           preRegIdLabels.push(labels.label_pre_id);
           appDateLabels.push(labels.label_appointment_date_time);
@@ -666,7 +683,7 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
   generatePaymentRefNum(demographicData: any) {
     const desiredService = demographicData.userService;
     let surname;
-    if (desiredService === appConstants.USER_SERVICE.UPDATE || desiredService === appConstants.USER_SERVICE.REPLACEMENT || desiredService === appConstants.USER_SERVICE.ALIENRENEWAL || desiredService === appConstants.USER_SERVICE.ALIENLOST) {
+    if (desiredService === appConstants.USER_SERVICE.UPDATE || desiredService === appConstants.USER_SERVICE.FIRSTID || desiredService === appConstants.USER_SERVICE.REPLACEMENT || desiredService === appConstants.USER_SERVICE.ALIENRENEWAL || desiredService === appConstants.USER_SERVICE.ALIENLOST) {
 
       surname = demographicData.surnameCop[0].value;
     }
