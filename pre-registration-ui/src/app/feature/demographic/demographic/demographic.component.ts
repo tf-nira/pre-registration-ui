@@ -1799,7 +1799,7 @@ familyRoles = [
 
 
 
-    if(selectedFieldId === appConstants.PHONE_FIELD || selectedFieldId === appConstants.COUNTRY_CODE_FIELD){
+    if(selectedFieldId === appConstants.PHONE_FIELD || selectedFieldId === appConstants.COUNTRY_CODE_FIELD || selectedFieldId === appConstants.EMPLOYER_PHONE_FIELD || selectedFieldId === appConstants.EMPLOYER_COUNTRY_CODE_FIELD){
       this.validatePhoneNumber(selectedFieldId);
     }
     
@@ -1848,36 +1848,41 @@ familyRoles = [
     }
   }
   
-  validatePhoneNumber(fieldId: string) {
-    const phoneValue = this.userForm.controls[appConstants.PHONE_FIELD].value;
-    if(phoneValue){
-      let countryCode = "";
-      const control = this.userForm.get(fieldId);
-      if (fieldId === appConstants.PHONE_FIELD || fieldId === appConstants.COUNTRY_CODE_FIELD) {
-        let countryCodeControl = control.root.get(appConstants.COUNTRY_CODE_FIELD);
-        if (countryCodeControl) {
-          countryCode = countryCodeControl.value;
-        }
-      }
-      let regex: RegExp;
-      if (countryCode === "UGA") {
-        regex = new RegExp(appConstants.UGA_PHONE_REGEX_PATTERN);
-      } else {
-          regex = new RegExp(appConstants.PHONE_REGEX_PATTERN);
-      }
-      if (!regex.test(phoneValue)) {
-        this.userForm.controls[appConstants.PHONE_FIELD].setErrors({
-          customPattern: {
-            value: phoneValue,
-            msg: "Invalid phone number format for Country Code",
-          }
-        });
-      } else {
-        this.userForm.controls[appConstants.PHONE_FIELD].setErrors(null);
-      }
-    }          
+  validatePhoneNumber(fieldId: string): void {
+    let phoneField: string;
+    let countryCodeField: string;
+    if (fieldId === appConstants.PHONE_FIELD || fieldId === appConstants.COUNTRY_CODE_FIELD) {
+      phoneField = appConstants.PHONE_FIELD;
+      countryCodeField = appConstants.COUNTRY_CODE_FIELD;
+
+    } else if (fieldId === appConstants.EMPLOYER_PHONE_FIELD || fieldId === appConstants.EMPLOYER_COUNTRY_CODE_FIELD) {
+      phoneField = appConstants.EMPLOYER_PHONE_FIELD;
+      countryCodeField = appConstants.EMPLOYER_COUNTRY_CODE_FIELD;
+    }
+
+    const phoneControl = this.userForm.get(phoneField);
+    const countryCodeControl = this.userForm.get(countryCodeField);
+    const phoneValue = phoneControl.value;
+    const countryCode = countryCodeControl.value;
+
+    if (!phoneValue) {
+      phoneControl.setErrors(null);
+      return;
+    }
+
+    const regex = countryCode === 'UGA'? new RegExp(appConstants.UGA_PHONE_REGEX_PATTERN): new RegExp(appConstants.PHONE_REGEX_PATTERN);
+    if (!regex.test(phoneValue)) {
+      phoneControl.setErrors({
+        customPattern: {
+          value: phoneValue,
+          msg: 'Invalid phone number format for Country Code',
+        },
+      });
+    } else {
+      phoneControl.setErrors(null);
+    }
   }
-  
+
   processShowHideFields = async (formIdentityData: any, subField?: any) => {
     return new Promise<void>((resolve, reject) => {
       if (subField) {
