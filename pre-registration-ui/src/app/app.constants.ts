@@ -342,6 +342,10 @@ export const DATE_OF_BIRTH_FIELD = 'dateOfBirth';
 
 export const PHONE_FIELD = 'phone';
 
+export const EMPLOYER_PHONE_FIELD = 'employerPhone';
+
+export const EMPLOYER_COUNTRY_CODE_FIELD = 'employerCountryCode';
+
 export const PHONE_REGEX_PATTERN = '^\\d{9,11}$';
 
 export const UGA_PHONE_REGEX_PATTERN = '^([0]{1})([0-9]{9})$';
