@@ -210,6 +210,10 @@ export const BOOKING_DETAIL = {
 
 export const PRE_REGISTRATION_IDENTITY_NAME_COP = "surnameCop";
 
+export const PRE_REGISTRATION_ACK_IDENTITY_NAME = "givenName";
+
+export const PRE_REGISTRATION_ACK_IDENTITY_NAME_COP = "givenNameCop";
+
 export const userService = "userService";
 
 export const userServiceType = "userServiceType";
