@@ -3795,11 +3795,15 @@ familyRoles = [
       "FT06": 'COR'
     };
 
-    dependentKeys.forEach(key => {
+    if(this.dataModification != true){
+      dependentKeys.forEach(key => {
       const control = this.userForm.controls[key];
       control.reset();
       control.setValue("");
-    });
+     });
+    } else {
+      this.dataModification = false;
+    }
 
     const selectedControl: FormControl = this.userForm.controls[selectedFieldId] as FormControl;
     const selectedValue = selectedControl.value;
