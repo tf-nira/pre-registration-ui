@@ -919,7 +919,8 @@ familyRoles = [
    */
   async getIdentityJsonFormat() {
     return new Promise((resolve, reject) => {
-      this.dataStorageService.getIdentityJson().subscribe(
+      const selectedUserType = localStorage.getItem("selectedUserType");
+      this.dataStorageService.getIdentityJson(selectedUserType).subscribe(
         async (response) => {
           let identityJsonSpec =
             response[appConstants.RESPONSE]["jsonSpec"]["identity"];
