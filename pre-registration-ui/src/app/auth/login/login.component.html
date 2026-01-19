@@ -81,7 +81,9 @@
         <div [dir]="dir" *ngIf="showOTP">
           <mat-form-field appearance="standard">
             <mat-select disableOptionCentering panelClass="select-option" [(ngModel)]="selectedUserType"
-              placeholder="{{ 'login.label_user_type' | translate }}" style="font-weight: 600">
+              placeholder="{{ 'login.label_user_type' | translate }}" 
+              aria-label="{{ 'login.label_user_type' | translate }}"
+              style="font-weight: 600">
               <mat-option value="Citizen">{{ 'login.user_type_citizen' | translate }}</mat-option>
               <mat-option value="Alien">{{ 'login.user_type_alien' | translate }}</mat-option>
             </mat-select>

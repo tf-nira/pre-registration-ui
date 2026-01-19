@@ -655,7 +655,7 @@ export class DataStorageService {
     //const url = this.BASE_URL + this.PRE_REG_URL+ 'applications/config';
     let url = this.BASE_URL + this.PRE_REG_URL + `uispec/latest`;
     if (userType) {
-      url = url + `?userType=${userType}`;
+      url = url + `?userType=${encodeURIComponent(userType)}`;
     }
     return this.httpClient.get(url);
     // return this.httpClient.get("../../../assets/identity-spec.json");
