@@ -374,6 +374,12 @@ export const PARISH_FIRSTID = 'applicantPlaceOfOriginParish1';
 
 export const POLLING_STATION_NAME_ORIGIN = 'pollingStationNameOrigin';
 
+export const ALIEN = "ALIEN";
+
+export const CITIZEN = "CITIZEN";
+
+export const SELECTED_SERVICE_TYPE = "SELECTED_SERVICE_TYPE";
+
 export const SERVICE_TYPES = {
   NEW: 'New Registration',
   RENEWAL: 'Renewal of Card',

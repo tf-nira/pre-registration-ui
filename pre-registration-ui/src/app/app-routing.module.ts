@@ -27,6 +27,11 @@ const appRoutes: Routes = [
     children: [
       { path: "", pathMatch: "full", redirectTo: "/" },
       {
+        path: "demographic-alien/new",
+        loadChildren:
+          "./feature/demographic-alien/demographic-alien.module#DemographicAlienModule",
+      },
+      {
         path: "demographic/new",
         loadChildren:
           "./feature/demographic/demographic.module#DemographicModule",
