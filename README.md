@@ -7,6 +7,7 @@ This repository contains UI code for Pre-Registration portal. Refer [here](https
 
 ## Documentation
 
+- **[UI Schema Quick Reference](UI_SCHEMA_QUICK_REFERENCE.md)** - Quick reference guide for developers
 - **[UI Schema Loading Documentation](UI_SCHEMA_LOADING_DOCUMENTATION.md)** - Comprehensive guide on how the UI Schema is loaded and processed
 - **[UI Schema Flow Diagram](UI_SCHEMA_FLOW_DIAGRAM.md)** - Visual flow diagram of the UI Schema loading sequence
 
