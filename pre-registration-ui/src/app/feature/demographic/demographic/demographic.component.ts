@@ -915,19 +915,45 @@ familyRoles = [
 
 
   /**
-   * @description This method will get the Identity Schema Json
+   * @description This method loads and processes the Identity Schema JSON (UI Schema)
+   * from the backend API. The UI Schema defines all form fields, their properties,
+   * validation rules, and rendering configuration.
+   * 
+   * Processing steps:
+   * 1. Fetch UI Schema from API via DataStorageService.getIdentityJson()
+   * 2. Extract identity field definitions and location hierarchy
+   * 3. Store identity schema version
+   * 4. Filter and categorize fields:
+   *    - Fields with transliteration support
+   *    - Input-required fields (excluding file uploads)
+   *    - Dynamic fields (dropdowns/buttons requiring API data)
+   * 5. Set UI alignment groups for responsive layout
+   * 6. Initialize location hierarchies
+   * 7. Fetch dynamic field values (gender, residence status, etc.)
+   * 
+   * The loaded schema is used throughout the component to:
+   * - Dynamically generate form controls
+   * - Apply validation rules
+   * - Render multi-language labels
+   * - Show/hide fields based on conditions
+   * - Organize field layout and grouping
+   * 
+   * @returns Promise that resolves to true when schema is loaded and processed
+   * @memberof DemographicComponent
    */
   async getIdentityJsonFormat() {
     return new Promise((resolve, reject) => {
       this.dataStorageService.getIdentityJson().subscribe(
         async (response) => {
+          // Extract identity fields from the API response
           let identityJsonSpec =
             response[appConstants.RESPONSE]["jsonSpec"]["identity"];
           this.identityData = identityJsonSpec["identity"];
 
-          //LOCAL
+          //LOCAL DEVELOPMENT: Uncomment to use local JSON instead of API
           //this.identityData = [];    
 
+          // Extract and process location hierarchy configuration
           let locationHeirarchiesFromJson = [
             ...identityJsonSpec["locationHierarchy"], 
             ...identityJsonSpec["locationHierarchy"], 
@@ -935,10 +961,11 @@ familyRoles = [
           this.identitySchemaVersion =
             response[appConstants.RESPONSE]["idSchemaVersion"];
 
-            //LOCAL
+            //LOCAL DEVELOPMENT: Load field definitions from local file
             //const fieldDefinitions = await this.loadFieldDefinitions();
             //this.identityData.push(...fieldDefinitions);
 
+          // Normalize location hierarchy structure
           if (Array.isArray(locationHeirarchiesFromJson[0])) {
             this.locationHeirarchies = locationHeirarchiesFromJson;
           } else {
@@ -951,30 +978,41 @@ familyRoles = [
             JSON.stringify(this.locationHeirarchies[0])
           );
 
+          // Filter and categorize fields based on their properties
           this.identityData.forEach((obj) => {
             if (
               obj.inputRequired === true &&
               obj.controlType !== null &&
               !(obj.controlType === "fileupload")
             ) {
+              // Track fields that support transliteration
               if (obj.transliteration && obj.transliteration === true) {
                 this.uiFieldsWithTransliteration.push(obj);
               }
+              // Add to main UI fields list (file uploads handled separately)
               this.uiFields.push(obj);
             }
           });
-          //set the alignmentGroups for UI rendering, by default, 3 containers with multilang controls will appear in a row
-          //you can update this by combining controls using "alignmentGroup", "containerStyle" and "headerStyle" in UI specs.
+          
+          // Set the alignmentGroups for UI rendering
+          // By default, 3 containers with multilang controls will appear in a row
+          // This can be customized using "alignmentGroup", "containerStyle" and "headerStyle" in UI specs
           this.setAlignmentGroups();
           this.setCopAlignmentGroups();
+          
+          // Identify dynamic fields that need to fetch values from API
           this.dynamicFields = this.uiFields.filter(
             (fields) =>
               (fields.controlType === "dropdown" ||
                 fields.controlType === "button") &&
               fields.fieldType === "dynamic"
           );
+          
+          // Initialize dropdown arrays and location fields
           this.setDropDownArrays();
           this.setLocations();
+          
+          // Fetch values for dynamic fields (gender, residence status, etc.)
           await this.getDynamicFieldValues(null);
           resolve(true);
         },
