@@ -78,6 +78,16 @@
           </mat-form-field>
         </div>
 
+        <div [dir]="dir" *ngIf="showOTP">
+          <mat-form-field appearance="standard">
+            <mat-select disableOptionCentering panelClass="select-option" [(ngModel)]="selectedUserType"
+              placeholder="{{ 'login.label_user_type' | translate }}" style="font-weight: 600">
+              <mat-option value="Citizen">{{ 'login.user_type_citizen' | translate }}</mat-option>
+              <mat-option value="Alien">{{ 'login.user_type_alien' | translate }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
         <!-- class="pinkBg whiteText boldText" -->
         <div *ngIf="showSendOTP">
           <button mat-raised-button class="btn_axn-pri" [disabled]="
