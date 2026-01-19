@@ -651,10 +651,30 @@ export class DataStorageService {
     return this.httpClient.post(url, captcha);
   }
 
+  /**
+   * @description This method fetches the UI Schema (Identity JSON) from the backend API.
+   * The UI Schema defines the structure of all form fields including:
+   * - Field definitions (id, type, labels)
+   * - Validation rules and patterns
+   * - Control types (textbox, dropdown, fileupload, etc.)
+   * - Multi-language support
+   * - Conditional visibility and requirements
+   * - Location hierarchy configuration
+   * 
+   * The schema is used by multiple components (demographic, file-upload, preview, etc.)
+   * to dynamically render forms and validate user input.
+   * 
+   * API Endpoint: {BASE_URL}{PRE_REG_URL}uispec/latest
+   * Example: https://api-internal.niradev.idencode.link/preregistration/v1/uispec/latest
+   * 
+   * @returns an `Observable` of the UI Schema response containing jsonSpec with identity fields
+   * @memberof DataStorageService
+   */
   getIdentityJson() {
     //const url = this.BASE_URL + this.PRE_REG_URL+ 'applications/config';
     let url = this.BASE_URL + this.PRE_REG_URL + `uispec/latest`;
         return this.httpClient.get(url);
+    // For local development, you can use static JSON file:
     // return this.httpClient.get("../../../assets/identity-spec.json");
   }
 
