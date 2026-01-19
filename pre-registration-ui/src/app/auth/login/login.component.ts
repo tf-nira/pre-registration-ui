@@ -64,6 +64,7 @@ export class LoginComponent implements OnInit {
   languageCodeValue: any = [];
   captchaToken = null;
   resetCaptcha: boolean;
+  selectedUserType = "Citizen";
   BASE_URL = this.appConfigService.getConfig()["BASE_URL"];
   PRE_REG_URL = this.appConfigService.getConfig()["PRE_REG_URL"];
   challengeUrl=this.BASE_URL + this.PRE_REG_URL + appConstants.APPEND_URL.captcha_controller + 
@@ -518,6 +519,7 @@ export class LoginComponent implements OnInit {
             if (!response[appConstants.NESTED_ERROR]) {
               clearInterval(this.timer);
               localStorage.setItem("loggedIn", "true");
+              localStorage.setItem("selectedUserType", this.selectedUserType);
               this.authService.setToken();
               this.regService.setLoginId(this.inputContactDetails);
               localStorage.setItem("loginId", this.inputContactDetails);

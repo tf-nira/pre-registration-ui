@@ -651,10 +651,13 @@ export class DataStorageService {
     return this.httpClient.post(url, captcha);
   }
 
-  getIdentityJson() {
+  getIdentityJson(userType?: string) {
     //const url = this.BASE_URL + this.PRE_REG_URL+ 'applications/config';
     let url = this.BASE_URL + this.PRE_REG_URL + `uispec/latest`;
-        return this.httpClient.get(url);
+    if (userType) {
+      url = url + `?userType=${encodeURIComponent(userType)}`;
+    }
+    return this.httpClient.get(url);
     // return this.httpClient.get("../../../assets/identity-spec.json");
   }
 

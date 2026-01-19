@@ -154,7 +154,8 @@ export class CenterSelectionComponent
    */
  async getIdentityJsonFormat() {
   return new Promise((resolve, reject) => {
-    this.dataService.getIdentityJson().subscribe(
+    const selectedUserType = localStorage.getItem("selectedUserType");
+    this.dataService.getIdentityJson(selectedUserType).subscribe(
       async (response) => {
         let identityJsonSpec =
           response[appConstants.RESPONSE]["jsonSpec"]["identity"];
