@@ -5,6 +5,11 @@
 
 This repository contains UI code for Pre-Registration portal. Refer [here](https://docs.mosip.io/1.2.0/modules/pre-registration/pre-registration-user-guide) for details about the functions that a resident can perform via this portal.
 
+## Documentation
+
+- **[UI Schema Loading Documentation](UI_SCHEMA_LOADING_DOCUMENTATION.md)** - Comprehensive guide on how the UI Schema is loaded and processed
+- **[UI Schema Flow Diagram](UI_SCHEMA_FLOW_DIAGRAM.md)** - Visual flow diagram of the UI Schema loading sequence
+
 ## Build and Deployment Guide 
 
 The code is written in Angular JS. 
