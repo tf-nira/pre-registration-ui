@@ -246,6 +246,31 @@
     </button>
   </mat-dialog-actions>
 </div>
+<div *ngIf="input.case === 'CHOOSE_SERVICE'" [dir]="input.dir">
+  <h2 mat-dialog-title>{{ input.title }}</h2>
+  
+  <mat-dialog-content>
+    <p>{{ input.message }}</p>
+    <mat-radio-group [(ngModel)]="selectedService" class="service-radio-group">
+      <mat-radio-button *ngFor="let option of input.options" [value]="option.code" style="display: block; margin: 10px 0;">
+        {{ option.label }}
+      </mat-radio-button>
+    </mat-radio-group>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button (click)="onNoClick(undefined)" class="btn-cancel">
+      {{ input.cancelButtonText }}
+    </button>
+    <span class="spacer"></span>
+    <button mat-button 
+            [mat-dialog-close]="selectedService" 
+            [disabled]="!selectedService"
+            [ngClass]="!selectedService ? 'btn-submit-disabled' : 'btn-submit'">
+      {{ input.submitButtonText }}
+    </button>
+  </mat-dialog-actions>
+</div>
 <div *ngIf="input.case === 'LANGUAGE_CAPTURE'" [dir]="input.dir">
   <h2 mat-dialog-title>{{ input.title }}</h2>
   <mat-dialog-content>

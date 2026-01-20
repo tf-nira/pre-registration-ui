@@ -83,8 +83,8 @@ export const DATE_FORMATS = {
 };
 @Component({
   selector: "app-demographic",
-  templateUrl: "./demographic.component.html",
-  styleUrls: ["./demographic.component.css"],
+  templateUrl: "./demographic-alien.component.html",
+  styleUrls: ["./demographic-alien.component.css"],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: "en-GB" },
     {
@@ -94,7 +94,7 @@ export const DATE_FORMATS = {
     { provide: MAT_DATE_FORMATS, useValue: DATE_FORMATS},
   ],
 })
-export class DemographicComponent extends FormDeactivateGuardService
+export class DemographicAlienComponent extends FormDeactivateGuardService
   implements OnInit, OnDestroy {
   userPrefLanguage = localStorage.getItem("userPrefLanguage");
   userPrefLanguageDir = "";
@@ -919,7 +919,7 @@ familyRoles = [
    */
   async getIdentityJsonFormat() {
     return new Promise((resolve, reject) => {
-      this.dataStorageService.getIdentityJsonCitizen().subscribe(
+      this.dataStorageService.getIdentityJsonAlien().subscribe(
         async (response) => {
           let identityJsonSpec =
             response[appConstants.RESPONSE]["jsonSpec"]["identity"];
@@ -2350,7 +2350,7 @@ familyRoles = [
                     }
                     if (field.id == appConstants.userService && Array.isArray(res.fieldVal)) {
                       res.fieldVal = res.fieldVal.filter(item =>
-                        typeof item.code === 'string' && !item.code.startsWith('ALIEN')
+                        typeof item.code === 'string' && item.code.startsWith('ALIEN')
                       );
                     }
                     this.populateSelectOptsDataArr(

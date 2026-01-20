@@ -413,17 +413,30 @@ export class DashBoardComponent implements OnInit, OnDestroy {
    * @memberof DashBoardComponent
    */
   async onNewApplication() {
+    debugger;
      //first check if data capture languages are in session or not
      const dataCaptureLangsFromSession = localStorage.getItem(appConstants.DATA_CAPTURE_LANGUAGES);
      console.log(`dataCaptureLangsFromSession: ${dataCaptureLangsFromSession}`);
      if (dataCaptureLangsFromSession) {
       localStorage.setItem(appConstants.MODIFY_USER, "false");
       localStorage.setItem(appConstants.NEW_APPLICANT, "true");
+      await this.openChooseServicePopup();
       if (this.loginId) {
-        this.router.navigateByUrl(
+        let service = localStorage.getItem(appConstants.SELECTED_SERVICE_TYPE);
+        localStorage.removeItem(appConstants.SELECTED_SERVICE_TYPE);
+        console.log(`service selected: ${service}`);
+        if(service==appConstants.CITIZEN){
+          this.router.navigateByUrl(
           `${this.userPreferredLangCode}/pre-registration/demographic/new`
         );
         this.isNewApplication = true;
+        }
+        else if(service==appConstants.ALIEN){
+          this.router.navigateByUrl(
+          `${this.userPreferredLangCode}/pre-registration/demographic-alien/new`
+        );
+        this.isNewApplication = true;
+        }
       } else {
         this.router.navigate(["/"]);
       }
@@ -462,7 +475,30 @@ export class DashBoardComponent implements OnInit, OnDestroy {
     }
   }
 
+  openChooseServicePopup() {
+    return new Promise((resolve) => {
+      const popupAttributes = Utils.getChooseServicePopupAttributes(
+        this.textDir,
+        this.dataCaptureLabels
+      );
+
+      const dialogRef = this.openDialog(popupAttributes, "450px", "300px");
+
+      dialogRef.afterClosed().subscribe((res) => {
+        console.log(res);
+        if (res === undefined) {
+          resolve(null);
+        } else {
+          localStorage.setItem(appConstants.SELECTED_SERVICE_TYPE, res);
+          resolve(res);
+        }
+      });
+    });
+  }
+
+
   openLangSelectionPopup() {
+    debugger;
     return new Promise((resolve) => {
       const popupAttributes = Utils.getLangSelectionPopupAttributes(this.textDir, 
         this.dataCaptureLabels, this.mandatoryLanguages, this.minLanguage, this.maxLanguage, this.userPreferredLangCode);

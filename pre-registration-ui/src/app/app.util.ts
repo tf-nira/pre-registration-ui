@@ -212,6 +212,26 @@ export default class Utils {
     return body;
   }
 
+  static getChooseServicePopupAttributes(
+    textDir: string,
+    dataCaptureLabels: any
+  ) {
+    return {
+      case: "CHOOSE_SERVICE",
+      title: dataCaptureLabels.choose_service_title || "Choose Service",
+      dir: textDir,
+      options: [
+        { code: "CITIZEN", label: "Citizen" },
+        { code: "ALIEN", label: "Alien" }
+      ],
+      message: dataCaptureLabels.choose_service_message ||
+        "Please select the service type",
+      cancelButtonText: dataCaptureLabels.cancel_btn,
+      submitButtonText: dataCaptureLabels.submit_btn
+    };
+  }
+
+
   static getApplicationLangs = (userRequest) => {
     const demographicData = userRequest.demographicDetails.identity;
     let applicationLanguages = [];
