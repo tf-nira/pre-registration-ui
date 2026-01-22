@@ -109,7 +109,9 @@ export class DashBoardComponent implements OnInit, OnDestroy {
    */
   async ngOnInit() {
     this.loginId = localStorage.getItem("loginId");
+    localStorage.removeItem(appConstants.SELECTED_SERVICE_TYPE);
     this.mandatoryLanguages = Utils.getMandatoryLangs(this.configService);
+    localStorage.setItem(appConstants.DATA_CAPTURE_LANGUAGES, JSON.stringify([this.mandatoryLanguages[0]]));
     this.optionalLanguages = Utils.getOptionalLangs(this.configService);
     this.minLanguage = Utils.getMinLangs(this.configService);
     this.maxLanguage = Utils.getMaxLangs(this.configService);
@@ -423,7 +425,6 @@ export class DashBoardComponent implements OnInit, OnDestroy {
       await this.openChooseServicePopup();
       if (this.loginId) {
         let service = localStorage.getItem(appConstants.SELECTED_SERVICE_TYPE);
-        localStorage.removeItem(appConstants.SELECTED_SERVICE_TYPE);
         console.log(`service selected: ${service}`);
         if(service==appConstants.CITIZEN){
           this.router.navigateByUrl(

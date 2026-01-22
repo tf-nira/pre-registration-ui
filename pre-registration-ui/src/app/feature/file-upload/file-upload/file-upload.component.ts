@@ -1579,11 +1579,31 @@ export class FileUploadComponent implements OnInit, OnDestroy {
    *
    * @memberof FileUploadComponent
    */
+  //  let service = localStorage.getItem(appConstants.SELECTED_SERVICE_TYPE);
+  //         console.log(`service selected: ${service}`);
+  //         if(service==appConstants.CITIZEN){
+  //           this.router.navigateByUrl(
+  //           `${this.userPreferredLangCode}/pre-registration/demographic/new`
+  //         );
+  //         this.isNewApplication = true;
+  //         }
+  //         else if(service==appConstants.ALIEN){
+  //           this.router.navigateByUrl(
+  //           `${this.userPreferredLangCode}/pre-registration/demographic-alien/new`
+  //         );
   onBack() {
     setMyFlag(true);
     localStorage.setItem(appConstants.MODIFY_USER, "true");
-    let url = Utils.getURL(this.router.url, "demographic");
-    this.router.navigateByUrl(url + `/${this.preRegId}`);
+    let service = localStorage.getItem(appConstants.SELECTED_SERVICE_TYPE);
+    if (service == appConstants.CITIZEN) {
+      let url = Utils.getURL(this.router.url, "demographic");
+      this.router.navigateByUrl(url + `/${this.preRegId}`);
+    }
+    else if (service == appConstants.ALIEN) {
+      let url = Utils.getURL(this.router.url, "demographic-alien");
+      this.router.navigateByUrl(url + `/${this.preRegId}`);
+    }
+   
   }
 
   /**

@@ -32,6 +32,11 @@ const appRoutes: Routes = [
           "./feature/demographic-alien/demographic-alien.module#DemographicAlienModule",
       },
       {
+        path: "demographic-alien/:appId",
+        loadChildren:
+          "./feature/demographic-alien/demographic-alien.module#DemographicAlienModule",
+      },
+      {
         path: "demographic/new",
         loadChildren:
           "./feature/demographic/demographic.module#DemographicModule",

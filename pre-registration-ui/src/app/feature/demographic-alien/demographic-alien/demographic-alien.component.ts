@@ -147,56 +147,32 @@ isStepVisible(step: number): boolean {
     case 0:
       return true; // Always visible
     case 1:
-      return this.isCopService() || this.isGetFirstId() || this.isReplacement() || this.isRenewalService() || this.isRenewalAlien() || this.isReplacementAlien();
+      return this.isNewAlien() || this.isRenewalAlien() || this.isReplacementAlien();
     case 2:
-      return this.isCopService();
+      return this.isNewAlien();
     case 3:
-      return this.isCopService();
-    case 4:
       return !this.isCopService() && !this.isGetFirstId() && !this.isReplacement() && !this.isRenewalService() && !this.isRenewalAlien() && !this.isReplacementAlien();
+    case 4:
+      return this.isCopService() || this.isGetFirstId() || this.isReplacement() || this.isRenewalService() || this.isRenewalAlien() || this.isReplacementAlien();
     case 5:
-      return !this.isCopService() && !this.isGetFirstId() && !this.isReplacement();
+      return this.isNewAlien() || this.isRenewalAlien() || this.isReplacementAlien();
     case 6:
-      return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement() && !this.isNewAlien() && !this.isRenewalAlien() && !this.isReplacementAlien();
+      return !this.isCopService() && !this.isGetFirstId() && !this.isReplacement();
     case 7:
       return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement() && !this.isRenewalAlien() && !this.isReplacementAlien();
     case 8:
       return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement() && !this.isRenewalAlien() && !this.isReplacementAlien();
     case 9:
-      return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement() && !this.isNewAlien() && !this.isRenewalAlien() && !this.isReplacementAlien();
+      return this.isNewAlien() || this.isRenewalAlien() || this.isReplacementAlien();
     case 10:
       return this.isNewAlien() || this.isRenewalAlien() || this.isReplacementAlien();
     case 11:
-      return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement() ;
+      return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement();
     case 12:
       return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement() && !this.isRenewalAlien() && !this.isReplacementAlien();
     case 13:
-        return !this.isRenewalService()  && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement() && !this.isNewAlien() && !this.isRenewalAlien() && !this.isReplacementAlien();
-    case 14:
-      return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement() && !this.isNewAlien() && !this.isRenewalAlien() && !this.isReplacementAlien();
-    case 15:
-      return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement() && !this.isNewAlien() && !this.isRenewalAlien() && !this.isReplacementAlien();
-    case 16:
       return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement() && !this.isRenewalAlien() && !this.isReplacementAlien();
-    case 17:
-      return this.isCopService();
-    case 18:
-      return this.isReplacement();
-    case 19:
-      return !this.isRenewalService() && !this.isGetFirstId() && !this.isReplacement() && !this.isNewAlien() && !this.isRenewalAlien() && !this.isReplacementAlien();
-    case 20:
-      return this.isCopService();
-    case 21:
-      return this.isCopService() && this.isRenewalService();
-    case 22:
-      return this.isGetFirstId();
-    case 23:
-      return this.isNewAlien() || this.isRenewalAlien() || this.isReplacementAlien();
-    case 24:
-      return this.isNewAlien() || this.isRenewalAlien() || this.isReplacementAlien();
-    case 25:
-      return this.isNewAlien();
-    case 26:
+    case 14:
       return true;
     default:
       return false;
@@ -209,6 +185,7 @@ isStepVisible(step: number): boolean {
   gender: string = "";
   userServiceType: string = "";
   guardianRelationToApplicant: string = "";
+  facilityType: string = "";
   marriageDates = [
     appConstants.SPOUSE_DATE_OF_MARRIAGE.ONE,
     appConstants.SPOUSE_DATE_OF_MARRIAGE.TWO,
@@ -926,7 +903,7 @@ familyRoles = [
           this.identityData = identityJsonSpec["identity"];
 
           //LOCAL
-          //this.identityData = [];    
+          this.identityData = [];    
 
           let locationHeirarchiesFromJson = [
             ...identityJsonSpec["locationHierarchy"], 
@@ -936,8 +913,8 @@ familyRoles = [
             response[appConstants.RESPONSE]["idSchemaVersion"];
 
             //LOCAL
-            //const fieldDefinitions = await this.loadFieldDefinitions();
-            //this.identityData.push(...fieldDefinitions);
+            const fieldDefinitions = await this.loadFieldDefinitions();
+            this.identityData.push(...fieldDefinitions);
 
           if (Array.isArray(locationHeirarchiesFromJson[0])) {
             this.locationHeirarchies = locationHeirarchiesFromJson;
@@ -987,7 +964,7 @@ familyRoles = [
 
   
   async loadFieldDefinitions() {
-    const response = await fetch('assets/data/niraUiSpec.json');
+    const response = await fetch('assets/data/alienUiSpec.json');
     return response.json();
   }
 
@@ -1413,18 +1390,6 @@ familyRoles = [
    * and fields are shown/hidden in the UI form.
    */
   async onChangeHandler(selectedFieldId: string) {
-    // if (this.initializationFlag == false && selectedFieldId == appConstants.userServiceType && this.initialdataModification!=true) {
-    //   for (const control of this.uiFields) {
-    //     if (!(control.id == appConstants.userService || control.id == appConstants.userServiceType)) {
-    //       const resetHiddenFieldPromise = () => new Promise<void>(async (resolve) => {
-    //       await this.resetHiddenField(control);
-    //         resolve();
-    //       });
-    //       await resetHiddenFieldPromise();
-    //       await this.onChangeHandler(control.id);
-    //     }
-    //   }
-    // }
     if (this.initializationFlag == false && selectedFieldId == appConstants.userServiceType && this.initialdataModification != true) {
       for (const control of this.uiFields) {
         if (control.id != appConstants.userService && control.id != appConstants.userServiceType) {
@@ -1448,6 +1413,7 @@ familyRoles = [
         this.userForm.controls[selectedFieldId].disable();
       }
     }
+    
 
     if(selectedFieldId == appConstants.Declarant){
       if(this.dataModification!=true){
@@ -1456,23 +1422,7 @@ familyRoles = [
       }
     }
 
-    // if (this.initializationFlag == false && selectedFieldId == appConstants.userService && this.initialdataModification!=true) {
-    //   for (const control of this.uiFields) {
-    //     if (!(control.id == appConstants.userService)) {
-    //       const resetHiddenFieldPromise = () => new Promise<void>(async (resolve) => {
-    //       await this.resetHiddenField(control);
-    //         resolve();
-    //       });
-    //       await resetHiddenFieldPromise();
-    //       await this.onChangeHandler(control.id);
-    //     }
-    //   }
-    // }
- 
     const identityFormData = this.createIdentityJSONDynamic(true, selectedFieldId);
-    //if(selectedFieldId==appConstants.userServiceTypeCop){
-      //this.userServiceTypeCop=this.userForm.controls[selectedFieldId].value;
-    //}
     if(selectedFieldId==appConstants.personalInformationCat){
       this.personalInformationCat_Cop=this.userForm.controls[selectedFieldId].value;
     }
@@ -1499,6 +1449,10 @@ familyRoles = [
     }
     if(selectedFieldId==appConstants.guardianRelationToApplicant){
       this.guardianRelationToApplicant=this.userForm.controls[selectedFieldId].value;
+    }
+    if(selectedFieldId==appConstants.facilityType){
+      this.facilityType=this.userForm.controls[selectedFieldId].value;
+      console.log("Facility Type set to: " + this.facilityType);
     }
     // Consent Declaration
     if (selectedFieldId && selectedFieldId.trim() !== "") {
@@ -2979,6 +2933,10 @@ familyRoles = [
       if(this.userService==appConstants.USER_SERVICE.UPDATE){
         this.nameFieldsCopValidation();
       }
+      debugger;
+      if(this.userService==appConstants.USER_SERVICE.ALIENNEW){
+        this.phoneValidation();
+      }
       console.log(this.filledFields);
       const filledFields = Object.keys(this.userForm.controls).filter(key => {
         return this.userForm.controls[key].value !== null && this.userForm.controls[key].value !== '';
@@ -3503,9 +3461,13 @@ familyRoles = [
     if(error==null && this.userService==appConstants.USER_SERVICE.UPDATE){
       error=this.nameFieldsCopValidationError();
     }
+    else if(error==null && this.userService==appConstants.USER_SERVICE.ALIENNEW){
+      error=this.phoneValidationError();
+    }
     if (error) {
       let text;
       switch (error.error_name) {
+        case 'phoneRequired': text = `Any one of the (Local or non-Local) countrycode and phone pair is required!`; break;
         case 'nameCopRequired': text = `Any one of the field in Adding a Name/Adding name from Old Docs/other of Name corrections is required!`; break;
         case 'required': text = `${error.control_name}(${error.section_name}) is required!`; break;
         case 'pattern': text = `${error.control_name} has wrong pattern!`; break;
@@ -3644,6 +3606,28 @@ familyRoles = [
     }
     return false;
   }
+
+  phoneValidation() {
+    let phoneValid = false;
+    if (this.userForm.controls[appConstants.phone.localCountryCode].value != null && this.userForm.controls[appConstants.phone.localCountryCode].value != "") {
+      if (this.userForm.controls[appConstants.phone.localPhone].value != null && this.userForm.controls[appConstants.phone.localPhone].value != "") {
+        phoneValid = true;
+      }
+    }
+    if (!phoneValid) {
+      if (this.userForm.controls[appConstants.phone.nonLocalCountryCode].value != null && this.userForm.controls[appConstants.phone.nonLocalCountryCode].value != "") {
+        if (this.userForm.controls[appConstants.phone.nonLocalPhone].value != null && this.userForm.controls[appConstants.phone.nonLocalPhone].value != "") {
+          phoneValid = true;
+        }
+      }
+    }
+
+    if (!phoneValid) {
+      this.userForm.setErrors({ invalidForm: true });
+    }
+
+  }
+
   nameFieldsCopValidation() {
    // const nameFieldsUserServiceCopArr = this.notificationOfChangeServiceType;
     const nameFields = this.notificationOfChangeNameFields;
@@ -3675,11 +3659,19 @@ familyRoles = [
   }
 
   nameFieldsCopValidationError(): { control_name: string; error_name: string; error_value: boolean } | null {
-        return {
-          control_name: "nameFields",
-          error_name: "nameCopRequired",
-          error_value: true
-        };
+    return {
+      control_name: "nameFields",
+      error_name: "nameCopRequired",
+      error_value: true
+    };
+  }
+
+  phoneValidationError(): { control_name: string; error_name: string; error_value: boolean } | null {
+    return {
+      control_name: "phoneFields",
+      error_name: "phoneRequired",
+      error_value: true
+    };
   }
 
   toggleUserButton(fieldId: string): void {
@@ -3788,6 +3780,25 @@ familyRoles = [
     } else {
       console.error(`Subject for ${key} not found.`);
     }
+  }
+
+  isStudentPass(): boolean {
+    if (this.facilityType === appConstants.FACILITY_TYPES.STUDENT) {
+      return true;
+    }
+    return false;
+  }
+
+  isDependentPass(): boolean {
+    if (this.facilityType === appConstants.FACILITY_TYPES.DEPENDENT) {
+      return true;
+    }
+    return false;
+  }
+  isOtherPass(): boolean {
+    return !!this.facilityType &&
+      this.facilityType !== appConstants.FACILITY_TYPES.STUDENT &&
+      this.facilityType !== appConstants.FACILITY_TYPES.DEPENDENT;
   }
 
 

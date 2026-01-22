@@ -550,10 +550,19 @@ export class PreviewComponent implements OnInit {
       .subscribe((res) => {
         if (res === true) {
           setMyFlag(true);
-          const url = Utils.getURL(this.router.url, "demographic", 3);
-          localStorage.setItem(appConstants.MODIFY_USER_FROM_PREVIEW, "true");
-          localStorage.setItem(appConstants.MODIFY_USER, "true");
-          this.router.navigateByUrl(url + `/${this.preRegId}`);
+          let service = localStorage.getItem(appConstants.SELECTED_SERVICE_TYPE);
+          if (service == appConstants.CITIZEN) {
+            const url = Utils.getURL(this.router.url, "demographic", 3);
+            localStorage.setItem(appConstants.MODIFY_USER_FROM_PREVIEW, "true");
+            localStorage.setItem(appConstants.MODIFY_USER, "true");
+            this.router.navigateByUrl(url + `/${this.preRegId}`);
+          }
+          else if (service == appConstants.ALIEN) {
+            const url = Utils.getURL(this.router.url, "demographic-alien", 3);
+            localStorage.setItem(appConstants.MODIFY_USER_FROM_PREVIEW, "true");
+            localStorage.setItem(appConstants.MODIFY_USER, "true");
+            this.router.navigateByUrl(url + `/${this.preRegId}`);
+          }
         }
       });
   }
