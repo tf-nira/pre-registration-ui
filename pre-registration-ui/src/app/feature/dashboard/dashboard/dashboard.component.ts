@@ -709,6 +709,7 @@ export class DashBoardComponent implements OnInit, OnDestroy {
     this.disableModifyDataButton = true;
     this.fetchedDetails = true;
     if(service==appConstants.USER_SERVICE.ALIENNEW){
+      localStorage.setItem(appConstants.SELECTED_SERVICE_TYPE, "ALIEN");
       this.router.navigate([
       this.userPreferredLangCode,
       "pre-registration",
@@ -717,6 +718,7 @@ export class DashBoardComponent implements OnInit, OnDestroy {
     ]);
     }
     else{
+      localStorage.setItem(appConstants.SELECTED_SERVICE_TYPE, "CITIZEN");
       this.router.navigate([
       this.userPreferredLangCode,
       "pre-registration",
