@@ -683,7 +683,8 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
   generatePaymentRefNum(demographicData: any) {
     const desiredService = demographicData.userService;
     let surname;
-    if (desiredService === appConstants.USER_SERVICE.UPDATE || appConstants.USER_SERVICE.RENEWAL || desiredService === appConstants.USER_SERVICE.FIRSTID || desiredService === appConstants.USER_SERVICE.REPLACEMENT || desiredService === appConstants.USER_SERVICE.ALIENRENEWAL || desiredService === appConstants.USER_SERVICE.ALIENLOST) {
+    console.log("desiredService", desiredService);
+    if (desiredService === appConstants.USER_SERVICE.UPDATE || desiredService === appConstants.USER_SERVICE.RENEWAL || desiredService === appConstants.USER_SERVICE.FIRSTID || desiredService === appConstants.USER_SERVICE.REPLACEMENT || desiredService === appConstants.USER_SERVICE.ALIENRENEWAL || desiredService === appConstants.USER_SERVICE.ALIENLOST) {
 
       surname = demographicData.surnameCop[0].value;
     }
