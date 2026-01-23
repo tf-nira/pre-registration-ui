@@ -109,7 +109,9 @@ export class DashBoardComponent implements OnInit, OnDestroy {
    */
   async ngOnInit() {
     this.loginId = localStorage.getItem("loginId");
+    localStorage.removeItem(appConstants.SELECTED_SERVICE_TYPE);
     this.mandatoryLanguages = Utils.getMandatoryLangs(this.configService);
+    localStorage.setItem(appConstants.DATA_CAPTURE_LANGUAGES, JSON.stringify([this.mandatoryLanguages[0]]));
     this.optionalLanguages = Utils.getOptionalLangs(this.configService);
     this.minLanguage = Utils.getMinLangs(this.configService);
     this.maxLanguage = Utils.getMaxLangs(this.configService);
@@ -413,7 +415,6 @@ export class DashBoardComponent implements OnInit, OnDestroy {
    * @memberof DashBoardComponent
    */
   async onNewApplication() {
-    debugger;
      //first check if data capture languages are in session or not
      const dataCaptureLangsFromSession = localStorage.getItem(appConstants.DATA_CAPTURE_LANGUAGES);
      console.log(`dataCaptureLangsFromSession: ${dataCaptureLangsFromSession}`);
@@ -423,7 +424,6 @@ export class DashBoardComponent implements OnInit, OnDestroy {
       await this.openChooseServicePopup();
       if (this.loginId) {
         let service = localStorage.getItem(appConstants.SELECTED_SERVICE_TYPE);
-        localStorage.removeItem(appConstants.SELECTED_SERVICE_TYPE);
         console.log(`service selected: ${service}`);
         if(service==appConstants.CITIZEN){
           this.router.navigateByUrl(
@@ -498,7 +498,6 @@ export class DashBoardComponent implements OnInit, OnDestroy {
 
 
   openLangSelectionPopup() {
-    debugger;
     return new Promise((resolve) => {
       const popupAttributes = Utils.getLangSelectionPopupAttributes(this.textDir, 
         this.dataCaptureLabels, this.mandatoryLanguages, this.minLanguage, this.maxLanguage, this.userPreferredLangCode);
@@ -694,7 +693,8 @@ export class DashBoardComponent implements OnInit, OnDestroy {
     const preId = user.applicationID;
     localStorage.setItem(appConstants.MODIFY_USER, "true");
     this.disableModifyDataButton = true;
-    this.onModification(preId);
+    const service = user.userService;
+    this.onModification(preId,service);
   }
 
   /**
@@ -705,15 +705,25 @@ export class DashBoardComponent implements OnInit, OnDestroy {
    * @param {string} preId
    * @memberof DashBoardComponent
    */
-  private onModification(preId: string) {
+  private onModification(preId: string, service: string) {
     this.disableModifyDataButton = true;
     this.fetchedDetails = true;
-    this.router.navigate([
+    if(service==appConstants.USER_SERVICE.ALIENNEW){
+      this.router.navigate([
+      this.userPreferredLangCode,
+      "pre-registration",
+      "demographic-alien",
+      preId,
+    ]);
+    }
+    else{
+      this.router.navigate([
       this.userPreferredLangCode,
       "pre-registration",
       "demographic",
       preId,
     ]);
+    }
   }
 
   /**

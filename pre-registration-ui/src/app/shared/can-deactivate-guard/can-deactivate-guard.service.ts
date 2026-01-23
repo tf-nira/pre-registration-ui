@@ -30,7 +30,6 @@ export class CanDeactivateGuardService
       //  this.dataStorageService
       //   .getI18NLanguageFiles(localStorage.getItem("userPrefLanguage"))
       //   .subscribe((response) => {
-      //     debugger
       //     message = response["dialog"]["navigation_alert"];
       //     ok_text = response["dialog"]["action_ok"];
       //     no_text = response["dialog"]["title_discard"];

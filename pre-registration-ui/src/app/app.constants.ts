@@ -226,6 +226,8 @@ export const declaration = "declarationCheckBox";
 
 export const guardianRelationToApplicant = "guardianRelationToApplicant";
 
+export const facilityType = "facilityType";
+
 export const copIsCardRequired = "isCardRequired";
 export const copAddName = "addingName";
 export const copChangeNameOrder = "changeOrderOfNames";
@@ -391,8 +393,20 @@ export const SERVICE_TYPES = {
   ALIENLOST: 'Replacement of Alien'
 };
 
+export const FACILITY_TYPES = {
+  STUDENT: "FT02",
+  DEPENDENT: "FT03"
+};
+
 export const onFacilityTypeChange = {
   facilityType: 'facilityType',
   facilityTypeCategory: 'facilityTypeCategory',
   facilityTypeSubCategory: 'facilityTypeSubCategory'
+};
+
+export const phone = {
+  localCountryCode: 'localCountryCode',
+  localPhone: 'localPhone',
+  nonLocalCountryCode: 'nonLocalCountryCode',
+  nonLocalPhone: 'nonLocalPhone'
 };
