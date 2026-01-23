@@ -415,7 +415,6 @@ export class DashBoardComponent implements OnInit, OnDestroy {
    * @memberof DashBoardComponent
    */
   async onNewApplication() {
-    debugger;
      //first check if data capture languages are in session or not
      const dataCaptureLangsFromSession = localStorage.getItem(appConstants.DATA_CAPTURE_LANGUAGES);
      console.log(`dataCaptureLangsFromSession: ${dataCaptureLangsFromSession}`);
@@ -499,7 +498,6 @@ export class DashBoardComponent implements OnInit, OnDestroy {
 
 
   openLangSelectionPopup() {
-    debugger;
     return new Promise((resolve) => {
       const popupAttributes = Utils.getLangSelectionPopupAttributes(this.textDir, 
         this.dataCaptureLabels, this.mandatoryLanguages, this.minLanguage, this.maxLanguage, this.userPreferredLangCode);
@@ -695,7 +693,8 @@ export class DashBoardComponent implements OnInit, OnDestroy {
     const preId = user.applicationID;
     localStorage.setItem(appConstants.MODIFY_USER, "true");
     this.disableModifyDataButton = true;
-    this.onModification(preId);
+    const service = user.userService;
+    this.onModification(preId,service);
   }
 
   /**
@@ -706,15 +705,25 @@ export class DashBoardComponent implements OnInit, OnDestroy {
    * @param {string} preId
    * @memberof DashBoardComponent
    */
-  private onModification(preId: string) {
+  private onModification(preId: string, service: string) {
     this.disableModifyDataButton = true;
     this.fetchedDetails = true;
-    this.router.navigate([
+    if(service==appConstants.USER_SERVICE.ALIENNEW){
+      this.router.navigate([
+      this.userPreferredLangCode,
+      "pre-registration",
+      "demographic-alien",
+      preId,
+    ]);
+    }
+    else{
+      this.router.navigate([
       this.userPreferredLangCode,
       "pre-registration",
       "demographic",
       preId,
     ]);
+    }
   }
 
   /**

@@ -163,15 +163,15 @@ isStepVisible(step: number): boolean {
     case 8:
       return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement() && !this.isRenewalAlien() && !this.isReplacementAlien();
     case 9:
-      return this.isNewAlien() || this.isRenewalAlien() || this.isReplacementAlien();
+      return (this.isNewAlien() || this.isRenewalAlien() || this.isReplacementAlien()) && this.isOtherPass();
     case 10:
-      return this.isNewAlien() || this.isRenewalAlien() || this.isReplacementAlien();
+      return (this.isNewAlien() || this.isRenewalAlien() || this.isReplacementAlien()) && this.isStudentPass();
     case 11:
-      return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement();
+      return (!this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement()) && this.isOtherPass();
     case 12:
-      return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement() && !this.isRenewalAlien() && !this.isReplacementAlien();
+      return (!this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement() && !this.isRenewalAlien() && !this.isReplacementAlien()) && this.isOtherPass();
     case 13:
-      return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement() && !this.isRenewalAlien() && !this.isReplacementAlien();
+      return (!this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement() && !this.isRenewalAlien() && !this.isReplacementAlien()) && this.isOtherPass();
     case 14:
       return true;
     default:
@@ -903,7 +903,7 @@ familyRoles = [
           this.identityData = identityJsonSpec["identity"];
 
           //LOCAL
-          this.identityData = [];    
+          //this.identityData = [];    
 
           let locationHeirarchiesFromJson = [
             ...identityJsonSpec["locationHierarchy"], 
@@ -913,8 +913,8 @@ familyRoles = [
             response[appConstants.RESPONSE]["idSchemaVersion"];
 
             //LOCAL
-            const fieldDefinitions = await this.loadFieldDefinitions();
-            this.identityData.push(...fieldDefinitions);
+            // const fieldDefinitions = await this.loadFieldDefinitions();
+            // this.identityData.push(...fieldDefinitions);
 
           if (Array.isArray(locationHeirarchiesFromJson[0])) {
             this.locationHeirarchies = locationHeirarchiesFromJson;
@@ -2933,7 +2933,6 @@ familyRoles = [
       if(this.userService==appConstants.USER_SERVICE.UPDATE){
         this.nameFieldsCopValidation();
       }
-      debugger;
       if(this.userService==appConstants.USER_SERVICE.ALIENNEW){
         this.phoneValidation();
       }

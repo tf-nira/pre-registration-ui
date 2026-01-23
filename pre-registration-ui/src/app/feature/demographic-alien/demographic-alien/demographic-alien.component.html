@@ -3837,7 +3837,7 @@
               </mat-action-row>
             </mat-expansion-panel>
 
-            <mat-expansion-panel *ngIf="!isRenewalService() && !isCopService() && !isGetFirstId() && !isReplacement() "
+            <mat-expansion-panel *ngIf="(!isRenewalService() && !isCopService() && !isGetFirstId() && !isReplacement()) && isOtherPass() "
               [expanded]="expStep === 11" (opened)="setStep(11)" hideToggle>
               <mat-expansion-panel-header>
                 <mat-panel-title>
@@ -4100,7 +4100,7 @@
             </mat-expansion-panel>
 
             <mat-expansion-panel
-              *ngIf="!isRenewalService() && !isCopService() && !isGetFirstId() && !isReplacement() && !isRenewalAlien() && !isReplacementAlien()"
+              *ngIf="(!isRenewalService() && !isCopService() && !isGetFirstId() && !isReplacement() && !isRenewalAlien() && !isReplacementAlien()) && isOtherPass()"
               [expanded]="expStep === 12" (opened)="setStep(12)" hideToggle>
               <mat-expansion-panel-header>
                 <mat-panel-title>
@@ -4384,7 +4384,7 @@
             </mat-expansion-panel>
 
             <mat-expansion-panel
-              *ngIf="!isRenewalService() && !isCopService() && !isGetFirstId() && !isReplacement() && !isRenewalAlien() && !isReplacementAlien()"
+              *ngIf="(!isRenewalService() && !isCopService() && !isGetFirstId() && !isReplacement() && !isRenewalAlien() && !isReplacementAlien()) && isOtherPass()"
               [expanded]="expStep === 13" (opened)="setStep(13)" hideToggle>
               <mat-expansion-panel-header>
                 <mat-panel-title>

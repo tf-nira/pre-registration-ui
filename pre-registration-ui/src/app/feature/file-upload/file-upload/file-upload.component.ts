@@ -138,7 +138,6 @@ export class FileUploadComponent implements OnInit, OnDestroy {
   }
 
   async ngOnInit() {
-    debugger
     this.getPrimaryLabels(this.userPrefLanguage);
     if (this.ltrLangs.includes(this.userPrefLanguage)) {
       this.userPrefLanguageDir = "ltr";

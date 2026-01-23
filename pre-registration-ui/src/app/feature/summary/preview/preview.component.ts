@@ -380,7 +380,6 @@ export class PreviewComponent implements OnInit {
   }
 
   getDocumentCategories() {
-    debugger
     const applicantcode = localStorage.getItem("applicantType");
       const applicantCodesArray = applicantcode.split(","); // Convert "700,702" to ["700", "702"]
 
@@ -407,7 +406,6 @@ export class PreviewComponent implements OnInit {
               documentCategoriesMap.forEach((documentCategory, key) => {
                 this.docCategoriesField.forEach((uiDocField) => {
                   if (uiDocField.subType === key) {  // key is the category code
-                    debugger
                     if (uiDocField.inputRequired) {
                       documentCategory["required"] = uiDocField.required;
                       documentCategory["labelName"] = uiDocField.labelName;
