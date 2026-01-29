@@ -149,7 +149,7 @@ isStepVisible(step: number): boolean {
     case 1:
       return this.isNewAlien() || this.isRenewalAlien() || this.isReplacementAlien();
     case 2:
-      return this.isNewAlien();
+      return this.isNewAlien() && (this.isDependentPass() || this.isStudentPass());
     case 3:
       return !this.isCopService() && !this.isGetFirstId() && !this.isReplacement() && !this.isRenewalService() && !this.isRenewalAlien() && !this.isReplacementAlien();
     case 4:
@@ -263,6 +263,7 @@ familyRoles = [
   removingName: boolean;
   addingNamesFromPreviousCertorDoc: boolean;
   otherNameCorrections: boolean;
+  islinkedDependentValid: boolean;
   notificationOfChangeServiceType = [];
   notificationOfChangeNameFields = [];
   notificationOfChangeRemoveFields = [];
@@ -784,7 +785,6 @@ familyRoles = [
       this.dataStorageService.getUser(preRegId).subscribe(
         (response) => {
           this.user.request = response[appConstants.RESPONSE];
-          console.log("demographic page status code::  " + this.user.request["statusCode"]);
           if (
             this.user.request["statusCode"] !==
             appConstants.APPLICATION_STATUS_CODES.incomplete &&
@@ -913,8 +913,8 @@ familyRoles = [
             response[appConstants.RESPONSE]["idSchemaVersion"];
 
             //LOCAL
-            // const fieldDefinitions = await this.loadFieldDefinitions();
-            // this.identityData.push(...fieldDefinitions);
+             //const fieldDefinitions = await this.loadFieldDefinitions();
+             //this.identityData.push(...fieldDefinitions);
 
           if (Array.isArray(locationHeirarchiesFromJson[0])) {
             this.locationHeirarchies = locationHeirarchiesFromJson;
@@ -1452,17 +1452,14 @@ familyRoles = [
     }
     if(selectedFieldId==appConstants.facilityType){
       this.facilityType=this.userForm.controls[selectedFieldId].value;
-      console.log("Facility Type set to: " + this.facilityType);
     }
     // Consent Declaration
     if (selectedFieldId && selectedFieldId.trim() !== "") {
       if (selectedFieldId == appConstants.userService && this.userForm.controls[selectedFieldId].value !== this.userService) {
-        console.log(`Prev : ${this.userService}, New: ${this.userForm.controls[selectedFieldId].value}`);
         if (!this.dataModification) {
           if (this.isConsentMessage) this.consentDeclaration();
         }
         this.userService = this.userForm.controls[selectedFieldId].value;
-        console.log("User Service set to: " + this.userService);
         setService(this.userService);
       }
     }
@@ -1753,7 +1750,7 @@ familyRoles = [
 
 
 
-    if(selectedFieldId === appConstants.PHONE_FIELD || selectedFieldId === appConstants.COUNTRY_CODE_FIELD || selectedFieldId === appConstants.EMPLOYER_PHONE_FIELD || selectedFieldId === appConstants.EMPLOYER_COUNTRY_CODE_FIELD){
+    if(selectedFieldId === appConstants.PHONE_FIELD || selectedFieldId === appConstants.COUNTRY_CODE_FIELD || selectedFieldId === appConstants.EMPLOYER_PHONE_FIELD || selectedFieldId === appConstants.EMPLOYER_COUNTRY_CODE_FIELD || selectedFieldId === appConstants.SCHOOL_PHONE_FIELD || selectedFieldId === appConstants.SCHOOL_COUNTRY_CODE_FIELD){
       this.validatePhoneNumber(selectedFieldId);
     }
     
@@ -1796,7 +1793,6 @@ familyRoles = [
         }
       }
     }
-
     if(selectedFieldId === appConstants.onFacilityTypeChange.facilityType){
       this.onFacilityTypeChange(selectedFieldId);
     }
@@ -1808,10 +1804,14 @@ familyRoles = [
     if (fieldId === appConstants.PHONE_FIELD || fieldId === appConstants.COUNTRY_CODE_FIELD) {
       phoneField = appConstants.PHONE_FIELD;
       countryCodeField = appConstants.COUNTRY_CODE_FIELD;
-
-    } else if (fieldId === appConstants.EMPLOYER_PHONE_FIELD || fieldId === appConstants.EMPLOYER_COUNTRY_CODE_FIELD) {
+    } 
+    else if (fieldId === appConstants.EMPLOYER_PHONE_FIELD || fieldId === appConstants.EMPLOYER_COUNTRY_CODE_FIELD) {
       phoneField = appConstants.EMPLOYER_PHONE_FIELD;
       countryCodeField = appConstants.EMPLOYER_COUNTRY_CODE_FIELD;
+    } 
+    else if (fieldId === appConstants.SCHOOL_PHONE_FIELD || fieldId === appConstants.SCHOOL_COUNTRY_CODE_FIELD) {
+      phoneField = appConstants.SCHOOL_PHONE_FIELD;
+      countryCodeField = appConstants.SCHOOL_COUNTRY_CODE_FIELD;
     }
 
     const phoneControl = this.userForm.get(phoneField);
@@ -1870,12 +1870,10 @@ familyRoles = [
         this.jsonRulesEngine
           .run(formIdentityData)
           .then((results) => {
-            console.log(subField);
-            console.log(results);
             results.events.map((event) =>
               console.log(
-                "jsonRulesEngine for visibleConditions run successfully",
-                event.params.data
+                "jsonRulesEngine for visibleConditions run successfully"
+                // ,event.params.data
               )
             );
             this.jsonRulesEngine.removeRule(visibilityRule);
@@ -1910,7 +1908,6 @@ familyRoles = [
         uiField.changeAction != "" &&
         uiField.changeAction != null
       ) {
-        console.log(selectedFieldId)
         let changeAction = uiField.changeAction;
         let funcName = null;
         let funcArgs = null;
@@ -2060,8 +2057,8 @@ familyRoles = [
           .then((results) => {
             results.events.map((event) =>
               console.log(
-                "jsonRulesEngine for requiredConditions run successfully",
-                event.params.data
+                // "jsonRulesEngine for requiredConditions run successfully",
+                // event.params.data
               )
             );
             this.jsonRulesEngine.removeRule(requiredRule);
@@ -2084,7 +2081,6 @@ familyRoles = [
    * @memberof DemographicComponent
    */
   async processConditionalDefaultValue(identityFormData, uiField, conditionKey) {
-    console.log(`set default called for condition: ${conditionKey}`);
   
     if (uiField && uiField[conditionKey] && uiField[conditionKey] !== "") {
       const defaultValueRule = new Rule({
@@ -2198,7 +2194,6 @@ familyRoles = [
               .getLocationImmediateHierearchy(dataCaptureLanguage, locationCode, locationHierarchyName)
               .subscribe(
                 (response) => {
-                  console.log("fetched locations for: " + fieldName + ": " + dataCaptureLanguage);
                   if (response[appConstants.RESPONSE]) {
                     response[appConstants.RESPONSE][
                       appConstants.DEMOGRAPHIC_RESPONSE_KEYS.locations
@@ -2445,11 +2440,7 @@ familyRoles = [
                   if (parentLocationName) {
                     let locationCode = this.userForm.controls[parentLocationName].value;
                     if (locationCode) {
-                      console.log("hi")
-                      console.log(`fetching locations for: ${control.id}`);
-                      console.log(`with parent: ${parentLocationName} having value: ${locationCode}`);
                       promisesResolved.push(await this.loadLocationData(locationCode, control.id, control.locationHierarchyName));
-                      console.log(this.selectOptionsDataArray[control.id]);
                     }
                   }
                 }
@@ -2915,6 +2906,7 @@ familyRoles = [
    * @memberof DemographicComponent
    */
   onSubmit() {
+    debugger;
     if (this.readOnlyMode) {
       this.redirectUser();
     } else {
@@ -2936,16 +2928,16 @@ familyRoles = [
       if(this.userService==appConstants.USER_SERVICE.ALIENNEW){
         this.phoneValidation();
       }
-      console.log(this.filledFields);
+      if(this.userService==appConstants.USER_SERVICE.ALIENNEW){
+        this.islinkedDependentValid=true;
+        this.linkedDependentValidation();
+      }
       const filledFields = Object.keys(this.userForm.controls).filter(key => {
         return this.userForm.controls[key].value !== null && this.userForm.controls[key].value !== '';
       }).length;
 
-      console.log(`Number of filled fields: ${filledFields}`);
       this.filledFieldCount = filledFields;
       
-      // Log the filled count separately
-      console.log('Number of filled fields:', this.filledFieldCount);
 
       if (this.userForm.valid) {
         //""-popup
@@ -2967,7 +2959,6 @@ familyRoles = [
             if (res === true) {
               const identity = this.createIdentityJSONDynamic(false);
               const request = this.createRequestJSON(identity);
-              console.log(request);
               const responseJSON = this.createResponseJSON(identity);
               console.log("this.dataModification:: " + this.dataModification);
               this.dataUploadComplete = false;
@@ -3460,12 +3451,16 @@ familyRoles = [
     if(error==null && this.userService==appConstants.USER_SERVICE.UPDATE){
       error=this.nameFieldsCopValidationError();
     }
+    else if(error==null && this.userService==appConstants.USER_SERVICE.ALIENNEW && this.islinkedDependentValid==false){
+      error=this.linkedDependentValidationError();
+    }
     else if(error==null && this.userService==appConstants.USER_SERVICE.ALIENNEW){
       error=this.phoneValidationError();
     }
     if (error) {
       let text;
       switch (error.error_name) {
+        case 'linkedDependentRequired': text = `Any one of Linked Dependant to Principal section's field is required!`; break;
         case 'phoneRequired': text = `Any one of the (Local or non-Local) countrycode and phone pair is required!`; break;
         case 'nameCopRequired': text = `Any one of the field in Adding a Name/Adding name from Old Docs/other of Name corrections is required!`; break;
         case 'required': text = `${error.control_name}(${error.section_name}) is required!`; break;
@@ -3627,6 +3622,26 @@ familyRoles = [
 
   }
 
+  linkedDependentValidation() {
+    if (this.isStudentPass() || this.isDependentPass()) {
+      let islinkedDependentValid= false;
+      if (this.userForm.controls[appConstants.dependent.principalOfAIN].value != null && this.userForm.controls[appConstants.dependent.principalOfAIN].value != "") {
+        islinkedDependentValid=true;
+      }
+      if (!islinkedDependentValid) {
+        if (this.userForm.controls[appConstants.dependent.applicationIDofPrincipal].value != null && this.userForm.controls[appConstants.dependent.applicationIDofPrincipal].value != "") {
+          islinkedDependentValid=true;
+        }
+      }
+
+      if (!islinkedDependentValid) {
+        this.islinkedDependentValid=islinkedDependentValid;
+        this.userForm.setErrors({ invalidForm: true });
+      }
+
+    }
+  }
+
   nameFieldsCopValidation() {
    // const nameFieldsUserServiceCopArr = this.notificationOfChangeServiceType;
     const nameFields = this.notificationOfChangeNameFields;
@@ -3669,6 +3684,14 @@ familyRoles = [
     return {
       control_name: "phoneFields",
       error_name: "phoneRequired",
+      error_value: true
+    };
+  }
+
+  linkedDependentValidationError(): { control_name: string; error_name: string; error_value: boolean } | null {
+    return {
+      control_name: "linkedDependentFields",
+      error_name: "linkedDependentRequired",
       error_value: true
     };
   }
@@ -3821,8 +3844,6 @@ familyRoles = [
       control.reset();
       control.setValue("");
       });
-    } else {
-      this.dataModification = false;
     }
 
     const selectedControl: FormControl = this.userForm.controls[selectedFieldId] as FormControl;

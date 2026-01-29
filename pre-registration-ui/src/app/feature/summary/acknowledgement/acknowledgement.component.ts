@@ -873,11 +873,39 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
       return dialogRef;
     }
   
-    navigateToDemographic() {
+    async navigateToDemographic() {
+      await this.openChooseServicePopup();
       localStorage.setItem(appConstants.NEW_APPLICANT, "true");
       localStorage.setItem(appConstants.MODIFY_USER_FROM_PREVIEW, "false");
       localStorage.setItem(appConstants.MODIFY_USER, "false");
       localStorage.setItem(appConstants.NEW_APPLICANT_FROM_PREVIEW, "true");
-      this.router.navigate([`${this.userPrefLanguage}/pre-registration/demographic/new`]);
+      let service = localStorage.getItem(appConstants.SELECTED_SERVICE_TYPE);
+      if (service == appConstants.CITIZEN) {
+        this.router.navigate([`${this.userPrefLanguage}/pre-registration/demographic/new`]);
+      }
+      else if (service == appConstants.ALIEN) {
+        this.router.navigate([`${this.userPrefLanguage}/pre-registration/demographic-alien/new`]);
+      } 
     }
+
+    openChooseServicePopup() {
+        return new Promise((resolve) => {
+          const popupAttributes = Utils.getChooseServicePopupAttributes(
+            this.textDir,
+            this.dataCaptureLabels
+          );
+    
+          const dialogRef = this.openDialog(popupAttributes, "450px", "300px");
+    
+          dialogRef.afterClosed().subscribe((res) => {
+            console.log(res);
+            if (res === undefined) {
+              resolve(null);
+            } else {
+              localStorage.setItem(appConstants.SELECTED_SERVICE_TYPE, res);
+              resolve(res);
+            }
+          });
+        });
+      }
 }

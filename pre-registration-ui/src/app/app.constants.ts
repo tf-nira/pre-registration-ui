@@ -352,6 +352,10 @@ export const EMPLOYER_PHONE_FIELD = 'employerPhone';
 
 export const EMPLOYER_COUNTRY_CODE_FIELD = 'employerCountryCode';
 
+export const SCHOOL_PHONE_FIELD = 'schoolPhone';
+
+export const SCHOOL_COUNTRY_CODE_FIELD = 'schoolCountryCode';
+
 export const PHONE_REGEX_PATTERN = '^\\d{9,11}$';
 
 export const UGA_PHONE_REGEX_PATTERN = '^([0]{1})([0-9]{9})$';
@@ -409,4 +413,9 @@ export const phone = {
   localPhone: 'localPhone',
   nonLocalCountryCode: 'nonLocalCountryCode',
   nonLocalPhone: 'nonLocalPhone'
+};
+
+export const dependent = {
+  applicationIDofPrincipal: 'applicationIDofPrincipal',
+  principalOfAIN: 'principalOfAIN'
 };

@@ -550,7 +550,7 @@
               </mat-action-row>
             </mat-expansion-panel>
 
-            <mat-expansion-panel *ngIf="isNewAlien()" [expanded]="expStep === 2" (opened)="setStep(2)" hideToggle>
+            <mat-expansion-panel *ngIf="isNewAlien() && (isDependentPass() || isStudentPass())" [expanded]="expStep === 2" (opened)="setStep(2)" hideToggle>
               <mat-expansion-panel-header>
                 <mat-panel-title>
                   <b>Linked Dependent to Principal:</b>
@@ -4388,7 +4388,7 @@
               [expanded]="expStep === 13" (opened)="setStep(13)" hideToggle>
               <mat-expansion-panel-header>
                 <mat-panel-title>
-                  <b>Particulars of Applicant’s Children :</b>
+                  <b>Particular of applicant’s dependent :</b>
                 </mat-panel-title>
                 <mat-panel-description>
                   Maximum of 6 children can be added
