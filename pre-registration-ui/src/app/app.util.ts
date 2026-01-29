@@ -218,16 +218,15 @@ export default class Utils {
   ) {
     return {
       case: "CHOOSE_SERVICE",
-      title: dataCaptureLabels.choose_service_title || "Customer Category",
+      title:  "Customer Category",
       dir: textDir,
       options: [
         { code: "CITIZEN", label: "Citizen" },
         { code: "ALIEN", label: "Alien" }
       ],
-      message: dataCaptureLabels.choose_service_message ||
-        "Select the Customer Category",
-      cancelButtonText: dataCaptureLabels.cancel_btn,
-      submitButtonText: dataCaptureLabels.submit_btn
+      message:  "Select the Customer Category",
+      cancelButtonText: "Cancel",
+      submitButtonText: "Submit"
     };
   }
 
