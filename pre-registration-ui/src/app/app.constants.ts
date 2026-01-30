@@ -386,6 +386,9 @@ export const CITIZEN = "CITIZEN";
 
 export const SELECTED_SERVICE_TYPE = "SELECTED_SERVICE_TYPE";
 
+export const secondaryNationality = 'secondaryNationality';
+export const primaryNationality = 'primaryNationality';
+
 export const SERVICE_TYPES = {
   NEW: 'New Registration',
   RENEWAL: 'Renewal of Card',
@@ -409,8 +412,8 @@ export const onFacilityTypeChange = {
 };
 
 export const phone = {
-  localCountryCode: 'localCountryCode',
-  localPhone: 'localPhone',
+  localCountryCode: 'CountryCode',
+  localPhone: 'phone',
   nonLocalCountryCode: 'nonLocalCountryCode',
   nonLocalPhone: 'nonLocalPhone'
 };

@@ -226,6 +226,146 @@
     </div>
   </mat-dialog-actions>
 </div>
+<div *ngIf="input.case === 'ALIEN-CONSENTPOPUP'">
+  <h2 mat-dialog-title [dir]="input.textDirectionArr[0]">{{ input.title }}</h2>
+  <mat-dialog-content>
+    <mat-accordion multi>
+      <mat-expansion-panel *ngFor="let item of input.data; index as i; let isFirst = first;" [expanded]="isFirst">
+        <mat-expansion-panel-header [dir]="input.textDirectionArr[i]">
+          <mat-panel-title>
+            <span class="consent-popup-title">
+              {{ item.labels.consent.title }}
+            </span>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div [dir]="input.textDirectionArr[i]">
+          <div style="font-family: 'TimesNewRoman';">
+            <h1 style="text-align: center;">DATA PROTECTION AND PRIVACY NOTICE</h1>
+            <p>
+              This notice serves to inform you of how your personal data is collected, used, stored, and shared by the
+              National Identification and Registration Authority (NIRA) in accordance with the Registration of Persons
+              Act, Cap. 332, and in line with Section 13 of the Data Protection and Privacy Act Cap 97. The data
+              collected is securely stored in the National Identification Register and is used for lawful
+              identification, immigration management, and the delivery of government services among others.
+            </p>
+
+            <h2>Who are we?</h2>
+            <p>
+              The National Identification and Registration Authority (NIRA) is a government agency established under the
+              Registration of Persons Act, Cap. 332 (ROPA).
+            </p>
+            <br>
+            <p>
+              Address: National Independence Grounds, Kololo Airstrip P.O. Box 26529, Kampala, Uganda
+            </p>
+            <br>
+            <p>
+              Tel: +256-312-119600 / 0800-211700
+            </p>
+            <br>
+            <p>
+              Email: info@nira.go.ug
+            </p>
+            
+            <h2>What we do?</h2>
+            <p>
+              In accordance with Section 5 of the Registration of Persons Act, the National Identification and
+              Registration Authority (NIRA) is responsible for among other things registering non-citizens who are
+              lawfully resident in Uganda for a period exceeding ninety days and issuing Alien Identification Numbers
+              and Alien Identification Cards. NIRA also manages and maintains the National Identification Register as it
+              relates to alien registration and verifies the identity of registered aliens for lawful purposes.
+            </p>
+
+            <h2>Why do we collect your Personal Identification Information?</h2>
+            <p>
+              We collect your personal information because the law requires legally resident aliens to register with
+              NIRA to receive an Alien Identification Number and the required identification document. This information
+              is recorded in the National Identification Register and is used to support service delivery, planning, and
+              other lawful government purposes.
+            </p>
+
+            <h2>What data do we collect from you?</h2>
+            <p>NIRA collects and processes personal information for citizens and legally resident aliens, as applicable,
+              including:</p>
+            <ol type="i">
+              <li>Full names</li>
+              <li>Sex</li>
+              <li>Date and place of birth</li>
+              <li>Telephone number and/or email address</li>
+              <li>Place of residence and place of origin</li>
+              <li>Nationality information</li>
+              <li>Immigration Status details (Passport, Date of entry and length of stay in Uganda)</li>
+              <li>Spouse, dependants, parents, or guardians’ information, where applicable</li>
+              <li>Biometric information for identification and registration purposes</li>
+            </ol>
+
+            <h2>Are there Circumstances where your Personal Data may be shared?</h2>
+            <p>
+              Yes. The National Identification and Registration Authority (NIRA) may share personal data only in
+              accordance with the Data Protection and Privacy Act, Cap. 97, and the Registration of Persons (Access and
+              Use of Information) Regulations, 2015. Such sharing occurs only with the consent of the data subject, or
+              where it is authorised or required by law or by a Court Order.
+            </p>
+
+            <h2>How is your Data protected and Retained?</h2>
+            <p>
+              NIRA protects personal data through a combination of administrative, physical, and technical safeguards,
+              and retains such data for as long as required by law to maintain the National Identification Register and
+              related civil registration records.
+            </p>
+
+            <h2>What Are Your Data Privacy Rights as a Data Subject?</h2>
+            <p>
+              As a data subject registered with the National Identification and Registration Authority (NIRA), you have
+              rights under the law in relation to your personal data. These rights include the right to be informed
+              about how NIRA collects and uses your personal data, the right to request access to your personal data
+              held by NIRA, and the right to request correction of any inaccurate or incomplete information, in
+              accordance with the procedures provided by law.
+            </p>
+
+            <h2>Are there any Consequences for Failing to Register or Providing False Information?</h2>
+            <p>
+              Yes. Under Section 76(a) and (b) of the Registration of Persons Act, Cap 332, any person who fails to
+              register in accordance with the Act or who knowingly provides false or misleading information for the
+              purpose of registration commits an offence. Upon conviction, such a person may be liable to a fine,
+              imprisonment for a term not exceeding five years, or both.
+            </p>
+
+            <h2>Your acceptance of these Terms and Conditions</h2>
+            <p>
+              By reviewing and accepting these terms and conditions, you agree to abide by NIRA's data collection,
+              processing, storage, and sharing practices and procedures as outlined in this notice and in accordance
+              with the existing legal framework.
+            </p>
+          </div>
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </mat-dialog-content>
+  <mat-dialog-actions [dir]="input.textDirectionArr[0]">
+    <mat-checkbox (change)="onSelectCheckbox()"></mat-checkbox>
+    <span class="content-display-iniline-block" *ngFor="let item of input.data; let last = last">{{
+      item.labels.consent.checkCondition }}
+      <span *ngIf="!last">&nbsp;/&nbsp;</span>
+    </span>
+  </mat-dialog-actions>
+  <p></p>
+  <mat-dialog-actions align="end" [dir]="input.textDirectionArr[0]">
+    <button mat-button class="btn-cancel" (click)="confirmationPopUp(input.data)">
+      {{ input.cancelBtn || 'Cancel' }}
+    </button>
+    <span class="spacer"></span>
+    <div *ngFor="let item of input.data">
+      <div *ngIf="item.langCode === input.userPrefferedlangCode">
+        <button [ngClass]="isChecked ? 'btn-submit-disabled' : 'btn-submit'" [disabled]="isChecked" mat-button
+          (click)="onNoClick(item.labels.consent.acceptButton)" cdkFocusInitial>
+          {{ item.labels.consent.acceptButton || 'Accept' }}
+          <!-- Fallback to 'Accept' if acceptButton is not provided -->
+        </button>
+      </div>
+    </div>
+  </mat-dialog-actions>
+</div>
 <div class="logout-pre-message" *ngIf="input.case === 'POPUP'" [dir]="input.textDir? input.textDir: textDir">
   <mat-dialog-content>
     <p>{{ input.content }}</p>

@@ -184,6 +184,7 @@ isStepVisible(step: number): boolean {
   userService: string = "";
   gender: string = "";
   userServiceType: string = "";
+  selectedNationalityFieldId: string = "";
   guardianRelationToApplicant: string = "";
   facilityType: string = "";
   marriageDates = [
@@ -313,6 +314,7 @@ familyRoles = [
   isNavigateToDemographic = false;
   isSubmitted = false;
   cardChangeMessage: string | null = null;
+  validateSameNationalitymsg: string | null = null;
   _moment = moment;
   @ViewChild("age") age: ElementRef;
   @ViewChild("ageCop") ageCop: ElementRef;
@@ -856,7 +858,7 @@ familyRoles = [
         });
       });
       const data = {
-        case: "CONSENTPOPUP",
+        case: "ALIEN-CONSENTPOPUP",
         data: newDataStructure,
         textDirectionArr: allLangsDir,
         title: this.demographiclabels.consent.title,
@@ -1753,6 +1755,10 @@ familyRoles = [
     if(selectedFieldId === appConstants.PHONE_FIELD || selectedFieldId === appConstants.COUNTRY_CODE_FIELD || selectedFieldId === appConstants.EMPLOYER_PHONE_FIELD || selectedFieldId === appConstants.EMPLOYER_COUNTRY_CODE_FIELD || selectedFieldId === appConstants.SCHOOL_PHONE_FIELD || selectedFieldId === appConstants.SCHOOL_COUNTRY_CODE_FIELD){
       this.validatePhoneNumber(selectedFieldId);
     }
+
+    if(selectedFieldId === appConstants.primaryNationality || selectedFieldId === appConstants.secondaryNationality){
+      this.validateSameNationality(selectedFieldId);
+    }
     
     if (selectedFieldId && selectedFieldId.trim() !== "" && myFlag == false) {
       await this.processChangeActions(selectedFieldId).then(async () => {
@@ -1797,6 +1803,24 @@ familyRoles = [
       this.onFacilityTypeChange(selectedFieldId);
     }
   }
+
+  validateSameNationality(selectedFieldId: string){
+     if (this.userForm.controls[appConstants.primaryNationality].value != null && this.userForm.controls[appConstants.primaryNationality].value != "") {
+        if (this.userForm.controls[appConstants.secondaryNationality].value != null && this.userForm.controls[appConstants.secondaryNationality].value != "") {
+          if(this.userForm.controls[appConstants.primaryNationality].value === this.userForm.controls[appConstants.secondaryNationality].value){
+            this.userForm.controls[selectedFieldId].reset();
+            this.userForm.controls[selectedFieldId].setValue("");
+            this.selectedNationalityFieldId = selectedFieldId;
+            this.validateSameNationalitymsg = "primary and secondary nationality cannot be the same";
+          }
+          else{
+            this.userForm.controls[appConstants.secondaryNationality].setErrors(null);
+            this.selectedNationalityFieldId = selectedFieldId;
+            this.validateSameNationalitymsg = null;
+          }
+        }
+      }
+  }
   
   validatePhoneNumber(fieldId: string): void {
     let phoneField: string;
@@ -1834,7 +1858,7 @@ familyRoles = [
       });
     } else {
       phoneControl.setErrors(null);
-    }
+  }
   }
 
   processShowHideFields = async (formIdentityData: any, subField?: any) => {
