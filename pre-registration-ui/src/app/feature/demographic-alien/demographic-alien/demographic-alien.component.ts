@@ -1848,7 +1848,7 @@ familyRoles = [
       return;
     }
 
-    const regex = countryCode === 'UGA'? new RegExp(appConstants.UGA_PHONE_REGEX_PATTERN): new RegExp(appConstants.PHONE_REGEX_PATTERN);
+    const regex = countryCode === 'UGA'? new RegExp(appConstants.UGA_PHONE_REGEX_PATTERN_ALIEN): new RegExp(appConstants.PHONE_REGEX_PATTERN);
     if (!regex.test(phoneValue)) {
       phoneControl.setErrors({
         customPattern: {
