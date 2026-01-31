@@ -360,6 +360,8 @@ export const PHONE_REGEX_PATTERN = '^\\d{9,11}$';
 
 export const UGA_PHONE_REGEX_PATTERN = '^([0]{1})([0-9]{9})$';
 
+export const UGA_PHONE_REGEX_PATTERN_ALIEN = '^0[0-9]{8,10}$';
+
 export const COUNTRY_CODE_FIELD = 'CountryCode';
 
 export const DATE_OF_BIRTH_FIELD_COP = 'dateOfBirthCop';
