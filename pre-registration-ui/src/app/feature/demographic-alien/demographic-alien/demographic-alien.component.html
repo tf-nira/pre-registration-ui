@@ -2362,6 +2362,14 @@
                                   </ng-container>
                                 </mat-select>
                               </mat-form-field>
+                              <div *ngIf="validateSameNationalitymsg && (selectedNationalityFieldId === field.id)"
+                                class="card-change-warning"> 
+                                <mat-icon color="warn" style="vertical-align: middle;">info</mat-icon>
+                                <span style="color: #df3636; font-weight: 500; margin-left: 8px;">
+                                  {{ validateSameNationalitymsg }}
+                                </span>
+                              </div>
+                              <p></p>
                               <p></p>
                               <span *ngIf="field.type !== 'string' && dataCaptureLanguages.length > 1">
                                 <div class="selectedOption">
