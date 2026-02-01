@@ -2326,6 +2326,9 @@ familyRoles = [
                         typeof item.code === 'string' && item.code.startsWith('ALIEN')
                       );
                     }
+                    if (field.id == appConstants.COUNTRY_CODE_FIELD && field.id === res.name && Array.isArray(res.fieldVal)) {
+                      res.fieldVal = [];
+                    }
                     this.populateSelectOptsDataArr(
                       field.id,
                       res["fieldVal"],
