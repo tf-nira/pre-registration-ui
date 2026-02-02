@@ -166,9 +166,17 @@ export class DialougComponent implements OnInit {
   }
 
   cancelConsent(message) {
-    this.router.navigateByUrl('/dummy', { skipLocationChange: true }).then(() => {
-      this.router.navigateByUrl(`${this.userPreferredLangCode}/pre-registration/demographic/new`);
-    });     //re-routing to demographic page itself in caes of trems not agreeded
+    let service = localStorage.getItem(appConstants.SELECTED_SERVICE_TYPE);
+    if (service == appConstants.CITIZEN) {
+      this.router.navigateByUrl('/dummy', { skipLocationChange: true }).then(() => {
+        this.router.navigateByUrl(`${this.userPreferredLangCode}/pre-registration/demographic/new`);
+      });
+    }
+    else if (service == appConstants.ALIEN) {
+      this.router.navigateByUrl('/dummy', { skipLocationChange: true }).then(() => {
+        this.router.navigateByUrl(`${this.userPreferredLangCode}/pre-registration/demographic-alien/new`);
+      });
+    }
     let consentText = [];
     message.forEach((element) => {
       consentText.push(element["fileText"]);

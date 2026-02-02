@@ -52,6 +52,13 @@ describe('StepperComponent', () => {
     expect(component.classes.step1.p[0]).toBe('active');
   });
 
+  it('should call ngOnChanges lifecycle hook for demographic', () => {
+    component.componentName = 'DemographicAlienComponent';
+    component.ngOnChanges();
+    fixture.detectChanges();
+    expect(component.classes.step1.p[0]).toBe('active');
+  });
+
   it('should call ngOnChanges lifecycle hook for File Upload', () => {
     component.componentName = 'FileUploadComponent';
     component.ngOnChanges();

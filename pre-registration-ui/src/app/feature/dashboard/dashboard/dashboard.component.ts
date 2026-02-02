@@ -109,7 +109,9 @@ export class DashBoardComponent implements OnInit, OnDestroy {
    */
   async ngOnInit() {
     this.loginId = localStorage.getItem("loginId");
+    localStorage.removeItem(appConstants.SELECTED_SERVICE_TYPE);
     this.mandatoryLanguages = Utils.getMandatoryLangs(this.configService);
+    localStorage.setItem(appConstants.DATA_CAPTURE_LANGUAGES, JSON.stringify([this.mandatoryLanguages[0]]));
     this.optionalLanguages = Utils.getOptionalLangs(this.configService);
     this.minLanguage = Utils.getMinLangs(this.configService);
     this.maxLanguage = Utils.getMaxLangs(this.configService);
@@ -419,11 +421,22 @@ export class DashBoardComponent implements OnInit, OnDestroy {
      if (dataCaptureLangsFromSession) {
       localStorage.setItem(appConstants.MODIFY_USER, "false");
       localStorage.setItem(appConstants.NEW_APPLICANT, "true");
+      await this.openChooseServicePopup();
       if (this.loginId) {
-        this.router.navigateByUrl(
+        let service = localStorage.getItem(appConstants.SELECTED_SERVICE_TYPE);
+        console.log(`service selected: ${service}`);
+        if(service==appConstants.CITIZEN){
+          this.router.navigateByUrl(
           `${this.userPreferredLangCode}/pre-registration/demographic/new`
         );
         this.isNewApplication = true;
+        }
+        else if(service==appConstants.ALIEN){
+          this.router.navigateByUrl(
+          `${this.userPreferredLangCode}/pre-registration/demographic-alien/new`
+        );
+        this.isNewApplication = true;
+        }
       } else {
         this.router.navigate(["/"]);
       }
@@ -461,6 +474,28 @@ export class DashBoardComponent implements OnInit, OnDestroy {
       }
     }
   }
+
+  openChooseServicePopup() {
+    return new Promise((resolve) => {
+      const popupAttributes = Utils.getChooseServicePopupAttributes(
+        this.textDir,
+        this.dataCaptureLabels
+      );
+
+      const dialogRef = this.openDialog(popupAttributes, "450px", "300px");
+
+      dialogRef.afterClosed().subscribe((res) => {
+        console.log(res);
+        if (res === undefined) {
+          resolve(null);
+        } else {
+          localStorage.setItem(appConstants.SELECTED_SERVICE_TYPE, res);
+          resolve(res);
+        }
+      });
+    });
+  }
+
 
   openLangSelectionPopup() {
     return new Promise((resolve) => {
@@ -658,7 +693,8 @@ export class DashBoardComponent implements OnInit, OnDestroy {
     const preId = user.applicationID;
     localStorage.setItem(appConstants.MODIFY_USER, "true");
     this.disableModifyDataButton = true;
-    this.onModification(preId);
+    const service = user.userService;
+    this.onModification(preId,service);
   }
 
   /**
@@ -669,15 +705,27 @@ export class DashBoardComponent implements OnInit, OnDestroy {
    * @param {string} preId
    * @memberof DashBoardComponent
    */
-  private onModification(preId: string) {
+  private onModification(preId: string, service: string) {
     this.disableModifyDataButton = true;
     this.fetchedDetails = true;
-    this.router.navigate([
+    if(service==appConstants.USER_SERVICE.ALIENNEW){
+      localStorage.setItem(appConstants.SELECTED_SERVICE_TYPE, "ALIEN");
+      this.router.navigate([
+      this.userPreferredLangCode,
+      "pre-registration",
+      "demographic-alien",
+      preId,
+    ]);
+    }
+    else{
+      localStorage.setItem(appConstants.SELECTED_SERVICE_TYPE, "CITIZEN");
+      this.router.navigate([
       this.userPreferredLangCode,
       "pre-registration",
       "demographic",
       preId,
     ]);
+    }
   }
 
   /**

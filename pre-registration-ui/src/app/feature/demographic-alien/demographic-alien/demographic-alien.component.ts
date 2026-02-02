@@ -83,8 +83,8 @@ export const DATE_FORMATS = {
 };
 @Component({
   selector: "app-demographic",
-  templateUrl: "./demographic.component.html",
-  styleUrls: ["./demographic.component.css"],
+  templateUrl: "./demographic-alien.component.html",
+  styleUrls: ["./demographic-alien.component.css"],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: "en-GB" },
     {
@@ -94,7 +94,7 @@ export const DATE_FORMATS = {
     { provide: MAT_DATE_FORMATS, useValue: DATE_FORMATS},
   ],
 })
-export class DemographicComponent extends FormDeactivateGuardService
+export class DemographicAlienComponent extends FormDeactivateGuardService
   implements OnInit, OnDestroy {
   userPrefLanguage = localStorage.getItem("userPrefLanguage");
   userPrefLanguageDir = "";
@@ -147,56 +147,32 @@ isStepVisible(step: number): boolean {
     case 0:
       return true; // Always visible
     case 1:
-      return this.isCopService() || this.isGetFirstId() || this.isReplacement() || this.isRenewalService() || this.isRenewalAlien() || this.isReplacementAlien();
+      return this.isNewAlien() || this.isRenewalAlien() || this.isReplacementAlien();
     case 2:
-      return this.isCopService();
+      return this.isNewAlien() && (this.isDependentPass() || this.isStudentPass());
     case 3:
-      return this.isCopService();
-    case 4:
       return !this.isCopService() && !this.isGetFirstId() && !this.isReplacement() && !this.isRenewalService() && !this.isRenewalAlien() && !this.isReplacementAlien();
+    case 4:
+      return this.isCopService() || this.isGetFirstId() || this.isReplacement() || this.isRenewalService() || this.isRenewalAlien() || this.isReplacementAlien();
     case 5:
-      return !this.isCopService() && !this.isGetFirstId() && !this.isReplacement();
+      return this.isNewAlien() || this.isRenewalAlien() || this.isReplacementAlien();
     case 6:
-      return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement() && !this.isNewAlien() && !this.isRenewalAlien() && !this.isReplacementAlien();
+      return !this.isCopService() && !this.isGetFirstId() && !this.isReplacement();
     case 7:
       return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement() && !this.isRenewalAlien() && !this.isReplacementAlien();
     case 8:
       return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement() && !this.isRenewalAlien() && !this.isReplacementAlien();
     case 9:
-      return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement() && !this.isNewAlien() && !this.isRenewalAlien() && !this.isReplacementAlien();
+      return (this.isNewAlien() || this.isRenewalAlien() || this.isReplacementAlien()) && this.isOtherPass();
     case 10:
-      return this.isNewAlien() || this.isRenewalAlien() || this.isReplacementAlien();
+      return (this.isNewAlien() || this.isRenewalAlien() || this.isReplacementAlien()) && this.isStudentPass();
     case 11:
-      return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement() ;
+      return (!this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement()) && this.isOtherPass();
     case 12:
-      return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement() && !this.isRenewalAlien() && !this.isReplacementAlien();
+      return (!this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement() && !this.isRenewalAlien() && !this.isReplacementAlien()) && this.isOtherPass();
     case 13:
-        return !this.isRenewalService()  && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement() && !this.isNewAlien() && !this.isRenewalAlien() && !this.isReplacementAlien();
+      return (!this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement() && !this.isRenewalAlien() && !this.isReplacementAlien()) && this.isOtherPass();
     case 14:
-      return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement() && !this.isNewAlien() && !this.isRenewalAlien() && !this.isReplacementAlien();
-    case 15:
-      return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement() && !this.isNewAlien() && !this.isRenewalAlien() && !this.isReplacementAlien();
-    case 16:
-      return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement() && !this.isRenewalAlien() && !this.isReplacementAlien();
-    case 17:
-      return this.isCopService();
-    case 18:
-      return this.isReplacement();
-    case 19:
-      return !this.isRenewalService() && !this.isGetFirstId() && !this.isReplacement() && !this.isNewAlien() && !this.isRenewalAlien() && !this.isReplacementAlien();
-    case 20:
-      return this.isCopService();
-    case 21:
-      return this.isCopService() && this.isRenewalService();
-    case 22:
-      return this.isGetFirstId();
-    case 23:
-      return this.isNewAlien() || this.isRenewalAlien() || this.isReplacementAlien();
-    case 24:
-      return this.isNewAlien() || this.isRenewalAlien() || this.isReplacementAlien();
-    case 25:
-      return this.isNewAlien();
-    case 26:
       return true;
     default:
       return false;
@@ -208,7 +184,9 @@ isStepVisible(step: number): boolean {
   userService: string = "";
   gender: string = "";
   userServiceType: string = "";
+  selectedNationalityFieldId: string = "";
   guardianRelationToApplicant: string = "";
+  facilityType: string = "";
   marriageDates = [
     appConstants.SPOUSE_DATE_OF_MARRIAGE.ONE,
     appConstants.SPOUSE_DATE_OF_MARRIAGE.TWO,
@@ -286,6 +264,7 @@ familyRoles = [
   removingName: boolean;
   addingNamesFromPreviousCertorDoc: boolean;
   otherNameCorrections: boolean;
+  islinkedDependentValid: boolean;
   notificationOfChangeServiceType = [];
   notificationOfChangeNameFields = [];
   notificationOfChangeRemoveFields = [];
@@ -335,6 +314,7 @@ familyRoles = [
   isNavigateToDemographic = false;
   isSubmitted = false;
   cardChangeMessage: string | null = null;
+  validateSameNationalitymsg: string | null = null;
   _moment = moment;
   @ViewChild("age") age: ElementRef;
   @ViewChild("ageCop") ageCop: ElementRef;
@@ -807,7 +787,6 @@ familyRoles = [
       this.dataStorageService.getUser(preRegId).subscribe(
         (response) => {
           this.user.request = response[appConstants.RESPONSE];
-          console.log("demographic page status code::  " + this.user.request["statusCode"]);
           if (
             this.user.request["statusCode"] !==
             appConstants.APPLICATION_STATUS_CODES.incomplete &&
@@ -879,7 +858,7 @@ familyRoles = [
         });
       });
       const data = {
-        case: "CONSENTPOPUP",
+        case: "ALIEN-CONSENTPOPUP",
         data: newDataStructure,
         textDirectionArr: allLangsDir,
         title: this.demographiclabels.consent.title,
@@ -919,7 +898,7 @@ familyRoles = [
    */
   async getIdentityJsonFormat() {
     return new Promise((resolve, reject) => {
-      this.dataStorageService.getIdentityJsonCitizen().subscribe(
+      this.dataStorageService.getIdentityJsonAlien().subscribe(
         async (response) => {
           let identityJsonSpec =
             response[appConstants.RESPONSE]["jsonSpec"]["identity"];
@@ -936,8 +915,8 @@ familyRoles = [
             response[appConstants.RESPONSE]["idSchemaVersion"];
 
             //LOCAL
-            //const fieldDefinitions = await this.loadFieldDefinitions();
-            //this.identityData.push(...fieldDefinitions);
+             //const fieldDefinitions = await this.loadFieldDefinitions();
+             //this.identityData.push(...fieldDefinitions);
 
           if (Array.isArray(locationHeirarchiesFromJson[0])) {
             this.locationHeirarchies = locationHeirarchiesFromJson;
@@ -987,7 +966,7 @@ familyRoles = [
 
   
   async loadFieldDefinitions() {
-    const response = await fetch('assets/data/niraUiSpec.json');
+    const response = await fetch('assets/data/alienUiSpec.json');
     return response.json();
   }
 
@@ -1413,18 +1392,6 @@ familyRoles = [
    * and fields are shown/hidden in the UI form.
    */
   async onChangeHandler(selectedFieldId: string) {
-    // if (this.initializationFlag == false && selectedFieldId == appConstants.userServiceType && this.initialdataModification!=true) {
-    //   for (const control of this.uiFields) {
-    //     if (!(control.id == appConstants.userService || control.id == appConstants.userServiceType)) {
-    //       const resetHiddenFieldPromise = () => new Promise<void>(async (resolve) => {
-    //       await this.resetHiddenField(control);
-    //         resolve();
-    //       });
-    //       await resetHiddenFieldPromise();
-    //       await this.onChangeHandler(control.id);
-    //     }
-    //   }
-    // }
     if (this.initializationFlag == false && selectedFieldId == appConstants.userServiceType && this.initialdataModification != true) {
       for (const control of this.uiFields) {
         if (control.id != appConstants.userService && control.id != appConstants.userServiceType) {
@@ -1448,6 +1415,7 @@ familyRoles = [
         this.userForm.controls[selectedFieldId].disable();
       }
     }
+    
 
     if(selectedFieldId == appConstants.Declarant){
       if(this.dataModification!=true){
@@ -1456,23 +1424,7 @@ familyRoles = [
       }
     }
 
-    // if (this.initializationFlag == false && selectedFieldId == appConstants.userService && this.initialdataModification!=true) {
-    //   for (const control of this.uiFields) {
-    //     if (!(control.id == appConstants.userService)) {
-    //       const resetHiddenFieldPromise = () => new Promise<void>(async (resolve) => {
-    //       await this.resetHiddenField(control);
-    //         resolve();
-    //       });
-    //       await resetHiddenFieldPromise();
-    //       await this.onChangeHandler(control.id);
-    //     }
-    //   }
-    // }
- 
     const identityFormData = this.createIdentityJSONDynamic(true, selectedFieldId);
-    //if(selectedFieldId==appConstants.userServiceTypeCop){
-      //this.userServiceTypeCop=this.userForm.controls[selectedFieldId].value;
-    //}
     if(selectedFieldId==appConstants.personalInformationCat){
       this.personalInformationCat_Cop=this.userForm.controls[selectedFieldId].value;
     }
@@ -1500,15 +1452,16 @@ familyRoles = [
     if(selectedFieldId==appConstants.guardianRelationToApplicant){
       this.guardianRelationToApplicant=this.userForm.controls[selectedFieldId].value;
     }
+    if(selectedFieldId==appConstants.facilityType){
+      this.facilityType=this.userForm.controls[selectedFieldId].value;
+    }
     // Consent Declaration
     if (selectedFieldId && selectedFieldId.trim() !== "") {
       if (selectedFieldId == appConstants.userService && this.userForm.controls[selectedFieldId].value !== this.userService) {
-        console.log(`Prev : ${this.userService}, New: ${this.userForm.controls[selectedFieldId].value}`);
         if (!this.dataModification) {
           if (this.isConsentMessage) this.consentDeclaration();
         }
         this.userService = this.userForm.controls[selectedFieldId].value;
-        console.log("User Service set to: " + this.userService);
         setService(this.userService);
       }
     }
@@ -1799,8 +1752,12 @@ familyRoles = [
 
 
 
-    if(selectedFieldId === appConstants.PHONE_FIELD || selectedFieldId === appConstants.COUNTRY_CODE_FIELD || selectedFieldId === appConstants.EMPLOYER_PHONE_FIELD || selectedFieldId === appConstants.EMPLOYER_COUNTRY_CODE_FIELD){
+    if(selectedFieldId === appConstants.PHONE_FIELD || selectedFieldId === appConstants.COUNTRY_CODE_FIELD || selectedFieldId === appConstants.EMPLOYER_PHONE_FIELD || selectedFieldId === appConstants.EMPLOYER_COUNTRY_CODE_FIELD || selectedFieldId === appConstants.SCHOOL_PHONE_FIELD || selectedFieldId === appConstants.SCHOOL_COUNTRY_CODE_FIELD){
       this.validatePhoneNumber(selectedFieldId);
+    }
+
+    if(selectedFieldId === appConstants.primaryNationality || selectedFieldId === appConstants.secondaryNationality){
+      this.validateSameNationality(selectedFieldId);
     }
     
     if (selectedFieldId && selectedFieldId.trim() !== "" && myFlag == false) {
@@ -1842,10 +1799,27 @@ familyRoles = [
         }
       }
     }
-
     if(selectedFieldId === appConstants.onFacilityTypeChange.facilityType){
       this.onFacilityTypeChange(selectedFieldId);
     }
+  }
+
+  validateSameNationality(selectedFieldId: string){
+     if (this.userForm.controls[appConstants.primaryNationality].value != null && this.userForm.controls[appConstants.primaryNationality].value != "") {
+        if (this.userForm.controls[appConstants.secondaryNationality].value != null && this.userForm.controls[appConstants.secondaryNationality].value != "") {
+          if(this.userForm.controls[appConstants.primaryNationality].value === this.userForm.controls[appConstants.secondaryNationality].value){
+            this.userForm.controls[selectedFieldId].reset();
+            this.userForm.controls[selectedFieldId].setValue("");
+            this.selectedNationalityFieldId = selectedFieldId;
+            this.validateSameNationalitymsg = "primary and secondary nationality cannot be the same";
+          }
+          else{
+            this.userForm.controls[appConstants.secondaryNationality].setErrors(null);
+            this.selectedNationalityFieldId = selectedFieldId;
+            this.validateSameNationalitymsg = null;
+          }
+        }
+      }
   }
   
   validatePhoneNumber(fieldId: string): void {
@@ -1854,10 +1828,14 @@ familyRoles = [
     if (fieldId === appConstants.PHONE_FIELD || fieldId === appConstants.COUNTRY_CODE_FIELD) {
       phoneField = appConstants.PHONE_FIELD;
       countryCodeField = appConstants.COUNTRY_CODE_FIELD;
-
-    } else if (fieldId === appConstants.EMPLOYER_PHONE_FIELD || fieldId === appConstants.EMPLOYER_COUNTRY_CODE_FIELD) {
+    } 
+    else if (fieldId === appConstants.EMPLOYER_PHONE_FIELD || fieldId === appConstants.EMPLOYER_COUNTRY_CODE_FIELD) {
       phoneField = appConstants.EMPLOYER_PHONE_FIELD;
       countryCodeField = appConstants.EMPLOYER_COUNTRY_CODE_FIELD;
+    } 
+    else if (fieldId === appConstants.SCHOOL_PHONE_FIELD || fieldId === appConstants.SCHOOL_COUNTRY_CODE_FIELD) {
+      phoneField = appConstants.SCHOOL_PHONE_FIELD;
+      countryCodeField = appConstants.SCHOOL_COUNTRY_CODE_FIELD;
     }
 
     const phoneControl = this.userForm.get(phoneField);
@@ -1870,7 +1848,7 @@ familyRoles = [
       return;
     }
 
-    const regex = countryCode === 'UGA'? new RegExp(appConstants.UGA_PHONE_REGEX_PATTERN): new RegExp(appConstants.PHONE_REGEX_PATTERN);
+    const regex = countryCode === 'UGA'? new RegExp(appConstants.UGA_PHONE_REGEX_PATTERN_ALIEN): new RegExp(appConstants.PHONE_REGEX_PATTERN);
     if (!regex.test(phoneValue)) {
       phoneControl.setErrors({
         customPattern: {
@@ -1880,7 +1858,7 @@ familyRoles = [
       });
     } else {
       phoneControl.setErrors(null);
-    }
+  }
   }
 
   processShowHideFields = async (formIdentityData: any, subField?: any) => {
@@ -1916,12 +1894,10 @@ familyRoles = [
         this.jsonRulesEngine
           .run(formIdentityData)
           .then((results) => {
-            console.log(subField);
-            console.log(results);
             results.events.map((event) =>
               console.log(
-                "jsonRulesEngine for visibleConditions run successfully",
-                event.params.data
+                "jsonRulesEngine for visibleConditions run successfully"
+                // ,event.params.data
               )
             );
             this.jsonRulesEngine.removeRule(visibilityRule);
@@ -1956,7 +1932,6 @@ familyRoles = [
         uiField.changeAction != "" &&
         uiField.changeAction != null
       ) {
-        console.log(selectedFieldId)
         let changeAction = uiField.changeAction;
         let funcName = null;
         let funcArgs = null;
@@ -2106,8 +2081,8 @@ familyRoles = [
           .then((results) => {
             results.events.map((event) =>
               console.log(
-                "jsonRulesEngine for requiredConditions run successfully",
-                event.params.data
+                // "jsonRulesEngine for requiredConditions run successfully",
+                // event.params.data
               )
             );
             this.jsonRulesEngine.removeRule(requiredRule);
@@ -2130,7 +2105,6 @@ familyRoles = [
    * @memberof DemographicComponent
    */
   async processConditionalDefaultValue(identityFormData, uiField, conditionKey) {
-    console.log(`set default called for condition: ${conditionKey}`);
   
     if (uiField && uiField[conditionKey] && uiField[conditionKey] !== "") {
       const defaultValueRule = new Rule({
@@ -2244,7 +2218,6 @@ familyRoles = [
               .getLocationImmediateHierearchy(dataCaptureLanguage, locationCode, locationHierarchyName)
               .subscribe(
                 (response) => {
-                  console.log("fetched locations for: " + fieldName + ": " + dataCaptureLanguage);
                   if (response[appConstants.RESPONSE]) {
                     response[appConstants.RESPONSE][
                       appConstants.DEMOGRAPHIC_RESPONSE_KEYS.locations
@@ -2350,8 +2323,11 @@ familyRoles = [
                     }
                     if (field.id == appConstants.userService && Array.isArray(res.fieldVal)) {
                       res.fieldVal = res.fieldVal.filter(item =>
-                        typeof item.code === 'string' && !item.code.startsWith('ALIEN')
+                        typeof item.code === 'string' && item.code.startsWith('ALIEN')
                       );
+                    }
+                    if (field.id == appConstants.COUNTRY_CODE_FIELD && field.id === res.name && Array.isArray(res.fieldVal)) {
+                      res.fieldVal = [];
                     }
                     this.populateSelectOptsDataArr(
                       field.id,
@@ -2491,11 +2467,7 @@ familyRoles = [
                   if (parentLocationName) {
                     let locationCode = this.userForm.controls[parentLocationName].value;
                     if (locationCode) {
-                      console.log("hi")
-                      console.log(`fetching locations for: ${control.id}`);
-                      console.log(`with parent: ${parentLocationName} having value: ${locationCode}`);
                       promisesResolved.push(await this.loadLocationData(locationCode, control.id, control.locationHierarchyName));
-                      console.log(this.selectOptionsDataArray[control.id]);
                     }
                   }
                 }
@@ -2961,6 +2933,7 @@ familyRoles = [
    * @memberof DemographicComponent
    */
   onSubmit() {
+    debugger;
     if (this.readOnlyMode) {
       this.redirectUser();
     } else {
@@ -2979,16 +2952,19 @@ familyRoles = [
       if(this.userService==appConstants.USER_SERVICE.UPDATE){
         this.nameFieldsCopValidation();
       }
-      console.log(this.filledFields);
+      if(this.userService==appConstants.USER_SERVICE.ALIENNEW){
+        this.phoneValidation();
+      }
+      if(this.userService==appConstants.USER_SERVICE.ALIENNEW){
+        this.islinkedDependentValid=true;
+        this.linkedDependentValidation();
+      }
       const filledFields = Object.keys(this.userForm.controls).filter(key => {
         return this.userForm.controls[key].value !== null && this.userForm.controls[key].value !== '';
       }).length;
 
-      console.log(`Number of filled fields: ${filledFields}`);
       this.filledFieldCount = filledFields;
       
-      // Log the filled count separately
-      console.log('Number of filled fields:', this.filledFieldCount);
 
       if (this.userForm.valid) {
         //""-popup
@@ -3010,7 +2986,6 @@ familyRoles = [
             if (res === true) {
               const identity = this.createIdentityJSONDynamic(false);
               const request = this.createRequestJSON(identity);
-              console.log(request);
               const responseJSON = this.createResponseJSON(identity);
               console.log("this.dataModification:: " + this.dataModification);
               this.dataUploadComplete = false;
@@ -3503,9 +3478,17 @@ familyRoles = [
     if(error==null && this.userService==appConstants.USER_SERVICE.UPDATE){
       error=this.nameFieldsCopValidationError();
     }
+    else if(error==null && this.userService==appConstants.USER_SERVICE.ALIENNEW && this.islinkedDependentValid==false){
+      error=this.linkedDependentValidationError();
+    }
+    else if(error==null && this.userService==appConstants.USER_SERVICE.ALIENNEW){
+      error=this.phoneValidationError();
+    }
     if (error) {
       let text;
       switch (error.error_name) {
+        case 'linkedDependentRequired': text = `Any one of Linked Dependant to Principal section's field is required!`; break;
+        case 'phoneRequired': text = `Any one of the (Local or non-Local) countrycode and phone pair is required!`; break;
         case 'nameCopRequired': text = `Any one of the field in Adding a Name/Adding name from Old Docs/other of Name corrections is required!`; break;
         case 'required': text = `${error.control_name}(${error.section_name}) is required!`; break;
         case 'pattern': text = `${error.control_name} has wrong pattern!`; break;
@@ -3644,6 +3627,48 @@ familyRoles = [
     }
     return false;
   }
+
+  phoneValidation() {
+    let phoneValid = false;
+    if (this.userForm.controls[appConstants.phone.localCountryCode].value != null && this.userForm.controls[appConstants.phone.localCountryCode].value != "") {
+      if (this.userForm.controls[appConstants.phone.localPhone].value != null && this.userForm.controls[appConstants.phone.localPhone].value != "") {
+        phoneValid = true;
+      }
+    }
+    if (!phoneValid) {
+      if (this.userForm.controls[appConstants.phone.nonLocalCountryCode].value != null && this.userForm.controls[appConstants.phone.nonLocalCountryCode].value != "") {
+        if (this.userForm.controls[appConstants.phone.nonLocalPhone].value != null && this.userForm.controls[appConstants.phone.nonLocalPhone].value != "") {
+          phoneValid = true;
+        }
+      }
+    }
+
+    if (!phoneValid) {
+      this.userForm.setErrors({ invalidForm: true });
+    }
+
+  }
+
+  linkedDependentValidation() {
+    if (this.isStudentPass() || this.isDependentPass()) {
+      let islinkedDependentValid= false;
+      if (this.userForm.controls[appConstants.dependent.principalOfAIN].value != null && this.userForm.controls[appConstants.dependent.principalOfAIN].value != "") {
+        islinkedDependentValid=true;
+      }
+      if (!islinkedDependentValid) {
+        if (this.userForm.controls[appConstants.dependent.applicationIDofPrincipal].value != null && this.userForm.controls[appConstants.dependent.applicationIDofPrincipal].value != "") {
+          islinkedDependentValid=true;
+        }
+      }
+
+      if (!islinkedDependentValid) {
+        this.islinkedDependentValid=islinkedDependentValid;
+        this.userForm.setErrors({ invalidForm: true });
+      }
+
+    }
+  }
+
   nameFieldsCopValidation() {
    // const nameFieldsUserServiceCopArr = this.notificationOfChangeServiceType;
     const nameFields = this.notificationOfChangeNameFields;
@@ -3675,11 +3700,27 @@ familyRoles = [
   }
 
   nameFieldsCopValidationError(): { control_name: string; error_name: string; error_value: boolean } | null {
-        return {
-          control_name: "nameFields",
-          error_name: "nameCopRequired",
-          error_value: true
-        };
+    return {
+      control_name: "nameFields",
+      error_name: "nameCopRequired",
+      error_value: true
+    };
+  }
+
+  phoneValidationError(): { control_name: string; error_name: string; error_value: boolean } | null {
+    return {
+      control_name: "phoneFields",
+      error_name: "phoneRequired",
+      error_value: true
+    };
+  }
+
+  linkedDependentValidationError(): { control_name: string; error_name: string; error_value: boolean } | null {
+    return {
+      control_name: "linkedDependentFields",
+      error_name: "linkedDependentRequired",
+      error_value: true
+    };
   }
 
   toggleUserButton(fieldId: string): void {
@@ -3790,6 +3831,25 @@ familyRoles = [
     }
   }
 
+  isStudentPass(): boolean {
+    if (this.facilityType === appConstants.FACILITY_TYPES.STUDENT) {
+      return true;
+    }
+    return false;
+  }
+
+  isDependentPass(): boolean {
+    if (this.facilityType === appConstants.FACILITY_TYPES.DEPENDENT) {
+      return true;
+    }
+    return false;
+  }
+  isOtherPass(): boolean {
+    return !!this.facilityType &&
+      this.facilityType !== appConstants.FACILITY_TYPES.STUDENT &&
+      this.facilityType !== appConstants.FACILITY_TYPES.DEPENDENT;
+  }
+
 
   onFacilityTypeChange(selectedFieldId: string) {
     const categoryKey = appConstants.onFacilityTypeChange.facilityTypeCategory;
@@ -3810,13 +3870,7 @@ familyRoles = [
       const control = this.userForm.controls[key];
       control.reset();
       control.setValue("");
-<<<<<<< HEAD
-     });
-    } else {
-      this.dataModification = false;
-=======
       });
->>>>>>> c577f7ab3ea9ff7580db5f035b82a66edf5879f9
     }
 
     const selectedControl: FormControl = this.userForm.controls[selectedFieldId] as FormControl;

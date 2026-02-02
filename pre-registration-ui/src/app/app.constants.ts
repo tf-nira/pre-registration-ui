@@ -226,6 +226,8 @@ export const declaration = "declarationCheckBox";
 
 export const guardianRelationToApplicant = "guardianRelationToApplicant";
 
+export const facilityType = "facilityType";
+
 export const copIsCardRequired = "isCardRequired";
 export const copAddName = "addingName";
 export const copChangeNameOrder = "changeOrderOfNames";
@@ -350,9 +352,18 @@ export const EMPLOYER_PHONE_FIELD = 'employerPhone';
 
 export const EMPLOYER_COUNTRY_CODE_FIELD = 'employerCountryCode';
 
+<<<<<<< HEAD
+=======
+export const SCHOOL_PHONE_FIELD = 'schoolPhone';
+
+export const SCHOOL_COUNTRY_CODE_FIELD = 'schoolCountryCode';
+
+>>>>>>> c577f7ab3ea9ff7580db5f035b82a66edf5879f9
 export const PHONE_REGEX_PATTERN = '^\\d{9,11}$';
 
 export const UGA_PHONE_REGEX_PATTERN = '^([0]{1})([0-9]{9})$';
+
+export const UGA_PHONE_REGEX_PATTERN_ALIEN = '^0[0-9]{8,10}$';
 
 export const COUNTRY_CODE_FIELD = 'CountryCode';
 
@@ -374,6 +385,15 @@ export const PARISH_FIRSTID = 'applicantPlaceOfOriginParish1';
 
 export const POLLING_STATION_NAME_ORIGIN = 'pollingStationNameOrigin';
 
+export const ALIEN = "ALIEN";
+
+export const CITIZEN = "CITIZEN";
+
+export const SELECTED_SERVICE_TYPE = "SELECTED_SERVICE_TYPE";
+
+export const secondaryNationality = 'secondaryNationality';
+export const primaryNationality = 'primaryNationality';
+
 export const SERVICE_TYPES = {
   NEW: 'New Registration',
   RENEWAL: 'Renewal of Card',
@@ -385,8 +405,28 @@ export const SERVICE_TYPES = {
   ALIENLOST: 'Replacement of Alien'
 };
 
+export const FACILITY_TYPES = {
+  STUDENT: "FT02",
+  DEPENDENT: "FT03"
+};
+
 export const onFacilityTypeChange = {
   facilityType: 'facilityType',
   facilityTypeCategory: 'facilityTypeCategory',
   facilityTypeSubCategory: 'facilityTypeSubCategory'
 };
+<<<<<<< HEAD
+=======
+
+export const phone = {
+  localCountryCode: 'CountryCode',
+  localPhone: 'phone',
+  nonLocalCountryCode: 'nonLocalCountryCode',
+  nonLocalPhone: 'nonLocalPhone'
+};
+
+export const dependent = {
+  applicationIDofPrincipal: 'applicationIDofPrincipal',
+  principalOfAIN: 'principalOfAIN'
+};
+>>>>>>> c577f7ab3ea9ff7580db5f035b82a66edf5879f9

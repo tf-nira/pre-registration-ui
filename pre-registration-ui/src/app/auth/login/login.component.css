@@ -87,6 +87,7 @@ mat-form-field {
 }
 
 .boldText {
+  font-size: 22px;
   font-weight: 500;
 }
 
@@ -137,4 +138,12 @@ button {
 }
 ::ng-deep.mat-select-value {
   padding: 5px !important;
+}
+
+.login-tittle {
+  font-size: 28px;      
+  font-weight: 700;    
+  color: #000;         
+  display: block;
+  letter-spacing: 1.3px;
 }

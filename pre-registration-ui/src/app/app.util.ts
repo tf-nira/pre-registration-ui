@@ -212,6 +212,25 @@ export default class Utils {
     return body;
   }
 
+  static getChooseServicePopupAttributes(
+    textDir: string,
+    dataCaptureLabels: any
+  ) {
+    return {
+      case: "CHOOSE_SERVICE",
+      title:  "Customer Category",
+      dir: textDir,
+      options: [
+        { code: "CITIZEN", label: "Citizen" },
+        { code: "ALIEN", label: "Alien" }
+      ],
+      message:  "Select the Customer Category",
+      cancelButtonText: "Cancel",
+      submitButtonText: "Submit"
+    };
+  }
+
+
   static getApplicationLangs = (userRequest) => {
     const demographicData = userRequest.demographicDetails.identity;
     let applicationLanguages = [];
