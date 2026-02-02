@@ -352,13 +352,10 @@ export const EMPLOYER_PHONE_FIELD = 'employerPhone';
 
 export const EMPLOYER_COUNTRY_CODE_FIELD = 'employerCountryCode';
 
-<<<<<<< HEAD
-=======
 export const SCHOOL_PHONE_FIELD = 'schoolPhone';
 
 export const SCHOOL_COUNTRY_CODE_FIELD = 'schoolCountryCode';
 
->>>>>>> c577f7ab3ea9ff7580db5f035b82a66edf5879f9
 export const PHONE_REGEX_PATTERN = '^\\d{9,11}$';
 
 export const UGA_PHONE_REGEX_PATTERN = '^([0]{1})([0-9]{9})$';
@@ -415,8 +412,6 @@ export const onFacilityTypeChange = {
   facilityTypeCategory: 'facilityTypeCategory',
   facilityTypeSubCategory: 'facilityTypeSubCategory'
 };
-<<<<<<< HEAD
-=======
 
 export const phone = {
   localCountryCode: 'CountryCode',
@@ -429,4 +424,3 @@ export const dependent = {
   applicationIDofPrincipal: 'applicationIDofPrincipal',
   principalOfAIN: 'principalOfAIN'
 };
->>>>>>> c577f7ab3ea9ff7580db5f035b82a66edf5879f9

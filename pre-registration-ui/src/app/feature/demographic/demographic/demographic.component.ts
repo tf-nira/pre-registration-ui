@@ -3810,13 +3810,7 @@ familyRoles = [
       const control = this.userForm.controls[key];
       control.reset();
       control.setValue("");
-<<<<<<< HEAD
-     });
-    } else {
-      this.dataModification = false;
-=======
       });
->>>>>>> c577f7ab3ea9ff7580db5f035b82a66edf5879f9
     }
 
     const selectedControl: FormControl = this.userForm.controls[selectedFieldId] as FormControl;

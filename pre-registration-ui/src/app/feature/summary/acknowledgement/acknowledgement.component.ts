@@ -181,11 +181,7 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
             const nameListObj: NameList = {
               preRegId: "",
               fullName: "",
-<<<<<<< HEAD
-			  givenName: "",
-=======
               givenName: "",
->>>>>>> c577f7ab3ea9ff7580db5f035b82a66edf5879f9
               regDto: "",
               status: "",
               registrationCenter: "",
@@ -214,11 +210,7 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
               });
             }
 
-<<<<<<< HEAD
-			if(this.userService==appConstants.USER_SERVICE.UPDATE || this.userService==appConstants.USER_SERVICE.FIRSTID|| this.userService==appConstants.USER_SERVICE.REPLACEMENT || this.userService==appConstants.USER_SERVICE.RENEWAL || this.userService==appConstants.USER_SERVICE.ALIENRENEWAL || this.userService==appConstants.USER_SERVICE.ALIENLOST){
-=======
             if(this.userService==appConstants.USER_SERVICE.UPDATE || this.userService==appConstants.USER_SERVICE.FIRSTID|| this.userService==appConstants.USER_SERVICE.REPLACEMENT || this.userService==appConstants.USER_SERVICE.RENEWAL || this.userService==appConstants.USER_SERVICE.ALIENRENEWAL || this.userService==appConstants.USER_SERVICE.ALIENLOST){
->>>>>>> c577f7ab3ea9ff7580db5f035b82a66edf5879f9
               this.givenName = appConstants.PRE_REGISTRATION_ACK_IDENTITY_NAME_COP;
             } else {
               this.givenName = appConstants.PRE_REGISTRATION_ACK_IDENTITY_NAME;
@@ -232,11 +224,6 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
                 }
               });
             }
-<<<<<<< HEAD
-			  
-=======
-
->>>>>>> c577f7ab3ea9ff7580db5f035b82a66edf5879f9
             if (demographicData["postalCode"]) {
               nameListObj.postalCode = demographicData["postalCode"];
             }
@@ -362,11 +349,7 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
       this.usersInfoArr.forEach(userInfo => {
         if (userInfo.preRegId == prid) {
           this.ackDataItem["qrCodeBlob"] = userInfo.qrCodeBlob;
-<<<<<<< HEAD
-			this.ackDataItem["Suname"] = userInfo.givenName;
-=======
           this.ackDataItem["Suname"] = userInfo.givenName;
->>>>>>> c577f7ab3ea9ff7580db5f035b82a66edf5879f9
           const labels = userInfo.labelDetails[0];
           preRegIdLabels.push(labels.label_pre_id);
           appDateLabels.push(labels.label_appointment_date_time);
@@ -699,12 +682,8 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
   generatePaymentRefNum(demographicData: any) {
     const desiredService = demographicData.userService;
     let surname;
-<<<<<<< HEAD
-    if (desiredService === appConstants.USER_SERVICE.UPDATE || desiredService === appConstants.USER_SERVICE.FIRSTID || desiredService === appConstants.USER_SERVICE.REPLACEMENT || desiredService === appConstants.USER_SERVICE.ALIENRENEWAL || desiredService === appConstants.USER_SERVICE.ALIENLOST) {
-=======
     console.log("desiredService", desiredService);
     if (desiredService === appConstants.USER_SERVICE.UPDATE || desiredService === appConstants.USER_SERVICE.RENEWAL || desiredService === appConstants.USER_SERVICE.FIRSTID || desiredService === appConstants.USER_SERVICE.REPLACEMENT || desiredService === appConstants.USER_SERVICE.ALIENRENEWAL || desiredService === appConstants.USER_SERVICE.ALIENLOST) {
->>>>>>> c577f7ab3ea9ff7580db5f035b82a66edf5879f9
 
       surname = demographicData.surnameCop[0].value;
     }
