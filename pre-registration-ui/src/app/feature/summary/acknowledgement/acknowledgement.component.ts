@@ -224,6 +224,7 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
                 }
               });
             }
+            
             if (demographicData["postalCode"]) {
               nameListObj.postalCode = demographicData["postalCode"];
             }
