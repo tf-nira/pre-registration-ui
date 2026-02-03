@@ -364,6 +364,12 @@ export const UGA_PHONE_REGEX_PATTERN_ALIEN = '^0[0-9]{8,10}$';
 
 export const COUNTRY_CODE_FIELD = 'CountryCode';
 
+export const UGA = 'UGA';
+
+export const employerCountryCode = 'employerCountryCode';
+
+export const schoolCountryCode = 'schoolCountryCode';
+
 export const DATE_OF_BIRTH_FIELD_COP = 'dateOfBirthCop';
 
 export const Tribe = 'Tribe';
