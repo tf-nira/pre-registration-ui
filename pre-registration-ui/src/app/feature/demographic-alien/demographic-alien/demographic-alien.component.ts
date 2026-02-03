@@ -1416,6 +1416,9 @@ familyRoles = [
       }
     }
     
+    if(selectedFieldId == appConstants.userService){
+      this.filterAndEmit(appConstants.COUNTRY_CODE_FIELD, appConstants.UGA);
+    }
 
     if(selectedFieldId == appConstants.Declarant){
       if(this.dataModification!=true){
@@ -2326,20 +2329,12 @@ familyRoles = [
                         typeof item.code === 'string' && item.code.startsWith('ALIEN')
                       );
                     }
-                    if (field.id == appConstants.COUNTRY_CODE_FIELD && field.id === res.name && Array.isArray(res.fieldVal)) {
-                      res.fieldVal = [];
-                    }
                     this.populateSelectOptsDataArr(
                       field.id,
                       res["fieldVal"],
                       res["langCode"]
                     );
                   }
-                  // else if(res.name==appConstants.NOTIFICATION_OF_CHANGE.userServiceTypeCop){
-                  //   const fieldValArray1 = res["fieldVal"];
-                  //   const notificationOfChangeServiceType = fieldValArray1.map(item => item.code);
-                  //   this.notificationOfChangeServiceType = notificationOfChangeServiceType;
-                  // }
                   else if(res.name==appConstants.NOTIFICATION_OF_CHANGE.nameFields){
                     const fieldValArray = res["fieldVal"];
                     const notificationOfChangeNameFields = fieldValArray.map(item => item.value);
