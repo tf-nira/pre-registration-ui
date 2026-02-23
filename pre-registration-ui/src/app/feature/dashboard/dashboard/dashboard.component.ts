@@ -708,7 +708,7 @@ export class DashBoardComponent implements OnInit, OnDestroy {
   private onModification(preId: string, service: string) {
     this.disableModifyDataButton = true;
     this.fetchedDetails = true;
-    if(service==appConstants.USER_SERVICE.ALIENNEW){
+    if(service==appConstants.USER_SERVICE.ALIENNEW  || service==appConstants.USER_SERVICE.ALIENRENEWAL){
       localStorage.setItem(appConstants.SELECTED_SERVICE_TYPE, "ALIEN");
       this.router.navigate([
       this.userPreferredLangCode,
