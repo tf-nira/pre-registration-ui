@@ -299,7 +299,7 @@
               <div class="rowContainer">
                 <span *ngFor="let field of uiFieldsForAlignmentGroups[alignmentGroup]; index as uiFieldIndex">
                   <div class="fieldContainer"
-                    *ngIf=" (isCopService() || isRenewalAlien() || isReplacementAlien()) && field.isVisible == true && (field.renderID.startsWith('frm_3a_a9') || field.renderID.startsWith('frm_3a_a1_RewewNINI') || field.renderID.startsWith('frm_3a_a1I_countryCode') || field.renderID.startsWith('frm_3a_a1I_contact') ||  field.renderID.startsWith('frm_3a_a1I_homePhoneNo')  || field.renderID.startsWith('frm_3a_a1Iemail') || field.renderID.startsWith('frm_3a_a1_drivingLicenceNumber') )">
+                    *ngIf=" (isCopService() || isRenewalAlien() || isReplacementAlien()) && field.isVisible == true && ( field.renderID.startsWith('frm_3a_a9') || field.renderID.startsWith('frm_3a_a1_RewewNINI') || field.renderID.startsWith('frm_3a_a1I_countryCode') || field.renderID.startsWith('frm_3a_a1I_contact') ||  field.renderID.startsWith('frm_3a_a1I_homePhoneNo')  || field.renderID.startsWith('frm_3a_a1Iemail') || field.renderID.startsWith('frm_3a_a1_drivingLicenceNumber') || field.renderID.startsWith('frm_3a_a1_highestLevelOfEducation') || field.renderID.startsWith('frm_3a_a1_otherHighestLevelOfEducation') || field.renderID.startsWith('frm_3a_a1_occuption') || field.renderID.startsWith('frm_3a_a1_otherOccupation') || field.renderID.startsWith('frm_3a_a1_profession') || field.renderID.startsWith('frm_3a_a1_otherProfession'))">
                     <div class="fieldHeader" [ngStyle]="field.headerStyle">
                       <!-- Create container header with label in user's login lang -->
                       <mat-label>{{field.labelName[userPrefLanguage]}} : </mat-label>
@@ -1138,7 +1138,7 @@
                     </div>
                   </div>
                   <div class="fieldContainer"
-                    *ngIf=" isRenewalService() && field.isVisible == true && (field.renderID.startsWith('frm_3a_a9') || field.renderID.startsWith('frm_3a_a1_RewewNINI') || field.renderID.startsWith('frm_3a_a1I_countryCode') || field.renderID.startsWith('frm_3a_a1I_contact') ||  field.renderID.startsWith('frm_3a_a1I_homePhoneNo')  || field.renderID.startsWith('frm_3a_a1Iemail') || field.renderID.startsWith('frm_3a_a1_ninExpiryDate'))">
+                    *ngIf=" isRenewalService() && field.isVisible == true && (field.renderID.startsWith('frm_3a_a9') || field.renderID.startsWith('frm_3a_a1_RewewNINI') || field.renderID.startsWith('frm_3a_a1I_countryCode') || field.renderID.startsWith('frm_3a_a1I_contact') ||  field.renderID.startsWith('frm_3a_a1I_homePhoneNo')  || field.renderID.startsWith('frm_3a_a1Iemail') || field.renderID.startsWith('frm_3a_a1_ninExpiryDate') || field.renderID.startsWith('frm_3a_a1_highestLevelOfEducation') || field.renderID.startsWith('frm_3a_a1_otherHighestLevelOfEducation') || field.renderID.startsWith('frm_3a_a1_occuption') || field.renderID.startsWith('frm_3a_a1_otherOccupation') || field.renderID.startsWith('frm_3a_a1_profession') || field.renderID.startsWith('frm_3a_a1_otherProfession') || field.renderID.startsWith('frm_3a_a1I_countryCode')|| field.renderID.startsWith('frm_3a_a1I_contact'))">
                     <div class="fieldHeader" [ngStyle]="field.headerStyle">
                       <!-- Create container header with label in user's login lang -->
                       <mat-label>{{field.labelName[userPrefLanguage]}} : </mat-label>
