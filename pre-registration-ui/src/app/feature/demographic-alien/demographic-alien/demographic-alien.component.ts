@@ -1418,6 +1418,7 @@ familyRoles = [
     
     if(selectedFieldId == appConstants.userService){
       this.filterAndEmit(appConstants.COUNTRY_CODE_FIELD, appConstants.UGA);
+      this.filterAndEmit(appConstants.schoolCountryCode, appConstants.UGA);
     }
 
     if(selectedFieldId == appConstants.Declarant){
