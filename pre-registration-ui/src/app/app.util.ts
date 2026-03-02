@@ -218,13 +218,13 @@ export default class Utils {
   ) {
     return {
       case: "CHOOSE_SERVICE",
-      title:  "Customer Category",
+      title:  "Applicant Category",
       dir: textDir,
       options: [
         { code: "CITIZEN", label: "Citizen" },
         { code: "ALIEN", label: "Alien" }
       ],
-      message:  "Select the Customer Category",
+      message:  "Select Applicant Category",
       cancelButtonText: "Cancel",
       submitButtonText: "Submit"
     };
