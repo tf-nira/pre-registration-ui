@@ -149,7 +149,7 @@ isStepVisible(step: number): boolean {
     case 1:
       return this.isNewAlien() || this.isRenewalAlien() || this.isReplacementAlien();
     case 2:
-      return this.isNewAlien() && (this.isDependentPass() || this.isStudentPass());
+      return this.isNewAlien() && (this.isDependentPass());
     case 3:
       return !this.isCopService() && !this.isGetFirstId() && !this.isReplacement() && !this.isRenewalService() && !this.isRenewalAlien() && !this.isReplacementAlien();
     case 4:
@@ -167,9 +167,9 @@ isStepVisible(step: number): boolean {
     case 10:
       return (this.isNewAlien() || this.isRenewalAlien() || this.isReplacementAlien()) && this.isStudentPass();
     case 11:
-      return (!this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement()) && this.isOtherPass();
+      return (!this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement());
     case 12:
-      return (!this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement() && !this.isRenewalAlien() && !this.isReplacementAlien()) && this.isOtherPass();
+      return (!this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement() && !this.isRenewalAlien() && !this.isReplacementAlien());
     case 13:
       return (!this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement() && !this.isRenewalAlien() && !this.isReplacementAlien()) && this.isOtherPass();
     case 14:
@@ -1418,6 +1418,7 @@ familyRoles = [
     
     if(selectedFieldId == appConstants.userService){
       this.filterAndEmit(appConstants.COUNTRY_CODE_FIELD, appConstants.UGA);
+      this.filterAndEmit(appConstants.schoolCountryCode, appConstants.UGA);
     }
 
     if(selectedFieldId == appConstants.Declarant){
@@ -3645,7 +3646,7 @@ familyRoles = [
   }
 
   linkedDependentValidation() {
-    if (this.isStudentPass() || this.isDependentPass()) {
+    if (this.isDependentPass()) {
       let islinkedDependentValid= false;
       if (this.userForm.controls[appConstants.dependent.principalOfAIN].value != null && this.userForm.controls[appConstants.dependent.principalOfAIN].value != "") {
         islinkedDependentValid=true;
