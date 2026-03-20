@@ -20,7 +20,9 @@ export class ParentComponent implements OnInit {
     const route_parts = this.router.url.split('/');
     if (route_parts[3] === 'demographic') {
       this.componentName = 'DemographicComponent';
-    } else if (route_parts[3] === 'file-upload') {
+    } else if (route_parts[3] === 'demographic-alien') {
+      this.componentName = 'DemographicAlienComponent';
+    }else if (route_parts[3] === 'file-upload') {
       this.componentName = 'FileUploadComponent';
     } else if (route_parts[5] === 'pick-center') {
       this.componentName = 'CenterSelectionComponent';

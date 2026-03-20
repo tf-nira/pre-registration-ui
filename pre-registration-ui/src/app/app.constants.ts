@@ -210,6 +210,10 @@ export const BOOKING_DETAIL = {
 
 export const PRE_REGISTRATION_IDENTITY_NAME_COP = "surnameCop";
 
+export const PRE_REGISTRATION_ACK_IDENTITY_NAME = "givenName";
+
+export const PRE_REGISTRATION_ACK_IDENTITY_NAME_COP = "givenNameCop";
+
 export const userService = "userService";
 
 export const userServiceType = "userServiceType";
@@ -221,6 +225,8 @@ export const personalInformationCat = "personalInformationCat";
 export const declaration = "declarationCheckBox";
 
 export const guardianRelationToApplicant = "guardianRelationToApplicant";
+
+export const facilityType = "facilityType";
 
 export const copIsCardRequired = "isCardRequired";
 export const copAddName = "addingName";
@@ -263,7 +269,10 @@ export const USER_SERVICE = {
   UPDATE : "UPDATE",
   FIRSTID: "FIRSTID",
   REPLACEMENT: "LOST",
-  NEW : "NEW"
+  NEW : "NEW",
+  ALIENNEW: "ALIENNEW",
+  ALIENRENEWAL: "ALIENRENEWAL",
+  ALIENLOST:"ALIENLOST"
 };
 
 export const TAX_HEADS = {
@@ -339,11 +348,27 @@ export const DATE_OF_BIRTH_FIELD = 'dateOfBirth';
 
 export const PHONE_FIELD = 'phone';
 
+export const EMPLOYER_PHONE_FIELD = 'employerPhone';
+
+export const EMPLOYER_COUNTRY_CODE_FIELD = 'employerCountryCode';
+
+export const SCHOOL_PHONE_FIELD = 'schoolPhone';
+
+export const SCHOOL_COUNTRY_CODE_FIELD = 'schoolCountryCode';
+
 export const PHONE_REGEX_PATTERN = '^\\d{9,11}$';
 
 export const UGA_PHONE_REGEX_PATTERN = '^([0]{1})([0-9]{9})$';
 
+export const UGA_PHONE_REGEX_PATTERN_ALIEN = '^0[0-9]{8,10}$';
+
 export const COUNTRY_CODE_FIELD = 'CountryCode';
+
+export const UGA = 'UGA';
+
+export const employerCountryCode = 'employerCountryCode';
+
+export const schoolCountryCode = 'schoolCountryCode';
 
 export const DATE_OF_BIRTH_FIELD_COP = 'dateOfBirthCop';
 
@@ -363,10 +388,45 @@ export const PARISH_FIRSTID = 'applicantPlaceOfOriginParish1';
 
 export const POLLING_STATION_NAME_ORIGIN = 'pollingStationNameOrigin';
 
+export const ALIEN = "ALIEN";
+
+export const CITIZEN = "CITIZEN";
+
+export const SELECTED_SERVICE_TYPE = "SELECTED_SERVICE_TYPE";
+
+export const secondaryNationality = 'secondaryNationality';
+export const primaryNationality = 'primaryNationality';
+
 export const SERVICE_TYPES = {
   NEW: 'New Registration',
   RENEWAL: 'Renewal of Card',
   LOST: 'Lost/ Replacement of Card',
   UPDATE: 'Change of Particulars',
-  FIRSTID: 'Get First ID'
+  FIRSTID: 'Get First ID',
+  ALIENNEW: 'Alien New Registration',
+  ALIENRENEWAL: 'Renewal of Alien',
+  ALIENLOST: 'Replacement of Alien'
+};
+
+export const FACILITY_TYPES = {
+  STUDENT: "FT02",
+  DEPENDENT: "FT03"
+};
+
+export const onFacilityTypeChange = {
+  facilityType: 'facilityType',
+  facilityTypeCategory: 'facilityTypeCategory',
+  facilityTypeSubCategory: 'facilityTypeSubCategory'
+};
+
+export const phone = {
+  localCountryCode: 'CountryCode',
+  localPhone: 'phone',
+  nonLocalCountryCode: 'nonLocalCountryCode',
+  nonLocalPhone: 'nonLocalPhone'
+};
+
+export const dependent = {
+  applicationIDofPrincipal: 'applicationIDofPrincipal',
+  principalOfAIN: 'principalOfAIN'
 };

@@ -65,6 +65,7 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
   langCode;
   textDir = localStorage.getItem("dir");
   name = "";
+  givenName = "";
   createdTime;
   requestBody: PRNRequestModel;
   applicantContactDetails = [];
@@ -73,7 +74,10 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
     "RENEWAL": "Renewal",
     "UPDATE": "Change of Particulars/Change of Errors",
     "LOST": "Lost/Replacement of Card",
-    "FIRSTID": "Get First ID"
+    "FIRSTID": "Get First ID",
+    "ALIENNEW": 'Alien New Registration',
+    "ALIENRENEWAL": 'Renewal of Alien',
+    "ALIENLOST": 'Replacement of Alien'
   };
  //payableService:string;
   constructor(
@@ -177,6 +181,7 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
             const nameListObj: NameList = {
               preRegId: "",
               fullName: "",
+              givenName: "",
               regDto: "",
               status: "",
               registrationCenter: "",
@@ -192,7 +197,7 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
             if (!this.userService) {
               this.userService = demographicData["userService"];
             }
-            if(this.userService==appConstants.USER_SERVICE.UPDATE || this.userService==appConstants.USER_SERVICE.FIRSTID|| this.userService==appConstants.USER_SERVICE.REPLACEMENT || this.userService==appConstants.USER_SERVICE.RENEWAL){
+            if(this.userService==appConstants.USER_SERVICE.UPDATE || this.userService==appConstants.USER_SERVICE.FIRSTID|| this.userService==appConstants.USER_SERVICE.REPLACEMENT || this.userService==appConstants.USER_SERVICE.RENEWAL || this.userService==appConstants.USER_SERVICE.ALIENRENEWAL || this.userService==appConstants.USER_SERVICE.ALIENLOST){
               this.name = appConstants.PRE_REGISTRATION_IDENTITY_NAME_COP;
             }
 
@@ -204,6 +209,22 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
                 }
               });
             }
+
+            if(this.userService==appConstants.USER_SERVICE.UPDATE || this.userService==appConstants.USER_SERVICE.FIRSTID|| this.userService==appConstants.USER_SERVICE.REPLACEMENT || this.userService==appConstants.USER_SERVICE.RENEWAL || this.userService==appConstants.USER_SERVICE.ALIENRENEWAL || this.userService==appConstants.USER_SERVICE.ALIENLOST){
+              this.givenName = appConstants.PRE_REGISTRATION_ACK_IDENTITY_NAME_COP;
+            } else {
+              this.givenName = appConstants.PRE_REGISTRATION_ACK_IDENTITY_NAME;
+            }
+
+            if (demographicData[this.givenName]) {
+              let nameValues = demographicData[this.givenName];
+              nameValues.forEach(nameVal => {
+                if (nameVal["language"] == applicationLang) {
+                  nameListObj.givenName = nameVal["value"];
+                }
+              });
+            }
+            
             if (demographicData["postalCode"]) {
               nameListObj.postalCode = demographicData["postalCode"];
             }
@@ -325,12 +346,11 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
         appLangCode = [];
 
       this.ackDataItem["preRegId"] = prid;
-      this.ackDataItem["Suname"] =
-        this.usersInfoArr[0].fullName;
 
       this.usersInfoArr.forEach(userInfo => {
         if (userInfo.preRegId == prid) {
           this.ackDataItem["qrCodeBlob"] = userInfo.qrCodeBlob;
+          this.ackDataItem["Suname"] = userInfo.givenName;
           const labels = userInfo.labelDetails[0];
           preRegIdLabels.push(labels.label_pre_id);
           appDateLabels.push(labels.label_appointment_date_time);
@@ -661,71 +681,122 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
   }
   
   generatePaymentRefNum(demographicData: any) {
-    const desiredService = demographicData.userService; 
+    const desiredService = demographicData.userService;
     let surname;
-    if(desiredService===appConstants.USER_SERVICE.UPDATE || desiredService===appConstants.USER_SERVICE.REPLACEMENT){
+    console.log("desiredService", desiredService);
+    if (desiredService === appConstants.USER_SERVICE.UPDATE || desiredService === appConstants.USER_SERVICE.RENEWAL || desiredService === appConstants.USER_SERVICE.FIRSTID || desiredService === appConstants.USER_SERVICE.REPLACEMENT || desiredService === appConstants.USER_SERVICE.ALIENRENEWAL || desiredService === appConstants.USER_SERVICE.ALIENLOST) {
 
       surname = demographicData.surnameCop[0].value;
     }
-    else{
-      surname = demographicData.surname;
+    else {
+      surname = demographicData.surname[0].value;
     }
     const nin = demographicData.NIN;
 
-    const age:number = this.dataStorageService.calculateAge(demographicData.dateOfBirthCop);
-   // console.log(age);
- 
-      if (desiredService ===appConstants.USER_SERVICE.UPDATE){
-        if (
-          (!("isErrorNameChange" in demographicData) || demographicData.isErrorNameChange === "N") &&
-          (!("isErrorNameRemove" in demographicData) || demographicData.isErrorNameRemove === "N") &&
-          (!("isErrorChangeOfDateOfBirth" in demographicData) || demographicData.isErrorChangeOfDateOfBirth === "N") &&
-          (!("isErrorChangeInPlaceOfResidence" in demographicData) || demographicData.isErrorChangeInPlaceOfResidence === "N")
-        ){
-          
-          if (age >= 16) {
-            if ((demographicData.removingName === "Y" || demographicData.addingName === "Y" || demographicData.completeChangeofName === "Y" || demographicData.changeOfDateOfBirth === "Y" || demographicData.changeInPlaceOfResidence === "Y" || demographicData.addingNamesFromPreviousCertorDoc === "Y" || demographicData.changeInGender === "Y")) {
-              const payableServiceCOP:string=this.configService.getConfigByKey("nira.payable.servicecode.COP_NORMAL");
-              this.requestBody = {
-                service: payableServiceCOP,
-                NIN: nin,
+    const age: number = this.dataStorageService.calculateAge(demographicData.dateOfBirthCop);
+    // console.log(age);
 
-                fullName: surname + " " + demographicData.givenNameCop[0].value
-              };
-              console.log("consoled from generatePaymentRefNum", this.requestBody);
+    if (desiredService === appConstants.USER_SERVICE.UPDATE) {
+      if (
+        (!("isErrorNameChange" in demographicData) || demographicData.isErrorNameChange === "N") &&
+        (!("isErrorNameRemove" in demographicData) || demographicData.isErrorNameRemove === "N") &&
+        (!("isErrorChangeOfDateOfBirth" in demographicData) || demographicData.isErrorChangeOfDateOfBirth === "N") &&
+        (!("isErrorChangeInPlaceOfResidence" in demographicData) || demographicData.isErrorChangeInPlaceOfResidence === "N")
+      ) {
 
-              this.getPRNResponse();
-              // console.log("this is from the general update");
-            }
+        if (age >= 16) {
+          if ((demographicData.removingName === "Y" || demographicData.addingName === "Y" || demographicData.completeChangeofName === "Y" || demographicData.changeOfDateOfBirth === "Y" || demographicData.changeInPlaceOfResidence === "Y" || demographicData.addingNamesFromPreviousCertorDoc === "Y" || demographicData.changeInGender === "Y")) {
+            const payableServiceCOP: string = this.configService.getConfigByKey("nira.payable.servicecode.COP_NORMAL");
+            this.requestBody = {
+              service: payableServiceCOP,
+              NIN: nin,
 
+              fullName: surname + " " + demographicData.givenNameCop[0].value
+            };
+            console.log("consoled from generatePaymentRefNum", this.requestBody);
+
+            this.getPRNResponse();
+            // console.log("this is from the general update");
           }
+
         }
-   }
-  else if(desiredService ===appConstants.USER_SERVICE.REPLACEMENT){
-          if(demographicData.userServiceTypeReplacement[0].value==="LOST"){
-           const payableServiceLost:string=this.configService.getConfigByKey("nira.payable.servicecode.REPLACEMENT");
-            this.requestBody = {
-              service:  payableServiceLost,
-              NIN: nin !== undefined ? nin : null,
-              fullName: surname+ " " +demographicData.givenNameCop[0].value
-            };
-            console.log("this is the request",this.requestBody);
-            
-              this.getPRNResponse();
-               }
-          else if (demographicData.userServiceTypeReplacement[0].value==="DMG"){
-            const payableServiceDamaged:string=this.configService.getConfigByKey("nira.payable.servicecode.DAMAGED_CARD");
-            this.requestBody = {
-              service: payableServiceDamaged,
-              NIN: nin !== undefined ? nin : null,
+      }
+    }
+    else if (desiredService === appConstants.USER_SERVICE.REPLACEMENT) {
+      if (demographicData.userServiceTypeReplacement[0].value === "LOST") {
+        const payableServiceLost: string = this.configService.getConfigByKey("nira.payable.servicecode.REPLACEMENT");
+        this.requestBody = {
+          service: payableServiceLost,
+          NIN: nin !== undefined ? nin : null,
+          fullName: surname + " " + demographicData.givenNameCop[0].value
+        };
+        console.log("this is the request", this.requestBody);
 
-              fullName: surname+ " " +demographicData.givenNameCop[0].value
+        this.getPRNResponse();
+      }
+      else if (demographicData.userServiceTypeReplacement[0].value === "DMG") {
+        const payableServiceDamaged: string = this.configService.getConfigByKey("nira.payable.servicecode.DAMAGED_CARD");
+        this.requestBody = {
+          service: payableServiceDamaged,
+          NIN: nin !== undefined ? nin : null,
 
-            };
-            console.log("this is the request",this.requestBody);
-             this.getPRNResponse();
-          }
-  } 
+          fullName: surname + " " + demographicData.givenNameCop[0].value
+
+        };
+        console.log("this is the request", this.requestBody);
+        this.getPRNResponse();
+      }
+    }
+    // alien 
+
+    else if (desiredService === appConstants.USER_SERVICE.ALIENNEW) {
+      const payableService: string = this.configService.getConfigByKey("nira.payable.servicecode.ALIENNEW");
+      this.requestBody = {
+        service: payableService,
+        NIN: nin !== undefined ? nin : null,
+        fullName: surname + " " + demographicData.givenName[0].value
+      };
+      console.log("this is the request", this.requestBody);
+      this.getPRNResponse();
+    }
+
+    else if (desiredService === appConstants.USER_SERVICE.ALIENRENEWAL) {
+      const payableService: string = this.configService.getConfigByKey("nira.payable.servicecode.ALIENRENEWAL");
+      this.requestBody = {
+        service: payableService,
+        NIN: nin !== undefined ? nin : null,
+        fullName: surname + " " + demographicData.givenNameCop[0].value
+      };
+      console.log("this is the request", this.requestBody);
+      this.getPRNResponse();
+    }
+
+    else if (desiredService === appConstants.USER_SERVICE.ALIENLOST) {
+      if (demographicData.userServiceTypeReplacement[0].value === "LOST") {
+        const payableService: string = this.configService.getConfigByKey("nira.payable.servicecode.ALIENLOST");
+        this.requestBody = {
+          service: payableService,
+          NIN: nin !== undefined ? nin : null,
+          fullName: surname + " " + demographicData.givenNameCop[0].value
+        };
+        console.log("this is the request", this.requestBody);
+
+        this.getPRNResponse();
+      }
+      else if (demographicData.userServiceTypeReplacement[0].value === "DMG") {
+        const payableService: string = this.configService.getConfigByKey("nira.payable.servicecode.ALIENDMG");
+        this.requestBody = {
+          service: payableService,
+          NIN: nin !== undefined ? nin : null,
+
+          fullName: surname + " " + demographicData.givenNameCop[0].value
+
+        };
+        console.log("this is the request", this.requestBody);
+        this.getPRNResponse();
+      }
+    }
+
   }
 
 
@@ -802,11 +873,39 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
       return dialogRef;
     }
   
-    navigateToDemographic() {
+    async navigateToDemographic() {
+      await this.openChooseServicePopup();
       localStorage.setItem(appConstants.NEW_APPLICANT, "true");
       localStorage.setItem(appConstants.MODIFY_USER_FROM_PREVIEW, "false");
       localStorage.setItem(appConstants.MODIFY_USER, "false");
       localStorage.setItem(appConstants.NEW_APPLICANT_FROM_PREVIEW, "true");
-      this.router.navigate([`${this.userPrefLanguage}/pre-registration/demographic/new`]);
+      let service = localStorage.getItem(appConstants.SELECTED_SERVICE_TYPE);
+      if (service == appConstants.CITIZEN) {
+        this.router.navigate([`${this.userPrefLanguage}/pre-registration/demographic/new`]);
+      }
+      else if (service == appConstants.ALIEN) {
+        this.router.navigate([`${this.userPrefLanguage}/pre-registration/demographic-alien/new`]);
+      } 
     }
+
+    openChooseServicePopup() {
+        return new Promise((resolve) => {
+          const popupAttributes = Utils.getChooseServicePopupAttributes(
+            this.textDir,
+            this.dataCaptureLabels
+          );
+    
+          const dialogRef = this.openDialog(popupAttributes, "450px", "300px");
+    
+          dialogRef.afterClosed().subscribe((res) => {
+            console.log(res);
+            if (res === undefined) {
+              resolve(null);
+            } else {
+              localStorage.setItem(appConstants.SELECTED_SERVICE_TYPE, res);
+              resolve(res);
+            }
+          });
+        });
+      }
 }

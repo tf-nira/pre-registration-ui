@@ -607,7 +607,7 @@
     "link_login": "LOGIN"
   },
   "login": {
-    "text": "Uganda National ID Application",
+    "text": "Uganda NSIS",
     "sub_text": "Pre-Registration",
     "residing_out":"If you are outside Uganda, please log in using your email address instead of mobile number. ",
     "residing_in":"If you are inside Uganda, please log in using your mobile number instead of email address. ",
@@ -718,7 +718,7 @@
     "feeLabel":"Fee",
     "prnErrorMessage1":"Your PRN generation failed",
     "prnErrorMessageCont":"You can pay for  your selected service from any Bank before proceeding to NIRA",
-    "surnamelabel":"Surname",
+    "surnamelabel":"Given Name",
     "submissionDateLabel":"Submission Date",
     "userServicelabel":"Service Type"
   },

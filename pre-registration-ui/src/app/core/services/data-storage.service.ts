@@ -652,10 +652,31 @@ export class DataStorageService {
   }
 
   getIdentityJson() {
-    //const url = this.BASE_URL + this.PRE_REG_URL+ 'applications/config';
-    let url = this.BASE_URL + this.PRE_REG_URL + `uispec/latest`;
+    let service = localStorage.getItem(appConstants.SELECTED_SERVICE_TYPE);
+    
+    if (service == appConstants.CITIZEN) {
+      return this.getIdentityJsonCitizen();
+    }
+    else if (service == appConstants.ALIEN) {
+      return this.getIdentityJsonAlien();
+    }
+  }
+  // getIdentityJson() {
+  //   //const url = this.BASE_URL + this.PRE_REG_URL+ 'applications/config';
+  //   let url = this.BASE_URL + this.PRE_REG_URL + `uispec/latest`;
+  //   console.log("Identity Spec URL: " + url);
+  //       return this.httpClient.get(url);
+  //   // return this.httpClient.get("../../../assets/identity-spec.json");
+  // }
+  getIdentityJsonAlien() {
+    let url = this.BASE_URL + this.PRE_REG_URL + `uispec/latest?type=alien`;
+    console.log("Identity Spec URL: " + url);
         return this.httpClient.get(url);
-    // return this.httpClient.get("../../../assets/identity-spec.json");
+  }
+  getIdentityJsonCitizen() {
+    let url = this.BASE_URL + this.PRE_REG_URL + `uispec/latest?type=citizen`;
+    console.log("Identity Spec URL: " + url);
+        return this.httpClient.get(url);
   }
 
   getRegistrationCentersById(regCenterId, langCode: string) {
