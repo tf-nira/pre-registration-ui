@@ -149,7 +149,7 @@ isStepVisible(step: number): boolean {
     case 1:
       return this.isNewAlien() || this.isRenewalAlien() || this.isReplacementAlien();
     case 2:
-      return this.isNewAlien() && (this.isDependentPass());
+      return (this.isNewAlien() || this.isRenewalAlien()) && (this.isDependentPass());
     case 3:
       return !this.isCopService() && !this.isGetFirstId() && !this.isReplacement() && !this.isRenewalService() && !this.isRenewalAlien() && !this.isReplacementAlien();
     case 4:
