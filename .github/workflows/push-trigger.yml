@@ -13,7 +13,6 @@ on:
       - 1.*
       - develop
       - tf_nira_dev
-      - tf_nira_preprod_new
       - altcha-dev
       - MOSIP*
 
