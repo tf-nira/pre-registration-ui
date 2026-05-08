@@ -3474,10 +3474,10 @@ familyRoles = [
     if(error==null && this.userService==appConstants.USER_SERVICE.UPDATE){
       error=this.nameFieldsCopValidationError();
     }
-    else if(error==null && this.userService==appConstants.USER_SERVICE.ALIENNEW && this.islinkedDependentValid==false){
+    else if(error==null && (this.userService==appConstants.USER_SERVICE.ALIENNEW || this.userService == appConstants.USER_SERVICE.ALIENRENEWAL) && this.islinkedDependentValid==false){
       error=this.linkedDependentValidationError();
     }
-    else if(error==null && this.userService==appConstants.USER_SERVICE.ALIENNEW){
+    else if(error==null && this.userService==appConstants.USER_SERVICE.ALIENNEW || this.userService == appConstants.USER_SERVICE.ALIENRENEWAL){
       error=this.phoneValidationError();
     }
     if (error) {
