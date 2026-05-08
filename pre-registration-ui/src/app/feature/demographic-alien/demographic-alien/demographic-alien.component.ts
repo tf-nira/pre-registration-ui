@@ -171,7 +171,7 @@ isStepVisible(step: number): boolean {
     case 12:
       return (!this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement() && !this.isRenewalAlien() && !this.isReplacementAlien());
     case 13:
-      return (!this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement() && !this.isRenewalAlien() && !this.isReplacementAlien()) && this.isOtherPass();
+      return (!this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement() && !this.isReplacementAlien()) && this.isOtherPass();
     case 14:
       return true;
     default:
