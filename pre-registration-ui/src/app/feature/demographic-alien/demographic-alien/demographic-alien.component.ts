@@ -2948,10 +2948,10 @@ familyRoles = [
       if(this.userService==appConstants.USER_SERVICE.UPDATE){
         this.nameFieldsCopValidation();
       }
-      if(this.userService==appConstants.USER_SERVICE.ALIENNEW){
+      if(this.userService==appConstants.USER_SERVICE.ALIENNEW || this.userService == appConstants.USER_SERVICE.ALIENRENEWAL){
         this.phoneValidation();
       }
-      if(this.userService==appConstants.USER_SERVICE.ALIENNEW){
+      if(this.userService==appConstants.USER_SERVICE.ALIENNEW || this.userService == appConstants.USER_SERVICE.ALIENRENEWAL){
         this.islinkedDependentValid=true;
         this.linkedDependentValidation();
       }
