@@ -159,9 +159,9 @@ isStepVisible(step: number): boolean {
     case 6:
       return !this.isCopService() && !this.isGetFirstId() && !this.isReplacement();
     case 7:
-      return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement() && !this.isRenewalAlien() && !this.isReplacementAlien();
+      return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement() && !this.isReplacementAlien();
     case 8:
-      return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement() && !this.isRenewalAlien() && !this.isReplacementAlien();
+      return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement() && !this.isReplacementAlien();
     case 9:
       return (this.isNewAlien() || this.isRenewalAlien() || this.isReplacementAlien()) && this.isOtherPass();
     case 10:
