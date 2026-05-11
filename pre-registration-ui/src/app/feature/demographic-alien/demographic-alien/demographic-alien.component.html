@@ -4108,16 +4108,16 @@
             </mat-expansion-panel>
 
             <mat-expansion-panel
-              *ngIf="(!isRenewalService() && !isCopService() && !isGetFirstId() && !isReplacement() && !isRenewalAlien() && !isReplacementAlien())"
+              *ngIf="(!isRenewalService() && !isCopService() && !isGetFirstId() && !isReplacement() && !isReplacementAlien())"
               [expanded]="expStep === 12" (opened)="setStep(12)" hideToggle>
               <mat-expansion-panel-header>
                 <mat-panel-title>
                   <b>Spouse Details:</b>
                 </mat-panel-title>
-                <mat-panel-description *ngIf="!isNewAlien()">
+                <mat-panel-description *ngIf="!isNewAlien() && !isRenewalAlien()">
                   Note: Male applicants can add up to 4 spouses, while female applicants can add 1 spouse.
                 </mat-panel-description>
-                <mat-panel-description *ngIf="isNewAlien()">
+                <mat-panel-description *ngIf="isNewAlien() || isRenewalAlien()">
                   Note: Male applicants can add up to 6 spouses, while female applicants can add 1 spouse.
                 </mat-panel-description>
 
