@@ -169,9 +169,9 @@ isStepVisible(step: number): boolean {
     case 11:
       return (!this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement());
     case 12:
-      return (!this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement() && !this.isRenewalAlien() && !this.isReplacementAlien());
+      return (!this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement() && !this.isReplacementAlien());
     case 13:
-      return (!this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement() && !this.isRenewalAlien() && !this.isReplacementAlien()) && this.isOtherPass();
+      return (!this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement() && !this.isReplacementAlien()) && this.isOtherPass();
     case 14:
       return true;
     default:
@@ -2948,10 +2948,10 @@ familyRoles = [
       if(this.userService==appConstants.USER_SERVICE.UPDATE){
         this.nameFieldsCopValidation();
       }
-      if(this.userService==appConstants.USER_SERVICE.ALIENNEW){
+      if(this.userService==appConstants.USER_SERVICE.ALIENNEW || this.userService == appConstants.USER_SERVICE.ALIENRENEWAL){
         this.phoneValidation();
       }
-      if(this.userService==appConstants.USER_SERVICE.ALIENNEW){
+      if(this.userService==appConstants.USER_SERVICE.ALIENNEW || this.userService == appConstants.USER_SERVICE.ALIENRENEWAL){
         this.islinkedDependentValid=true;
         this.linkedDependentValidation();
       }
@@ -3474,10 +3474,10 @@ familyRoles = [
     if(error==null && this.userService==appConstants.USER_SERVICE.UPDATE){
       error=this.nameFieldsCopValidationError();
     }
-    else if(error==null && this.userService==appConstants.USER_SERVICE.ALIENNEW && this.islinkedDependentValid==false){
+    else if(error==null && (this.userService==appConstants.USER_SERVICE.ALIENNEW || this.userService == appConstants.USER_SERVICE.ALIENRENEWAL) && this.islinkedDependentValid==false){
       error=this.linkedDependentValidationError();
     }
-    else if(error==null && this.userService==appConstants.USER_SERVICE.ALIENNEW){
+    else if(error==null && this.userService==appConstants.USER_SERVICE.ALIENNEW || this.userService == appConstants.USER_SERVICE.ALIENRENEWAL){
       error=this.phoneValidationError();
     }
     if (error) {
