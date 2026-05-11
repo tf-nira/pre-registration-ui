@@ -1108,7 +1108,7 @@
                 <div class="rowContainer">
                   <span *ngFor="let field of uiFieldsForAlignmentGroups[alignmentGroup]; index as uiFieldIndex">
                     <div class="fieldContainer"
-                      *ngIf=" (isCopService() || isRenewalAlien() || isReplacementAlien()) && field.isVisible == true && (field.renderID.startsWith('frm_3a_a9') || field.renderID.startsWith('frm_3a_a1_RewewNINI') || field.renderID.startsWith('frm_3a_a1I_countryCode') || field.renderID.startsWith('frm_3a_a1I_contact') ||  field.renderID.startsWith('frm_3a_a1I_homePhoneNo')  || field.renderID.startsWith('frm_3a_a1Iemail') || field.renderID.startsWith('frm_3a_a1_drivingLicenceNumber') || field.renderID.startsWith('frm_3a_a1_highestLevelOfEducation') || field.renderID.startsWith('frm_3a_a1_otherHighestLevelOfEducation') || field.renderID.startsWith('frm_3a_a1_occuption') || field.renderID.startsWith('frm_3a_a1_otherOccupation') || field.renderID.startsWith('frm_3a_a1_profession') || field.renderID.startsWith('frm_3a_a1_otherProfession') || field.renderID.startsWith('frm_3a_b_6_maritalStatus') || field.renderID.startsWith('frm_3a_a1_taxIdentificationNumber') || field.renderID.startsWith('frm_3a_a1I_countryCode') || field.renderID.startsWith('frm_3a_a1I_contact'))">
+                      *ngIf=" (isCopService() || isRenewalAlien() || isReplacementAlien()) && field.isVisible == true && (field.renderID.startsWith('frm_3a_a9') || field.renderID.startsWith('frm_3a_a1_RewewNINI') || field.renderID.startsWith('frm_3a_a1I_countryCode') || field.renderID.startsWith('frm_3a_a1I_contact') ||  field.renderID.startsWith('frm_3a_a1I_homePhoneNo')  || field.renderID.startsWith('frm_3a_a1Iemail') || field.renderID.startsWith('frm_3a_a1_drivingLicenceNumber') || field.renderID.startsWith('frm_3a_a1_highestLevelOfEducation') || field.renderID.startsWith('frm_3a_a1_otherHighestLevelOfEducation') || field.renderID.startsWith('frm_3a_a1_occuption') || field.renderID.startsWith('frm_3a_a1_otherOccupation') || field.renderID.startsWith('frm_3a_a1_profession') || field.renderID.startsWith('frm_3a_a1_otherProfession') || field.renderID.startsWith('frm_3a_a1_taxIdentificationNumber') || field.renderID.startsWith('frm_3a_a1I_countryCode') || field.renderID.startsWith('frm_3a_a1I_contact'))">
                       <div class="fieldHeader" [ngStyle]="field.headerStyle">
                         <!-- Create container header with label in user's login lang -->
                         <mat-label>{{field.labelName[userPrefLanguage]}} : </mat-label>
@@ -3072,7 +3072,7 @@
                 <div class="rowContainer">
                   <span *ngFor="let field of uiFieldsForAlignmentGroups[alignmentGroup]; index as uiFieldIndex">
                     <div class="fieldContainer"
-                      *ngIf="field.isVisible == true && field.renderID.startsWith('frm_3a_a4') && (!field.renderID.startsWith('frm_3a_a4_passportNumber')||!isNewAlien()||!isRenewalAlien())">
+                      *ngIf="field.isVisible == true && field.renderID.startsWith('frm_3a_a4') && (!field.renderID.startsWith('frm_3a_a4_passportNumber') && (isNewAlien() || isRenewalAlien()))">
                       <div class="fieldHeader" [ngStyle]="field.headerStyle">
                         <!-- Create container header with label in user's login lang -->
                         <mat-label>{{field.labelName[userPrefLanguage]}} : </mat-label>
@@ -4108,16 +4108,16 @@
             </mat-expansion-panel>
 
             <mat-expansion-panel
-              *ngIf="(!isRenewalService() && !isCopService() && !isGetFirstId() && !isReplacement() && !isRenewalAlien() && !isReplacementAlien())"
+              *ngIf="(!isRenewalService() && !isCopService() && !isGetFirstId() && !isReplacement() && !isReplacementAlien())"
               [expanded]="expStep === 12" (opened)="setStep(12)" hideToggle>
               <mat-expansion-panel-header>
                 <mat-panel-title>
                   <b>Spouse Details:</b>
                 </mat-panel-title>
-                <mat-panel-description *ngIf="!isNewAlien()">
+                <mat-panel-description *ngIf="!isNewAlien() && !isRenewalAlien()">
                   Note: Male applicants can add up to 4 spouses, while female applicants can add 1 spouse.
                 </mat-panel-description>
-                <mat-panel-description *ngIf="isNewAlien()">
+                <mat-panel-description *ngIf="isNewAlien() || isRenewalAlien()">
                   Note: Male applicants can add up to 6 spouses, while female applicants can add 1 spouse.
                 </mat-panel-description>
 
@@ -4392,7 +4392,7 @@
             </mat-expansion-panel>
 
             <mat-expansion-panel
-              *ngIf="(!isRenewalService() && !isCopService() && !isGetFirstId() && !isReplacement() && !isRenewalAlien() && !isReplacementAlien()) && isOtherPass()"
+              *ngIf="(!isRenewalService() && !isCopService() && !isGetFirstId() && !isReplacement() && !isReplacementAlien()) && isOtherPass()"
               [expanded]="expStep === 13" (opened)="setStep(13)" hideToggle>
               <mat-expansion-panel-header>
                 <mat-panel-title>
