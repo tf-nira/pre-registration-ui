@@ -4392,7 +4392,7 @@
             </mat-expansion-panel>
 
             <mat-expansion-panel
-              *ngIf="(!isRenewalService() && !isCopService() && !isGetFirstId() && !isReplacement() && !isReplacementAlien()) && isOtherPass()"
+              *ngIf="(!isRenewalService() && !isCopService() && !isGetFirstId() && !isReplacement() && !isReplacementAlien())"
               [expanded]="expStep === 13" (opened)="setStep(13)" hideToggle>
               <mat-expansion-panel-header>
                 <mat-panel-title>
