@@ -550,7 +550,7 @@
               </mat-action-row>
             </mat-expansion-panel>
 
-            <mat-expansion-panel *ngIf="(isNewAlien() || isRenewalAlien()) && (isDependentPass())" [expanded]="expStep === 2" (opened)="setStep(2)" hideToggle>
+            <mat-expansion-panel *ngIf="(isNewAlien() || isRenewalAlien() || isReplacementAlien()) && (isDependentPass())" [expanded]="expStep === 2" (opened)="setStep(2)" hideToggle>
               <mat-expansion-panel-header>
                 <mat-panel-title>
                   <b>Linked Dependent to Principal:</b>

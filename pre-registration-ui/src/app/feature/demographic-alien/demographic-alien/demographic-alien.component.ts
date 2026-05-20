@@ -149,7 +149,7 @@ isStepVisible(step: number): boolean {
     case 1:
       return this.isNewAlien() || this.isRenewalAlien() || this.isReplacementAlien();
     case 2:
-      return (this.isNewAlien() || this.isRenewalAlien()) && (this.isDependentPass());
+      return (this.isNewAlien() || this.isRenewalAlien() || this.isReplacementAlien()) && (this.isDependentPass());
     case 3:
       return !this.isCopService() && !this.isGetFirstId() && !this.isReplacement() && !this.isRenewalService() && !this.isRenewalAlien() && !this.isReplacementAlien();
     case 4:
@@ -2951,7 +2951,7 @@ familyRoles = [
       if(this.userService==appConstants.USER_SERVICE.ALIENNEW || this.userService == appConstants.USER_SERVICE.ALIENRENEWAL|| this.userService == appConstants.USER_SERVICE.ALIENLOST){
         this.phoneValidation();
       }
-      if(this.userService==appConstants.USER_SERVICE.ALIENNEW || this.userService == appConstants.USER_SERVICE.ALIENRENEWAL){
+      if(this.userService==appConstants.USER_SERVICE.ALIENNEW || this.userService == appConstants.USER_SERVICE.ALIENRENEWAL || this.userService == appConstants.USER_SERVICE.ALIENLOST){
         this.islinkedDependentValid=true;
         this.linkedDependentValidation();
       }
