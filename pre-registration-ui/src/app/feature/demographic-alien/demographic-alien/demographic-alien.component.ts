@@ -159,9 +159,9 @@ isStepVisible(step: number): boolean {
     case 6:
       return !this.isCopService() && !this.isGetFirstId() && !this.isReplacement();
     case 7:
-      return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement() && !this.isReplacementAlien();
+      return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement();
     case 8:
-      return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement() && !this.isReplacementAlien();
+      return !this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement();
     case 9:
       return (this.isNewAlien() || this.isRenewalAlien() || this.isReplacementAlien()) && this.isOtherPass();
     case 10:
@@ -169,9 +169,9 @@ isStepVisible(step: number): boolean {
     case 11:
       return (!this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement());
     case 12:
-      return (!this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement() && !this.isReplacementAlien());
+      return (!this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement());
     case 13:
-      return (!this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement() && !this.isReplacementAlien());
+      return (!this.isRenewalService() && !this.isCopService() && !this.isGetFirstId() && !this.isReplacement());
     case 14:
       return true;
     default:
@@ -2948,7 +2948,7 @@ familyRoles = [
       if(this.userService==appConstants.USER_SERVICE.UPDATE){
         this.nameFieldsCopValidation();
       }
-      if(this.userService==appConstants.USER_SERVICE.ALIENNEW || this.userService == appConstants.USER_SERVICE.ALIENRENEWAL){
+      if(this.userService==appConstants.USER_SERVICE.ALIENNEW || this.userService == appConstants.USER_SERVICE.ALIENRENEWAL|| this.userService == appConstants.USER_SERVICE.ALIENLOST){
         this.phoneValidation();
       }
       if(this.userService==appConstants.USER_SERVICE.ALIENNEW || this.userService == appConstants.USER_SERVICE.ALIENRENEWAL){
@@ -3477,7 +3477,7 @@ familyRoles = [
     else if(error==null && (this.userService==appConstants.USER_SERVICE.ALIENNEW || this.userService == appConstants.USER_SERVICE.ALIENRENEWAL) && this.islinkedDependentValid==false){
       error=this.linkedDependentValidationError();
     }
-    else if(error==null && this.userService==appConstants.USER_SERVICE.ALIENNEW || this.userService == appConstants.USER_SERVICE.ALIENRENEWAL){
+    else if(error==null && (this.userService==appConstants.USER_SERVICE.ALIENNEW || this.userService == appConstants.USER_SERVICE.ALIENRENEWAL|| this.userService == appConstants.USER_SERVICE.ALIENLOST)){
       error=this.phoneValidationError();
     }
     if (error) {
