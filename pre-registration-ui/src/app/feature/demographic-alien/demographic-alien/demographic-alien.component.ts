@@ -3474,7 +3474,7 @@ familyRoles = [
     if(error==null && this.userService==appConstants.USER_SERVICE.UPDATE){
       error=this.nameFieldsCopValidationError();
     }
-    else if(error==null && (this.userService==appConstants.USER_SERVICE.ALIENNEW || this.userService == appConstants.USER_SERVICE.ALIENRENEWAL) && this.islinkedDependentValid==false){
+    else if(error==null && (this.userService==appConstants.USER_SERVICE.ALIENNEW || this.userService == appConstants.USER_SERVICE.ALIENRENEWAL || this.userService == appConstants.USER_SERVICE.ALIENLOST ) && this.islinkedDependentValid==false){
       error=this.linkedDependentValidationError();
     }
     else if(error==null && (this.userService==appConstants.USER_SERVICE.ALIENNEW || this.userService == appConstants.USER_SERVICE.ALIENRENEWAL|| this.userService == appConstants.USER_SERVICE.ALIENLOST)){
