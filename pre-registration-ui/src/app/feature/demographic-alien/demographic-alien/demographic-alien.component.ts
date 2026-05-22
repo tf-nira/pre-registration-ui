@@ -1848,7 +1848,7 @@ familyRoles = [
     const countryCode = countryCodeControl.value;
 
     if (!phoneValue) {
-      phoneControl.setErrors(null);
+      // phoneControl.setErrors(null);
       return;
     }
 
