@@ -1113,18 +1113,29 @@ familyRoles = [
                   isInvalid = true;
                   msg = "The date must  be in the future.";
                 }
-              } else if (validatorItem.type === "customExpiryDate") {
-                let inputDate = new Date(val);
-                inputDate.setHours(0, 0, 0, 0);
-
+              }else if (validatorItem.type === "customExpiryDate") {
+                let expiryDate = new Date(val);
+                expiryDate.setHours(0, 0, 0, 0);
                 let currentDate = new Date();
                 currentDate.setHours(0, 0, 0, 0);
-                let minAllowedDate = new Date(currentDate);
-                minAllowedDate.setDate(minAllowedDate.getDate() - 90);
-
-                if (inputDate > minAllowedDate) {
+                if (expiryDate <= currentDate) {
                   isInvalid = true;
-                  msg = "The date must be at least 90 days older than today.";
+                  msg = "Date of Expiry must be a future date.";
+                } else {
+                  let issuanceVal = this.userForm && this.userForm.get('dateOfIssuance')
+                    ? this.userForm.get('dateOfIssuance').value : null;
+                  if (issuanceVal) {
+                    let issuanceDate = new Date(issuanceVal);
+                    issuanceDate.setHours(0, 0, 0, 0);
+                    let diffDays = (expiryDate.getTime() - issuanceDate.getTime()) / (1000 * 60 * 60 * 24);
+                    if (expiryDate <= issuanceDate) {
+                      isInvalid = true;
+                      msg = "Date of Expiry must be greater than Date of Issuance.";
+                    } else if (diffDays < 90) {
+                      isInvalid = true;
+                      msg = "The difference between Date of Issuance and Date of Expiry must be at least 90 days.";
+                    }
+                  }
                 }
               }
               else if (validatorItem.type === "minimumExpiry") {
