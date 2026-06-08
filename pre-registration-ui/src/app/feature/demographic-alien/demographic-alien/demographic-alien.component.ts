@@ -1131,7 +1131,7 @@ familyRoles = [
                     if (expiryDate <= issuanceDate) {
                       isInvalid = true;
                       msg = "Date of Expiry must be greater than Date of Issuance.";
-                    } else if (diffDays < 90) {
+                    } else if (diffDays <= 90) {
                       isInvalid = true;
                       msg = "The difference between Date of Issuance and Date of Expiry must be at least 90 days.";
                     }
