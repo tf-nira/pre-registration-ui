@@ -288,7 +288,7 @@
 
           <mat-accordion class="example-headers-align">
 
-            <mat-expansion-panel *ngIf="isNewAlien() || isRenewalAlien() || isReplacementAlien()"
+            <mat-expansion-panel *ngIf="isNewAlien() || isRenewalAlien()"
               [expanded]="expStep === 1" (opened)="setStep(1)" hideToggle>
               <mat-expansion-panel-header>
                 <mat-panel-title>
@@ -550,7 +550,7 @@
               </mat-action-row>
             </mat-expansion-panel>
 
-            <mat-expansion-panel *ngIf="isNewAlien() && (isDependentPass())" [expanded]="expStep === 2" (opened)="setStep(2)" hideToggle>
+            <mat-expansion-panel *ngIf="(isNewAlien() || isRenewalAlien()) && (isDependentPass())" [expanded]="expStep === 2" (opened)="setStep(2)" hideToggle>
               <mat-expansion-panel-header>
                 <mat-panel-title>
                   <b>Linked Dependent to Principal:</b>
@@ -1108,7 +1108,7 @@
                 <div class="rowContainer">
                   <span *ngFor="let field of uiFieldsForAlignmentGroups[alignmentGroup]; index as uiFieldIndex">
                     <div class="fieldContainer"
-                      *ngIf=" (isCopService() || isRenewalAlien() || isReplacementAlien()) && field.isVisible == true && (field.renderID.startsWith('frm_3a_a9') || field.renderID.startsWith('frm_3a_a1_RewewNINI') || field.renderID.startsWith('frm_3a_a1I_countryCode') || field.renderID.startsWith('frm_3a_a1I_contact') ||  field.renderID.startsWith('frm_3a_a1I_homePhoneNo')  || field.renderID.startsWith('frm_3a_a1Iemail') || field.renderID.startsWith('frm_3a_a1_drivingLicenceNumber') || field.renderID.startsWith('frm_3a_a1_highestLevelOfEducation') || field.renderID.startsWith('frm_3a_a1_otherHighestLevelOfEducation') || field.renderID.startsWith('frm_3a_a1_occuption') || field.renderID.startsWith('frm_3a_a1_otherOccupation') || field.renderID.startsWith('frm_3a_a1_profession') || field.renderID.startsWith('frm_3a_a1_otherProfession') || field.renderID.startsWith('frm_3a_b_6_maritalStatus') || field.renderID.startsWith('frm_3a_a1_taxIdentificationNumber') || field.renderID.startsWith('frm_3a_a1I_countryCode') || field.renderID.startsWith('frm_3a_a1I_contact'))">
+                      *ngIf=" (isCopService() || isRenewalAlien() || isReplacementAlien()) && field.isVisible == true && (field.renderID.startsWith('frm_3a_a9') || field.renderID.startsWith('frm_3a_a1_RewewNINI') || field.renderID.startsWith('frm_3a_a1I_countryCode') || field.renderID.startsWith('frm_3a_a1I_contact') ||  field.renderID.startsWith('frm_3a_a1I_homePhoneNo')  || field.renderID.startsWith('frm_3a_a1Iemail') || field.renderID.startsWith('frm_3a_a1_drivingLicenceNumber') || field.renderID.startsWith('frm_3a_a1_highestLevelOfEducation') || field.renderID.startsWith('frm_3a_a1_otherHighestLevelOfEducation') || field.renderID.startsWith('frm_3a_a1_occuption') || field.renderID.startsWith('frm_3a_a1_otherOccupation') || field.renderID.startsWith('frm_3a_a1_profession') || field.renderID.startsWith('frm_3a_a1_otherProfession') || field.renderID.startsWith('frm_3a_a1_taxIdentificationNumber') || field.renderID.startsWith('frm_3a_a1I_countryCode') || field.renderID.startsWith('frm_3a_a1I_contact'))">
                       <div class="fieldHeader" [ngStyle]="field.headerStyle">
                         <!-- Create container header with label in user's login lang -->
                         <mat-label>{{field.labelName[userPrefLanguage]}} : </mat-label>
@@ -2236,11 +2236,11 @@
               </mat-action-row>
             </mat-expansion-panel>
 
-            <mat-expansion-panel *ngIf="isNewAlien() || isRenewalAlien() || isReplacementAlien()"
+            <mat-expansion-panel *ngIf="isNewAlien() || isRenewalAlien()"
               [expanded]="expStep === 5" (opened)="setStep(5)" hideToggle>
               <mat-expansion-panel-header>
                 <mat-panel-title>
-                  <b>Passport and Citizeship Details:</b>
+                  <b>Passport and Citizenship Details:</b>
                 </mat-panel-title>
 
               </mat-expansion-panel-header>
@@ -2506,7 +2506,7 @@
               </mat-action-row>
             </mat-expansion-panel>
 
-            <mat-expansion-panel *ngIf="!isCopService() && !isGetFirstId() && !isReplacement()"
+            <mat-expansion-panel *ngIf="!isCopService() && !isGetFirstId() && !isReplacement() && !isReplacementAlien()"
               [expanded]="expStep === 6" (opened)="setStep(6)" hideToggle>
               <mat-expansion-panel-header>
                 <mat-panel-title>
@@ -2781,7 +2781,7 @@
             </mat-expansion-panel>
 
             <mat-expansion-panel
-              *ngIf="!isRenewalService() && !isCopService() && !isGetFirstId() && !isReplacement() && !isRenewalAlien() && !isReplacementAlien()"
+              *ngIf="!isRenewalService() && !isCopService() && !isGetFirstId() && !isReplacement() && !isReplacementAlien()"
               [expanded]="expStep === 7" (opened)="setStep(7)" hideToggle>
               <mat-expansion-panel-header>
                 <mat-panel-title>
@@ -3044,7 +3044,7 @@
             </mat-expansion-panel>
 
             <mat-expansion-panel
-              *ngIf="!isRenewalService() && !isCopService() && !isGetFirstId() && !isReplacement() && !isRenewalAlien() && !isReplacementAlien()"
+              *ngIf="!isRenewalService() && !isCopService() && !isGetFirstId() && !isReplacement() && !isReplacementAlien()"
               [expanded]="expStep === 8" (opened)="setStep(8)" hideToggle>
               <mat-expansion-panel-header>
                 <mat-panel-title *ngIf="isByBirth()">
@@ -3053,10 +3053,10 @@
                 <mat-panel-title *ngIf="isNaturalization()">
                   <b>Citizenship Information:</b>
                 </mat-panel-title>
-                <mat-panel-title *ngIf="!isByBirth() && !isNaturalization() && !isNewAlien()">
+                <mat-panel-title *ngIf="!isByBirth() && !isNaturalization() && !isNewAlien() && !isRenewalAlien() && !isReplacementAlien()">
                   <b>Place of Origin and Citizenship Information:</b>
                 </mat-panel-title>
-                <mat-panel-title *ngIf="isNewAlien()">
+                <mat-panel-title *ngIf="isNewAlien() || isRenewalAlien() || isReplacementAlien()">
                   <b>Country of Origin:</b>
                 </mat-panel-title>
 
@@ -3065,14 +3065,14 @@
               <span *ngFor="let alignmentGroup of alignmentGroups">
                 <span *ngFor="let field of uiFieldsForAlignmentGroups[alignmentGroup]; index as uiFieldIndex">
                   <div class="subsection-name"
-                    *ngIf="field.SectionName && field.isVisible == true && field.renderID.startsWith('frm_3a_a4') && (!isNewAlien()) ">
+                    *ngIf="field.SectionName && field.isVisible == true && field.renderID.startsWith('frm_3a_a4') && (!isNewAlien()) && (!isRenewalAlien() && (!isReplacementAlien()))">
                     <b>{{field.SectionName}}:</b>
                   </div>
                 </span>
                 <div class="rowContainer">
                   <span *ngFor="let field of uiFieldsForAlignmentGroups[alignmentGroup]; index as uiFieldIndex">
                     <div class="fieldContainer"
-                      *ngIf="field.isVisible == true && field.renderID.startsWith('frm_3a_a4') && (!field.renderID.startsWith('frm_3a_a4_passportNumber')||!isNewAlien())">
+                      *ngIf="field.isVisible == true && field.renderID.startsWith('frm_3a_a4') && (!field.renderID.startsWith('frm_3a_a4_passportNumber') && (isNewAlien() || isRenewalAlien() || isReplacementAlien()))">
                       <div class="fieldHeader" [ngStyle]="field.headerStyle">
                         <!-- Create container header with label in user's login lang -->
                         <mat-label>{{field.labelName[userPrefLanguage]}} : </mat-label>
@@ -3321,7 +3321,7 @@
               </mat-action-row>
             </mat-expansion-panel>
 
-            <mat-expansion-panel *ngIf="(isNewAlien() || isRenewalAlien() || isReplacementAlien()) && isOtherPass()"
+            <mat-expansion-panel *ngIf="(isNewAlien() || isRenewalAlien()) && isOtherPass()"
               [expanded]="expStep === 9" (opened)="setStep(9)" hideToggle>
               <mat-expansion-panel-header>
                 <mat-panel-title>
@@ -3583,7 +3583,7 @@
               </mat-action-row>
             </mat-expansion-panel>
 
-            <mat-expansion-panel *ngIf="(isNewAlien() || isRenewalAlien() || isReplacementAlien()) && isStudentPass()"
+            <mat-expansion-panel *ngIf="(isNewAlien() || isRenewalAlien()) && isStudentPass()"
               [expanded]="expStep === 10" (opened)="setStep(10)" hideToggle>
               <mat-expansion-panel-header>
                 <mat-panel-title>
@@ -3845,7 +3845,7 @@
               </mat-action-row>
             </mat-expansion-panel>
 
-            <mat-expansion-panel *ngIf="(!isRenewalService() && !isCopService() && !isGetFirstId() && !isReplacement())"
+            <mat-expansion-panel *ngIf="(!isRenewalService() && !isCopService() && !isGetFirstId() && !isReplacement() && !isReplacementAlien())"
               [expanded]="expStep === 11" (opened)="setStep(11)" hideToggle>
               <mat-expansion-panel-header>
                 <mat-panel-title>
@@ -4108,16 +4108,16 @@
             </mat-expansion-panel>
 
             <mat-expansion-panel
-              *ngIf="(!isRenewalService() && !isCopService() && !isGetFirstId() && !isReplacement() && !isRenewalAlien() && !isReplacementAlien())"
+              *ngIf="(!isRenewalService() && !isCopService() && !isGetFirstId() && !isReplacement() && !isReplacementAlien())"
               [expanded]="expStep === 12" (opened)="setStep(12)" hideToggle>
               <mat-expansion-panel-header>
                 <mat-panel-title>
                   <b>Spouse Details:</b>
                 </mat-panel-title>
-                <mat-panel-description *ngIf="!isNewAlien()">
+                <mat-panel-description *ngIf="!isNewAlien() && !isRenewalAlien() && !isReplacementAlien()">
                   Note: Male applicants can add up to 4 spouses, while female applicants can add 1 spouse.
                 </mat-panel-description>
-                <mat-panel-description *ngIf="isNewAlien()">
+                <mat-panel-description *ngIf="isNewAlien() || isRenewalAlien() || isReplacementAlien()">
                   Note: Male applicants can add up to 6 spouses, while female applicants can add 1 spouse.
                 </mat-panel-description>
 
@@ -4392,14 +4392,14 @@
             </mat-expansion-panel>
 
             <mat-expansion-panel
-              *ngIf="(!isRenewalService() && !isCopService() && !isGetFirstId() && !isReplacement() && !isRenewalAlien() && !isReplacementAlien()) && isOtherPass()"
+              *ngIf="(!isRenewalService() && !isCopService() && !isGetFirstId() && !isReplacement() && !isReplacementAlien())"
               [expanded]="expStep === 13" (opened)="setStep(13)" hideToggle>
               <mat-expansion-panel-header>
                 <mat-panel-title>
-                  <b>Particular of applicant’s dependent :</b>
+                  <b>Particular of Applicant’s Dependants :</b>
                 </mat-panel-title>
                 <mat-panel-description>
-                  Maximum of 6 children can be added
+                  Maximum of 6 dependants can be added
                 </mat-panel-description>
 
               </mat-expansion-panel-header>
