@@ -1122,25 +1122,18 @@ familyRoles = [
                   isInvalid = true;
                   msg = "Date of Expiry must be a future date.";
                 } else {
-                  let maxExpiryDate = new Date(currentDate);
-                  maxExpiryDate.setFullYear(maxExpiryDate.getFullYear() + 10);
-                  if (expiryDate > maxExpiryDate) {
-                    isInvalid = true;
-                    msg = "Expiry date must be within 10 years from today.";
-                  } else {
-                    let issuanceVal = this.userForm && this.userForm.get('dateOfIssuance')
-                      ? this.userForm.get('dateOfIssuance').value : null;
-                    if (issuanceVal) {
-                      let issuanceDate = new Date(issuanceVal);
-                      issuanceDate.setHours(0, 0, 0, 0);
-                      let diffDays = (expiryDate.getTime() - issuanceDate.getTime()) / (1000 * 60 * 60 * 24);
-                      if (expiryDate <= issuanceDate) {
-                        isInvalid = true;
-                        msg = "Date of Expiry must be greater than Date of Issuance.";
-                      } else if (diffDays <= 90) {
-                        isInvalid = true;
-                        msg = "The difference between Date of Issuance and Date of Expiry must be at least 90 days.";
-                      }
+                  let issuanceVal = this.userForm && this.userForm.get('dateOfIssuance')
+                    ? this.userForm.get('dateOfIssuance').value : null;
+                  if (issuanceVal) {
+                    let issuanceDate = new Date(issuanceVal);
+                    issuanceDate.setHours(0, 0, 0, 0);
+                    let diffDays = (expiryDate.getTime() - issuanceDate.getTime()) / (1000 * 60 * 60 * 24);
+                    if (expiryDate <= issuanceDate) {
+                      isInvalid = true;
+                      msg = "Date of Expiry must be greater than Date of Issuance.";
+                    } else if (diffDays <= 90) {
+                      isInvalid = true;
+                      msg = "The difference between Date of Issuance and Date of Expiry must be at least 90 days.";
                     }
                   }
                 }
