@@ -1198,7 +1198,6 @@ familyRoles = [
                   isInvalid = true;
                   msg = "The date must not be more than the Applicant's Date of Birth or a future date.";
                 }
-              }
           }else if (validatorItem.type === "declarantAge") {
                           let age = Number(val);
                           if (Number.isNaN(age)) {
@@ -1228,7 +1227,7 @@ familyRoles = [
                           ) {
                             msg = this.validationErrorCodes[validatorItem.errorMessageCode];
                           }
-
+                    }
               } else if (validatorItem.type === "regex") {
                 let regex = new RegExp(validatorItem.validator);
                 if (regex.test(val) == false) {
