@@ -1199,6 +1199,36 @@ familyRoles = [
                   msg = "The date must not be more than the Applicant's Date of Birth or a future date.";
                 }
               }
+          }else if (validatorItem.type === "declarantAge") {
+                          let age = Number(val);
+                          if (Number.isNaN(age)) {
+                            isInvalid = true;
+                            msg = "The declarant age must be a valid number.";
+                          }
+                          let declarantValue = this.userForm.controls[appConstants.Declarant]
+                            ? this.userForm.controls[appConstants.Declarant].value
+                            : null;
+                          const isParentDeclarant =
+                            declarantValue === appConstants.Father ||
+                            declarantValue === appConstants.Mother;
+                          if (!Number.isNaN(age) && isParentDeclarant) {
+                            if (age < 10 || age > 120) {
+                              isInvalid = true;
+                              msg = "When the declarant is the Father or Mother, the declarant age must be between 10 and 120.";
+                            }
+                          } else if (!Number.isNaN(age)) {
+                            if (age < 18 || age > 200) {
+                              isInvalid = true;
+                              msg = "The declarant age must be between 18 and 200.";
+                            }
+                          }
+                          if (
+                            isInvalid &&
+                            this.validationErrorCodes[validatorItem.errorMessageCode]
+                          ) {
+                            msg = this.validationErrorCodes[validatorItem.errorMessageCode];
+                          }
+
               } else if (validatorItem.type === "regex") {
                 let regex = new RegExp(validatorItem.validator);
                 if (regex.test(val) == false) {
@@ -1455,6 +1485,10 @@ familyRoles = [
         this.userForm.controls[appConstants.NIN.DECLARANT].reset();
         this.userForm.controls[appConstants.NIN.DECLARANT].setValue("");
       }
+   const declarantAgeControl = this.userForm.controls['declarantAge'];
+        if (declarantAgeControl) {
+          declarantAgeControl.updateValueAndValidity();
+        }
     }
 
     // if (this.initializationFlag == false && selectedFieldId == appConstants.userService && this.initialdataModification!=true) {
