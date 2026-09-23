@@ -1045,6 +1045,12 @@ familyRoles = [
           const controlId = uiField.id;
           this.userForm.addControl(controlId, new FormControl(""));
           this.addValidators(uiField, controlId, language);
+          if (uiField.id === "declarantAge") {
+            this.userForm.controls[controlId].setValidators([
+              Validators.required,
+              (control: AbstractControl) => this.declarantAgeRangeValidator(control),
+            ]);
+          }
           if (uiField.controlType === "dropdown") {
             const searchCtrlId = controlId + "_search";
             this.userForm.addControl(searchCtrlId, new FormControl(""));
@@ -1207,10 +1213,7 @@ familyRoles = [
                 let declarantValue = this.userForm.controls[appConstants.Declarant]
                  ? this.userForm.controls[appConstants.Declarant].value
                  : null;
-                  const normalizedDeclarantValue = String(declarantValue || "").trim().toLowerCase();
-    const isParentDeclarant =
-                   normalizedDeclarantValue === String(appConstants.Father).trim().toLowerCase() ||
-      normalizedDeclarantValue === String(appConstants.Mother).trim().toLowerCase();
+                  const isParentDeclarant = this.isParentDeclarantValue(declarantValue);
                    if (!Number.isNaN(age) && isParentDeclarant) {
                               if (age < 10 || age > 120) {
                                 isInvalid = true;
@@ -3875,10 +3878,7 @@ familyRoles = [
     const declarantValue = this.userForm.controls[appConstants.Declarant]
       ? this.userForm.controls[appConstants.Declarant].value
       : null;
-    const normalizedDeclarantValue = String(declarantValue || "").trim().toLowerCase();
-    const isParentDeclarant =
-      normalizedDeclarantValue === String(appConstants.Father).trim().toLowerCase() ||
-      normalizedDeclarantValue === String(appConstants.Mother).trim().toLowerCase();
+    const isParentDeclarant = this.isParentDeclarantValue(declarantValue);
 
     const isValid = isParentDeclarant
       ? age >= 10 && age <= 120
@@ -3893,6 +3893,44 @@ familyRoles = [
     return true;
   }
 
+  private declarantAgeRangeValidator(control: AbstractControl): ValidationErrors | null {
+    const rawAge = control.value;
+    if (rawAge === null || String(rawAge).trim() === "") {
+      return null; // Validators.required handles an empty value.
+    }
+
+    const age = Number(rawAge);
+    if (!Number.isInteger(age)) {
+      return { declarantAgeInvalid: true };
+    }
+
+    const declarantControl = this.userForm.get(appConstants.Declarant);
+    const isParentDeclarant = this.isParentDeclarantValue(
+      declarantControl ? declarantControl.value : null
+    );
+    const minAge = isParentDeclarant ? 10 : 18;
+    const maxAge = isParentDeclarant ? 120 : 200;
+
+    return age >= minAge && age <= maxAge
+      ? null
+      : { declarantAgeRange: { min: minAge, max: maxAge } };
+  }
+  private isParentDeclarantValue(declarantValue: any): boolean {
+    const normalize = (value: any): string => String(value || "").trim().toLowerCase();
+    const parentNames = [normalize(appConstants.Father), normalize(appConstants.Mother)];
+    const selectedValue = normalize(declarantValue);
+
+    if (parentNames.includes(selectedValue)) {
+      return true;
+    }
+
+    // Dropdown controls store valueCode, while Father/Mother are displayed as valueName.
+    const declarantOptions = this.selectOptionsDataArray[appConstants.Declarant] || [];
+    const selectedOption = declarantOptions.find(
+      (option: CodeValueModal) => normalize(option.valueCode) === selectedValue
+    );
+    return !!selectedOption && parentNames.includes(normalize(selectedOption.valueName));
+  }
   private filterAndEmit(key: string, requiredPrefix: string): void {
     const fullDataArray: CodeValueModal[] = this.selectOptionsDataArray[key];
     const targetSubject = this.filteredSelectOptions[key];
