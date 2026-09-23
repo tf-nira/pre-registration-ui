@@ -1207,9 +1207,10 @@ familyRoles = [
                 let declarantValue = this.userForm.controls[appConstants.Declarant]
                  ? this.userForm.controls[appConstants.Declarant].value
                  : null;
-                  const isParentDeclarant =
-                   declarantValue === appConstants.Father ||
-                    declarantValue === appConstants.Mother;
+                  const normalizedDeclarantValue = String(declarantValue || "").trim().toLowerCase();
+    const isParentDeclarant =
+                   normalizedDeclarantValue === String(appConstants.Father).trim().toLowerCase() ||
+      normalizedDeclarantValue === String(appConstants.Mother).trim().toLowerCase();
                    if (!Number.isNaN(age) && isParentDeclarant) {
                               if (age < 10 || age > 120) {
                                 isInvalid = true;
@@ -3874,9 +3875,10 @@ familyRoles = [
     const declarantValue = this.userForm.controls[appConstants.Declarant]
       ? this.userForm.controls[appConstants.Declarant].value
       : null;
+    const normalizedDeclarantValue = String(declarantValue || "").trim().toLowerCase();
     const isParentDeclarant =
-      declarantValue === appConstants.Father ||
-      declarantValue === appConstants.Mother;
+      normalizedDeclarantValue === String(appConstants.Father).trim().toLowerCase() ||
+      normalizedDeclarantValue === String(appConstants.Mother).trim().toLowerCase();
 
     const isValid = isParentDeclarant
       ? age >= 10 && age <= 120
@@ -3950,3 +3952,4 @@ familyRoles = [
   }
 
 }
+
