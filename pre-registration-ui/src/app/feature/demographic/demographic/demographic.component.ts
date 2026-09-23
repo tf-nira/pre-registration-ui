@@ -1198,6 +1198,35 @@ familyRoles = [
                   isInvalid = true;
                   msg = "The date must not be more than the Applicant's Date of Birth or a future date.";
                 }
+              } else if (validatorItem.type === "declarantAge") {
+                let age = Number(val);
+                if (Number.isNaN(age)) {
+                  isInvalid = true;
+                  msg = "The declarant age must be a valid number.";
+                }
+                let declarantValue = this.userForm.controls[appConstants.Declarant]
+                  ? this.userForm.controls[appConstants.Declarant].value
+                  : null;
+                const isParentDeclarant =
+                  declarantValue === appConstants.Father ||
+                  declarantValue === appConstants.Mother;
+                if (!Number.isNaN(age) && isParentDeclarant) {
+                  if (age < 10 || age > 120) {
+                    isInvalid = true;
+                    msg = "When the declarant is the Father or Mother, the declarant age must be between 10 and 120.";
+                  }
+                } else if (!Number.isNaN(age)) {
+                  if (age < 18 || age > 200) {
+                    isInvalid = true;
+                    msg = "The declarant age must be between 18 and 200.";
+                  }
+                }
+                if (
+                  isInvalid &&
+                  this.validationErrorCodes[validatorItem.errorMessageCode]
+                ) {
+                  msg = this.validationErrorCodes[validatorItem.errorMessageCode];
+                }
               } else if (validatorItem.type === "regex") {
                 let regex = new RegExp(validatorItem.validator);
                 if (regex.test(val) == false) {
@@ -1453,6 +1482,11 @@ familyRoles = [
       if(this.dataModification!=true){
         this.userForm.controls[appConstants.NIN.DECLARANT].reset();
         this.userForm.controls[appConstants.NIN.DECLARANT].setValue("");
+      }
+      // Re-validate the declarant age against the newly selected relationship
+      const declarantAgeControl = this.userForm.controls['declarantAge'];
+      if (declarantAgeControl) {
+        declarantAgeControl.updateValueAndValidity();
       }
     }
 
@@ -2979,6 +3013,7 @@ familyRoles = [
       if(this.userService==appConstants.USER_SERVICE.UPDATE){
         this.nameFieldsCopValidation();
       }
+      this.validateCitizenNINPresence();
       console.log(this.filledFields);
       const filledFields = Object.keys(this.userForm.controls).filter(key => {
         return this.userForm.controls[key].value !== null && this.userForm.controls[key].value !== '';
@@ -3511,6 +3546,7 @@ familyRoles = [
         case 'pattern': text = `${error.control_name} has wrong pattern!`; break;
         case 'email': text = `${error.control_name} has wrong email format!`; break;
         case 'minlength': text = `${error.control_name} has wrong length! Required length: ${error.error_value.requiredLength}`; break;
+        case 'citizenNinRequired': text = `At least one of the Father NIN, Mother NIN or Declarant (Introducer) NIN must be a citizen NIN (must not start with 'A' or 'a').`; break;
         case 'areEqual': text = `${error.control_name} must be equal!`; break;
         default: text = `${error.control_name}(${error.section_name}) is invalid`;
       }
@@ -3764,6 +3800,66 @@ familyRoles = [
     }
     this.uniqueNin[field] = NIN;
     return false; // No duplication
+  }
+
+  /**
+   * @description Validates that at least one of the Father NIN, Mother NIN or
+   * Introducer (Declarant) NIN is a citizen NIN. A NIN is considered an alien
+   * NIN when it starts with 'A' or 'a', otherwise it is a citizen NIN. If at
+   * least one of the three fields is filled but none of them is a citizen NIN,
+   * an error is set on the filled fields and the form is blocked from submission.
+   *
+   * @returns {boolean} true when valid (either no NIN filled, or at least one
+   * citizen NIN present), false otherwise.
+   * @memberof DemographicComponent
+   */
+  validateCitizenNINPresence(): boolean {
+    const ninFields = [
+      appConstants.NIN.FATHER,
+      appConstants.NIN.MOTHER,
+      appConstants.NIN.DECLARANT,
+    ];
+
+    // Clear any previously set citizenNinRequired error and re-run the validators.
+    ninFields.forEach((field) => {
+      const control = this.userForm.controls[field];
+      if (control) {
+        control.setErrors(null);
+        control.updateValueAndValidity();
+      }
+    });
+
+    let hasAnyFilledNin = false;
+    let hasCitizenNin = false;
+    const filledFields: string[] = [];
+
+    ninFields.forEach((field) => {
+      const control = this.userForm.controls[field];
+      if (!control) return;
+      const value = String(control.value || "").trim();
+      if (value !== "") {
+        hasAnyFilledNin = true;
+        filledFields.push(field);
+        const firstChar = value.charAt(0);
+        // NIN starting with 'A'/'a' is an alien NIN, all others are citizen NINs.
+        if (firstChar !== "A" && firstChar !== "a") {
+          hasCitizenNin = true;
+        }
+      }
+    });
+
+    if (hasAnyFilledNin && !hasCitizenNin) {
+      filledFields.forEach((field) => {
+        const control = this.userForm.controls[field];
+        if (control) {
+          control.setErrors({ citizenNinRequired: true });
+          control.markAsTouched();
+        }
+      });
+      return false;
+    }
+
+    return true;
   }
 
 
