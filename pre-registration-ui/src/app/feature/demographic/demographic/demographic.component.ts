@@ -3014,6 +3014,7 @@ familyRoles = [
         this.nameFieldsCopValidation();
       }
       this.validateCitizenNINPresence();
+      this.validateDeclarantAge();
       console.log(this.filledFields);
       const filledFields = Object.keys(this.userForm.controls).filter(key => {
         return this.userForm.controls[key].value !== null && this.userForm.controls[key].value !== '';
@@ -3547,6 +3548,8 @@ familyRoles = [
         case 'email': text = `${error.control_name} has wrong email format!`; break;
         case 'minlength': text = `${error.control_name} has wrong length! Required length: ${error.error_value.requiredLength}`; break;
         case 'citizenNinRequired': text = `At least one of the Father NIN, Mother NIN or Declarant (Introducer) NIN must be a citizen NIN (must not start with 'A' or 'a').`; break;
+        case 'declarantAgeRange': text = `The Declarant Age must be within the allowed range for the selected declarant `; break;
+        case 'declarantAgeInvalid': text = `The Declarant Age must be a valid number.`; break;
         case 'areEqual': text = `${error.control_name} must be equal!`; break;
         default: text = `${error.control_name}(${error.section_name}) is invalid`;
       }
@@ -3802,17 +3805,6 @@ familyRoles = [
     return false; // No duplication
   }
 
-  /**
-   * @description Validates that at least one of the Father NIN, Mother NIN or
-   * Introducer (Declarant) NIN is a citizen NIN. A NIN is considered an alien
-   * NIN when it starts with 'A' or 'a', otherwise it is a citizen NIN. If at
-   * least one of the three fields is filled but none of them is a citizen NIN,
-   * an error is set on the filled fields and the form is blocked from submission.
-   *
-   * @returns {boolean} true when valid (either no NIN filled, or at least one
-   * citizen NIN present), false otherwise.
-   * @memberof DemographicComponent
-   */
   validateCitizenNINPresence(): boolean {
     const ninFields = [
       appConstants.NIN.FATHER,
@@ -3859,6 +3851,45 @@ familyRoles = [
       return false;
     }
 
+    return true;
+  }
+
+  validateDeclarantAge(): boolean {
+    const ageControl = this.userForm.controls['declarantAge'];
+    if (!ageControl) {
+      return true;
+    }
+    ageControl.setErrors(null);
+
+    const ageValue = ageControl.value;
+    if (ageValue === null || String(ageValue).trim() === "") {
+      return true;
+    }
+
+    const age = Number(ageValue);
+    if (Number.isNaN(age)) {
+      ageControl.setErrors({ declarantAgeInvalid: true });
+      ageControl.markAsTouched();
+      return false;
+    }
+
+    const declarantValue = this.userForm.controls[appConstants.Declarant]
+      ? this.userForm.controls[appConstants.Declarant].value
+      : null;
+    const isParentDeclarant =
+      declarantValue === appConstants.Father ||
+      declarantValue === appConstants.Mother;
+
+    const isValid = isParentDeclarant
+      ? age >= 10 && age <= 120
+      : age >= 18 && age <= 200;
+
+    if (!isValid) {
+      ageControl.setErrors({ declarantAgeRange: true });
+      ageControl.markAsTouched();
+      return false;
+    }
+    ageControl.setErrors(null);
     return true;
   }
 
