@@ -1045,12 +1045,6 @@ familyRoles = [
           const controlId = uiField.id;
           this.userForm.addControl(controlId, new FormControl(""));
           this.addValidators(uiField, controlId, language);
-          if (uiField.id === "declarantAge") {
-            this.userForm.controls[controlId].setValidators([
-              Validators.required,
-              (control: AbstractControl) => this.declarantAgeRangeValidator(control),
-            ]);
-          }
           if (uiField.controlType === "dropdown") {
             const searchCtrlId = controlId + "_search";
             this.userForm.addControl(searchCtrlId, new FormControl(""));
@@ -1087,21 +1081,17 @@ familyRoles = [
   }
 
   addValidators = (uiField: any, controlId: string, languageCode: string) => {
+    const validators: any[] = [];
     if (uiField.required) {
-      this.userForm.controls[`${controlId}`].setValidators(Validators.required);
+      validators.push(Validators.required);
     }
     if (uiField.validators !== null && uiField.validators.length > 0) {
-      if (uiField.required) {
-        this.userForm.controls[`${controlId}`].setValidators([
-          Validators.required,
-          (c: FormControl) => this.customValidator(c, uiField.id, languageCode),
-        ]);
-      } else {
-        this.userForm.controls[`${controlId}`].setValidators([
-          (c: FormControl) => this.customValidator(c, uiField.id, languageCode),
-        ]);
-      }
+      validators.push((control: FormControl) => this.customValidator(control, uiField.id, languageCode));
     }
+    if (uiField.id === "declarantAge") {
+      validators.push((control: AbstractControl) => this.declarantAgeRangeValidator(control));
+    }
+    this.userForm.controls[controlId].setValidators(validators);
   };
 
   customValidator(
