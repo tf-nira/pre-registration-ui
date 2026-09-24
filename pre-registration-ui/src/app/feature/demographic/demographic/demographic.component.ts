@@ -1081,21 +1081,17 @@ familyRoles = [
   }
 
   addValidators = (uiField: any, controlId: string, languageCode: string) => {
+    const validators: any[] = [];
     if (uiField.required) {
-      this.userForm.controls[`${controlId}`].setValidators(Validators.required);
+      validators.push(Validators.required);
     }
     if (uiField.validators !== null && uiField.validators.length > 0) {
-      if (uiField.required) {
-        this.userForm.controls[`${controlId}`].setValidators([
-          Validators.required,
-          (c: FormControl) => this.customValidator(c, uiField.id, languageCode),
-        ]);
-      } else {
-        this.userForm.controls[`${controlId}`].setValidators([
-          (c: FormControl) => this.customValidator(c, uiField.id, languageCode),
-        ]);
-      }
+      validators.push((control: FormControl) => this.customValidator(control, uiField.id, languageCode));
     }
+    if (uiField.id === "declarantAge") {
+      validators.push((control: AbstractControl) => this.declarantAgeRangeValidator(control));
+    }
+    this.userForm.controls[controlId].setValidators(validators);
   };
 
   customValidator(
@@ -1198,6 +1194,33 @@ familyRoles = [
                   isInvalid = true;
                   msg = "The date must not be more than the Applicant's Date of Birth or a future date.";
                 }
+            } else if (validatorItem.type === "declarantAge") {
+                let age = Number(val);
+                if (Number.isNaN(age)) {
+                  isInvalid = true;
+                  msg = "The declarant age must be a valid number.";
+                  }
+                let declarantValue = this.userForm.controls[appConstants.Declarant]
+                 ? this.userForm.controls[appConstants.Declarant].value
+                 : null;
+                  const isParentDeclarant = this.isParentDeclarantValue(declarantValue);
+                   if (!Number.isNaN(age) && isParentDeclarant) {
+                              if (age < 10 || age > 120) {
+                                isInvalid = true;
+                                msg = "When the declarant is the Father or Mother, the declarant age must be between 10 and 120.";
+                              }
+                            } else if (!Number.isNaN(age)) {
+                              if (age < 18 || age > 200) {
+                                isInvalid = true;
+                                msg = "The declarant age must be between 18 and 200.";
+                              }
+                            }
+                            if (
+                              isInvalid &&
+                              this.validationErrorCodes[validatorItem.errorMessageCode]
+                            ) {
+                              msg = this.validationErrorCodes[validatorItem.errorMessageCode];
+                            }
               } else if (validatorItem.type === "regex") {
                 let regex = new RegExp(validatorItem.validator);
                 if (regex.test(val) == false) {
@@ -1455,6 +1478,11 @@ familyRoles = [
         this.userForm.controls[appConstants.NIN.DECLARANT].setValue("");
       }
     }
+
+ const declarantAgeControl = this.userForm.controls['declarantAge'];
+      if (declarantAgeControl) {
+        declarantAgeControl.updateValueAndValidity();
+      }
 
     // if (this.initializationFlag == false && selectedFieldId == appConstants.userService && this.initialdataModification!=true) {
     //   for (const control of this.uiFields) {
@@ -2979,6 +3007,7 @@ familyRoles = [
       if(this.userService==appConstants.USER_SERVICE.UPDATE){
         this.nameFieldsCopValidation();
       }
+   this.validateCitizenNINPresence();
       console.log(this.filledFields);
       const filledFields = Object.keys(this.userForm.controls).filter(key => {
         return this.userForm.controls[key].value !== null && this.userForm.controls[key].value !== '';
@@ -3511,6 +3540,9 @@ familyRoles = [
         case 'pattern': text = `${error.control_name} has wrong pattern!`; break;
         case 'email': text = `${error.control_name} has wrong email format!`; break;
         case 'minlength': text = `${error.control_name} has wrong length! Required length: ${error.error_value.requiredLength}`; break;
+        case 'citizenNinRequired': text = `At least one of the Father NIN, Mother NIN or Declarant (Introducer) NIN must be a citizen NIN (must not start with 'A' or 'a').`; break;
+        case 'declarantAgeRange': text = `The Declarant Age must be within the allowed range for the selected declarant `; break;
+        case 'declarantAgeInvalid': text = `The Declarant Age must be a valid number.`; break;
         case 'areEqual': text = `${error.control_name} must be equal!`; break;
         default: text = `${error.control_name}(${error.section_name}) is invalid`;
       }
@@ -3765,8 +3797,130 @@ familyRoles = [
     this.uniqueNin[field] = NIN;
     return false; // No duplication
   }
+  validateCitizenNINPresence(): boolean {
+    const ninFields = [
+      appConstants.NIN.FATHER,
+      appConstants.NIN.MOTHER,
+      appConstants.NIN.DECLARANT,
+    ];
 
+    // Clear any previously set citizenNinRequired error and re-run the validators.
+    ninFields.forEach((field) => {
+      const control = this.userForm.controls[field];
+      if (control) {
+        control.setErrors(null);
+        control.updateValueAndValidity();
+      }
+    });
 
+    let hasAnyFilledNin = false;
+    let hasCitizenNin = false;
+    const filledFields: string[] = [];
+
+    ninFields.forEach((field) => {
+      const control = this.userForm.controls[field];
+      if (!control) return;
+      const value = String(control.value || "").trim();
+      if (value !== "") {
+        hasAnyFilledNin = true;
+        filledFields.push(field);
+        const firstChar = value.charAt(0);
+        // NIN starting with 'A'/'a' is an alien NIN, all others are citizen NINs.
+        if (firstChar !== "A" && firstChar !== "a") {
+          hasCitizenNin = true;
+        }
+      }
+    });
+
+    if (hasAnyFilledNin && !hasCitizenNin) {
+      filledFields.forEach((field) => {
+        const control = this.userForm.controls[field];
+        if (control) {
+          control.setErrors({ citizenNinRequired: true });
+          control.markAsTouched();
+        }
+      });
+      return false;
+    }
+
+    return true;
+  }
+
+  validateDeclarantAge(): boolean {
+    const ageControl = this.userForm.controls['declarantAge'];
+    if (!ageControl) {
+      return true;
+    }
+    ageControl.setErrors(null);
+
+    const ageValue = ageControl.value;
+    if (ageValue === null || String(ageValue).trim() === "") {
+      return true;
+    }
+
+    const age = Number(ageValue);
+    if (Number.isNaN(age)) {
+      ageControl.setErrors({ declarantAgeInvalid: true });
+      ageControl.markAsTouched();
+      return false;
+    }
+
+    const declarantValue = this.userForm.controls[appConstants.Declarant]
+      ? this.userForm.controls[appConstants.Declarant].value
+      : null;
+    const isParentDeclarant = this.isParentDeclarantValue(declarantValue);
+
+    const isValid = isParentDeclarant
+      ? age >= 10 && age <= 120
+      : age >= 18 && age <= 200;
+
+    if (!isValid) {
+      ageControl.setErrors({ declarantAgeRange: true });
+      ageControl.markAsTouched();
+      return false;
+    }
+    ageControl.setErrors(null);
+    return true;
+  }
+
+  private declarantAgeRangeValidator(control: AbstractControl): ValidationErrors | null {
+    const rawAge = control.value;
+    if (rawAge === null || String(rawAge).trim() === "") {
+      return null; // Validators.required handles an empty value.
+    }
+
+    const age = Number(rawAge);
+    if (!Number.isInteger(age)) {
+      return { declarantAgeInvalid: true };
+    }
+
+    const declarantControl = this.userForm.get(appConstants.Declarant);
+    const isParentDeclarant = this.isParentDeclarantValue(
+      declarantControl ? declarantControl.value : null
+    );
+    const minAge = isParentDeclarant ? 10 : 18;
+    const maxAge = isParentDeclarant ? 120 : 200;
+
+    return age >= minAge && age <= maxAge
+      ? null
+      : { declarantAgeRange: { min: minAge, max: maxAge } };
+  }
+  private isParentDeclarantValue(declarantValue: any): boolean {
+    const normalize = (value: any): string => String(value || "").trim().toLowerCase();
+    const parentNames = [normalize(appConstants.Father), normalize(appConstants.Mother)];
+    const selectedValue = normalize(declarantValue);
+
+    if (parentNames.includes(selectedValue)) {
+      return true;
+    }
+
+    // Dropdown controls store valueCode, while Father/Mother are displayed as valueName.
+    const declarantOptions = this.selectOptionsDataArray[appConstants.Declarant] || [];
+    const selectedOption = declarantOptions.find(
+      (option: CodeValueModal) => normalize(option.valueCode) === selectedValue
+    );
+    return !!selectedOption && parentNames.includes(normalize(selectedOption.valueName));
+  }
   private filterAndEmit(key: string, requiredPrefix: string): void {
     const fullDataArray: CodeValueModal[] = this.selectOptionsDataArray[key];
     const targetSubject = this.filteredSelectOptions[key];
@@ -3826,3 +3980,4 @@ familyRoles = [
   }
 
 }
+
