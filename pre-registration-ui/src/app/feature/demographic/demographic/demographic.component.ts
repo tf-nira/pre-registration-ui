@@ -3539,7 +3539,15 @@ familyRoles = [
         case 'email': text = `${error.control_name} has wrong email format!`; break;
         case 'minlength': text = `${error.control_name} has wrong length! Required length: ${error.error_value.requiredLength}`; break;
         case 'citizenNinRequired': text = `At least one of the Father NIN, Mother NIN or Blood Relative NIN must be a citizen NIN (must not start with 'A' or 'a').`; break;
-        case 'declarantAgeRange': text = `The Declarant Age must be within the allowed range for the selected declarant `; break;
+        case 'declarantAgeRange': {
+          const declarantControl = this.userForm.get(appConstants.Declarant);
+          const isParentDeclarant = this.isParentDeclarantValue(
+            declarantControl ? declarantControl.value : null
+          );
+          const { min: minAge, max: maxAge } = this.getDeclarantAgeRange(isParentDeclarant);
+          text = `The Declarant Age must be between ${minAge} and ${maxAge}.`;
+          break;
+        }
         case 'declarantAgeInvalid': text = `The Declarant Age must be a valid number.`; break;
         case 'areEqual': text = `${error.control_name} must be equal!`; break;
         default: text = `${error.control_name}(${error.section_name}) is invalid`;
@@ -3876,7 +3884,7 @@ familyRoles = [
     const isValid = age >= minAge && age <= maxAge;
 
     if (!isValid) {
-      ageControl.setErrors({ declarantAgeRange: true });
+      ageControl.setErrors({ declarantAgeRange: { min: minAge, max: maxAge } });
       ageControl.markAsTouched();
       return false;
     }
