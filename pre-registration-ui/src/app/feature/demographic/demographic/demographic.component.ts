@@ -1204,15 +1204,13 @@ familyRoles = [
                  ? this.userForm.controls[appConstants.Declarant].value
                  : null;
                   const isParentDeclarant = this.isParentDeclarantValue(declarantValue);
-                   if (!Number.isNaN(age) && isParentDeclarant) {
-                              if (age < 10 || age > 120) {
+                  const declarantAgeRange = this.getDeclarantAgeRange(isParentDeclarant);
+                   if (!Number.isNaN(age)) {
+                              if (age < declarantAgeRange.min || age > declarantAgeRange.max) {
                                 isInvalid = true;
-                                msg = "When the declarant is the Father or Mother, the declarant age must be between 10 and 120.";
-                              }
-                            } else if (!Number.isNaN(age)) {
-                              if (age < 18 || age > 200) {
-                                isInvalid = true;
-                                msg = "The declarant age must be between 18 and 200.";
+                                msg = isParentDeclarant
+                                  ? `When the declarant is the Father or Mother, the declarant age must be at least 10 years older than the applicant (between ${declarantAgeRange.min} and ${declarantAgeRange.max}).`
+                                  : "The declarant age must be between 18 and 200.";
                               }
                             }
                             if (
@@ -3540,7 +3538,7 @@ familyRoles = [
         case 'pattern': text = `${error.control_name} has wrong pattern!`; break;
         case 'email': text = `${error.control_name} has wrong email format!`; break;
         case 'minlength': text = `${error.control_name} has wrong length! Required length: ${error.error_value.requiredLength}`; break;
-        case 'citizenNinRequired': text = `At least one of the Father NIN, Mother NIN or Declarant (Introducer) NIN must be a citizen NIN (must not start with 'A' or 'a').`; break;
+        case 'citizenNinRequired': text = `At least one of the Father NIN, Mother NIN or Blood Relative NIN must be a citizen NIN (must not start with 'A' or 'a').`; break;
         case 'declarantAgeRange': text = `The Declarant Age must be within the allowed range for the selected declarant `; break;
         case 'declarantAgeInvalid': text = `The Declarant Age must be a valid number.`; break;
         case 'areEqual': text = `${error.control_name} must be equal!`; break;
@@ -3798,10 +3796,14 @@ familyRoles = [
     return false; // No duplication
   }
   validateCitizenNINPresence(): boolean {
+     if (this.userService !== appConstants.USER_SERVICE.NEW) {
+      return true;
+    }
+
     const ninFields = [
       appConstants.NIN.FATHER,
       appConstants.NIN.MOTHER,
-      appConstants.NIN.DECLARANT,
+      appConstants.NIN.GUARDIAN,
     ];
 
     // Clear any previously set citizenNinRequired error and re-run the validators.
@@ -3869,10 +3871,9 @@ familyRoles = [
       ? this.userForm.controls[appConstants.Declarant].value
       : null;
     const isParentDeclarant = this.isParentDeclarantValue(declarantValue);
+    const { min: minAge, max: maxAge } = this.getDeclarantAgeRange(isParentDeclarant);
 
-    const isValid = isParentDeclarant
-      ? age >= 10 && age <= 120
-      : age >= 18 && age <= 200;
+    const isValid = age >= minAge && age <= maxAge;
 
     if (!isValid) {
       ageControl.setErrors({ declarantAgeRange: true });
@@ -3898,13 +3899,28 @@ familyRoles = [
     const isParentDeclarant = this.isParentDeclarantValue(
       declarantControl ? declarantControl.value : null
     );
-    const minAge = isParentDeclarant ? 10 : 18;
-    const maxAge = isParentDeclarant ? 120 : 200;
+    const { min: minAge, max: maxAge } = this.getDeclarantAgeRange(isParentDeclarant);
 
     return age >= minAge && age <= maxAge
       ? null
       : { declarantAgeRange: { min: minAge, max: maxAge } };
   }
+
+  private getDeclarantAgeRange(isParentDeclarant: boolean): { min: number; max: number } {
+    if (isParentDeclarant) {
+      const rawApplicantAge = Number(this.currentAge);
+      const applicantAge =
+        this.currentAge !== "" &&
+        this.currentAge !== null &&
+        !Number.isNaN(rawApplicantAge) &&
+        rawApplicantAge >= 0
+          ? rawApplicantAge
+          : 0;
+      return { min: applicantAge + 10, max: 120 };
+    }
+    return { min: 18, max: 200 };
+  }
+
   private isParentDeclarantValue(declarantValue: any): boolean {
     const normalize = (value: any): string => String(value || "").trim().toLowerCase();
     const parentNames = [normalize(appConstants.Father), normalize(appConstants.Mother)];
