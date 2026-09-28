@@ -3538,7 +3538,7 @@ familyRoles = [
         case 'pattern': text = `${error.control_name} has wrong pattern!`; break;
         case 'email': text = `${error.control_name} has wrong email format!`; break;
         case 'minlength': text = `${error.control_name} has wrong length! Required length: ${error.error_value.requiredLength}`; break;
-        case 'citizenNinRequired': text = `At least one of the Father NIN, Mother NIN or Blood Relative NIN must be a citizen NIN (must not start with 'A' or 'a').`; break;
+        case 'citizenNinRequired': text = `Found fields with error, kindly correct to continue. [ At least one of Father, Mother or Blood Relative should be Ugandan.]`; break;
         case 'declarantAgeRange': {
           const declarantControl = this.userForm.get(appConstants.Declarant);
           const isParentDeclarant = this.isParentDeclarantValue(
