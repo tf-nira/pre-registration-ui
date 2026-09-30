@@ -1210,7 +1210,7 @@ familyRoles = [
                                 isInvalid = true;
                                 msg = isParentDeclarant
                                   ? `When the declarant is the Father or Mother, the declarant age must be at least 10 years older than the applicant (between ${declarantAgeRange.min} and ${declarantAgeRange.max}).`
-                                  : "The declarant age must be between 18 and 200.";
+                                  : "The declarant age must be between 18 and 120.";
                               }
                             }
                             if (
@@ -3926,7 +3926,7 @@ familyRoles = [
           : 0;
       return { min: applicantAge + 10, max: 120 };
     }
-    return { min: 18, max: 200 };
+    return { min: 18, max: 120 };
   }
 
   private isParentDeclarantValue(declarantValue: any): boolean {
