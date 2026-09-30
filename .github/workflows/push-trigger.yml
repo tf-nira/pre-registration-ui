@@ -16,6 +16,7 @@ on:
       - altcha-dev
       - MOSIP*
       - tf_nira_prod
+      - tf_nira_preprod_new
 
 jobs:
   build-pre-registration-ui:
