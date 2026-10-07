@@ -3011,8 +3011,8 @@ if (selectedFieldId === appConstants.NIN.FATHER ||
       if(this.userService==appConstants.USER_SERVICE.UPDATE){
         this.nameFieldsCopValidation();
       }
-   this.validateFatherMotherNINByCitizenshipType();
    this.validateCitizenNINPresence();
+   this.validateFatherMotherNINByCitizenshipType();
       console.log(this.filledFields);
       const filledFields = Object.keys(this.userForm.controls).filter(key => {
         return this.userForm.controls[key].value !== null && this.userForm.controls[key].value !== '';
@@ -3546,7 +3546,7 @@ if (selectedFieldId === appConstants.NIN.FATHER ||
         case 'email': text = `${error.control_name} has wrong email format!`; break;
         case 'minlength': text = `${error.control_name} has wrong length! Required length: ${error.error_value.requiredLength}`; break;
         case 'citizenNinRequired': text = `Found fields with error, kindly correct to continue. [ At least one of Father, Mother or Blood Relative should be Ugandan.]`; break;
-        case 'alienNINOnlyForNonCitizen': text = `${error.section_name} - ${error.control_name}: AIN only application for Non-Citizen`; break;
+        case 'alienNINOnlyForNonCitizen': text = `${error.section_name} - ${error.control_name}: AIN only applicable for Non-Citizen`; break;
         case 'invalidAlienNIN': text = `${error.section_name} - ${error.control_name}: Invalid Alien ID Number (AIN)`; break;
         case 'declarantAgeRange': {
           const declarantControl = this.userForm.get(appConstants.Declarant);
