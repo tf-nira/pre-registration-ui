@@ -1869,11 +1869,17 @@ familyRoles = [
       }
     }
 
+if (selectedFieldId === appConstants.NIN.FATHER ||
+        selectedFieldId === appConstants.NIN.MOTHER ||
+        selectedFieldId === appConstants.CITIZENSHIP_TYPE_CODES.FATHER ||
+        selectedFieldId === appConstants.CITIZENSHIP_TYPE_CODES.MOTHER) {
+      this.validateFatherMotherNINByCitizenshipType();
+    }
     if(selectedFieldId === appConstants.onFacilityTypeChange.facilityType){
       this.onFacilityTypeChange(selectedFieldId);
     }
   }
-  
+
   validatePhoneNumber(fieldId: string): void {
     let phoneField: string;
     let countryCodeField: string;
@@ -3006,6 +3012,7 @@ familyRoles = [
         this.nameFieldsCopValidation();
       }
    this.validateCitizenNINPresence();
+   this.validateFatherMotherNINByCitizenshipType();
       console.log(this.filledFields);
       const filledFields = Object.keys(this.userForm.controls).filter(key => {
         return this.userForm.controls[key].value !== null && this.userForm.controls[key].value !== '';
@@ -3539,6 +3546,8 @@ familyRoles = [
         case 'email': text = `${error.control_name} has wrong email format!`; break;
         case 'minlength': text = `${error.control_name} has wrong length! Required length: ${error.error_value.requiredLength}`; break;
         case 'citizenNinRequired': text = `Found fields with error, kindly correct to continue. [ At least one of Father, Mother or Blood Relative should be Ugandan.]`; break;
+        case 'alienNINOnlyForNonCitizen': text = `${error.section_name} - ${error.control_name}: AIN only applicable for Non-Citizen`; break;
+        case 'invalidAlienNIN': text = `${error.section_name} - ${error.control_name}: Invalid Alien ID Number (AIN)`; break;
         case 'declarantAgeRange': {
           const declarantControl = this.userForm.get(appConstants.Declarant);
           const isParentDeclarant = this.isParentDeclarantValue(
@@ -3854,6 +3863,104 @@ familyRoles = [
     }
 
     return true;
+  }
+
+   validateFatherMotherNINByCitizenshipType(): boolean {
+    // Intended for NEW and COP (UPDATE) flows only.
+    if (
+      this.userService !== appConstants.USER_SERVICE.NEW &&
+      this.userService !== appConstants.USER_SERVICE.UPDATE
+    ) {
+      return true;
+    }
+
+    const mappings = [
+      {
+        citizenshipField: appConstants.CITIZENSHIP_TYPE_CODES.FATHER,
+        ninField: appConstants.NIN.FATHER
+      },
+      {
+        citizenshipField: appConstants.CITIZENSHIP_TYPE_CODES.MOTHER,
+        ninField: appConstants.NIN.MOTHER
+      }
+    ];
+
+    const errorKeyInvalidAlienNIN = 'invalidAlienNIN'; // Non Citizen, but NIN is not an alien NIN.
+    const errorKeyAlienNINOnlyForNonCitizen = 'alienNINOnlyForNonCitizen'; // Citizen, but NIN starts with A/a.
+
+    let isValid = true;
+
+    mappings.forEach((mapping) => {
+      const ninControl = this.userForm.controls[mapping.ninField];
+      if (!ninControl) {
+        return;
+      }
+
+      // Clear any previously set remark error for this field.
+      const currentErrors: any = ninControl.errors || {};
+      delete currentErrors[errorKeyInvalidAlienNIN];
+      delete currentErrors[errorKeyAlienNINOnlyForNonCitizen];
+      ninControl.setErrors(Object.keys(currentErrors).length ? currentErrors : null);
+
+      const ninValue = String(ninControl.value || '').trim();
+      if (ninValue === '') {
+        return; // No NIN -> nothing to validate.
+      }
+
+      const types = this.getCitizenshipTypeValue(mapping.citizenshipField);
+      const isNonCitizen = appConstants.CITIZENSHIP_TYPE_CODES.NON_CITIZEN_VALUES.some(
+        (code: string) => types.includes(code)
+      );
+      const startsWithA = ninValue.charAt(0) === 'A' || ninValue.charAt(0) === 'a';
+
+      let errorKey = null;
+      if (isNonCitizen && !startsWithA) {
+        errorKey = errorKeyInvalidAlienNIN;
+      } else if (!isNonCitizen && startsWithA) {
+        errorKey = errorKeyAlienNINOnlyForNonCitizen;
+      }
+
+      if (errorKey) {
+        ninControl.setErrors({ ...(ninControl.errors || {}), [errorKey]: true });
+        ninControl.markAsTouched();
+        isValid = false;
+      }
+    });
+
+    return isValid;
+  }
+
+  private getCitizenshipTypeValue(fieldId: string): string[] {
+    const control = this.userForm.controls[fieldId];
+    if (!control) {
+      return [];
+    }
+    const raw = control.value;
+    if (raw === null || raw === undefined || raw === '') {
+      return [];
+    }
+    if (Array.isArray(raw)) {
+      const items: string[] = [];
+      raw.forEach((item: any) => {
+        if (item && typeof item === 'object') {
+          const v = item.value;
+          if (v !== null && v !== undefined && String(v).trim() !== '') {
+            items.push(String(v).trim());
+          }
+        } else if (item !== null && item !== undefined && String(item).trim() !== '') {
+          items.push(String(item).trim());
+        }
+      });
+      return items;
+    }
+    if (typeof raw === 'object') {
+      const v = raw.value;
+      return v !== null && v !== undefined && String(v).trim() !== ''
+        ? [String(v).trim()]
+        : [];
+    }
+    const str = String(raw).trim();
+    return str !== '' ? [str] : [];
   }
 
   validateDeclarantAge(): boolean {
