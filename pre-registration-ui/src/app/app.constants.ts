@@ -321,6 +321,12 @@ export const FAMILY_ROLES ={
   DECLARANT: "introducerNIN"
 };
 
+export const CITIZENSHIP_TYPE_CODES = {
+  FATHER: "fatherCitizenshipType",
+  MOTHER: "motherCitizenshipType",
+  NON_CITIZEN_VALUES: ["Non Citizen", "NCT"]
+};
+
 export const UGA_VALUE_FIELDS = {
   RESIDENT_PLACE: 'residenceStatus',
   BIRTH_PLACE: 'applicantBirthPlace',
