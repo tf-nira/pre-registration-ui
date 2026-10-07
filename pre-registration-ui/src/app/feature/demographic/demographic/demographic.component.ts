@@ -3916,17 +3916,28 @@ familyRoles = [
 
   private getDeclarantAgeRange(isParentDeclarant: boolean): { min: number; max: number } {
     if (isParentDeclarant) {
-      const rawApplicantAge = Number(this.currentAge);
-      const applicantAge =
-        this.currentAge !== "" &&
-        this.currentAge !== null &&
-        !Number.isNaN(rawApplicantAge) &&
-        rawApplicantAge >= 0
-          ? rawApplicantAge
-          : 0;
+      const applicantAge = this.getApplicantAgeForDeclarantCheck();
       return { min: applicantAge + 10, max: 120 };
     }
     return { min: 18, max: 120 };
+  }
+
+
+  private getApplicantAgeForDeclarantCheck(): number {
+    let rawAge = this.currentAge;
+    if (
+      this.isCopService() &&
+      (rawAge === "" ||
+        rawAge === null ||
+        rawAge === undefined ||
+        Number.isNaN(Number(rawAge)))
+    ) {
+      rawAge = this.currentAgeCop;
+    }
+    const applicantAge = Number(rawAge);
+    return rawAge !== "" && rawAge !== null && !Number.isNaN(applicantAge) && applicantAge >= 0
+      ? applicantAge
+      : 0;
   }
 
   private isParentDeclarantValue(declarantValue: any): boolean {
