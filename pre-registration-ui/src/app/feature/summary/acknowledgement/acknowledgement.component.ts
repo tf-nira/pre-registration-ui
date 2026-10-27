@@ -72,8 +72,8 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
   serviceMap = {
     "NEW": "New Registration",
     "RENEWAL": "Renewal",
-    "UPDATE": "Change of Particulars/Change of Errors",
-    "LOST": "Lost/Replacement of Card",
+    "UPDATE": "Change of Particulars/ Correction of Errors",
+    "LOST": "Replacement of Card",
     "FIRSTID": "Get First ID",
     "ALIENNEW": 'Alien New Registration',
     "ALIENRENEWAL": 'Renewal of Alien',

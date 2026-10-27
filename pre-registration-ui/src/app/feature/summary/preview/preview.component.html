@@ -23,7 +23,7 @@
                 <ng-container *ngFor="let controlId of controlIds; let index = index">
                   <div *ngIf="index < midpoint">
                     <span *ngFor="let dataCaptureLanguage of dataCaptureLanguages; let i = index; let first = first; let last = last;">
-                      <b>{{ControlIdLabelObjects[controlId][dataCaptureLanguages[i]]}}</b>
+                      <b>{{ControlIdLabelObjects[controlId][dataCaptureLanguages[i]] | uppercase}}</b>
                       <i *ngIf="!last"> / </i>
                       <i *ngIf="last"> : </i>
                     </span>
@@ -33,13 +33,13 @@
                 <ng-template #content  >
                   <td class="value">
                     <span *ngIf="previewData[controlId][i].label;then displayLabel else displayValue"></span>
-                    <ng-template #displayLabel >{{previewData[controlId][i].label}}</ng-template>
-                    <ng-template #displayValue>{{previewData[controlId][i].value}}</ng-template>
+                    <ng-template #displayLabel >{{previewData[controlId][i].label | uppercase}}</ng-template>
+                    <ng-template #displayValue>{{previewData[controlId][i].value | uppercase}}</ng-template>
                   </td><br/>
                   <i *ngIf="!last"> / </i>
                 </ng-template>
                 <ng-template #other_content>
-                  <td class= "value" *ngIf="i == 0" >{{previewData[controlId]}}</td><br/>
+                  <td class= "value" *ngIf="i == 0" >{{previewData[controlId] | uppercase}}</td><br/>
                 </ng-template>
               </span>
                   </div>
@@ -50,7 +50,7 @@
                 <ng-container *ngFor="let controlId of controlIds; let index = index; ">
                   <div *ngIf="index >= midpoint">
                     <span *ngFor="let dataCaptureLanguage of dataCaptureLanguages let i = index; let first = first; let last = last;">
-                      <b>{{ ControlIdLabelObjects[controlId][dataCaptureLanguage] }}</b>
+                      <b>{{ ControlIdLabelObjects[controlId][dataCaptureLanguage] | uppercase}}</b>
                       <i *ngIf="!last"> / </i>
                       <i *ngIf="last"> : </i>
                     </span>
@@ -60,13 +60,13 @@
                 <ng-template #content  >
                   <td >
                     <span *ngIf="previewData[controlId][i].label;then displayLabel else displayValue"></span>
-                    <ng-template #displayLabel >{{previewData[controlId][i].label}}</ng-template>
-                    <ng-template #displayValue>{{previewData[controlId][i].value}}</ng-template>
+                    <ng-template #displayLabel >{{previewData[controlId][i].label | uppercase}}</ng-template>
+                    <ng-template #displayValue>{{previewData[controlId][i].value | uppercase}}</ng-template>
                   </td><br/>
                   <i *ngIf="!last"> / </i>
                 </ng-template>
                 <ng-template #other_content>
-                  <td *ngIf="i == 0" >{{previewData[controlId]}}</td><br/>
+                  <td *ngIf="i == 0" >{{previewData[controlId] | uppercase}}</td><br/>
                 </ng-template>
                 
               </span>
@@ -92,12 +92,12 @@
         <div class="preview__file-container">
           <table style="width:100%" *ngIf="documentMapObject">
             <tr class="preview__file__table__header">
-              <td *ngFor="let object of documentMapObject">{{ object.name }}</td>
+              <td *ngFor="let object of documentMapObject">{{ object.name | uppercase}}</td>
             </tr>
             <tr class="preview__file__table__data">
               <td *ngFor="let object of documentMapObject">
-                <p *ngIf="object.fileName !== undefined">{{ object.fileName }}</p>
-                <p class="{{object.class}}" *ngIf="object.fileName === undefined">{{ previewLabels.text_not_uploaded }}
+                <p *ngIf="object.fileName !== undefined">{{ object.fileName | uppercase}}</p>
+                <p class="{{object.class}}" *ngIf="object.fileName === undefined">{{ previewLabels.text_not_uploaded | uppercase}}
                 </p>
               </td>
             </tr>
