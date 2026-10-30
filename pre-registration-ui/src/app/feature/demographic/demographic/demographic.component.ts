@@ -206,6 +206,8 @@ isStepVisible(step: number): boolean {
 
 //////
   userService: string = "";
+  headerServiceLabel = 'Citizen';
+  fromAlien = false;
   gender: string = "";
   userServiceType: string = "";
   guardianRelationToApplicant: string = "";
@@ -519,6 +521,7 @@ familyRoles = [
    * @memberof DemographicComponent
    */
   async ngOnInit() {
+    localStorage.setItem(appConstants.SELECTED_SERVICE_TYPE, appConstants.CITIZEN);
     // Attach onChangeHandler to window so JS can call it
     (window as any).onChangeHandler = this.onChangeHandler.bind(this);
     console.log("1");
@@ -535,6 +538,15 @@ familyRoles = [
     await this.getConsentMessage();
     this.initForm();
     await this.setFormControlValues();
+ 
+// localStorage.removeItem('preselectedUserService');
+    this.fromAlien = this.activatedRoute.snapshot.queryParams['from'] === 'alien';
+    this.headerServiceLabel = this.fromAlien ? 'Alien' : 'Citizen';
+    const applyCopPreselect = this.fromAlien && !this.dataModification;
+    if (applyCopPreselect) {
+      this.userForm.controls[appConstants.userService].setValue(appConstants.USER_SERVICE.UPDATE);
+    }
+
     /*setting the initialization flag. To control method calls that are required only for the first time 
     when screen is loading*/
     this.initializationFlag = true;
@@ -573,6 +585,10 @@ familyRoles = [
      * have dependent attribute.
      */
     this.initializationFlag = false; 
+
+    if (applyCopPreselect) {
+      await this.onChangeHandler(appConstants.userService);
+    }
 
     if (this.dataModification) {
       await this.getFieldAndData();
@@ -879,7 +895,7 @@ familyRoles = [
         });
       });
       const data = {
-        case: "CONSENTPOPUP",
+        case: this.fromAlien ? "ALIEN-CONSENTPOPUP" : "CONSENTPOPUP",
         data: newDataStructure,
         textDirectionArr: allLangsDir,
         title: this.demographiclabels.consent.title,
@@ -1434,18 +1450,7 @@ familyRoles = [
    * and fields are shown/hidden in the UI form.
    */
   async onChangeHandler(selectedFieldId: string) {
-    // if (this.initializationFlag == false && selectedFieldId == appConstants.userServiceType && this.initialdataModification!=true) {
-    //   for (const control of this.uiFields) {
-    //     if (!(control.id == appConstants.userService || control.id == appConstants.userServiceType)) {
-    //       const resetHiddenFieldPromise = () => new Promise<void>(async (resolve) => {
-    //       await this.resetHiddenField(control);
-    //         resolve();
-    //       });
-    //       await resetHiddenFieldPromise();
-    //       await this.onChangeHandler(control.id);
-    //     }
-    //   }
-    // }
+    
     if (this.initializationFlag == false && selectedFieldId == appConstants.userServiceType && this.initialdataModification != true) {
       for (const control of this.uiFields) {
         if (control.id != appConstants.userService && control.id != appConstants.userServiceType) {
@@ -1469,6 +1474,11 @@ familyRoles = [
         this.userForm.controls[selectedFieldId].disable();
       }
     }
+    if(selectedFieldId == appConstants.userService && this.userForm.controls[selectedFieldId].value == appConstants.USER_SERVICE.UPDATE){
+      if(this.fromAlien){
+        this.userForm.controls[selectedFieldId].disable();
+      }
+    }
 
     if(selectedFieldId == appConstants.Declarant){
       if(this.dataModification!=true){
@@ -1482,18 +1492,6 @@ familyRoles = [
         declarantAgeControl.updateValueAndValidity();
       }
 
-    // if (this.initializationFlag == false && selectedFieldId == appConstants.userService && this.initialdataModification!=true) {
-    //   for (const control of this.uiFields) {
-    //     if (!(control.id == appConstants.userService)) {
-    //       const resetHiddenFieldPromise = () => new Promise<void>(async (resolve) => {
-    //       await this.resetHiddenField(control);
-    //         resolve();
-    //       });
-    //       await resetHiddenFieldPromise();
-    //       await this.onChangeHandler(control.id);
-    //     }
-    //   }
-    // }
  
     const identityFormData = this.createIdentityJSONDynamic(true, selectedFieldId);
     //if(selectedFieldId==appConstants.userServiceTypeCop){
@@ -2931,6 +2929,12 @@ if (selectedFieldId === appConstants.NIN.FATHER ||
    * @memberof DemographicComponent
    */
   onBack() {
+    if (this.fromAlien) {
+      this.router.navigateByUrl(
+        `${this.userPrefLanguage}/pre-registration/demographic-alien/new`
+      );
+      return;
+    }
     let url = "";
     url = Utils.getURL(this.router.url, "dashboard", 2);
     this.router.navigate([url]);
