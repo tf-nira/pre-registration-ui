@@ -16,6 +16,7 @@ on:
       - altcha-dev
       - MOSIP*
       - tf_dev_jk
+      - acopkarthi
 
 jobs:
   build-pre-registration-ui:

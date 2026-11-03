@@ -499,6 +499,7 @@ familyRoles = [
    * @memberof DemographicComponent
    */
   async ngOnInit() {
+    localStorage.setItem(appConstants.SELECTED_SERVICE_TYPE, appConstants.ALIEN);
     // Attach onChangeHandler to window so JS can call it
     (window as any).onChangeHandler = this.onChangeHandler.bind(this);
     console.log("1");
@@ -1403,6 +1404,18 @@ familyRoles = [
    * and fields are shown/hidden in the UI form.
    */
   async onChangeHandler(selectedFieldId: string) {
+
+    if (selectedFieldId == appConstants.userService && this.initializationFlag == false && this.userForm.controls[selectedFieldId].value === appConstants.USER_SERVICE.ALIENUPDATE && this.initialdataModification != true) {
+      // localStorage.setItem(appConstants.SELECTED_SERVICE_TYPE, appConstants.CITIZEN);
+      // localStorage.setItem('preselectedUserService', appConstants.USER_SERVICE.UPDATE);
+      this.canDeactivateFlag = false;
+      await this.router.navigateByUrl(
+        `${this.userPrefLanguage}/pre-registration/demographic/new?from=alien`
+      );
+      return;
+    }
+
+
     if (this.initializationFlag == false && selectedFieldId == appConstants.userServiceType && this.initialdataModification != true) {
       for (const control of this.uiFields) {
         if (control.id != appConstants.userService && control.id != appConstants.userServiceType) {

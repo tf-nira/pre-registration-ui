@@ -173,8 +173,12 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
           const month = ('0' + (dateObj.getMonth() + 1)).slice(-2);
           const year = dateObj.getFullYear();
           this.ackDataItem["submissionDate"] = `${day}/${month}/${year}`;
-	  const serviceType = demographicData["userService"];
+	        const serviceType = demographicData["userService"];
+          const nin = demographicData["NIN"];
           this.ackDataItem["userService"] = this.serviceMap[serviceType] || "";
+          if(serviceType==appConstants.USER_SERVICE.UPDATE && (nin.startsWith("a") || nin.startsWith("A"))){
+            this.ackDataItem["userService"] = "Alien-COP";
+          }
           let applicationLanguages = Utils.getApplicationLangs(user["request"]);
           applicationLanguages = Utils.reorderLangsForUserPreferredLang(applicationLanguages, this.langCode);
           applicationLanguages.forEach(applicationLang => {
@@ -719,6 +723,18 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
             // console.log("this is from the general update");
           }
 
+        }
+        else if(nin.startsWith("a") || nin.startsWith("A")){
+          const payableServiceCOP: string = this.configService.getConfigByKey("nira.payable.servicecode.COP_NORMAL");
+            this.requestBody = {
+              service: payableServiceCOP,
+              NIN: nin,
+
+              fullName: surname + " " + demographicData.givenNameCop[0].value
+            };
+            console.log("consoled from generatePaymentRefNum", this.requestBody);
+
+            this.getPRNResponse();
         }
       }
     }
