@@ -708,7 +708,19 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
         (!("isErrorChangeInPlaceOfResidence" in demographicData) || demographicData.isErrorChangeInPlaceOfResidence === "N")
       ) {
 
-        if (age >= 16) {
+        
+        if(nin.startsWith("a") || nin.startsWith("A")){
+          const payableServiceCOP: string = this.configService.getConfigByKey("nira.payable.servicecode.ALIENNEW");
+            this.requestBody = {
+              service: payableServiceCOP,
+              NIN: nin,
+
+              fullName: surname + " " + demographicData.givenNameCop[0].value
+            };
+            console.log("consoled from generatePaymentRefNum", this.requestBody);
+
+            this.getPRNResponse();
+        } else if (age >= 16) {
           if ((demographicData.removingName === "Y" || demographicData.addingName === "Y" || demographicData.completeChangeofName === "Y" || demographicData.changeOfDateOfBirth === "Y" || demographicData.changeInPlaceOfResidence === "Y" || demographicData.addingNamesFromPreviousCertorDoc === "Y" || demographicData.changeInGender === "Y")) {
             const payableServiceCOP: string = this.configService.getConfigByKey("nira.payable.servicecode.COP_NORMAL");
             this.requestBody = {
@@ -723,18 +735,6 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
             // console.log("this is from the general update");
           }
 
-        }
-        else if(nin.startsWith("a") || nin.startsWith("A")){
-          const payableServiceCOP: string = this.configService.getConfigByKey("nira.payable.servicecode.COP_NORMAL");
-            this.requestBody = {
-              service: payableServiceCOP,
-              NIN: nin,
-
-              fullName: surname + " " + demographicData.givenNameCop[0].value
-            };
-            console.log("consoled from generatePaymentRefNum", this.requestBody);
-
-            this.getPRNResponse();
         }
       }
     }
