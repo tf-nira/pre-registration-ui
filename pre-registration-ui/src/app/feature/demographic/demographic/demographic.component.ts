@@ -1251,7 +1251,30 @@ familyRoles = [
                             ) {
                               msg = this.validationErrorCodes[validatorItem.errorMessageCode];
                             }
-              } else if (validatorItem.type === "regex") {
+              } else if (validatorItem.type === "ninCheck") {
+                if(this.fromAlien === true) {
+                  let regex = /^[Aa][a-zA-Z0-9]{13}$/;
+                  if (!regex.test(val)) {
+                    isInvalid = true;
+                    if (this.validationErrorCodes[validatorItem.errorMessageCode]) {
+                      msg = this.validationErrorCodes[validatorItem.errorMessageCode];
+                    } else {
+                      msg = "Please Enter a valid Alien NIN.";
+                    }
+                  }
+                } else {
+                  let regex =  /^[a-zA-Z0-9]{14}$/;
+                  if (!regex.test(val)) {
+                    isInvalid = true;
+                    if (this.validationErrorCodes[validatorItem.errorMessageCode]) {
+                      msg = this.validationErrorCodes[validatorItem.errorMessageCode];
+                    } else {
+                      msg = "Please Enter a Valid NIN.";
+                    }
+                  }
+                }
+              }
+              else if (validatorItem.type === "regex") {
                 let regex = new RegExp(validatorItem.validator);
                 if (regex.test(val) == false) {
                   isInvalid = true;
