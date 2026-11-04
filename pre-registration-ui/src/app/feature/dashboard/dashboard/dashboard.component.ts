@@ -371,6 +371,10 @@ export class DashBoardComponent implements OnInit, OnDestroy {
     let dataCaptureLanguagesLabels = Utils.getLanguageLabels(JSON.stringify(dataAvailableLanguages), 
           localStorage.getItem(appConstants.LANGUAGE_CODE_VALUES));
     let userService = applicantResponse["demographicMetadata"][appConstants.userService] || "-";
+    let nin = applicantResponse["demographicMetadata"][appConstants.nin] || "-";
+    if(userService == appConstants.USER_SERVICE.UPDATE && (nin.startsWith("a") || nin.startsWith("A"))) {
+      userService = "Alien-COP";
+    }
     const applicant: Applicant = {
       applicationID:
         applicantResponse[appConstants.DASHBOARD_RESPONSE_KEYS.applicant.preId],
