@@ -710,7 +710,7 @@ export class AcknowledgementComponent implements OnInit, OnDestroy {
 
         
         if(nin.startsWith("a") || nin.startsWith("A")){
-          const payableServiceCOP: string = this.configService.getConfigByKey("nira.payable.servicecode.ALIENNEW");
+          const payableServiceCOP: string = this.configService.getConfigByKey("nira.payable.servicecode.ALIENCOP");
             this.requestBody = {
               service: payableServiceCOP,
               NIN: nin,
