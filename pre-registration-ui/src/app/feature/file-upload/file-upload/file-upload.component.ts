@@ -189,9 +189,9 @@ export class FileUploadComponent implements OnInit, OnDestroy {
           response[appConstants.RESPONSE]["jsonSpec"]["identity"];
         this.identityData = identityJsonSpec["identity"];
 
-        this.identityData = [];    
-        const fieldDefinitions = await this.loadFieldDefinitions();
-        this.identityData.push(...fieldDefinitions);
+        // this.identityData = [];    
+        // const fieldDefinitions = await this.loadFieldDefinitions();
+        // this.identityData.push(...fieldDefinitions);
         this.identityData.forEach((obj) => {
           if (obj.controlType === "fileupload") {
             this.uiFields.push(obj);
@@ -204,10 +204,10 @@ export class FileUploadComponent implements OnInit, OnDestroy {
         });
     });
   }
-  async loadFieldDefinitions() {
-    const response = await fetch('assets/data/citizenUiSpec.json');
-    return response.json();
-  }
+  // async loadFieldDefinitions() {
+  //   const response = await fetch('assets/data/citizenUiSpec.json');
+  //   return response.json();
+  // }
 
   private getPrimaryLabels(lang) {
     this.dataStorageService
