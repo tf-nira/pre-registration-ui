@@ -134,6 +134,24 @@ export class FileUploadComponent implements OnInit, OnDestroy {
     private loggerService: LogService,
     private activatedRoute: ActivatedRoute
   ) {
+    this.jsonRulesEngine.addOperator(
+      "startsWith",
+      (factValue, jsonValue) => {
+        return (
+          typeof factValue === "string" &&
+          typeof jsonValue === "string" &&
+          factValue.toLowerCase().startsWith(jsonValue.toLowerCase())
+        );
+      }
+    );
+    this.jsonRulesEngine.addOperator(
+      "doesNotStartWith",
+      (factValue, jsonValue) =>
+        typeof factValue === "string" &&
+        typeof jsonValue === "string" &&
+        !factValue.toLowerCase().startsWith(jsonValue.toLowerCase())
+    );
+
     this.translate.use(this.userPrefLanguage);
   }
 
@@ -187,7 +205,7 @@ export class FileUploadComponent implements OnInit, OnDestroy {
     });
   }
   // async loadFieldDefinitions() {
-  //   const response = await fetch('assets/data/niraUiSpec.json');
+  //   const response = await fetch('assets/data/citizenUiSpec.json');
   //   return response.json();
   // }
 
