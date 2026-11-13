@@ -499,6 +499,7 @@ familyRoles = [
    * @memberof DemographicComponent
    */
   async ngOnInit() {
+    localStorage.setItem(appConstants.SELECTED_SERVICE_TYPE, appConstants.ALIEN);
     // Attach onChangeHandler to window so JS can call it
     (window as any).onChangeHandler = this.onChangeHandler.bind(this);
     console.log("1");
@@ -1166,13 +1167,13 @@ familyRoles = [
                 if (monthDiffapp < 0 || (monthDiffapp === 0 && dayDiffapp < 0)) {
                   ageapp--;
                 }
-                if (this.guardianRelationToApplicant != null && this.guardianRelationToApplicant == "Z1" && this.userServiceType==appConstants.USER_SERVICETYPE.BYBIRTH) {
+                if (this.guardianRelationToApplicant != null && this.guardianRelationToApplicant == "Z1" && this.userServiceType == appConstants.USER_SERVICETYPE.BYBIRTH) {
                   if (inputDate > currentDate || age < 18 || ageapp < 40) {
                     isInvalid = true;
                     msg = "When 'Other' is selected as the introducer type, the introducer must be at least 18 years old, the date must not be in the future, and the applicant must be 40 years or older.";
                   }
                 }
-                else{
+                else {
                   if (inputDate > currentDate || applicantDOB <= inputDate) {
                     isInvalid = true;
                     msg = "The date must not be later than the Applicant's Date of Birth or a future date.";
@@ -1403,6 +1404,18 @@ familyRoles = [
    * and fields are shown/hidden in the UI form.
    */
   async onChangeHandler(selectedFieldId: string) {
+
+    if (selectedFieldId == appConstants.userService && this.initializationFlag == false && this.userForm.controls[selectedFieldId].value === appConstants.USER_SERVICE.ALIENUPDATE && this.initialdataModification != true) {
+      // localStorage.setItem(appConstants.SELECTED_SERVICE_TYPE, appConstants.CITIZEN);
+      // localStorage.setItem('preselectedUserService', appConstants.USER_SERVICE.UPDATE);
+      this.canDeactivateFlag = false;
+      await this.router.navigateByUrl(
+        `${this.userPrefLanguage}/pre-registration/demographic/new?from=alien`
+      );
+      return;
+    }
+
+
     if (this.initializationFlag == false && selectedFieldId == appConstants.userServiceType && this.initialdataModification != true) {
       for (const control of this.uiFields) {
         if (control.id != appConstants.userService && control.id != appConstants.userServiceType) {
@@ -2959,7 +2972,7 @@ familyRoles = [
       if(this.userService==appConstants.USER_SERVICE.UPDATE){
         this.nameFieldsCopValidation();
       }
-      if(this.userService==appConstants.USER_SERVICE.ALIENNEW || this.userService == appConstants.USER_SERVICE.ALIENRENEWAL || this.userService == appConstants.USER_SERVICE.ALIENLOST){
+      if(this.userService==appConstants.USER_SERVICE.ALIENNEW || this.userService == appConstants.USER_SERVICE.ALIENRENEWAL|| this.userService == appConstants.USER_SERVICE.ALIENLOST){
         this.phoneValidation();
       }
       if(this.userService==appConstants.USER_SERVICE.ALIENNEW || this.userService == appConstants.USER_SERVICE.ALIENRENEWAL || this.userService == appConstants.USER_SERVICE.ALIENLOST){
@@ -3488,7 +3501,7 @@ familyRoles = [
     else if(error==null && (this.userService==appConstants.USER_SERVICE.ALIENNEW || this.userService == appConstants.USER_SERVICE.ALIENRENEWAL || this.userService == appConstants.USER_SERVICE.ALIENLOST ) && this.islinkedDependentValid==false){
       error=this.linkedDependentValidationError();
     }
-    else if(error==null && (this.userService==appConstants.USER_SERVICE.ALIENNEW || this.userService == appConstants.USER_SERVICE.ALIENRENEWAL || this.userService == appConstants.USER_SERVICE.ALIENLOST)){
+    else if(error==null && (this.userService==appConstants.USER_SERVICE.ALIENNEW || this.userService == appConstants.USER_SERVICE.ALIENRENEWAL|| this.userService == appConstants.USER_SERVICE.ALIENLOST)){
       error=this.phoneValidationError();
     }
     if (error) {
