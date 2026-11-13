@@ -206,6 +206,8 @@ isStepVisible(step: number): boolean {
 
 //////
   userService: string = "";
+  headerServiceLabel = 'Citizen';
+  fromAlien = false;
   gender: string = "";
   userServiceType: string = "";
   guardianRelationToApplicant: string = "";
@@ -506,6 +508,26 @@ familyRoles = [
     private loggerService: LogService // private errorService: ErrorService
   ) {
     super(dialog);
+
+
+    this.jsonRulesEngine.addOperator(
+      "startsWith",
+      (factValue, jsonValue) => {
+        return (
+          typeof factValue === "string" &&
+          typeof jsonValue === "string" &&
+          factValue.toLowerCase().startsWith(jsonValue.toLowerCase())
+        );
+      }
+    );
+    this.jsonRulesEngine.addOperator(
+      "doesNotStartWith",
+      (factValue, jsonValue) =>
+        typeof factValue === "string" &&
+        typeof jsonValue === "string" &&
+        !factValue.toLowerCase().startsWith(jsonValue.toLowerCase())
+    );
+
     this.translate.use(this.userPrefLanguage);
     this.subscriptions.push(
       this.regService
@@ -519,9 +541,9 @@ familyRoles = [
    * @memberof DemographicComponent
    */
   async ngOnInit() {
+    localStorage.setItem(appConstants.SELECTED_SERVICE_TYPE, appConstants.CITIZEN);
     // Attach onChangeHandler to window so JS can call it
     (window as any).onChangeHandler = this.onChangeHandler.bind(this);
-    console.log("1");
     await this.initialization();
     await this.initializeDataCaptureLanguages();
     //set translation service
@@ -535,16 +557,23 @@ familyRoles = [
     await this.getConsentMessage();
     this.initForm();
     await this.setFormControlValues();
+ 
+// localStorage.removeItem('preselectedUserService');
+    this.fromAlien = this.activatedRoute.snapshot.queryParams['from'] === 'alien';
+    this.headerServiceLabel = this.fromAlien ? 'Alien' : 'Citizen';
+    const applyCopPreselect = this.fromAlien && !this.dataModification;
+    if (applyCopPreselect) {
+      this.userForm.controls[appConstants.userService].setValue(appConstants.USER_SERVICE.UPDATE);
+    }
+
     /*setting the initialization flag. To control method calls that are required only for the first time 
     when screen is loading*/
     this.initializationFlag = true;
-    console.log("log1 :: before await this.onChangeHandler ")
     const ongetFieldAndDataPromise = () => new Promise<void>(async (resolve) => {
       await this.onChangeHandler("");
         resolve(); // Resolve the promise once resetHiddenField is done
       });
       await ongetFieldAndDataPromise();
-      console.log("log2 :: after await this.onChangeHandler ")
 
     if (this.readOnlyMode) {
       this.userForm.disable();
@@ -573,6 +602,10 @@ familyRoles = [
      * have dependent attribute.
      */
     this.initializationFlag = false; 
+
+    if (applyCopPreselect) {
+      await this.onChangeHandler(appConstants.userService);
+    }
 
     if (this.dataModification) {
       await this.getFieldAndData();
@@ -807,7 +840,6 @@ familyRoles = [
       this.dataStorageService.getUser(preRegId).subscribe(
         (response) => {
           this.user.request = response[appConstants.RESPONSE];
-          console.log("demographic page status code::  " + this.user.request["statusCode"]);
           if (
             this.user.request["statusCode"] !==
             appConstants.APPLICATION_STATUS_CODES.incomplete &&
@@ -879,7 +911,7 @@ familyRoles = [
         });
       });
       const data = {
-        case: "CONSENTPOPUP",
+        case: this.fromAlien ? "ALIEN-CONSENTPOPUP" : "CONSENTPOPUP",
         data: newDataStructure,
         textDirectionArr: allLangsDir,
         title: this.demographiclabels.consent.title,
@@ -936,8 +968,8 @@ familyRoles = [
             response[appConstants.RESPONSE]["idSchemaVersion"];
 
             //LOCAL
-            //const fieldDefinitions = await this.loadFieldDefinitions();
-            //this.identityData.push(...fieldDefinitions);
+            // const fieldDefinitions = await this.loadFieldDefinitions();
+            // this.identityData.push(...fieldDefinitions);
 
           if (Array.isArray(locationHeirarchiesFromJson[0])) {
             this.locationHeirarchies = locationHeirarchiesFromJson;
@@ -987,7 +1019,7 @@ familyRoles = [
 
   
   async loadFieldDefinitions() {
-    const response = await fetch('assets/data/niraUiSpec.json');
+    const response = await fetch('assets/data/citizenUiSpec.json');
     return response.json();
   }
 
@@ -1081,14 +1113,14 @@ familyRoles = [
   }
 
   addValidators = (uiField: any, controlId: string, languageCode: string) => {
-       const validators: any[] = [];
+    const validators: any[] = [];
     if (uiField.required) {
       validators.push(Validators.required);
     }
     if (uiField.validators !== null && uiField.validators.length > 0) {
       validators.push((control: FormControl) => this.customValidator(control, uiField.id, languageCode));
     }
- if (uiField.id === "declarantAge") {
+    if (uiField.id === "declarantAge") {
       validators.push((control: AbstractControl) => this.declarantAgeRangeValidator(control));
     }
     this.userForm.controls[controlId].setValidators(validators);
@@ -1194,7 +1226,7 @@ familyRoles = [
                   isInvalid = true;
                   msg = "The date must not be more than the Applicant's Date of Birth or a future date.";
                 }
-             } else if (validatorItem.type === "declarantAge") {
+            } else if (validatorItem.type === "declarantAge") {
                 let age = Number(val);
                 if (Number.isNaN(age)) {
                   isInvalid = true;
@@ -1218,8 +1250,31 @@ familyRoles = [
                               this.validationErrorCodes[validatorItem.errorMessageCode]
                             ) {
                               msg = this.validationErrorCodes[validatorItem.errorMessageCode];
+                            }
+              } else if (validatorItem.type === "ninCheck") {
+                if(this.fromAlien === true) {
+                  let regex = /^[Aa][a-zA-Z0-9]{13}$/;
+                  if (!regex.test(val)) {
+                    isInvalid = true;
+                    if (this.validationErrorCodes[validatorItem.errorMessageCode]) {
+                      msg = this.validationErrorCodes[validatorItem.errorMessageCode];
+                    } else {
+                      msg = "Please Enter a valid Alien NIN.";
+                    }
+                  }
+                } else {
+                  let regex =  /^[a-zA-Z0-9]{14}$/;
+                  if (!regex.test(val)) {
+                    isInvalid = true;
+                    if (this.validationErrorCodes[validatorItem.errorMessageCode]) {
+                      msg = this.validationErrorCodes[validatorItem.errorMessageCode];
+                    } else {
+                      msg = "Please Enter a Valid NIN.";
+                    }
+                  }
+                }
               }
-              } else if (validatorItem.type === "regex") {
+              else if (validatorItem.type === "regex") {
                 let regex = new RegExp(validatorItem.validator);
                 if (regex.test(val) == false) {
                   isInvalid = true;
@@ -1434,18 +1489,7 @@ familyRoles = [
    * and fields are shown/hidden in the UI form.
    */
   async onChangeHandler(selectedFieldId: string) {
-    // if (this.initializationFlag == false && selectedFieldId == appConstants.userServiceType && this.initialdataModification!=true) {
-    //   for (const control of this.uiFields) {
-    //     if (!(control.id == appConstants.userService || control.id == appConstants.userServiceType)) {
-    //       const resetHiddenFieldPromise = () => new Promise<void>(async (resolve) => {
-    //       await this.resetHiddenField(control);
-    //         resolve();
-    //       });
-    //       await resetHiddenFieldPromise();
-    //       await this.onChangeHandler(control.id);
-    //     }
-    //   }
-    // }
+    
     if (this.initializationFlag == false && selectedFieldId == appConstants.userServiceType && this.initialdataModification != true) {
       for (const control of this.uiFields) {
         if (control.id != appConstants.userService && control.id != appConstants.userServiceType) {
@@ -1469,6 +1513,11 @@ familyRoles = [
         this.userForm.controls[selectedFieldId].disable();
       }
     }
+    if(selectedFieldId == appConstants.userService && this.userForm.controls[selectedFieldId].value == appConstants.USER_SERVICE.UPDATE){
+      if(this.fromAlien){
+        this.userForm.controls[selectedFieldId].disable();
+      }
+    }
 
     if(selectedFieldId == appConstants.Declarant){
       if(this.dataModification!=true){
@@ -1477,26 +1526,14 @@ familyRoles = [
       }
     }
 
-const declarantAgeControl = this.userForm.controls['declarantAge'];
+ const declarantAgeControl = this.userForm.controls['declarantAge'];
       if (declarantAgeControl) {
         declarantAgeControl.updateValueAndValidity();
       }
 
-
-    // if (this.initializationFlag == false && selectedFieldId == appConstants.userService && this.initialdataModification!=true) {
-    //   for (const control of this.uiFields) {
-    //     if (!(control.id == appConstants.userService)) {
-    //       const resetHiddenFieldPromise = () => new Promise<void>(async (resolve) => {
-    //       await this.resetHiddenField(control);
-    //         resolve();
-    //       });
-    //       await resetHiddenFieldPromise();
-    //       await this.onChangeHandler(control.id);
-    //     }
-    //   }
-    // }
  
     const identityFormData = this.createIdentityJSONDynamic(true, selectedFieldId);
+    //console.log("identityFormData", identityFormData);
     //if(selectedFieldId==appConstants.userServiceTypeCop){
       //this.userServiceTypeCop=this.userForm.controls[selectedFieldId].value;
     //}
@@ -1530,12 +1567,12 @@ const declarantAgeControl = this.userForm.controls['declarantAge'];
     // Consent Declaration
     if (selectedFieldId && selectedFieldId.trim() !== "") {
       if (selectedFieldId == appConstants.userService && this.userForm.controls[selectedFieldId].value !== this.userService) {
-        console.log(`Prev : ${this.userService}, New: ${this.userForm.controls[selectedFieldId].value}`);
+        //console.log(`Prev : ${this.userService}, New: ${this.userForm.controls[selectedFieldId].value}`);
         if (!this.dataModification) {
           if (this.isConsentMessage) this.consentDeclaration();
         }
         this.userService = this.userForm.controls[selectedFieldId].value;
-        console.log("User Service set to: " + this.userService);
+        //console.log("User Service set to: " + this.userService);
         setService(this.userService);
       }
     }
@@ -1759,36 +1796,45 @@ const declarantAgeControl = this.userForm.controls['declarantAge'];
 
               if (this.isControlInMultiLang(subField)) {
                 this.userForm.controls[fieldId + "_eng"].setValue(valueToSet);
-                if (this.copFields.includes(selectedFieldId)){
+                // Sync the default value from userForm to identityObj
+                this.createAttributeArray(fieldId, this.identityObj);
+
+                // Update the current identity data used by the rules engine
+                formIdentityData.identity[fieldId] = this.identityObj[fieldId];
+                if (this.copFields.includes(selectedFieldId)) {
                   const copValue = this.userForm.controls[selectedFieldId].value;
-                  if((this.userForm.controls[appConstants.COP_FIELDS.DATE_OF_BIRTH].value == "Y" || this.userForm.controls[appConstants.COP_FIELDS.DATE_OF_BIRTH].value == true) && this.currentAgeCop <= "15"){
+                  if ((this.userForm.controls[appConstants.COP_FIELDS.DATE_OF_BIRTH].value == "Y" || this.userForm.controls[appConstants.COP_FIELDS.DATE_OF_BIRTH].value == true) && this.currentAgeCop <= "15") {
                     this.userForm.controls[fieldId + "_eng"].enable();
-                  } else if((this.userForm.controls[appConstants.COP_FIELDS.CITIZENSHIP_TYPE].value == "Y" || this.userForm.controls[appConstants.COP_FIELDS.CITIZENSHIP_TYPE].value == true) && this.currentAgeCop <= "15") {
+                  } else if ((this.userForm.controls[appConstants.COP_FIELDS.CITIZENSHIP_TYPE].value == "Y" || this.userForm.controls[appConstants.COP_FIELDS.CITIZENSHIP_TYPE].value == true) && this.currentAgeCop <= "15") {
                     this.userForm.controls[fieldId + "_eng"].disable();
-                  } else if((this.userForm.controls[appConstants.COP_FIELDS.CITIZENSHIP_TYPE].value == "Y" || this.userForm.controls[appConstants.COP_FIELDS.CITIZENSHIP_TYPE].value == true) && this.currentAgeCop > "15") {
+                  } else if ((this.userForm.controls[appConstants.COP_FIELDS.CITIZENSHIP_TYPE].value == "Y" || this.userForm.controls[appConstants.COP_FIELDS.CITIZENSHIP_TYPE].value == true) && this.currentAgeCop > "15") {
                     this.userForm.controls[fieldId + "_eng"].enable();
-                  } else if(copValue == "Y" || copValue == true){
+                  } else if (copValue == "Y" || copValue == true) {
                     this.userForm.controls[fieldId + "_eng"].enable();
                   }
-                } else if(valueToSet != ""){
+                } else if (valueToSet != "") {
                   this.userForm.controls[fieldId + "_eng"].disable();
                 } else {
                   this.userForm.controls[fieldId + "_eng"].enable();
                 }
               } else {
                 this.userForm.controls[fieldId].setValue(valueToSet);
-                if (this.copFields.includes(selectedFieldId)){
+                // Sync the default value from userForm to identityObj
+                this.createAttributeArray(fieldId, this.identityObj);
+                // Update the current identity data used by the rules engine
+                formIdentityData.identity[fieldId] = this.identityObj[fieldId];
+                if (this.copFields.includes(selectedFieldId)) {
                   const copValue = this.userForm.controls[selectedFieldId].value;
-                  if((this.userForm.controls[appConstants.COP_FIELDS.DATE_OF_BIRTH].value == "Y" || this.userForm.controls[appConstants.COP_FIELDS.DATE_OF_BIRTH].value == true) && this.currentAgeCop <= "15"){
+                  if ((this.userForm.controls[appConstants.COP_FIELDS.DATE_OF_BIRTH].value == "Y" || this.userForm.controls[appConstants.COP_FIELDS.DATE_OF_BIRTH].value == true) && this.currentAgeCop <= "15") {
                     this.userForm.controls[fieldId].enable();
-                  } else if((this.userForm.controls[appConstants.COP_FIELDS.CITIZENSHIP_TYPE].value == "Y" || this.userForm.controls[appConstants.COP_FIELDS.CITIZENSHIP_TYPE].value == true)) {
+                  } else if ((this.userForm.controls[appConstants.COP_FIELDS.CITIZENSHIP_TYPE].value == "Y" || this.userForm.controls[appConstants.COP_FIELDS.CITIZENSHIP_TYPE].value == true)) {
                     this.userForm.controls[fieldId].enable();
-                  }else if((this.userForm.controls[appConstants.COP_FIELDS.PLACE_OF_BIRTH].value == "Y" || this.userForm.controls[appConstants.COP_FIELDS.PLACE_OF_BIRTH].value == true)) {
+                  } else if ((this.userForm.controls[appConstants.COP_FIELDS.PLACE_OF_BIRTH].value == "Y" || this.userForm.controls[appConstants.COP_FIELDS.PLACE_OF_BIRTH].value == true)) {
                     this.userForm.controls[fieldId].disable();
-                  } else if(copValue == "Y" || copValue == true){
+                  } else if (copValue == "Y" || copValue == true) {
                     this.userForm.controls[fieldId].enable();
                   }
-                } else if(valueToSet != ""){
+                } else if (valueToSet != "") {
                   this.userForm.controls[fieldId].disable();
                 } else {
                   this.userForm.controls[fieldId].enable();
@@ -1846,7 +1892,6 @@ const declarantAgeControl = this.userForm.controls['declarantAge'];
       let NINValue = this.userForm.controls[selectedFieldId].value;
       if(this.userForm.controls[selectedFieldId].value != ""){
         if (this.userForm.controls[selectedFieldId].hasError('customPattern')) {
-          //console.log("NIN ERROR", this.userForm.controls[selectedFieldId].errors.customPattern.msg);
         }
         else{
           delete this.uniqueNin[selectedFieldId];
@@ -1870,18 +1915,17 @@ const declarantAgeControl = this.userForm.controls['declarantAge'];
       }
     }
 
-if (selectedFieldId === appConstants.NIN.FATHER ||
-        selectedFieldId === appConstants.NIN.MOTHER ||
-        selectedFieldId === appConstants.CITIZENSHIP_TYPE_CODES.FATHER ||
-        selectedFieldId === appConstants.CITIZENSHIP_TYPE_CODES.MOTHER) {
+    if (selectedFieldId === appConstants.NIN.FATHER ||
+      selectedFieldId === appConstants.NIN.MOTHER ||
+      selectedFieldId === appConstants.CITIZENSHIP_TYPE_CODES.FATHER ||
+      selectedFieldId === appConstants.CITIZENSHIP_TYPE_CODES.MOTHER) {
       this.validateFatherMotherNINByCitizenshipType();
     }
-
-    if(selectedFieldId === appConstants.onFacilityTypeChange.facilityType){
+    if (selectedFieldId === appConstants.onFacilityTypeChange.facilityType) {
       this.onFacilityTypeChange(selectedFieldId);
     }
   }
-  
+
   validatePhoneNumber(fieldId: string): void {
     let phoneField: string;
     let countryCodeField: string;
@@ -1950,8 +1994,8 @@ if (selectedFieldId === appConstants.NIN.FATHER ||
         this.jsonRulesEngine
           .run(formIdentityData)
           .then((results) => {
-            console.log(subField);
-            console.log(results);
+            //  console.log(subField);
+            //  console.log(results);
             results.events.map((event) =>
               console.log(
                 "jsonRulesEngine for visibleConditions run successfully",
@@ -1990,7 +2034,7 @@ if (selectedFieldId === appConstants.NIN.FATHER ||
         uiField.changeAction != "" &&
         uiField.changeAction != null
       ) {
-        console.log(selectedFieldId)
+        // console.log(selectedFieldId)
         let changeAction = uiField.changeAction;
         let funcName = null;
         let funcArgs = null;
@@ -2164,7 +2208,7 @@ if (selectedFieldId === appConstants.NIN.FATHER ||
    * @memberof DemographicComponent
    */
   async processConditionalDefaultValue(identityFormData, uiField, conditionKey) {
-    console.log(`set default called for condition: ${conditionKey}`);
+    //console.log(`set default called for condition: ${conditionKey}`);
   
     if (uiField && uiField[conditionKey] && uiField[conditionKey] !== "") {
       const defaultValueRule = new Rule({
@@ -2278,7 +2322,7 @@ if (selectedFieldId === appConstants.NIN.FATHER ||
               .getLocationImmediateHierearchy(dataCaptureLanguage, locationCode, locationHierarchyName)
               .subscribe(
                 (response) => {
-                  console.log("fetched locations for: " + fieldName + ": " + dataCaptureLanguage);
+                  //console.log("fetched locations for: " + fieldName + ": " + dataCaptureLanguage);
                   if (response[appConstants.RESPONSE]) {
                     response[appConstants.RESPONSE][
                       appConstants.DEMOGRAPHIC_RESPONSE_KEYS.locations
@@ -2933,6 +2977,12 @@ if (selectedFieldId === appConstants.NIN.FATHER ||
    * @memberof DemographicComponent
    */
   onBack() {
+    if (this.fromAlien) {
+      this.router.navigateByUrl(
+        `${this.userPrefLanguage}/pre-registration/demographic-alien/new`
+      );
+      return;
+    }
     let url = "";
     url = Utils.getURL(this.router.url, "dashboard", 2);
     this.router.navigate([url]);
@@ -3013,18 +3063,18 @@ if (selectedFieldId === appConstants.NIN.FATHER ||
       if(this.userService==appConstants.USER_SERVICE.UPDATE){
         this.nameFieldsCopValidation();
       }
-      this.validateCitizenNINPresence();
-      this.validateFatherMotherNINByCitizenshipType();
-      console.log(this.filledFields);
+   this.validateCitizenNINPresence();
+   this.validateFatherMotherNINByCitizenshipType();
+      //console.log(this.filledFields);
       const filledFields = Object.keys(this.userForm.controls).filter(key => {
         return this.userForm.controls[key].value !== null && this.userForm.controls[key].value !== '';
       }).length;
 
-      console.log(`Number of filled fields: ${filledFields}`);
+      //console.log(`Number of filled fields: ${filledFields}`);
       this.filledFieldCount = filledFields;
       
       // Log the filled count separately
-      console.log('Number of filled fields:', this.filledFieldCount);
+      //console.log('Number of filled fields:', this.filledFieldCount);
 
       if (this.userForm.valid) {
         //""-popup
@@ -3046,9 +3096,9 @@ if (selectedFieldId === appConstants.NIN.FATHER ||
             if (res === true) {
               const identity = this.createIdentityJSONDynamic(false);
               const request = this.createRequestJSON(identity);
-              console.log(request);
+              //console.log(request);
               const responseJSON = this.createResponseJSON(identity);
-              console.log("this.dataModification:: " + this.dataModification);
+              //console.log("this.dataModification:: " + this.dataModification);
               this.dataUploadComplete = false;
               if (this.dataModification) {
                 this.dataModification= false;
@@ -3551,14 +3601,14 @@ if (selectedFieldId === appConstants.NIN.FATHER ||
         case 'alienNINOnlyForNonCitizen': text = `${error.section_name} - ${error.control_name}: AIN only applicable for Non-Citizen`; break;
         case 'invalidAlienNIN': text = `${error.section_name} - ${error.control_name}: Invalid Alien ID Number (AIN)`; break;
         case 'declarantAgeRange': {
-                  const declarantControl = this.userForm.get(appConstants.Declarant);
-                  const isParentDeclarant = this.isParentDeclarantValue(
-                    declarantControl ? declarantControl.value : null
-                  );
-                  const { min: minAge, max: maxAge } = this.getDeclarantAgeRange(isParentDeclarant);
-                  text = `The Declarant Age must be between ${minAge} and ${maxAge}.`;
-                  break;
-                }
+          const declarantControl = this.userForm.get(appConstants.Declarant);
+          const isParentDeclarant = this.isParentDeclarantValue(
+            declarantControl ? declarantControl.value : null
+          );
+          const { min: minAge, max: maxAge } = this.getDeclarantAgeRange(isParentDeclarant);
+          text = `The Declarant Age must be between ${minAge} and ${maxAge}.`;
+          break;
+        }
         case 'declarantAgeInvalid': text = `The Declarant Age must be a valid number.`; break;
         case 'areEqual': text = `${error.control_name} must be equal!`; break;
         default: text = `${error.control_name}(${error.section_name}) is invalid`;
@@ -3814,7 +3864,7 @@ if (selectedFieldId === appConstants.NIN.FATHER ||
     this.uniqueNin[field] = NIN;
     return false; // No duplication
   }
-validateCitizenNINPresence(): boolean {
+  validateCitizenNINPresence(): boolean {
      if (this.userService !== appConstants.USER_SERVICE.NEW) {
       return true;
     }
@@ -3867,7 +3917,7 @@ validateCitizenNINPresence(): boolean {
     return true;
   }
 
- validateFatherMotherNINByCitizenshipType(): boolean {
+   validateFatherMotherNINByCitizenshipType(): boolean {
     // Intended for NEW and COP (UPDATE) flows only.
     if (
       this.userService !== appConstants.USER_SERVICE.NEW &&
@@ -4031,7 +4081,8 @@ validateCitizenNINPresence(): boolean {
     return { min: 18, max: 120 };
   }
 
-private getApplicantAgeForDeclarantCheck(): number {
+
+  private getApplicantAgeForDeclarantCheck(): number {
     let rawAge = this.currentAge;
     if (
       this.isCopService() &&
@@ -4064,7 +4115,6 @@ private getApplicantAgeForDeclarantCheck(): number {
     );
     return !!selectedOption && parentNames.includes(normalize(selectedOption.valueName));
   }
-
   private filterAndEmit(key: string, requiredPrefix: string): void {
     const fullDataArray: CodeValueModal[] = this.selectOptionsDataArray[key];
     const targetSubject = this.filteredSelectOptions[key];

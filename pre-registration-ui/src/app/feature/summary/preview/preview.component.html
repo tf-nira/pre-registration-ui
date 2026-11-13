@@ -60,8 +60,8 @@
                 <ng-template #content  >
                   <td >
                     <span *ngIf="previewData[controlId][i].label;then displayLabel else displayValue"></span>
-                    <ng-template #displayLabel >{{previewData[controlId][i].label | uppercase}}</ng-template>
-                    <ng-template #displayValue>{{previewData[controlId][i].value | uppercase}}</ng-template>
+                    <ng-template #displayLabel >{{previewData[controlId][i].label | uppercase }}</ng-template>
+                    <ng-template #displayValue>{{previewData[controlId][i].value | uppercase }}</ng-template>
                   </td><br/>
                   <i *ngIf="!last"> / </i>
                 </ng-template>
