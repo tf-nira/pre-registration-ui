@@ -216,6 +216,8 @@ export const PRE_REGISTRATION_ACK_IDENTITY_NAME_COP = "givenNameCop";
 
 export const userService = "userService";
 
+export const nin = "nin";
+
 export const userServiceType = "userServiceType";
 
 export const userServiceTypeCop = "userServiceTypeCop";
@@ -272,7 +274,8 @@ export const USER_SERVICE = {
   NEW : "NEW",
   ALIENNEW: "ALIENNEW",
   ALIENRENEWAL: "ALIENRENEWAL",
-  ALIENLOST:"ALIENLOST"
+  ALIENLOST:"ALIENLOST",
+  ALIENUPDATE: "ALIENUPDATE"
 };
 
 export const TAX_HEADS = {
