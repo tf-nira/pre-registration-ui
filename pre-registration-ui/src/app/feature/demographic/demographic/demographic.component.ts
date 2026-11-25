@@ -1043,6 +1043,12 @@ familyRoles = [
         this.uiFieldsForAlignmentGroups[obj.alignmentGroup].push(obj);
       }
     });
+    const personalInfoIndex = this.alignmentGroups.indexOf(appConstants.PERSONAL_INFORMATION);
+    const removingNameIndex = this.alignmentGroups.indexOf(appConstants.REMOVING_NAME);
+    if (personalInfoIndex !== -1 && removingNameIndex > personalInfoIndex + 1) {
+      const removingNameGroup = this.alignmentGroups.splice(removingNameIndex, 1)[0];
+      this.alignmentGroups.splice(personalInfoIndex + 1, 0, removingNameGroup);
+    }
   }
 
   setCopAlignmentGroups() {
