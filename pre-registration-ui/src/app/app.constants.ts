@@ -403,6 +403,10 @@ export const CITIZEN = "CITIZEN";
 
 export const SELECTED_SERVICE_TYPE = "SELECTED_SERVICE_TYPE";
 
+export const PERSONAL_INFORMATION = "Personal Information";
+
+export const REMOVING_NAME = "Removing a name";
+
 export const secondaryNationality = 'secondaryNationality';
 export const primaryNationality = 'primaryNationality';
 
