@@ -111,8 +111,9 @@ export class PreviewComponent implements OnInit {
     this.uiFields.forEach((control) => {
       if (this.previewData[control.id]) {
         this.controlIds.push(control.id);
+        const labelName = this.getPreviewLabelName(control);
         this.dataCaptureLanguages.forEach((langCode) => {
-          tempObj[langCode] = control.labelName[langCode];
+          tempObj[langCode] = labelName[langCode];
         });
 
         this.ControlIdLabelObjects[control.id] = tempObj;
@@ -170,6 +171,18 @@ export class PreviewComponent implements OnInit {
       }
     }
     this.dataLoaded = true;
+  }
+
+  private getPreviewLabelName(control: any) {
+    if (control.id === appConstants.declaration) {
+      const userService = this.previewData[appConstants.userService];
+      if (userService === appConstants.USER_SERVICE.UPDATE && control.labelNameCop) {
+        return control.labelNameCop;
+      } else if (userService === appConstants.USER_SERVICE.REPLACEMENT && control.labelNameLost) {
+        return control.labelNameLost;
+      }
+    }
+    return control.labelName;
   }
 
   initializeDataCaptureLanguages = async () => {
